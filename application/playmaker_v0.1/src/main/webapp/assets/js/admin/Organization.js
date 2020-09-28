@@ -1,0 +1,32 @@
+$(document).ready(function () {
+    $().ready(function () {
+        $('#table').DataTable({
+            responsive: true
+        });
+    });
+});
+
+function del(id){
+    $.post(
+        "/org/organization/del",
+        {
+            id: id
+        },
+        function (result) {
+
+        });
+}
+
+function get(id){
+    $.post(
+        "/org/organization/get",
+        {
+            id: id
+        },
+        function (result) {
+            var o = JSON.parse(result);
+            $('#id').val(o.id);
+            $('#name').val(o.name);
+            $('#url').val(o.url);
+        });
+}

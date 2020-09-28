@@ -1,0 +1,11 @@
+button.fc-prevYear-button, button.fc-dayGridMonth-button {
+    border-radius: 8px 0 0 8px;
+}
+
+button.fc-nextYear-button, button.fc-dayGridDay-button {
+    border-radius: 0 8px 8px 0;
+}
+
+button.fc-today-button {
+    border-radius: 8px;
+}

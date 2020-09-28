@@ -1,0 +1,92 @@
+html {
+    background-color: #fff;
+}
+
+.pcoded-main-container {
+    background-image: url('/content/bgImages/hatter2.png');
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-color: #fff
+}
+
+.tab-pane.active {
+    -webkit-animation: fadeIn 1s ease-in-out;
+    animation: fadeIn 1s ease-in-out;
+}
+
+#pcoded > div.pcoded-container.navbar-wrapper > nav, a.card:hover, li.user-profile.header-notification.cr-pointer > ul, #notiList,  .auth-box, .effect-jazz:hover {
+    box-shadow: 0 12px 12px rgba(0, 0, 0, 0.5)!important;
+    transition: .5s;
+}
+
+.effect-jazz {
+    transition: .5s;
+}
+
+.card {
+    box-shadow: 0 6px 6px rgba(0, 0, 0, 0.25);
+    transition: .5s;
+}
+
+.card, .card-header, .card-footer, .effect-jazz, video, .auth-box {
+    border-radius: 16px!important;
+}
+
+.btn-soft, select, input {
+    border-radius: 8px!important;
+}
+
+.player-icon-sm {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+}
+
+.playerColumn {
+    height: auto!important;
+    width: auto;
+}
+
+.modal {
+    z-index: 1000;
+}
+
+.modal-content {
+    border-top: 4px solid #8CDDCD;
+    border-radius: 16px;
+}
+
+.modal-backdrop {
+    z-index: 900;
+}
+
+table td {
+    font-size: 14px !important;
+}
+
+table th {
+    font-size: 14px !important;
+}
+
+.cr-pointer {
+    cursor: pointer;
+}
+
+#notiList {
+    max-height: 400px;
+    overflow-y: scroll;
+}
+
+#useravatar {
+    height: 40px;
+}
+
+.pcoded-content::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.pcoded-content {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
