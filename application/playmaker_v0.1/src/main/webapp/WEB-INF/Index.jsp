@@ -84,7 +84,7 @@
                                                                             <img class="mfe-3" style="width: 100%;max-width: 100px;border-radius: 8px" src="${sorsolasHeader.hazaiUrl}">
                                                                         </div>
                                                                         <div class="col-4" style="padding-right: 0; padding-left: 0">
-                                                                            <div class="text-value text-center">${sorsolasHeader.eredmeny}</div>
+                                                                            <div class="text-value-lg text-center">${sorsolasHeader.eredmeny}</div>
                                                                             <div div class="text-muted  text-center text-uppercase font-weight-bold small">VS.</div>
                                                                         </div>
                                                                         <div class="col-4" style="padding-left: 0">

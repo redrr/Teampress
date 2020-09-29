@@ -2,6 +2,12 @@ html {
     background-color: #fff;
 }
 
+.text-value-lg {
+    color: black;
+    font-weight: 600;
+    font-size: larger;
+}
+
 span.select2-container--default .select2-selection--multiple .select2-selection__choice {
     background-color: #1abc9c;
     border: 1px solid #1abc9c;
