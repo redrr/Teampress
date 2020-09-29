@@ -11,7 +11,7 @@ import hu.playmaker.database.model.trainingplan.TrainingPlan;
 import javax.persistence.*;
 
 @Entity
-@Table(name="VIDEOEDITOR", schema="probe")
+@Table(name="VIDEOEDITOR", schema="teampress")
 @NamedQueries({
         @NamedQuery(name="VideoEditor.findAll", query="SELECT p FROM VideoEditor p"),
         @NamedQuery(name="VideoEditor.countAll", query="SELECT COUNT(p) FROM VideoEditor p"),

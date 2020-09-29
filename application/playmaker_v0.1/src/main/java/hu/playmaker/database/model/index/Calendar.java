@@ -15,7 +15,7 @@ import java.util.Date;
  *
  */
 @Entity
-@Table(name="CALENDAR", schema="probe")
+@Table(name="CALENDAR", schema="teampress")
 @NamedQueries({
         @NamedQuery(name="Calendar.findAll", query="SELECT c FROM Calendar c"),
         @NamedQuery(name="Calendar.countAll", query="SELECT COUNT(c) FROM Calendar c"),

@@ -10,7 +10,7 @@ import javax.persistence.*;
  *
  */
 @Entity
-@Table(name="LOOKUP_CODE", schema="probe")
+@Table(name="LOOKUPCODE", schema="teampress")
 @NamedQueries({
 		@NamedQuery(name="LookupCode.findAll", query="SELECT l FROM LookupCode l"),
 		@NamedQuery(name="LookupCode.countAll", query="SELECT COUNT(l) FROM LookupCode l"),

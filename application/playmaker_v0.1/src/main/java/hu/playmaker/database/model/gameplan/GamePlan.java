@@ -9,7 +9,7 @@ import hu.playmaker.database.model.system.User;
 import javax.persistence.*;
 
 @Entity
-@Table(name="GAMEPLAN", schema="probe")
+@Table(name="LINEUP", schema="teampress")
 @NamedQueries({
         @NamedQuery(name="GamePlan.findAll", query="SELECT p FROM GamePlan p"),
         @NamedQuery(name="GamePlan.countAll", query="SELECT COUNT(p) FROM GamePlan p"),

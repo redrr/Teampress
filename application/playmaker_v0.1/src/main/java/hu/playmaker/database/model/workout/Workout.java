@@ -15,7 +15,7 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@Table(name="WORKOUT", schema="probe")
+@Table(name="WORKOUT", schema="teampress")
 @NamedQueries({
 		@NamedQuery(name="Workout.findAll", query="SELECT u FROM Workout u"),
 		@NamedQuery(name="Workout.countAll", query="SELECT COUNT(u) FROM Workout u"),

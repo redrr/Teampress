@@ -13,7 +13,7 @@ import java.util.Set;
  * 
  */
 @Entity
-@Table(name="PRIVILEGE", schema="probe")
+@Table(name="PERMISSION", schema="teampress")
 @NamedQueries({
 		@NamedQuery(name="Privilege.findAll", query="SELECT p FROM Privilege p"),
 		@NamedQuery(name="Privilege.countAll", query = "SELECT COUNT(p) FROM Privilege p"),

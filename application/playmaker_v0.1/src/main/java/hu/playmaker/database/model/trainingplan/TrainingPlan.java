@@ -18,7 +18,7 @@ import static java.util.Objects.isNull;
  * 
  */
 @Entity
-@Table(name="TRAINING_PLANNER", schema="probe")
+@Table(name="TRAININGPLAN", schema="teampress")
 @NamedQueries({
 		@NamedQuery(name="TrainingPlan.findAll", query="SELECT e FROM TrainingPlan e"),
         @NamedQuery(name="TrainingPlan.countAll", query="SELECT COUNT(e) FROM TrainingPlan e"),

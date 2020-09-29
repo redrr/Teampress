@@ -15,7 +15,7 @@ import java.util.Set;
  * 
  */
 @Entity
-@Table(name="USER", schema="probe")
+@Table(name="USER", schema="teampress")
 @NamedQueries({
 		@NamedQuery(name="User.findAll", query="SELECT u FROM User u"),
 		@NamedQuery(name="User.findAllPlayer", query="SELECT u FROM User u WHERE u.enabled=true and u.player=true"),

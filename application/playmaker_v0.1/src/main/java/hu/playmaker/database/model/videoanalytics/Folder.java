@@ -9,7 +9,7 @@ import hu.playmaker.database.model.system.User;
 import javax.persistence.*;
 
 @Entity
-@Table(name="FOLDER", schema="probe")
+@Table(name="FOLDER", schema="teampress")
 @NamedQueries({
         @NamedQuery(name="Folder.findAll", query="SELECT p FROM Folder p"),
         @NamedQuery(name="Folder.countAll", query="SELECT COUNT(p) FROM Folder p"),

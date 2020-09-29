@@ -10,7 +10,7 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@Table(name="USER_ROLES", schema="probe")
+@Table(name="USERROLE", schema="teampress")
 @NamedQueries({
 		@NamedQuery(name="UserRole.findAll", query="SELECT ur FROM UserRole ur"),
 		@NamedQuery(name="UserRole.findAllByUserId", query = "SELECT u FROM UserRole u WHERE u.user.id = :puid"),

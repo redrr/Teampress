@@ -11,7 +11,7 @@ import java.util.Date;
  * 
  */
 @Entity
-@Table(name="ORG_COUNTRY", schema="probe")
+@Table(name="CLUBDATA", schema="teampress")
 @NamedQueries({
 		@NamedQuery(name="OrgCountry.findAll", query="SELECT o FROM OrgCountry o"),
 		@NamedQuery(name="OrgCountry.countAll", query = "SELECT COUNT(o) FROM OrgCountry o"),

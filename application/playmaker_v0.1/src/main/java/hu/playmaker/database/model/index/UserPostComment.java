@@ -6,7 +6,7 @@ import hu.playmaker.database.model.system.User;
 import javax.persistence.*;
 
 @Entity
-@Table(name="USER_POST_COMMENTS", schema="probe")
+@Table(name="USERPOSTCOMMENT", schema="teampress")
 @NamedQueries({
         @NamedQuery(name="UserPostComment.findAll", query="SELECT u FROM UserPostComment u"),
         @NamedQuery(name="UserPostComment.countAll", query="SELECT COUNT(u) FROM UserPostComment u"),

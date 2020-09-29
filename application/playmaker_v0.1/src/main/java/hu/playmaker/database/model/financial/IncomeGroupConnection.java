@@ -11,7 +11,7 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@Table(name="INCOME_GROUP_CONN", schema="probe")
+@Table(name="INCOMEGROUPCONNECTION", schema="teampress")
 @NamedQueries({
 		@NamedQuery(name="IncomeGroupConnection.findAll", query="SELECT p FROM IncomeGroupConnection p"),
 		@NamedQuery(name="IncomeGroupConnection.countAll", query="SELECT COUNT(p) FROM IncomeGroupConnection p"),

@@ -11,7 +11,7 @@ import hu.playmaker.database.model.trainingplan.TrainingPlan;
 import javax.persistence.*;
 
 @Entity
-@Table(name="SCENE", schema="probe")
+@Table(name="SCENE", schema="teampress")
 @NamedQueries({
         @NamedQuery(name="Scene.findAll", query="SELECT p FROM Scene p"),
         @NamedQuery(name="Scene.countAll", query="SELECT COUNT(p) FROM Scene p"),

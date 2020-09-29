@@ -12,7 +12,7 @@ import java.util.Objects;
  * 
  */
 @Entity
-@Table(name="INCOME", schema="probe")
+@Table(name="INCOME", schema="teampress")
 @NamedQueries({
 		@NamedQuery(name="Income.findAll", query="SELECT p FROM Income p WHERE p.deleted=false"),
 		@NamedQuery(name="Income.countAll", query="SELECT COUNT(p) FROM Income p WHERE p.deleted=false"),

@@ -12,7 +12,7 @@ import java.util.Date;
 import static java.util.Objects.isNull;
 
 @Entity
-@Table(name="CUSTOM_GAME", schema="probe")
+@Table(name="CUSTOMGAME", schema="teampress")
 @NamedQueries({
         @NamedQuery(name="CustomGame.findAll", query="SELECT p FROM CustomGame p"),
         @NamedQuery(name="CustomGame.countAll", query="SELECT COUNT(p) FROM CustomGame p"),

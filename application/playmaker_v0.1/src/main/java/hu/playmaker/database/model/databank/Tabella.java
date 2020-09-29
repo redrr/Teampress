@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 
 @Entity
-@Table(name="TABELLA", schema="probe")
+@Table(name="LEAGUETABLE", schema="teampress")
 @NamedQueries({
         @NamedQuery(name="Tabella.findAll", query="SELECT l FROM Tabella l"),
         @NamedQuery(name="Tabella.countAll", query="SELECT COUNT(l) FROM Tabella l"),

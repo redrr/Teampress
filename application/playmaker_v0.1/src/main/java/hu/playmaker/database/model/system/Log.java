@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name= "LOG", schema="playmaker")
+@Table(name= "LOG", schema="teampress")
 @NamedQueries({
 		@NamedQuery(name="Log.findAll", query = "SELECT l FROM Log l"),
 		@NamedQuery(name="Log.countAll", query = "SELECT COUNT(l) FROM Log l")

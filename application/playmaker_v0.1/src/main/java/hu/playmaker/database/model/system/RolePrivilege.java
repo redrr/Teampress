@@ -10,7 +10,7 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@Table(name="ROLE_PRIVILEGES", schema="probe")
+@Table(name="ROLEPERMISSION", schema="teampress")
 @NamedQueries({
 		@NamedQuery(name="RolePrivilege.findAll", query="SELECT rp FROM RolePrivilege rp"),
 		@NamedQuery(name="RolePrivilege.countAll", query = "SELECT COUNT(rp) FROM RolePrivilege rp"),

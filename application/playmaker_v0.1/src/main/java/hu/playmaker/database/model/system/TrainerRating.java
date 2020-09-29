@@ -5,7 +5,7 @@ import hu.playmaker.database.model.BaseModel;
 import javax.persistence.*;
 
 @Entity
-@Table(name="trainer_rating", schema="probe")
+@Table(name="TRAINERRATING", schema="teampress")
 @NamedQueries({
         @NamedQuery(name="TrainerRating.findAll", query="SELECT u FROM TrainerRating u"),
         @NamedQuery(name="TrainerRating.countAll", query="SELECT COUNT(u) FROM TrainerRating u"),

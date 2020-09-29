@@ -10,7 +10,7 @@ import java.util.Date;
 import static java.util.Objects.isNull;
 
 @Entity
-@Table(name="SORSOLAS", schema="probe")
+@Table(name="LOTTERY", schema="teampress")
 @NamedQueries({
         @NamedQuery(name="Sorsolas.findAll", query="SELECT l FROM Sorsolas l"),
         @NamedQuery(name="Sorsolas.countAll", query="SELECT COUNT(l) FROM Sorsolas l"),

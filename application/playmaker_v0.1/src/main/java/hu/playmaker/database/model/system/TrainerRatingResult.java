@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name="trainer_rating_result", schema="probe")
+@Table(name="TRAINERRATINGRESULT", schema="teampress")
 @NamedQueries({
         @NamedQuery(name="TrainerRatingResult.findAll", query="SELECT u FROM TrainerRatingResult u"),
         @NamedQuery(name="TrainerRatingResult.countAll", query="SELECT COUNT(u) FROM TrainerRatingResult u"),

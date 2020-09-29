@@ -11,7 +11,7 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@Table(name="RED_CARD", schema="probe")
+@Table(name="REDCARD", schema="teampress")
 @NamedQueries({
 		@NamedQuery(name="RedCard.findAll", query="SELECT p FROM RedCard p"),
 		@NamedQuery(name="RedCard.countAll", query="SELECT COUNT(p) FROM RedCard p"),

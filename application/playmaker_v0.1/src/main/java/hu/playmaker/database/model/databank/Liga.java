@@ -10,7 +10,7 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@Table(name="LIGA", schema="probe")
+@Table(name="LEAGUE", schema="teampress")
 @NamedQueries({
 		@NamedQuery(name="Liga.findAll", query="SELECT p FROM Liga p"),
 		@NamedQuery(name="Liga.countAll", query="SELECT COUNT(p) FROM Liga p"),

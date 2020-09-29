@@ -10,7 +10,7 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@Table(name="PARAMETERS", schema="probe")
+@Table(name="PARAMETER", schema="teampress")
 @NamedQueries({
 		@NamedQuery(name="Parameter.findAll", query="SELECT p FROM Parameter p"),
 		@NamedQuery(name="Parameter.countAll", query="SELECT COUNT(p) FROM Parameter p"),

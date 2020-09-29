@@ -11,7 +11,7 @@ import java.util.Objects;
 import static java.util.Objects.isNull;
 
 @Entity
-@Table(name="USER_POST", schema="probe")
+@Table(name="USERPOST", schema="teampress")
 @NamedQueries({
         @NamedQuery(name="UserPost.findAll", query="SELECT u FROM UserPost u"),
         @NamedQuery(name="UserPost.countAll", query="SELECT COUNT(u) FROM UserPost u"),

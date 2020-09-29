@@ -13,7 +13,7 @@ import java.util.Set;
  * 
  */
 @Entity
-@Table(name="ORGANIZATION", schema="probe")
+@Table(name="CLUB", schema="teampress")
 @NamedQueries({
 		@NamedQuery(name="Organization.findAll", query="SELECT o FROM Organization o"),
 		@NamedQuery(name="Organization.countAll", query = "SELECT COUNT(o) FROM Organization o"),
