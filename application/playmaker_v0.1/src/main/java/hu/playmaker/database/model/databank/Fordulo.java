@@ -11,7 +11,7 @@ import java.util.Date;
  * 
  */
 @Entity
-@Table(name="TRUN", schema="teampress")
+@Table(name="TURN", schema="teampress")
 @NamedQueries({
 		@NamedQuery(name="Fordulo.findAll", query="SELECT p FROM Fordulo p"),
 		@NamedQuery(name="Fordulo.countAll", query="SELECT COUNT(p) FROM Fordulo p"),

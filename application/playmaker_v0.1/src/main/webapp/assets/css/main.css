@@ -2,6 +2,14 @@ html {
     background-color: #fff;
 }
 
+span.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: #1abc9c;
+    border: 1px solid #1abc9c;
+    border-radius: 8px;
+    padding: 2px;
+    color: #fff;
+}
+
 .pcoded-main-container {
     background-image: url('/content/bgImages/hatter2.png');
     background-size: 100% auto;
@@ -32,7 +40,7 @@ html {
     border-radius: 16px!important;
 }
 
-.btn-soft, select, input {
+.btn-soft, select, input, span.select2.select2-container {
     border-radius: 8px!important;
 }
 

@@ -327,6 +327,10 @@ public class StatisticsQueryController extends BaseController {
                     User user = userService.find(Integer.parseInt(player));
                     if (option.equals("attendPercent")) {
                         for (int j = 0; j < monthsBetween + 1; j++) {
+                            fromDate.setMonth(fromDate.getMonth()+j);
+                            fromDate.setDate(1);
+                            toDate.setMonth(fromDate.getMonth()+1);
+                            toDate.setDate(1);
                             int count = jelenletService.count(user, fromDate, toDate).intValue();
                             int sum = jelenletService.sum(user, fromDate, toDate).intValue();
                             data.addData((sum > 0 && count > 0) ? count * 100 / sum : 0);
@@ -334,15 +338,17 @@ public class StatisticsQueryController extends BaseController {
                     }
                     if (option.equals("playerIndex")) {
                         for (int j = 0; j < monthsBetween + 1; j++) {
+                            fromDate.setMonth(fromDate.getMonth()+j);
+                            toDate.setMonth(fromDate.getMonth()+1);
                             int count = (Objects.nonNull(workoutService.count(user, fromDate, toDate))) ? workoutService.count(user, fromDate, toDate).intValue() : 0;
                             int sum = (Objects.nonNull(workoutService.sum(user, fromDate, toDate))) ? workoutService.sum(user, fromDate, toDate).intValue() : 0;
                             data.addData((sum > 0 && count > 0) ? sum / count : 0);
                         }
                     }
                     data.setLabel(user.getName());
-                    data.addBorderColor("rgba(" + chartBuilder.getColor(i) + ",1");
-                    data.addPointBackgroundColor("rgba(" + chartBuilder.getColor(i) + ",1");
-                    data.addBackgroundColor("rgba(" + chartBuilder.getColor(i) + ",0.2");
+                    data.addBorderColor("rgba(" + chartBuilder.getColor(i) + ",1)");
+                    data.addPointBackgroundColor("rgba(" + chartBuilder.getColor(i) + ",1)");
+                    data.addBackgroundColor("rgba(" + chartBuilder.getColor(i) + ",0.2)");
                     chartBuilder.addData(data);
                 }
             }
