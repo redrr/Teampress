@@ -215,7 +215,7 @@
                                                                         <h3 style="color: #fff;margin-top: -100px;margin-bottom: 100px;margin-left: 16px">${nextTraining.trainingDate.split("-")[0].trim()}</h3>
                                                                     </c:if>
                                                                     <c:if test="${nextTraining == null}">
-                                                                        <p>Nincs edzés a közeljövőben.</p>
+                                                                        <h4 style="color: #fff;margin-left: 16px">Nincs edzés a közeljövőben.</h4>
                                                                     </c:if>
                                                                 </div>
                                                             </a>

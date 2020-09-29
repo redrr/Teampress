@@ -91,14 +91,15 @@
                     </ul>
                 </li>
             </c:if>
-            <c:if test="${sessionHandler.userHasPermission('PLAYERS_STAT') || sessionHandler.userHasPermission('TRAINERS_STAT')}">
+            <c:if test="${sessionHandler.userHasPermission('PLAYERS_STAT') || sessionHandler.userHasPermission('TRAINERS_STAT') ||
+            sessionHandler.userHasPermission('TEAMS_STAT') || sessionHandler.userHasPermission('CAREER_TABLE')}">
                 <li class="pcoded-hasmenu ${(requestURI.contains('/statistics')) ? 'active' : ''}">
                     <a href="javascript:void(0)">
                         <span class="pcoded-micon"><i class="ti-stats-up"></i></span>
                         <span class="pcoded-mtext" data-i18n="nav.social.main">Statisztika</span>
                     </a>
                     <ul class="pcoded-submenu">
-                        <c:if test="${sessionHandler.userHasPermission('PLAYERS_STAT')}">
+                        <c:if test="${sessionHandler.userHasPermission('PLAYERS_STAT') || sessionHandler.userHasPermission('TRAINERS_STAT')}">
                             <li class="${requestURI.equals('/statistics/query') ? 'active' : ''}">
                                 <a href="/statistics/query">
                                     <span class="pcoded-micon"><i class="ti-pulse"></i></span>
@@ -114,7 +115,7 @@
                                 </a>
                             </li>
                         </c:if>
-                        <c:if test="${sessionHandler.userHasPermission('CAREER_TABLE')}">
+                        <c:if test="${sessionHandler.userHasPermission('TEAMS_STAT')}">
                             <li class="${requestURI.equals('/statistics/team') ? 'active' : ''}">
                                 <a href="/statistics/team">
                                     <span class="pcoded-micon"><i class="ti-pulse"></i></span>
