@@ -1,9 +1,11 @@
 package hu.playmaker.controller;
 
 import hu.playmaker.common.Permissions;
-import hu.playmaker.common.factory.ChartBuilder;
-import hu.playmaker.common.factory.ChartData;
-import hu.playmaker.common.factory.ChartScale;
+import hu.playmaker.common.factory.chartjs.Color;
+import hu.playmaker.common.factory.chartjs.Data;
+import hu.playmaker.common.factory.chartjs.RadarChartBuilder;
+import hu.playmaker.common.factory.chartjs.RadarDataSet;
+import hu.playmaker.common.factory.chartjs.common.enums.BorderCapStyle;
 import hu.playmaker.database.model.index.Calendar;
 import hu.playmaker.database.model.system.Organization;
 import hu.playmaker.database.model.system.User;
@@ -17,10 +19,6 @@ import hu.playmaker.database.service.workout.WorkoutService;
 import hu.playmaker.handler.SessionHandler;
 import org.json.JSONObject;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -40,7 +38,7 @@ public class BaseController {
             json.put("pastTraining", workoutService.existsByTraining(training, user));
             if(workoutService.existsByTraining(training, user)){
                 json.put("exercises", processModalWorkout(workoutService.findAllByTraining(training, user)));
-                json.put("chart", getChart(training, user, workoutService).build());
+                json.put("chart", getChart(training, user, workoutService));
             } else {
                 json.put("exercises", destroyLastSpliter(training.getStringForWorkoutJs()));
             }
@@ -81,52 +79,74 @@ public class BaseController {
         return (text.endsWith(";")) ? text.substring(0, text.length()-1) : text;
     }
 
-    private ChartBuilder getChart(TrainingPlan trainingPlan, User user, WorkoutService workoutService){
+    private String getChart(TrainingPlan trainingPlan, User user, WorkoutService workoutService){
         ArrayList<Workout> workouts = workoutService.findAllByTraining(trainingPlan, user);
-        ChartData data = new ChartData()
-                .setFill(true)
-                .setLabel("Eredmény")
-                .setBackgroundColor(new String[]{"rgb(26, 188, 156, 0.3)"})
-                .setBorderColor(new String[]{"rgb(26, 188, 156, 1)"})
-                .setPointBackgroundColor(new String[]{"rgb(26, 188, 156, 1)"});
-        ChartData data2 = new ChartData()
-                .setFill(true)
-                .setLabel("Átlag")
-                .setBackgroundColor(new String[]{"rgb(44, 62, 80, 0.3)"})
-                .setBorderColor(new String[]{"rgb(44, 62, 80, 1)"})
-                .setPointBackgroundColor(new String[]{"rgb(44, 62, 80, 1)"});
-        ChartBuilder chartBuilder = new ChartBuilder()
-                .setType("radar")
-                .addScaleOption(new ChartScale(0, 100, 10, true));
+        RadarChartBuilder chartBuilder = new RadarChartBuilder();
+        //Dataset template
+        RadarDataSet template = new RadarDataSet();
+        template.setBorderCapStyle(BorderCapStyle.ROUND);
+        template.setBorderWidth(4);
+        template.setFill(true);
+        template.setPointRadius(2);
+        template.setPointHoverRadius(4);
+        template.setPointHitRadius(12);
+        template.setPointHoverBorderWidth(8);
+        //Create Datasets
+        Data<RadarDataSet> data = new Data<>();
+        RadarDataSet resultDataSet = new RadarDataSet(template);
+        Color resultColor = new Color(26, 188, 156, 0.3);
+        Color resultHoverColor = new Color(26, 188, 156, 1.0);
+        resultDataSet.setLabel("Eredmény");
+        resultDataSet.setBackgroundColor(resultColor);
+        resultDataSet.setHoverBackgroundColor(resultHoverColor);
+        resultDataSet.setBorderColor(resultHoverColor);
+        resultDataSet.setHoverBorderColor(resultHoverColor);
+        resultDataSet.setPointBackgroundColor(resultColor);
+        resultDataSet.setPointHoverBackgroundColor(resultColor);
+        RadarDataSet avgDataSet = new RadarDataSet(template);
+        Color avgColor = new Color(44, 62, 80, 0.3);
+        Color avgHoverColor = new Color(44, 62, 80, 1.0);
+        avgDataSet.setLabel("Átlag");
+        avgDataSet.setBackgroundColor(avgColor);
+        avgDataSet.setHoverBackgroundColor(avgHoverColor);
+        avgDataSet.setBorderColor(avgHoverColor);
+        avgDataSet.setHoverBorderColor(avgHoverColor);
+        avgDataSet.setPointBackgroundColor(avgColor);
+        avgDataSet.setPointHoverBackgroundColor(avgColor);
+        List<Object> results = new ArrayList<>();
+        List<Object> avgs = new ArrayList<>();
         for(Workout workout : workouts){
             if(!(workout.getResult().equals("H~h~H") || workout.getResult().equals(""))){
                 if(!workout.getExercise().getType().getCode().equals("Szöveges értékelés")){
-                    chartBuilder.addLabel(workout.getExercise().getName());
+                    data.addLabel(workout.getExercise().getName());
                 }
                 if(workout.getExercise().getType().getCode().equals("Százalék")){
-                    data.addData(Integer.parseInt(workout.getResult()));
+                    results.add(Integer.parseInt(workout.getResult()));
                 }
                 else if(workout.getExercise().getType().getCode().contains("1-10")){
-                    data.addData(Integer.parseInt(workout.getResult())*10);
+                    results.add(Integer.parseInt(workout.getResult())*10);
                 }
                 else if(workout.getExercise().getType().getCode().equals("Sikeres/darabszám")){
                     if(workout.getResult().split("/")[0].equals("0")){
-                        data.addData(0);
+                        results.add(0);
                     } else if (workout.getResult().split("/")[1].equals("0")){
-                        data.addData(100);
+                        results.add(100);
                     } else {
-                        data.addData((int)(Double.parseDouble(workout.getResult().split("/")[0])/Double.parseDouble(workout.getResult().split("/")[1])*100));
+                        results.add((int)(Double.parseDouble(workout.getResult().split("/")[0])/Double.parseDouble(workout.getResult().split("/")[1])*100));
                     }
                 }
                 else if(workout.getExercise().getType().getCode().equals("Csillagok")){
-                    data.addData(Integer.parseInt(workout.getResult())*20);
+                    results.add(Integer.parseInt(workout.getResult())*20);
                 }
-                data2.addData(workoutService.avgExercise(trainingPlan, workout.getExercise()));
+                avgs.add(workoutService.avgExercise(trainingPlan, workout.getExercise()));
             }
         }
-        chartBuilder.addData(data);
-        chartBuilder.addData(data2);
-        return chartBuilder;
+        avgDataSet.setData(avgs.toArray());
+        resultDataSet.setData(results.toArray());
+        data.addDataset(avgDataSet);
+        data.addDataset(resultDataSet);
+        chartBuilder.setData(data);
+        return chartBuilder.build();
     }
 
     //endregion

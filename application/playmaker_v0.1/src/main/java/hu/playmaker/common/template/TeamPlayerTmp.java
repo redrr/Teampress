@@ -1,4 +1,4 @@
-package hu.playmaker.common.templates;
+package hu.playmaker.common.template;
 
 import hu.playmaker.database.model.databank.PlayerData;
 import hu.playmaker.database.model.system.User;

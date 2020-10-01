@@ -1,16 +1,14 @@
 package hu.playmaker.controller.play;
 
 import hu.playmaker.common.Permissions;
-import hu.playmaker.common.templates.TeamPlayerTmp;
+import hu.playmaker.common.template.TeamPlayerTmp;
 import hu.playmaker.controller.BaseController;
 import hu.playmaker.database.model.system.LookupCode;
 import hu.playmaker.database.model.system.User;
 import hu.playmaker.database.model.system.UserOrganization;
 import hu.playmaker.database.service.databank.PlayerDataService;
-import hu.playmaker.database.service.system.LookupCodeService;
 import hu.playmaker.database.service.system.UserOrganizationService;
 import hu.playmaker.database.service.system.UserService;
-import hu.playmaker.database.service.trainingplan.ExerciseService;
 import hu.playmaker.handler.SessionHandler;
 import org.apache.commons.collections4.map.LinkedMap;
 import org.springframework.stereotype.Controller;

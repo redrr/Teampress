@@ -1,23 +1,26 @@
 package hu.playmaker.controller.play;
 
 import hu.playmaker.common.Permissions;
-import hu.playmaker.common.factory.ChartBuilder;
-import hu.playmaker.common.factory.ChartData;
-import hu.playmaker.common.factory.ExcelBuilder;
+import hu.playmaker.common.factory.chartjs.Color;
+import hu.playmaker.common.factory.chartjs.Data;
+import hu.playmaker.common.factory.chartjs.LineChartBuilder;
+import hu.playmaker.common.factory.chartjs.LineDataSet;
+import hu.playmaker.common.factory.chartjs.common.enums.BorderCapStyle;
+import hu.playmaker.common.factory.excel.ExcelBuilder;
 import hu.playmaker.controller.BaseController;
 import hu.playmaker.database.model.financial.Income;
-import hu.playmaker.database.model.financial.IncomeGroup;
 import hu.playmaker.database.model.financial.IncomeGroupConnection;
 import hu.playmaker.database.model.system.Organization;
-import hu.playmaker.database.model.system.User;
 import hu.playmaker.database.service.financial.IncomeGroupConnectionService;
-import hu.playmaker.database.service.financial.IncomeGroupService;
 import hu.playmaker.database.service.financial.IncomeService;
 import hu.playmaker.database.service.system.UserOrganizationService;
 import hu.playmaker.database.service.system.UserService;
 import hu.playmaker.handler.SessionHandler;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
@@ -29,7 +32,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/financial/statement")
@@ -64,40 +66,64 @@ public class FinancialStatementController extends BaseController {
         Organization organization = userOrganizationService.getOrgByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession())).getOrganization();
         String[] monthNames = {"Január", "Február", "Március", "Április", "Május", "Június", "Július", "Augusztus", "Szeptember", "Október", "November", "December"};
         String[] month = {"01","02","03","04","05","06","07","08","09","10","11","12"};
-        ChartBuilder chartBuilder = new ChartBuilder();
         try {
-            chartBuilder.setType("line");
             LocalDate now = LocalDate.now();
             String[] s = now.toString().split("-");
-            ChartData income = new ChartData()
-                    .setFill(true);
-            income.setLabel("Bevétel");
-            income.addBorderColor("rgba(75, 192, 192, 1)");
-            income.addPointBackgroundColor("rgba(75, 192, 192, 1)");
-            income.addBackgroundColor("rgba(75, 192, 192, 0.5)");
-            ChartData expanse = new ChartData()
-                    .setFill(true);
-            expanse.setLabel("Kiadás");
-            expanse.addBorderColor("rgba(255, 99, 132, 1)");
-            expanse.addPointBackgroundColor("rgba(255, 99, 132, 1)");
-            expanse.addBackgroundColor("rgba(255, 99, 132, 0.5)");
-            for(int i = 0; i < now.getMonthValue()-1; i++){
+            LineChartBuilder chartBuilder = new LineChartBuilder();
+            //Dataset template
+            LineDataSet template = new LineDataSet();
+            template.setBorderCapStyle(BorderCapStyle.ROUND);
+            template.setBorderWidth(4);
+            template.setFill(true);
+            template.setPointRadius(2);
+            template.setPointHoverRadius(4);
+            template.setPointHitRadius(12);
+            template.setPointHoverBorderWidth(8);
+            //Create Datasets
+            Data<LineDataSet> data = new Data<>();
+            LineDataSet incomeDataSet = new LineDataSet(template);
+            Color incomeColor = new Color(75, 192, 192, 0.2);
+            Color incomeHoverColor = new Color(75, 192, 192, 0.8);
+            incomeDataSet.setLabel("Bevétel");
+            incomeDataSet.setBackgroundColor(incomeColor);
+            incomeDataSet.setHoverBackgroundColor(incomeHoverColor);
+            incomeDataSet.setBorderColor(incomeHoverColor);
+            incomeDataSet.setHoverBorderColor(incomeHoverColor);
+            incomeDataSet.setPointBackgroundColor(incomeColor);
+            incomeDataSet.setPointHoverBackgroundColor(incomeColor);
+            LineDataSet expanseDataSet = new LineDataSet(template);
+            Color expanseColor = new Color(255, 99, 132, 0.2);
+            Color expanseHoverColor = new Color(255, 99, 132, 0.8);
+            expanseDataSet.setLabel("Kiadás");
+            expanseDataSet.setBackgroundColor(expanseColor);
+            expanseDataSet.setHoverBackgroundColor(expanseHoverColor);
+            expanseDataSet.setBorderColor(expanseHoverColor);
+            expanseDataSet.setHoverBorderColor(expanseHoverColor);
+            expanseDataSet.setPointBackgroundColor(expanseColor);
+            expanseDataSet.setPointHoverBackgroundColor(expanseColor);
+            List<Object> incomes = new ArrayList<>();
+            List<Object> expanses = new ArrayList<>();
+            for(int i = 0; i < now.getMonthValue()-1; i++) {
                 LocalDate from = LocalDate.parse(s[0]+"-"+month[i]+"-01");
                 LocalDate to = from.plusMonths(1);
                 Date fromDate = new SimpleDateFormat("yyyy-MM-dd").parse(from.toString());
                 Date toDate = new SimpleDateFormat("yyyy-MM-dd").parse(to.toString());
-                chartBuilder.addLabel(monthNames[i]);
+                data.addLabel(monthNames[i]);
                 Object incomeValue = incomeService.getValueBetweenDates(organization, true, fromDate, toDate);
                 Object expanseValue = incomeService.getValueBetweenDates(organization, false, fromDate, toDate);
-                income.addData(Objects.nonNull(incomeValue) ? Integer.parseInt(incomeValue+"") : 0);
-                expanse.addData(Objects.nonNull(expanseValue) ? Integer.parseInt(expanseValue+"") : 0);
+                incomes.add(Objects.nonNull(incomeValue) ? Integer.parseInt(incomeValue+"") : 0);
+                expanses.add(Objects.nonNull(expanseValue) ? Integer.parseInt(expanseValue+"") : 0);
             }
-            chartBuilder.addData(income);
-            chartBuilder.addData(expanse);
+            incomeDataSet.setData(incomes.toArray());
+            expanseDataSet.setData(expanses.toArray());
+            data.addDataset(incomeDataSet);
+            data.addDataset(expanseDataSet);
+            chartBuilder.setData(data);
+            return chartBuilder.build();
         } catch (Exception e){
             e.printStackTrace();
         }
-        return chartBuilder.build();
+        return "error";
     }
 
     private List<IncomeGroupConnection> getIncomes(Organization organization) {

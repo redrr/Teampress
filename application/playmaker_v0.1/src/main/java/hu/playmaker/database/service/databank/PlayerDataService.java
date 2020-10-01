@@ -1,6 +1,6 @@
 package hu.playmaker.database.service.databank;
 
-import hu.playmaker.common.templates.PlayerHeaderTmp;
+import hu.playmaker.common.template.PlayerHeaderTmp;
 import hu.playmaker.database.model.system.Organization;
 import hu.playmaker.database.model.system.User;
 import hu.playmaker.database.model.databank.PlayerData;

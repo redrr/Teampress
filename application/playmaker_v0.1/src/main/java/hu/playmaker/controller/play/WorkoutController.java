@@ -2,9 +2,8 @@ package hu.playmaker.controller.play;
 
 import hu.playmaker.common.Permissions;
 import hu.playmaker.common.Roles;
-import hu.playmaker.common.factory.ExcelBuilder;
+import hu.playmaker.common.factory.excel.ExcelBuilder;
 import hu.playmaker.controller.BaseController;
-import hu.playmaker.database.model.financial.Income;
 import hu.playmaker.database.model.system.LookupCode;
 import hu.playmaker.database.model.system.Organization;
 import hu.playmaker.database.model.system.User;

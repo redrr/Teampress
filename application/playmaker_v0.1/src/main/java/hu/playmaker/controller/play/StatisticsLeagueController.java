@@ -1,8 +1,11 @@
 package hu.playmaker.controller.play;
 
 import hu.playmaker.common.Permissions;
-import hu.playmaker.common.factory.ChartBuilder;
-import hu.playmaker.common.factory.ChartData;
+import hu.playmaker.common.factory.chartjs.Color;
+import hu.playmaker.common.factory.chartjs.Data;
+import hu.playmaker.common.factory.chartjs.LineChartBuilder;
+import hu.playmaker.common.factory.chartjs.LineDataSet;
+import hu.playmaker.common.factory.chartjs.common.enums.BorderCapStyle;
 import hu.playmaker.controller.BaseController;
 import hu.playmaker.database.model.databank.*;
 import hu.playmaker.database.model.system.Organization;
@@ -19,7 +22,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/statistics/league")
@@ -75,30 +81,56 @@ public class StatisticsLeagueController extends BaseController {
     private String simpleData(@RequestParam("liga") String ligaIn) {
         if (hasPermission(Permissions.PLAYERS_STAT)){
             Liga liga = ligaService.findByName(ligaIn.trim());
-            Random random = new Random();
-            ChartBuilder chartBuilder = new ChartBuilder()
-                    .setType("line");
             int maxFord = tabellaService.getLastFordByLiga(liga);
-            for(int j = 1; j < maxFord+1; j++){
-                chartBuilder.addLabel(j+". forduló");
-            }
             List<String> teams = tabellaService.getTeams(liga);
+            String currentName =userOrganizationService.getOrgByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession())).getOrganization().getName();
+            LineChartBuilder chartBuilder = new LineChartBuilder();
+            //Dataset template
+            LineDataSet template = new LineDataSet();
+            template.setBorderCapStyle(BorderCapStyle.ROUND);
+            template.setBorderWidth(4);
+            template.setPointRadius(2);
+            template.setPointHoverRadius(4);
+            template.setPointHitRadius(12);
+            template.setPointHoverBorderWidth(8);
+            //Create Datasets
+            Data<LineDataSet> data = new Data<>();
+            for(int j = 1; j < maxFord+1; j++){
+                data.addLabel(j+". forduló");
+            }
             for (int i = 0; i < teams.size(); i++) {
                 String team = teams.get(i);
-                String currentName =userOrganizationService.getOrgByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession())).getOrganization().getName();
-                ChartData data = new ChartData()
-                        .setFill(currentName.equals(team));
+                LineDataSet dataSet = new LineDataSet(template);
+                Color color;
+                Color hoverColor;
+                if(currentName.equals(team)) {
+                    color = new Color(26, 188, 156, 0.2);
+                    hoverColor = new Color(26, 188, 156, 0.8);
+                } else {
+                    color = new Color(44, 62, 80, 0.2);
+                    hoverColor = new Color(44, 62, 80, 0.3);
+                    dataSet.setBorderWidth(2);
+                    dataSet.setPointHoverRadius(2);
+                    dataSet.setPointHitRadius(4);
+                }
+                dataSet.setLabel(team);
+                dataSet.setBackgroundColor(color);
+                dataSet.setHoverBackgroundColor(hoverColor);
+                dataSet.setBorderColor(hoverColor);
+                dataSet.setHoverBorderColor(hoverColor);
+                dataSet.setPointBackgroundColor(color);
+                dataSet.setPointHoverBackgroundColor(color);
+                dataSet.setFill(currentName.equals(team));
+                dataSet.setOrder(currentName.equals(team) ? 0 : 100);
+                List<Object> datas = new ArrayList<>();
                 for(int j = 1; j < maxFord+1; j++){
                     Tabella tabella = tabellaService.getByTeamLigaAndFord(liga, team, j);
-                    data.addData((Objects.nonNull(tabella) && Objects.nonNull(tabella.getPontszam())) ? tabella.getPontszam() : 0);
+                    datas.add((Objects.nonNull(tabella) && Objects.nonNull(tabella.getPontszam())) ? tabella.getPontszam() : 0);
                 }
-                data.setLabel(team);
-                String color = chartBuilder.getColor(i);
-                data.addBorderColor("rgba("+color+(currentName.equals(team) ? ",1" : ",0.6"));
-                data.addPointBackgroundColor("rgba("+color+(currentName.equals(team) ? ",1" : ",0.6"));
-                data.addBackgroundColor("rgba("+color+(currentName.equals(team) ? ",0.4" : ",0.2"));
-                chartBuilder.addData(data);
+                dataSet.setData(datas.toArray());
+                data.addDataset(dataSet);
             }
+            chartBuilder.setData(data);
             return chartBuilder.build();
         }
         return "";

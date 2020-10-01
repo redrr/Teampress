@@ -1,4 +1,4 @@
-package hu.playmaker.common.factory;
+package hu.playmaker.common.factory.excel;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.poi.hssf.usermodel.HSSFRow;

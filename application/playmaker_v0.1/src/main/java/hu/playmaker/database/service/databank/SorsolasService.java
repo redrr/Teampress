@@ -1,6 +1,6 @@
 package hu.playmaker.database.service.databank;
 
-import hu.playmaker.common.templates.SorsolasHeaderTmp;
+import hu.playmaker.common.template.SorsolasHeaderTmp;
 import hu.playmaker.database.model.databank.Liga;
 import hu.playmaker.database.model.databank.Sorsolas;
 import hu.playmaker.database.service.BaseService;

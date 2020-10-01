@@ -1,13 +1,14 @@
 package hu.playmaker.controller.play;
 
 import hu.playmaker.common.Permissions;
-import hu.playmaker.common.factory.ChartBuilder;
-import hu.playmaker.common.factory.ChartData;
+import hu.playmaker.common.factory.chartjs.Color;
+import hu.playmaker.common.factory.chartjs.Data;
+import hu.playmaker.common.factory.chartjs.LineChartBuilder;
+import hu.playmaker.common.factory.chartjs.LineDataSet;
+import hu.playmaker.common.factory.chartjs.common.enums.BorderCapStyle;
 import hu.playmaker.controller.BaseController;
 import hu.playmaker.database.model.databank.Goals;
 import hu.playmaker.database.model.databank.Liga;
-import hu.playmaker.database.model.databank.RedCard;
-import hu.playmaker.database.model.databank.YellowCard;
 import hu.playmaker.database.model.system.LookupCode;
 import hu.playmaker.database.model.system.Organization;
 import hu.playmaker.database.model.system.User;
@@ -261,48 +262,52 @@ public class StatisticsQueryController extends BaseController {
         String[] months = {"01/01", "02/01", "03/01", "04/01", "05/01", "06/01", "07/01", "08/01", "09/01", "10/01", "11/01", "12/01", "12/31"};
         String[] monthNames = {"Január", "Február", "Március", "Április", "Május", "Június", "Július", "Augusztus", "Szeptember", "Október", "November", "December"};
         if (hasPermission(Permissions.PLAYERS_STAT)) {
-            ChartBuilder chartBuilder = new ChartBuilder()
-                    .setType(type.substring(1));
+            LineChartBuilder chartBuilder = new LineChartBuilder();
+            //Dataset template
+            LineDataSet template = new LineDataSet();
+            template.setBorderCapStyle(BorderCapStyle.ROUND);
+            template.setBorderWidth(4);
+            template.setPointRadius(2);
+            template.setPointHoverRadius(4);
+            template.setPointHitRadius(12);
+            template.setPointHoverBorderWidth(8);
+            template.setFill(type.startsWith("c"));
+            //Create Datasets
+            Data<LineDataSet> data = new Data<>();
+            Color color = new Color(26, 188, 156, 0.2);
+            Color hoverColor = new Color(26, 188, 156, 0.8);
+            LineDataSet dataSet = new LineDataSet(template);
+            dataSet.setBackgroundColor(color);
+            dataSet.setHoverBackgroundColor(hoverColor);
+            dataSet.setBorderColor(hoverColor);
+            dataSet.setHoverBorderColor(hoverColor);
+            dataSet.setPointBackgroundColor(color);
+            dataSet.setPointHoverBackgroundColor(color);
+            List<Object> datas = new ArrayList<>();
             if (Boolean.parseBoolean(flag)) {
                 for (int i = Integer.parseInt(from); i < Integer.parseInt(to) + 1; i++) {
-                    chartBuilder.addLabel(i + ". forduló");
+                    data.addLabel(i + ". forduló");
                 }
                 for (int i = 0; i < playerList.split(";").length; i++) {
                     String player = playerList.split(";")[i];
-                    ChartData data = new ChartData()
-                            .setFill(type.startsWith("c"));
                     if (option.equals("goals")) {
                         User user = userService.find(Integer.parseInt(player));
                         for (int j = Integer.parseInt(from); j < Integer.parseInt(to) + 1; j++) {
                             Goals goal = goalsService.findUnique(ligaService.find(Integer.parseInt(liga)), userOrganizationService.getOrgByUser(user).getOrganization(), j, user.getName());
-                            data.addData((Objects.nonNull(goal) && Objects.nonNull(goal.getGoalInFord())) ? goal.getGoalInFord() : 0);
+                            datas.add((Objects.nonNull(goal) && Objects.nonNull(goal.getGoalInFord())) ? goal.getGoalInFord() : 0);
                         }
-                        data.setLabel(user.getName());
-                        data.addBorderColor("rgba(" + chartBuilder.getColor(i) + ",1");
-                        data.addPointBackgroundColor("rgba(" + chartBuilder.getColor(i) + ",1");
-                        data.addBackgroundColor("rgba(" + chartBuilder.getColor(i) + ",0.2");
+                        dataSet.setLabel(user.getName());
                     } else if (option.equals("yellow")) {
-                        List<YellowCard> playerDatas = yellowCardService.findAll();
-                        int finalI = i;
-                        playerDatas.forEach(playerData -> {
-                            data.addData(playerData.getCard());
-                            data.setLabel(playerData.getName());
-                            data.addBorderColor("rgba(" + chartBuilder.getColor(finalI) + ",1");
-                            data.addPointBackgroundColor("rgba(" + chartBuilder.getColor(finalI) + ",1");
-                            data.addBackgroundColor("rgba(" + chartBuilder.getColor(finalI) + ",0.2");
+                        yellowCardService.findAll().forEach(playerData -> {
+                            datas.add(playerData.getCard());
+                            dataSet.setLabel(playerData.getName());
                         });
                     } else if (option.equals("red")) {
-                        List<RedCard> playerDatas = redCardService.findAll();
-                        int finalI = i;
-                        playerDatas.forEach(playerData -> {
-                            data.addData(playerData.getCard());
-                            data.setLabel(playerData.getName());
-                            data.addBorderColor("rgba(" + chartBuilder.getColor(finalI) + ",1");
-                            data.addPointBackgroundColor("rgba(" + chartBuilder.getColor(finalI) + ",1");
-                            data.addBackgroundColor("rgba(" + chartBuilder.getColor(finalI) + ",0.2");
+                        redCardService.findAll().forEach(playerData -> {
+                            datas.add(playerData.getCard());
+                            dataSet.setLabel(playerData.getName());
                         });
                     }
-                    chartBuilder.addData(data);
                 }
             } else {
                 Date fromDate = null;
@@ -318,12 +323,10 @@ public class StatisticsQueryController extends BaseController {
                         LocalDate.parse(to.replace('/','-')).withDayOfMonth(1));
                 for (int i = 0; i < monthsBetween + 1; i++) {
                     int num = (fromDate.getMonth()+i)%12;
-                    chartBuilder.addLabel(monthNames[num]);
+                    data.addLabel(monthNames[num]);
                 }
                 for (int i = 0; i < playerList.split(";").length; i++) {
                     String player = playerList.split(";")[i];
-                    ChartData data = new ChartData()
-                            .setFill(type.startsWith("c"));
                     User user = userService.find(Integer.parseInt(player));
                     if (option.equals("attendPercent")) {
                         for (int j = 0; j < monthsBetween + 1; j++) {
@@ -333,7 +336,7 @@ public class StatisticsQueryController extends BaseController {
                             toDate.setDate(1);
                             int count = jelenletService.count(user, fromDate, toDate).intValue();
                             int sum = jelenletService.sum(user, fromDate, toDate).intValue();
-                            data.addData((sum > 0 && count > 0) ? count * 100 / sum : 0);
+                            datas.add((sum > 0 && count > 0) ? count * 100 / sum : 0);
                         }
                     }
                     if (option.equals("playerIndex")) {
@@ -342,16 +345,14 @@ public class StatisticsQueryController extends BaseController {
                             toDate.setMonth(fromDate.getMonth()+1);
                             int count = (Objects.nonNull(workoutService.count(user, fromDate, toDate))) ? workoutService.count(user, fromDate, toDate).intValue() : 0;
                             int sum = (Objects.nonNull(workoutService.sum(user, fromDate, toDate))) ? workoutService.sum(user, fromDate, toDate).intValue() : 0;
-                            data.addData((sum > 0 && count > 0) ? sum / count : 0);
+                            datas.add((sum > 0 && count > 0) ? sum / count : 0);
                         }
                     }
-                    data.setLabel(user.getName());
-                    data.addBorderColor("rgba(" + chartBuilder.getColor(i) + ",1)");
-                    data.addPointBackgroundColor("rgba(" + chartBuilder.getColor(i) + ",1)");
-                    data.addBackgroundColor("rgba(" + chartBuilder.getColor(i) + ",0.2)");
-                    chartBuilder.addData(data);
                 }
             }
+            dataSet.setData(datas.toArray());
+            data.addDataset(dataSet);
+            chartBuilder.setData(data);
             return chartBuilder.build();
         }
         return "";
@@ -399,8 +400,28 @@ public class StatisticsQueryController extends BaseController {
         String[] months = {"01/01", "02/01", "03/01", "04/01", "05/01", "06/01", "07/01", "08/01", "09/01", "10/01", "11/01", "12/01", "12/31"};
         String[] monthNames = {"Január", "Február", "Március", "Április", "Május", "Június", "Július", "Augusztus", "Szeptember", "Október", "November", "December"};
         if (hasPermission(Permissions.PLAYERS_STAT)) {
-            ChartBuilder chartBuilder = new ChartBuilder()
-                    .setType(type.substring(1));
+            LineChartBuilder chartBuilder = new LineChartBuilder();
+            //Dataset template
+            LineDataSet template = new LineDataSet();
+            template.setBorderCapStyle(BorderCapStyle.ROUND);
+            template.setBorderWidth(4);
+            template.setPointRadius(2);
+            template.setPointHoverRadius(4);
+            template.setPointHitRadius(12);
+            template.setPointHoverBorderWidth(8);
+            template.setFill(type.startsWith("c"));
+            //Create Datasets
+            Data<LineDataSet> data = new Data<>();
+            Color color = new Color(26, 188, 156, 0.2);
+            Color hoverColor = new Color(26, 188, 156, 0.8);
+            LineDataSet dataSet = new LineDataSet(template);
+            dataSet.setBackgroundColor(color);
+            dataSet.setHoverBackgroundColor(hoverColor);
+            dataSet.setBorderColor(hoverColor);
+            dataSet.setHoverBorderColor(hoverColor);
+            dataSet.setPointBackgroundColor(color);
+            dataSet.setPointHoverBackgroundColor(color);
+            List<Object> datas = new ArrayList<>();
             Date fromDate = null;
             Date toDate = null;
             try {
@@ -414,38 +435,35 @@ public class StatisticsQueryController extends BaseController {
                     LocalDate.parse(to.replace('/','-')).withDayOfMonth(1));
             for (int i = 0; i < monthsBetween + 1; i++) {
                 int num = (fromDate.getMonth()+i)%12;
-                chartBuilder.addLabel(monthNames[num]);
+                data.addLabel(monthNames[num]);
             }
             for (int i = 0; i < playerList.split(";").length; i++) {
                 String player = playerList.split(";")[i];
-                ChartData data = new ChartData()
-                        .setFill(type.startsWith("c"));
                 User user = userService.find(Integer.parseInt(player));
                 Organization organization = userOrganizationService.getOrgByUser(user).getOrganization();
                 if(option.equals("trainingplans")){
                     for (int j = 0; j < monthsBetween + 1; j++) {
                         int count = trainingPlanService.count(user.getUsername(), organization, fromDate, toDate).intValue();
-                        data.addData(count);
+                        datas.add(count);
                     }
                 }
                 if (option.equals("attendPercent")) {
                     for (int j = 0; j < monthsBetween + 1; j++) {
                         int count = jelenletService.count(user.getUsername(), organization, fromDate, toDate).intValue();
                         int sum = jelenletService.sum(user.getUsername(), organization, fromDate, toDate).intValue();
-                        data.addData((sum > 0 && count > 0) ? count * 100 / sum : 0);
+                        datas.add((sum > 0 && count > 0) ? count * 100 / sum : 0);
                     }
                 }
                 if (option.equals("trainerrating")) {
                     for (int j = 0; j < monthsBetween + 1; j++) {
                         Double avr = trainerRatingResultService.avr(organization, user, fromDate, toDate);
-                        data.addData(Objects.nonNull(avr) ? avr : 0);
+                        datas.add(Objects.nonNull(avr) ? avr : 0);
                     }
                 }
-                data.setLabel(user.getName());
-                data.addBorderColor("rgba(" + chartBuilder.getColor(i) + ",1");
-                data.addPointBackgroundColor("rgba(" + chartBuilder.getColor(i) + ",1");
-                data.addBackgroundColor("rgba(" + chartBuilder.getColor(i) + ",0.2");
-                chartBuilder.addData(data);
+                dataSet.setLabel(user.getName());
+                dataSet.setData(datas.toArray());
+                data.addDataset(dataSet);
+                chartBuilder.setData(data);
             }
             return chartBuilder.build();
         }

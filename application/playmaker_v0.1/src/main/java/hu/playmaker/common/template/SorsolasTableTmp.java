@@ -1,4 +1,4 @@
-package hu.playmaker.common.templates;
+package hu.playmaker.common.template;
 
 public class SorsolasTableTmp {
     private String id;
