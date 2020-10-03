@@ -13,7 +13,7 @@ import hu.playmaker.database.service.index.UserPostCommentService;
 import hu.playmaker.database.service.index.UserPostService;
 import hu.playmaker.database.service.system.*;
 import hu.playmaker.database.service.trainingplan.TrainingPlanService;
-import hu.playmaker.database.service.workout.JelenletService;
+import hu.playmaker.database.service.workout.AttendanceService;
 import hu.playmaker.form.IndexForm;
 import hu.playmaker.handler.SessionHandler;
 import org.apache.commons.collections4.map.LinkedMap;
@@ -43,7 +43,7 @@ public class IndexController extends BaseController {
     private SorsolasService sorsolasService;
     private UserPostService userPostService;
     private UserPostCommentService userPostCommentService;
-    private JelenletService jelenletService;
+    private AttendanceService attendanceService;
     private UserNotificationService notificationService;
     private TrainerRatingService trainerRatingService;
     private TrainerRatingResultService trainerRatingResultService;
@@ -51,7 +51,7 @@ public class IndexController extends BaseController {
     private OrgCountryService orgCountryService;
     private static String UPLOADED_FOLDER = "C:\\Projects\\PlaymakerProjects\\playmaker_v0.1\\src\\main\\webapp\\content\\postImages\\";
 
-    public IndexController(PlayerDataService playerDataService, UserService userService, UserOrganizationService userOrganizationService, TabellaService tabellaService, SorsolasService sorsolasService, UserPostService userPostService, UserPostCommentService userPostCommentService, JelenletService jelenletService, UserNotificationService notificationService, TrainerRatingService trainerRatingService, TrainerRatingResultService trainerRatingResultService, TrainingPlanService trainingPlanService, OrgCountryService orgCountryService) {
+    public IndexController(PlayerDataService playerDataService, UserService userService, UserOrganizationService userOrganizationService, TabellaService tabellaService, SorsolasService sorsolasService, UserPostService userPostService, UserPostCommentService userPostCommentService, AttendanceService attendanceService, UserNotificationService notificationService, TrainerRatingService trainerRatingService, TrainerRatingResultService trainerRatingResultService, TrainingPlanService trainingPlanService, OrgCountryService orgCountryService) {
         this.playerDataService = playerDataService;
         this.userService = userService;
         this.userOrganizationService = userOrganizationService;
@@ -59,7 +59,7 @@ public class IndexController extends BaseController {
         this.sorsolasService = sorsolasService;
         this.userPostService = userPostService;
         this.userPostCommentService = userPostCommentService;
-        this.jelenletService = jelenletService;
+        this.attendanceService = attendanceService;
         this.notificationService = notificationService;
         this.trainerRatingService = trainerRatingService;
         this.trainerRatingResultService = trainerRatingResultService;
@@ -92,7 +92,7 @@ public class IndexController extends BaseController {
                 view.addObject("nextTrainingDay", getDay(trainingPlanService.findNext(uOrg.getOrganization(), uOrg.getType())));
                 view.addObject("playerHeader", playerDataService.getPlayerHeader(
                         userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession()),
-                        jelenletService.findLastFiveTrainingJelenByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession()))));
+                        attendanceService.findLastFiveTrainingJelenByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession()))));
                 view.addObject("teamHeader", playerDataService.getTeamHeader(uOrg.getOrganization(), tabellaService.getTabellaByTeamAndLiga(uOrg.getLiga(), uOrg.getOrganization().getName())));
                 view.addObject("sorsolasHeader", sorsolasService.getSorsolas(uOrg.getLiga(), uOrg.getOrganization().getName()));
                 view.addObject("temp", weatherController(uOrg.getOrganization()));

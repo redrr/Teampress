@@ -13,13 +13,13 @@ import java.util.Date;
 @Entity
 @Table(name="TURN", schema="teampress")
 @NamedQueries({
-		@NamedQuery(name="Fordulo.findAll", query="SELECT p FROM Fordulo p"),
-		@NamedQuery(name="Fordulo.countAll", query="SELECT COUNT(p) FROM Fordulo p"),
-		@NamedQuery(name="Fordulo.findById", query="SELECT p FROM Fordulo p WHERE p.id = :pid"),
-		@NamedQuery(name="Fordulo.findByLiga", query="SELECT p FROM Fordulo p WHERE p.liga = :pliga")
+		@NamedQuery(name="Turn.findAll", query="SELECT p FROM Turn p"),
+		@NamedQuery(name="Turn.countAll", query="SELECT COUNT(p) FROM Turn p"),
+		@NamedQuery(name="Turn.findById", query="SELECT p FROM Turn p WHERE p.id = :pid"),
+		@NamedQuery(name="Turn.findByLiga", query="SELECT p FROM Turn p WHERE p.liga = :pliga")
 })
 @Cacheable(false)
-public class Fordulo extends BaseModel {
+public class Turn extends BaseModel {
 	private static final long serialVersionUID = 1L;
 
 	@ManyToOne
@@ -32,7 +32,7 @@ public class Fordulo extends BaseModel {
 	@Column(name="DATE_TO_POLL", length=255)
 	private Date dateToPoll;
 
-	public Fordulo() {
+	public Turn() {
 	}
 
 	public Liga getLiga() {

@@ -61,9 +61,9 @@ public class PlayerDataService extends BaseService {
 
     private String cssStyle(String lvl) {
         switch (lvl){
-            case "GY" : return "success";
-            case "+" : return "success";
-            case "D" : return "warning";
+            case "GY" : return "primary";
+            case "+" : return "primary";
+            case "D" : return "secondary";
             case "V" : return "danger";
             case "-" : return "danger";
             default: return "info";

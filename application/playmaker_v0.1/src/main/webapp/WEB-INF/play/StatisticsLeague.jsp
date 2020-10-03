@@ -116,53 +116,53 @@
                                                                                                             <td>${t.ellenfelekHelyezesenekAtlaga}</td>
                                                                                                             <td>
                                                                                                                 <c:if test="${t.forma1.equals('GY')}">
-                                                                                                                    <c:set var="css1" value="success"></c:set>
+                                                                                                                    <c:set var="css1" value="primary"/>
                                                                                                                 </c:if>
                                                                                                                 <c:if test="${t.forma1.equals('D')}">
-                                                                                                                    <c:set var="css1" value="warning"></c:set>
+                                                                                                                    <c:set var="css1" value="secondary"/>
                                                                                                                 </c:if>
                                                                                                                 <c:if test="${t.forma1.equals('V')}">
-                                                                                                                    <c:set var="css1" value="danger"></c:set>
+                                                                                                                    <c:set var="css1" value="danger"/>
                                                                                                                 </c:if>
                                                                                                                 <span style="font-size: 100%; width: 35px" class="badge badge-${css1}">${t.forma1}</span>
                                                                                                                 <c:if test="${t.forma2.equals('GY')}">
-                                                                                                                    <c:set var="css2" value="success"></c:set>
+                                                                                                                    <c:set var="css2" value="primary"/>
                                                                                                                 </c:if>
                                                                                                                 <c:if test="${t.forma2.equals('D')}">
-                                                                                                                    <c:set var="css2" value="warning"></c:set>
+                                                                                                                    <c:set var="css2" value="secondary"/>
                                                                                                                 </c:if>
                                                                                                                 <c:if test="${t.forma2.equals('V')}">
-                                                                                                                    <c:set var="css2" value="danger"></c:set>
+                                                                                                                    <c:set var="css2" value="danger"/>
                                                                                                                 </c:if>
                                                                                                                 <span style="font-size: 100%; width: 35px" class="badge badge-${css2}">${t.forma2}</span>
                                                                                                                 <c:if test="${t.forma3.equals('GY')}">
-                                                                                                                    <c:set var="css3" value="success"></c:set>
+                                                                                                                    <c:set var="css3" value="primary"/>
                                                                                                                 </c:if>
                                                                                                                 <c:if test="${t.forma3.equals('D')}">
-                                                                                                                    <c:set var="css3" value="warning"></c:set>
+                                                                                                                    <c:set var="css3" value="secondary"/>
                                                                                                                 </c:if>
                                                                                                                 <c:if test="${t.forma3.equals('V')}">
-                                                                                                                    <c:set var="css3" value="danger"></c:set>
+                                                                                                                    <c:set var="css3" value="danger"/>
                                                                                                                 </c:if>
                                                                                                                 <span style="font-size: 100%; width: 35px" class="badge badge-${css3}">${t.forma3}</span>
                                                                                                                 <c:if test="${t.forma4.equals('GY')}">
-                                                                                                                    <c:set var="css4" value="success"></c:set>
+                                                                                                                    <c:set var="css4" value="primary"/>
                                                                                                                 </c:if>
                                                                                                                 <c:if test="${t.forma4.equals('D')}">
-                                                                                                                    <c:set var="css4" value="warning"></c:set>
+                                                                                                                    <c:set var="css4" value="secondary"/>
                                                                                                                 </c:if>
                                                                                                                 <c:if test="${t.forma4.equals('V')}">
-                                                                                                                    <c:set var="css4" value="danger"></c:set>
+                                                                                                                    <c:set var="css4" value="danger"/>
                                                                                                                 </c:if>
                                                                                                                 <span style="font-size: 100%; width: 35px" class="badge badge-${css4}">${t.forma4}</span>
                                                                                                                 <c:if test="${t.forma5.equals('GY')}">
-                                                                                                                    <c:set var="css5" value="success"></c:set>
+                                                                                                                    <c:set var="css5" value="primary"/>
                                                                                                                 </c:if>
                                                                                                                 <c:if test="${t.forma5.equals('D')}">
-                                                                                                                    <c:set var="css5" value="warning"></c:set>
+                                                                                                                    <c:set var="css5" value="secondary"/>
                                                                                                                 </c:if>
                                                                                                                 <c:if test="${t.forma5.equals('V')}">
-                                                                                                                    <c:set var="css5" value="danger"></c:set>
+                                                                                                                    <c:set var="css5" value="danger"/>
                                                                                                                 </c:if>
                                                                                                                 <span style="font-size: 100%; width: 35px" class="badge badge-${css5}">${t.forma5}</span>
                                                                                                             </td>

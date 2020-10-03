@@ -2,7 +2,6 @@ package hu.playmaker.controller.admin;
 
 import hu.playmaker.common.Permissions;
 import hu.playmaker.controller.BaseController;
-import hu.playmaker.database.service.workout.JelenletService;
 import hu.playmaker.database.service.workout.WorkoutService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

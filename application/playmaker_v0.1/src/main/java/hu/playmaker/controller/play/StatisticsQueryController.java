@@ -19,7 +19,7 @@ import hu.playmaker.database.service.system.TrainerRatingResultService;
 import hu.playmaker.database.service.system.UserOrganizationService;
 import hu.playmaker.database.service.system.UserService;
 import hu.playmaker.database.service.trainingplan.TrainingPlanService;
-import hu.playmaker.database.service.workout.JelenletService;
+import hu.playmaker.database.service.workout.AttendanceService;
 import hu.playmaker.database.service.workout.WorkoutService;
 import hu.playmaker.handler.SessionHandler;
 import org.json.JSONArray;
@@ -45,23 +45,23 @@ public class StatisticsQueryController extends BaseController {
     private GoalsService goalsService;
     private YellowCardService yellowCardService;
     private RedCardService redCardService;
-    private ForduloService forduloService;
+    private TurnService turnService;
     private LigaService ligaService;
-    private JelenletService jelenletService;
+    private AttendanceService attendanceService;
     private LookupCodeService lookupCodeService;
     private WorkoutService workoutService;
     private TrainingPlanService trainingPlanService;
     private TrainerRatingResultService trainerRatingResultService;
 
-    public StatisticsQueryController(UserOrganizationService userOrganizationService, UserService userService, GoalsService goalsService, YellowCardService yellowCardService, RedCardService redCardService, ForduloService forduloService, LigaService ligaService, JelenletService jelenletService, LookupCodeService lookupCodeService, WorkoutService workoutService, TrainingPlanService trainingPlanService, TrainerRatingResultService trainerRatingResultService) {
+    public StatisticsQueryController(UserOrganizationService userOrganizationService, UserService userService, GoalsService goalsService, YellowCardService yellowCardService, RedCardService redCardService, TurnService turnService, LigaService ligaService, AttendanceService attendanceService, LookupCodeService lookupCodeService, WorkoutService workoutService, TrainingPlanService trainingPlanService, TrainerRatingResultService trainerRatingResultService) {
         this.userOrganizationService = userOrganizationService;
         this.userService = userService;
         this.goalsService = goalsService;
         this.yellowCardService = yellowCardService;
         this.redCardService = redCardService;
-        this.forduloService = forduloService;
+        this.turnService = turnService;
         this.ligaService = ligaService;
-        this.jelenletService = jelenletService;
+        this.attendanceService = attendanceService;
         this.lookupCodeService = lookupCodeService;
         this.workoutService = workoutService;
         this.trainingPlanService = trainingPlanService;
@@ -186,7 +186,7 @@ public class StatisticsQueryController extends BaseController {
             if (Boolean.parseBoolean(rule)) {
                 if (Objects.nonNull(id) && id.trim().length() != 0) {
                     JSONArray scale = new JSONArray();
-                    Integer max = forduloService.findByLiga(ligaService.find(Integer.parseInt(id)));
+                    Integer max = turnService.findByLiga(ligaService.find(Integer.parseInt(id)));
                     if (Objects.nonNull(max)) {
                         for (int i = 1; i < max + 1; i++) {
                             scale.put(i);
@@ -208,8 +208,8 @@ public class StatisticsQueryController extends BaseController {
                     toYear = Integer.parseInt(simpleDateFormat.format(workoutService.findMaxByTeam(team).getCreationDate()));
                 }
                 if (option.equals("attendPercent")) {
-                    fromYear = Integer.parseInt(simpleDateFormat.format(jelenletService.findMinByTeam(team).getCreationDate()));
-                    toYear = Integer.parseInt(simpleDateFormat.format(jelenletService.findMaxByTeam(team).getCreationDate()));
+                    fromYear = Integer.parseInt(simpleDateFormat.format(attendanceService.findMinByTeam(team).getCreationDate()));
+                    toYear = Integer.parseInt(simpleDateFormat.format(attendanceService.findMaxByTeam(team).getCreationDate()));
                 }
                 for (int i = fromYear; i <= toYear; i++) {
                     years.put(i);
@@ -334,8 +334,8 @@ public class StatisticsQueryController extends BaseController {
                             fromDate.setDate(1);
                             toDate.setMonth(fromDate.getMonth()+1);
                             toDate.setDate(1);
-                            int count = jelenletService.count(user, fromDate, toDate).intValue();
-                            int sum = jelenletService.sum(user, fromDate, toDate).intValue();
+                            int count = attendanceService.count(user, fromDate, toDate).intValue();
+                            int sum = attendanceService.sum(user, fromDate, toDate).intValue();
                             datas.add((sum > 0 && count > 0) ? count * 100 / sum : 0);
                         }
                     }
@@ -379,8 +379,8 @@ public class StatisticsQueryController extends BaseController {
                 toYear = Integer.parseInt(simpleDateFormat.format(workoutService.findMaxByOrg(organization).getCreationDate()));
             }
             if (option.equals("attendPercent")) {
-                fromYear = Integer.parseInt(simpleDateFormat.format(jelenletService.findMinByOrg(organization).getCreationDate()));
-                toYear = Integer.parseInt(simpleDateFormat.format(jelenletService.findMaxByOrg(organization).getCreationDate()));
+                fromYear = Integer.parseInt(simpleDateFormat.format(attendanceService.findMinByOrg(organization).getCreationDate()));
+                toYear = Integer.parseInt(simpleDateFormat.format(attendanceService.findMaxByOrg(organization).getCreationDate()));
             }
             for (int i = fromYear; i <= toYear; i++) {
                 years.put(i);
@@ -449,8 +449,8 @@ public class StatisticsQueryController extends BaseController {
                 }
                 if (option.equals("attendPercent")) {
                     for (int j = 0; j < monthsBetween + 1; j++) {
-                        int count = jelenletService.count(user.getUsername(), organization, fromDate, toDate).intValue();
-                        int sum = jelenletService.sum(user.getUsername(), organization, fromDate, toDate).intValue();
+                        int count = attendanceService.count(user.getUsername(), organization, fromDate, toDate).intValue();
+                        int sum = attendanceService.sum(user.getUsername(), organization, fromDate, toDate).intValue();
                         datas.add((sum > 0 && count > 0) ? count * 100 / sum : 0);
                     }
                 }

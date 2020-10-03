@@ -10,14 +10,14 @@ import hu.playmaker.database.model.system.User;
 import hu.playmaker.database.model.system.UserOrganization;
 import hu.playmaker.database.model.trainingplan.Exercise;
 import hu.playmaker.database.model.trainingplan.TrainingPlan;
-import hu.playmaker.database.model.workout.Jelenlet;
+import hu.playmaker.database.model.workout.Attendance;
 import hu.playmaker.database.model.workout.Workout;
 import hu.playmaker.database.service.system.LookupCodeService;
 import hu.playmaker.database.service.system.UserOrganizationService;
 import hu.playmaker.database.service.system.UserService;
 import hu.playmaker.database.service.trainingplan.ExerciseService;
 import hu.playmaker.database.service.trainingplan.TrainingPlanService;
-import hu.playmaker.database.service.workout.JelenletService;
+import hu.playmaker.database.service.workout.AttendanceService;
 import hu.playmaker.database.service.workout.WorkoutService;
 import hu.playmaker.handler.SessionHandler;
 import org.json.JSONArray;
@@ -44,16 +44,16 @@ public class WorkoutController extends BaseController {
     private ExerciseService exerciseService;
     private LookupCodeService lookupCodeService;
     private WorkoutService workoutService;
-    private JelenletService jelenletService;
+    private AttendanceService attendanceService;
 
-    public WorkoutController(TrainingPlanService trainingPlanService, UserService userService, UserOrganizationService userOrganizationService, ExerciseService exerciseService, LookupCodeService lookupCodeService, WorkoutService workoutService, JelenletService jelenletService) {
+    public WorkoutController(TrainingPlanService trainingPlanService, UserService userService, UserOrganizationService userOrganizationService, ExerciseService exerciseService, LookupCodeService lookupCodeService, WorkoutService workoutService, AttendanceService attendanceService) {
         this.trainingPlanService = trainingPlanService;
         this.userService = userService;
         this.userOrganizationService = userOrganizationService;
         this.exerciseService = exerciseService;
         this.lookupCodeService = lookupCodeService;
         this.workoutService = workoutService;
-        this.jelenletService = jelenletService;
+        this.attendanceService = attendanceService;
     }
 
     @RequestMapping("")
@@ -90,7 +90,7 @@ public class WorkoutController extends BaseController {
         ArrayList<TrainingPlan> result = new ArrayList<>();
         if(hasPermission(Permissions.WORKOUT_CREATE))
             trainings.forEach(trainingPlan -> {
-                if(!jelenletService.existByTrainingPlan(trainingPlan))
+                if(!attendanceService.existByTrainingPlan(trainingPlan))
                     result.add(trainingPlan);
             });
         return result;
@@ -177,11 +177,11 @@ public class WorkoutController extends BaseController {
                     if(trainDatas.length > 2 && !trainDatas[0].equals("")){
                         User currentUser = userService.find(Integer.parseInt(trainDatas[0]));
                         Organization organization = userOrganizationService.getOrgByUser(currentUser).getOrganization();
-                        Jelenlet jelenlet = new Jelenlet();
-                        jelenlet.setOrganization(organization);
-                        jelenlet.setTeam(training.getTeam());
-                        jelenlet.setTrainingPlan(training);
-                        jelenlet.setUser(currentUser);
+                        Attendance attendance = new Attendance();
+                        attendance.setOrganization(organization);
+                        attendance.setTeam(training.getTeam());
+                        attendance.setTrainingPlan(training);
+                        attendance.setUser(currentUser);
                         String jelen = trainDatas[1];
                         if(trainDatas[1].equals("0")){
                             //jelen volt
@@ -231,11 +231,11 @@ public class WorkoutController extends BaseController {
                             }
                         }
                         switch (trainDatas[1]) {
-                            case "0" : jelenlet.setJelen("jelen");
-                            case "1" : jelenlet.setJelen("igazolt");
-                            default  : jelenlet.setJelen("igazolatlan");
+                            case "0" : attendance.setJelen("jelen");
+                            case "1" : attendance.setJelen("igazolt");
+                            default  : attendance.setJelen("igazolatlan");
                         }
-                        jelenletService.mergeFlush(jelenlet);
+                        attendanceService.mergeFlush(attendance);
                     } else {
                         return "hiba: rossz data";
                     }
@@ -279,13 +279,13 @@ public class WorkoutController extends BaseController {
             Date fromDate = new SimpleDateFormat("yyyy-MM-dd").parse(id1);
             Date toDate = new SimpleDateFormat("yyyy-MM-dd").parse(id2);
             LookupCode team = lookupCodeService.find(Integer.parseInt(tid));
-            List<Jelenlet> jelenlets = jelenletService.findByDateAndTeam(organization, team, fromDate, toDate);
+            List<Attendance> attendances = attendanceService.findByDateAndTeam(organization, team, fromDate, toDate);
             ExcelBuilder excel = new ExcelBuilder()
                     .setFileName("Teampress_"+organization.getName().replace(" ", "_")+"_jelenleti_iv_export.xls")
                     .setSheetName("Statement")
                     .addTitle("Sportoló", "Csapat", "Jelenlét", "Létrehozás ideje", "Létrehozó");
-            for(Jelenlet jelenlet : jelenlets) {
-                excel.addData(jelenlet.getUser().getName(), jelenlet.getTeam().getCode(), jelenlet.getJelen(), jelenlet.getCreationDateAsString(), jelenlet.getCreatedBy());
+            for(Attendance attendance : attendances) {
+                excel.addData(attendance.getUser().getName(), attendance.getTeam().getCode(), attendance.getJelen(), attendance.getCreationDateAsString(), attendance.getCreatedBy());
             }
             File data = excel.build();
             response.setContentType("application/force-download");

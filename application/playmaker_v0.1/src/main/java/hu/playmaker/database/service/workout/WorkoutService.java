@@ -5,7 +5,6 @@ import hu.playmaker.database.model.system.Organization;
 import hu.playmaker.database.model.trainingplan.Exercise;
 import hu.playmaker.database.model.trainingplan.TrainingPlan;
 import hu.playmaker.database.model.system.User;
-import hu.playmaker.database.model.workout.Jelenlet;
 import hu.playmaker.database.model.workout.Workout;
 import hu.playmaker.database.service.BaseService;
 import org.springframework.stereotype.Service;
