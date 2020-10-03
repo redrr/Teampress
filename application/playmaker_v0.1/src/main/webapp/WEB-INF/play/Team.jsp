@@ -68,7 +68,7 @@
                                                                                 <div class="col-6" style="padding-left: 0">
                                                                                     <div class="text-center" style="font-size: 16px;font-weight: 600;margin-bottom: 8px;">${player.player.name}</div>
                                                                                     <div class="text-center">
-                                                                                        <button class="btn btn-primary btn-soft">Részletek</button>
+                                                                                        <button class="btn btn-primary btn-soft" data-toggle="modal" data-target="#playerModal">Részletek</button>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -78,6 +78,27 @@
                                                             </c:forEach>
                                                         </div>
                                                     </c:forEach>
+                                                </div>
+                                            </div>
+                                            <!-- Stat modal -->
+                                            <div class="modal fade" id="playerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-success modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Játékos adatok</h4>
+                                                            <button class="btn btn-icon" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i style="margin: 0" class="ti-close"></i></span></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="row">
+                                                                <div class="col-6">
+
+                                                                </div>
+                                                                <div class="col-6">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </c:if>

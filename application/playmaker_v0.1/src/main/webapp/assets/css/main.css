@@ -16,6 +16,18 @@ span.select2-container--default .select2-selection--multiple .select2-selection_
     color: #fff;
 }
 
+.select2-container--default .select2-selection--multiple button.select2-selection__choice__remove {
+    border: 0;
+    transition: .2s;
+}
+
+.select2-container--default .select2-selection--multiple button.select2-selection__choice__remove:hover, .select2-container--default .select2-selection--multiple .select2-selection__choice__remove:focus {
+    background-color: #2C3E50;
+    border: 0;
+    border-radius: 4px;
+    transition: .2s;
+}
+
 .pcoded-main-container {
     background-image: url('/content/bgImages/hatter2.png');
     background-size: 100% auto;

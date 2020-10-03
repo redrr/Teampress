@@ -101,8 +101,8 @@ public class BaseController {
         resultDataSet.setHoverBackgroundColor(resultHoverColor);
         resultDataSet.setBorderColor(resultHoverColor);
         resultDataSet.setHoverBorderColor(resultHoverColor);
-        resultDataSet.setPointBackgroundColor(resultColor);
-        resultDataSet.setPointHoverBackgroundColor(resultColor);
+        //resultDataSet.setPointBackgroundColor(resultColor);
+        //resultDataSet.setPointHoverBackgroundColor(resultColor);
         RadarDataSet avgDataSet = new RadarDataSet(template);
         Color avgColor = new Color(44, 62, 80, 0.3);
         Color avgHoverColor = new Color(44, 62, 80, 1.0);
@@ -111,8 +111,8 @@ public class BaseController {
         avgDataSet.setHoverBackgroundColor(avgHoverColor);
         avgDataSet.setBorderColor(avgHoverColor);
         avgDataSet.setHoverBorderColor(avgHoverColor);
-        avgDataSet.setPointBackgroundColor(avgColor);
-        avgDataSet.setPointHoverBackgroundColor(avgColor);
+        //avgDataSet.setPointBackgroundColor(avgColor);
+        //avgDataSet.setPointHoverBackgroundColor(avgColor);
         List<Object> results = new ArrayList<>();
         List<Object> avgs = new ArrayList<>();
         for(Workout workout : workouts){

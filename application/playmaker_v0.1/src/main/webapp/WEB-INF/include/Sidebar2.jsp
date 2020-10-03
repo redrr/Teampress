@@ -137,7 +137,7 @@
                             <li class="${requestURI.equals('/financial/create') ? 'active' : ''}">
                                 <a href="/financial/create">
                                     <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                    <span class="pcoded-mtext" data-i18n="nav.social.fb-wall">Új Kiadás/Bevétel</span>
+                                    <span class="pcoded-mtext" data-i18n="nav.social.fb-wall">Új Bevétel</span>
                                 </a>
                             </li>
                         </c:if>
@@ -145,7 +145,7 @@
                             <li class="${requestURI.equals('/financial/accept') ? 'active' : ''}">
                                 <a href="/financial/accept">
                                     <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                    <span class="pcoded-mtext" data-i18n="nav.social.fb-wall">Kiadás/Bevétel kezelés</span>
+                                    <span class="pcoded-mtext" data-i18n="nav.social.fb-wall">Bevétel kezelő</span>
                                 </a>
                             </li>
                         </c:if>
@@ -161,7 +161,7 @@
                             <li class="${requestURI.equals('/financial/grouping') ? 'active' : ''}">
                                 <a href="/financial/grouping">
                                     <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                    <span class="pcoded-mtext" data-i18n="nav.social.fb-wall">Kiadás/Bevétel csoportosítás</span>
+                                    <span class="pcoded-mtext" data-i18n="nav.social.fb-wall">Csoport kezelő</span>
                                 </a>
                             </li>
                         </c:if>
@@ -192,10 +192,18 @@
                             </li>
                         </c:if>
                         <c:if test="${sessionHandler.userHasPermission('VIDEO_ANALYTICS')}">
+                            <li class="${requestURI.equals('/videoanalytics') ? 'active' : ''}">
+                                <a href="/videoanalytics">
+                                    <span class="pcoded-micon"><i class="ti-video-clapper"></i></span>
+                                    <span class="pcoded-mtext" data-i18n="nav.social.fb-wall">Videóelemző</span>
+                                </a>
+                            </li>
+                        </c:if>
+                        <c:if test="${sessionHandler.userHasPermission('VIDEO_ANALYTICS')}">
                             <li class="${requestURI.equals('/videoeditor') ? 'active' : ''}">
                                 <a href="/videoeditor">
                                     <span class="pcoded-micon"><i class="ti-video-clapper"></i></span>
-                                    <span class="pcoded-mtext" data-i18n="nav.social.fb-wall">Elemző</span>
+                                    <span class="pcoded-mtext" data-i18n="nav.social.fb-wall">Videóeditor</span>
                                 </a>
                             </li>
                         </c:if>
