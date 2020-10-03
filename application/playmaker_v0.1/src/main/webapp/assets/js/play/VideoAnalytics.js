@@ -12,54 +12,35 @@ $(document).ready(function () {
                 // ' ' is standard, 'Spacebar' was used by IE9 and Firefox < 37
                 e.preventDefault();
                 if(!isplaying){
-                    $('#play').addClass("btn-success");
+                    $('#play').addClass("btn-primary");
                     $('#play').removeClass("btn-secondary");
-                    $('#play > i').addClass("cil-media-play");
-                    $('#play > i').removeClass("cil-media-pause");
+                    $('#play > i').addClass("icon-control-play");
+                    $('#play > i').removeClass("icon-control-pause");
                     isplaying = true;
                     video.play();
                 } else {
-                    $('#play').removeClass("btn-success");
+                    $('#play').removeClass("btn-primary");
                     $('#play').addClass("btn-secondary");
-                    $('#play > i').addClass("cil-media-pause");
-                    $('#play > i').removeClass("cil-media-play");
+                    $('#play > i').addClass("icon-control-pause");
+                    $('#play > i').removeClass("icon-control-play");
                     isplaying = false;
                     video.pause();
                 }
             }
-            if(e.key === 'c' || e.key === 'C') {
-                const video = $('#video')[0];
-                if(!cuting) {
-                    if(startTime === undefined){
-                        cuting = true;
-                        endTime = undefined;
-                        startTime = video.currentTime;
-                    }
-                } else {
-                    if(startTime !== undefined && endTime === undefined) {
-                        endTime = video.currentTime;
-                        setupVideoModal();
-                        $('#addVideoModalButton').click();
-                        video.pause();
-                        cuting = false
-                    }
-                }
-                console.log('start: '+startTime+', end: '+endTime)
-            }
         });
         $('#play').on('click', function () {
             if(!isplaying){
-                $('#play').addClass("btn-success");
+                $('#play').addClass("btn-primary");
                 $('#play').removeClass("btn-secondary");
-                $('#play > i').addClass("cil-media-pause");
-                $('#play > i').removeClass("cil-media-play");
+                $('#play > i').addClass("icon-control-pause");
+                $('#play > i').removeClass("icon-control-play");
                 video.play();
                 isplaying = true;
             } else {
-                $('#play').removeClass("btn-success");
+                $('#play').removeClass("btn-primary");
                 $('#play').addClass("btn-secondary");
-                $('#play > i').addClass("cil-media-play");
-                $('#play > i').removeClass("cil-media-pause");
+                $('#play > i').addClass("icon-control-play");
+                $('#play > i').removeClass("icon-control-pause");
                 isplaying = false;
                 video.pause();
             }
@@ -67,16 +48,16 @@ $(document).ready(function () {
         $('#mute').on('click', function () {
             if(!ismuted){
                 $('#mute').addClass("btn-secondary");
-                $('#mute').removeClass("btn-success");
-                $('#mute > i').addClass("cil-volume-off");
-                $('#mute > i').removeClass("cil-volume-high");
+                $('#mute').removeClass("btn-primary");
+                $('#mute > i').addClass("icon-volume-off");
+                $('#mute > i').removeClass("icon-volume-2");
                 video.muted = true;
                 ismuted = true;
             } else {
                 $('#mute').removeClass("btn-secondary");
-                $('#mute').addClass("btn-success");
-                $('#mute > i').addClass("cil-volume-high");
-                $('#mute > i').removeClass("cil-volume-off");
+                $('#mute').addClass("btn-primary");
+                $('#mute > i').addClass("icon-volume-2");
+                $('#mute > i').removeClass("icon-volume-off");
                 video.muted = false;
                 ismuted = false;
             }
@@ -187,68 +168,4 @@ function setupVideo(id,url) {
     $('#analyzer').show();
     $('#source').attr('src', '/content/videoAnalytics/upload/'+url);
     $('#video')[0].load();
-}
-
-function sendVideo() {
-    const video = $('#video')[0];
-    video.pause();
-    $.post(
-        "/videoeditor/cut",
-        {
-            videoId : videoId,
-            folderId : $('#folder').val(),
-            userId : $('#user').val(),
-            start : startTime,
-            end : endTime,
-            name : $('#sceneName').val(),
-            desc : $('#sceneDesc').val()
-        },
-        function (value) {
-            if(value === 'done') {
-                $('#closeModal').click();
-                video.play();
-            } else {
-                console.log('nem sikerült a vágás!')
-            }
-        }
-    )
-}
-
-function setupVideoModal() {
-    $.post(
-        "/videoeditor/getusers",
-        {
-            videoId : videoId
-        },
-        function (value) {
-            if(!(value === '')) {
-                var players = JSON.parse(value);
-                var options = "";
-                players.forEach(function (data) {
-                    options += "<option value='"+data.id+"'>"+data.name+"</option>"
-                });
-                $('#user')[0].innerHTML = options;
-            } else {
-                console.log('players hiba!')
-            }
-        }
-    );
-    $.post(
-        "/videoeditor/getfolders",
-        {
-            videoId : videoId
-        },
-        function (value) {
-            if(!(value === '')) {
-                var folders = JSON.parse(value);
-                var options = "";
-                folders.forEach(function (data) {
-                    options += "<option value='"+data.id+"'>"+data.name+"</option>"
-                });
-                $('#folder')[0].innerHTML = options;
-            } else {
-                console.log('players hiba!')
-            }
-        }
-    )
 }

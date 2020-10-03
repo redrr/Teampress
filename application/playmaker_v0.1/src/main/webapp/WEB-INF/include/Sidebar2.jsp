@@ -177,7 +177,7 @@
                 </li>
             </c:if>
             <c:if test="${sessionHandler.userHasPermission('VIDEO_ANALYTICS') || sessionHandler.userHasPermission('FOLDER_CREATE')}">
-                <li class="pcoded-hasmenu ${(requestURI.contains('folder') || requestURI.contains('videoeditor') || requestURI.contains('videocloud')) ? 'active' : ''}">
+                <li class="pcoded-hasmenu ${(requestURI.contains('folder') || requestURI.contains('videoeditor') || requestURI.contains('videocloud') || requestURI.equals('/videoanalytics')) ? 'active' : ''}">
                     <a href="javascript:void(0)">
                         <span class="pcoded-micon"><i class="ti-video-clapper"></i></span>
                         <span class="pcoded-mtext" data-i18n="nav.social.main">Videóelemző</span>

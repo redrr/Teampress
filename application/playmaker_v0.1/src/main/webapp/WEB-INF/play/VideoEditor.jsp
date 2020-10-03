@@ -142,7 +142,7 @@
                                                                         <td>${d.ligaGame.hazai} - ${d.ligaGame.vendeg}</td>
                                                                         <td>${d.ligaGame.hely}</td>
                                                                         <td>
-                                                                            <button class="btn btn-primary btn-soft" onclick="setupVideo(${d.video.id},'${d.video.name}')"><i class="ti-stats-up"></i> Elemzés</button>
+                                                                            <button class="btn btn-primary btn-soft" onclick="setupVideo(${d.video.id},'${d.video.name}')"><i class="ti-stats-up"></i> Szerkesztés</button>
                                                                         </td>
                                                                     </tr>
                                                                 </c:if>
@@ -152,7 +152,7 @@
                                                                         <td>${d.customGame.enemy}</td>
                                                                         <td>${d.customGame.place}</td>
                                                                         <td>
-                                                                            <button class="btn btn-primary btn-soft" onclick="setupVideo(${d.video.id},'${d.video.name}')"><i class="ti-stats-up"></i> Elemzés</button>
+                                                                            <button class="btn btn-primary btn-soft" onclick="setupVideo(${d.video.id},'${d.video.name}')"><i class="ti-stats-up"></i> Szerkesztés</button>
                                                                         </td>
                                                                     </tr>
                                                                 </c:if>
