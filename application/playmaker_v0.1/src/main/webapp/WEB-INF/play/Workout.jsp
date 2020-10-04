@@ -197,7 +197,7 @@
                                     <c:if test="${sessionHandler.userHasPermission('WORKOUT_ALL_TABLE') || sessionHandler.userHasPermission('WORKOUT_PLAYER_TABLE')}">
                                         <!-- Result modal-->
                                         <div class="modal" id="trainingModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-success modal-lg" role="document">
+                                            <div class="modal-dialog modal-success modal-xl" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h4 id="trainingModalTitle" class="modal-title">Modal title</h4>

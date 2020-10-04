@@ -2,113 +2,131 @@ html {
     background-color: #fff;
 }
 
+a {
+    text-decoration: none!important;
+}
+
+.form-control {
+    padding: 8px;
+    min-height: unset;
+}
+.form-control:focus {
+    box-shadow: 0 0 0 0.25rem rgba(26,188,156,.25);
+}
+
+select.form-control {
+    -webkit-appearance: menulist;
+    -moz-appearance: menulist;
+    appearance: auto;
+}
+
 .text-value-lg {
-    color: black;
-    font-weight: 600;
-    font-size: larger;
+color: black;
+font-weight: 600;
+font-size: larger;
 }
 
 span.select2-container--default .select2-selection--multiple .select2-selection__choice {
-    background-color: #1abc9c;
-    border: 1px solid #1abc9c;
-    border-radius: 8px;
-    padding: 2px;
-    color: #fff;
+background-color: #1abc9c;
+border: 1px solid #1abc9c;
+border-radius: 8px;
+padding: 2px;
+color: #fff;
 }
 
 .select2-container--default .select2-selection--multiple button.select2-selection__choice__remove {
-    border: 0;
-    transition: .2s;
+border: 0;
+transition: .2s;
 }
 
 .select2-container--default .select2-selection--multiple button.select2-selection__choice__remove:hover, .select2-container--default .select2-selection--multiple .select2-selection__choice__remove:focus {
-    background-color: #2C3E50;
-    border: 0;
-    border-radius: 4px;
-    transition: .2s;
+background-color: #2C3E50;
+border: 0;
+border-radius: 4px;
+transition: .2s;
 }
 
 .pcoded-main-container {
-    background-image: url('/content/bgImages/hatter2.png');
-    background-size: 100% auto;
-    background-repeat: no-repeat;
-    background-color: #fff
+background-image: url('/content/bgImages/hatter2.png');
+background-size: 100% auto;
+background-repeat: no-repeat;
+background-color: #fff
 }
 
 .tab-pane.active {
-    -webkit-animation: fadeIn 1s ease-in-out;
-    animation: fadeIn 1s ease-in-out;
+-webkit-animation: fadeIn 1s ease-in-out;
+animation: fadeIn 1s ease-in-out;
 }
 
 #pcoded > div.pcoded-container.navbar-wrapper > nav, a.card:hover, li.user-profile.header-notification.cr-pointer > ul, #notiList,  .auth-box, .effect-jazz:hover {
-    box-shadow: 0 12px 12px rgba(0, 0, 0, 0.5)!important;
-    transition: .5s;
+box-shadow: 0 12px 12px rgba(0, 0, 0, 0.5)!important;
+transition: .5s;
 }
 
 .effect-jazz {
-    transition: .5s;
+transition: .5s;
 }
 
 .card {
-    box-shadow: 0 6px 6px rgba(0, 0, 0, 0.25);
-    transition: .5s;
+box-shadow: 0 6px 6px rgba(0, 0, 0, 0.25);
+transition: .5s;
 }
 
 .card, .card-header, .card-footer, .effect-jazz, video, .auth-box {
-    border-radius: 16px!important;
+border-radius: 16px!important;
 }
 
 .btn-soft, select, input, span.select2.select2-container {
-    border-radius: 8px!important;
+border-radius: 8px!important;
 }
 
 .player-icon-sm {
-    width: 40px;
-    height: 40px;
-    padding: 0;
+width: 40px;
+height: 40px;
+padding: 0;
 }
 
 .playerColumn {
-    height: auto!important;
-    width: auto;
+height: auto!important;
+width: auto;
 }
 
 .modal {
-    z-index: 1000;
+z-index: 1000;
 }
 
 .modal-content {
-    border-top: 4px solid #8CDDCD;
-    border-radius: 16px;
+border-top: 4px solid #8CDDCD;
+border-radius: 16px;
 }
 
 .modal-backdrop {
-    z-index: 900;
+z-index: 900;
 }
 
 table td {
-    font-size: 14px !important;
+font-size: 14px !important;
 }
 
 table th {
-    font-size: 14px !important;
+font-size: 14px !important;
 }
 
 .cr-pointer {
-    cursor: pointer;
+cursor: pointer;
 }
 
 #notiList {
-    max-height: 400px;
-    overflow-y: scroll;
+max-height: 400px;
+overflow-y: scroll;
 }
 
 #useravatar {
-    height: 40px;
+height: 40px;
 }
 
 .pcoded-content::-webkit-scrollbar {
-    display: none;
+display: none;
 }
 
 /* Hide scrollbar for IE, Edge and Firefox */
@@ -116,3 +134,9 @@ table th {
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
 }
+
+.btn-primary:focus, .sweet-alert button.confirm:focus, .wizard > .actions a:focus {
+    background-color: #28e1bd;
+    border-color: #28e1bd;
+}
+

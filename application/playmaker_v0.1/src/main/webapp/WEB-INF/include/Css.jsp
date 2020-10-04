@@ -24,7 +24,7 @@
 <!-- Google font-->
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
 <!-- Required Fremwork -->
-<link rel="stylesheet" type="text/css" href="../../assets/vendor/bower_components/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css" integrity="sha384-DhY6onE6f3zzKbjUPRc2hOzGAdEf4/Dz+WJwBvEYL/lkkIsI3ihufq9hk9K4lVoK" crossorigin="anonymous">
 <!-- themify-icons line icon -->
 <link rel="stylesheet" type="text/css" href="../../assets/vendor/assets/icon/themify-icons/themify-icons.css">
 <!-- ico font -->
