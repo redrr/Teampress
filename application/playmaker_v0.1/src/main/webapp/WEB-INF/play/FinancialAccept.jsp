@@ -36,7 +36,7 @@
                                         <div id="alert" class="col-12"></div>
                                     </div>
                                     <div class="row animated fadeInUpBig">
-                                        <div class="col-xl-6 col-lg-12 col-12">
+                                        <div class="col-12">
                                             <div class="card">
                                                 <div class="card-header">
                                                     <h5>Bevétel-kiadás kérések</h5>
@@ -76,7 +76,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-6 col-lg-12 col-12">
+                                        <div class="col-12">
                                             <div class="card">
                                                 <div class="card-header">
                                                     <h5>Elfogadott bevételek-kiadások</h5>
@@ -85,7 +85,6 @@
                                                     <table id="stateTable" class="table table-striped table-bordered" style="width:100%">
                                                         <thead>
                                                         <tr>
-                                                            <th>#</th>
                                                             <th>Megnevezés</th>
                                                             <th>Típus</th>
                                                             <th>Összeg</th>
@@ -95,7 +94,6 @@
                                                         <tbody>
                                                         <c:forEach var="data" items="${table2}">
                                                             <tr>
-                                                                <td>${data.id}</td>
                                                                 <td>${data.name}</td>
                                                                 <td>
                                                                     <c:if test="${data.income}">Bevétel</c:if>

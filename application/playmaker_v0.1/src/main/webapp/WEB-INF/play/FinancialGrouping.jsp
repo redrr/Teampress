@@ -84,7 +84,6 @@
                                                     <table id="table" class="table table-striped table-bordered" style="width:100%">
                                                         <thead>
                                                         <tr>
-                                                            <th>#</th>
                                                             <th>Csoport</th>
                                                             <th>Bevétel-kiadás</th>
                                                             <th>Műveletek</th>
@@ -93,11 +92,10 @@
                                                         <tbody>
                                                         <c:forEach var="data" items="${table}">
                                                             <tr>
-                                                                <td>${data.id}</td>
                                                                 <td>${data.group.name}</td>
                                                                 <td>${data.income.name}</td>
                                                                 <td>
-                                                                    <button type="button" class="btn btn-info btn-soft" onclick="modifyGroup(${data.id}, ${data.group.id}, ${data.income.id})"><i class="ti-pencil-alt"></i> Módosítás</button>
+                                                                    <button type="button" class="btn btn-primary btn-soft" onclick="modifyGroup(${data.id}, ${data.group.id}, ${data.income.id})"><i class="ti-pencil-alt"></i> Módosítás</button>
                                                                     <button type="button" class="btn btn-danger btn-soft" onclick="deleteEntry(${data.id}, '/financial/grouping')"><i class="ti-trash"></i> Törlés</button>
                                                                 </td>
                                                             </tr>

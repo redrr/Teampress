@@ -9,6 +9,8 @@ import hu.playmaker.common.factory.chartjs.common.enums.BorderCapStyle;
 import hu.playmaker.controller.BaseController;
 import hu.playmaker.database.model.databank.Goals;
 import hu.playmaker.database.model.databank.Liga;
+import hu.playmaker.database.model.databank.RedCard;
+import hu.playmaker.database.model.databank.YellowCard;
 import hu.playmaker.database.model.system.LookupCode;
 import hu.playmaker.database.model.system.Organization;
 import hu.playmaker.database.model.system.User;
@@ -290,23 +292,21 @@ public class StatisticsQueryController extends BaseController {
                 }
                 for (int i = 0; i < playerList.split(";").length; i++) {
                     String player = playerList.split(";")[i];
-                    if (option.equals("goals")) {
-                        User user = userService.find(Integer.parseInt(player));
-                        for (int j = Integer.parseInt(from); j < Integer.parseInt(to) + 1; j++) {
+                    User user = userService.find(Integer.parseInt(player));
+                    dataSet.setLabel(user.getName());
+                    for (int j = Integer.parseInt(from); j < Integer.parseInt(to) + 1; j++) {
+                        if (option.equals("goals")) {
                             Goals goal = goalsService.findUnique(ligaService.find(Integer.parseInt(liga)), userOrganizationService.getOrgByUser(user).getOrganization(), j, user.getName());
                             datas.add((Objects.nonNull(goal) && Objects.nonNull(goal.getGoalInFord())) ? goal.getGoalInFord() : 0);
+                        } else if (option.equals("yellow")) {
+                            //todo: ford
+                            YellowCard yellowCard = yellowCardService.findUnique(ligaService.find(Integer.parseInt(liga)), userOrganizationService.getOrgByUser(user).getOrganization(), user.getName()).get(0);
+                            datas.add((Objects.nonNull(yellowCard) && Objects.nonNull(yellowCard.getCard())) ? yellowCard.getCard() : 0);
+                        } else if (option.equals("red")) {
+                            //todo: ford
+                            RedCard redCard = redCardService.findUnique(ligaService.find(Integer.parseInt(liga)), userOrganizationService.getOrgByUser(user).getOrganization(), user.getName()).get(0);
+                            datas.add((Objects.nonNull(redCard) && Objects.nonNull(redCard.getCard())) ? redCard.getCard() : 0);
                         }
-                        dataSet.setLabel(user.getName());
-                    } else if (option.equals("yellow")) {
-                        yellowCardService.findAll().forEach(playerData -> {
-                            datas.add(playerData.getCard());
-                            dataSet.setLabel(playerData.getName());
-                        });
-                    } else if (option.equals("red")) {
-                        redCardService.findAll().forEach(playerData -> {
-                            datas.add(playerData.getCard());
-                            dataSet.setLabel(playerData.getName());
-                        });
                     }
                 }
             } else {
@@ -328,6 +328,7 @@ public class StatisticsQueryController extends BaseController {
                 for (int i = 0; i < playerList.split(";").length; i++) {
                     String player = playerList.split(";")[i];
                     User user = userService.find(Integer.parseInt(player));
+                    dataSet.setLabel(user.getName());
                     if (option.equals("attendPercent")) {
                         for (int j = 0; j < monthsBetween + 1; j++) {
                             fromDate.setMonth(fromDate.getMonth()+j);
@@ -427,45 +428,48 @@ public class StatisticsQueryController extends BaseController {
             try {
                 fromDate = new SimpleDateFormat("yyyy/MM/dd").parse(from);
                 toDate = new SimpleDateFormat("yyyy/MM/dd").parse(to);
+                long monthsBetween = ChronoUnit.MONTHS.between(
+                        LocalDate.parse(from.replace('/','-')).withDayOfMonth(1),
+                        LocalDate.parse(to.replace('/','-')).withDayOfMonth(1));
+                for (int i = 0; i < monthsBetween + 1; i++) {
+                    int num = (fromDate.getMonth()+i)%12;
+                    data.addLabel(monthNames[num]);
+                }
+                for (int i = 0; i < playerList.split(";").length; i++) {
+                    String player = playerList.split(";")[i];
+                    User user = userService.find(Integer.parseInt(player));
+                    Organization organization = userOrganizationService.getOrgByUser(user).getOrganization();
+                    int month = fromDate.getMonth();
+                    for (int j = 0; j < monthsBetween + 1; j++) {
+                        int currentMonth = month+j;
+                        fromDate.setMonth(currentMonth);
+                        fromDate.setDate(1);
+                        toDate.setMonth(currentMonth+1);
+                        toDate.setDate(1);
+                        if (option.equals("trainingplans")) {
+                            int count = trainingPlanService.count(user.getUsername(), organization, fromDate, toDate).intValue();
+                            datas.add(count);
+                        }
+                        if (option.equals("attendPercent")) {
+                            int count = attendanceService.count(user.getUsername(), organization, fromDate, toDate).intValue();
+                            int sum = attendanceService.sum(user.getUsername(), organization, fromDate, toDate).intValue();
+                            datas.add((sum > 0 && count > 0) ? count * 100 / sum : 0);
+                        }
+                        if (option.equals("trainerrating")) {
+                            Double avr = trainerRatingResultService.avr(organization, user, fromDate, toDate);
+                            datas.add(Objects.nonNull(avr) ? avr : 0);
+                        }
+                    }
+                    dataSet.setLabel(user.getName());
+                    dataSet.setData(datas.toArray());
+                    data.addDataset(dataSet);
+                    chartBuilder.setData(data);
+                }
+                return chartBuilder.build();
             } catch (Exception e) {
                 e.printStackTrace();
+                return "";
             }
-            long monthsBetween = ChronoUnit.MONTHS.between(
-                    LocalDate.parse(from.replace('/','-')).withDayOfMonth(1),
-                    LocalDate.parse(to.replace('/','-')).withDayOfMonth(1));
-            for (int i = 0; i < monthsBetween + 1; i++) {
-                int num = (fromDate.getMonth()+i)%12;
-                data.addLabel(monthNames[num]);
-            }
-            for (int i = 0; i < playerList.split(";").length; i++) {
-                String player = playerList.split(";")[i];
-                User user = userService.find(Integer.parseInt(player));
-                Organization organization = userOrganizationService.getOrgByUser(user).getOrganization();
-                if(option.equals("trainingplans")){
-                    for (int j = 0; j < monthsBetween + 1; j++) {
-                        int count = trainingPlanService.count(user.getUsername(), organization, fromDate, toDate).intValue();
-                        datas.add(count);
-                    }
-                }
-                if (option.equals("attendPercent")) {
-                    for (int j = 0; j < monthsBetween + 1; j++) {
-                        int count = attendanceService.count(user.getUsername(), organization, fromDate, toDate).intValue();
-                        int sum = attendanceService.sum(user.getUsername(), organization, fromDate, toDate).intValue();
-                        datas.add((sum > 0 && count > 0) ? count * 100 / sum : 0);
-                    }
-                }
-                if (option.equals("trainerrating")) {
-                    for (int j = 0; j < monthsBetween + 1; j++) {
-                        Double avr = trainerRatingResultService.avr(organization, user, fromDate, toDate);
-                        datas.add(Objects.nonNull(avr) ? avr : 0);
-                    }
-                }
-                dataSet.setLabel(user.getName());
-                dataSet.setData(datas.toArray());
-                data.addDataset(dataSet);
-                chartBuilder.setData(data);
-            }
-            return chartBuilder.build();
         }
         return "";
     }

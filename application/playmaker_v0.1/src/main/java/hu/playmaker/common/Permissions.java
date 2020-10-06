@@ -30,6 +30,9 @@ public enum Permissions {
     TEAMS_STAT,
     VIDEO_ANALYTICS,
     EVENT_CREATE,
+    HOME_WEATHER,
+    VIDEO_CLOUD,
+    OWNER,
     //endregion
 
     //region Admin

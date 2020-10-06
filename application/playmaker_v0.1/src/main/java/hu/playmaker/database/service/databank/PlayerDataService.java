@@ -63,7 +63,7 @@ public class PlayerDataService extends BaseService {
         switch (lvl){
             case "GY" : return "primary";
             case "+" : return "primary";
-            case "D" : return "secondary";
+            case "D" : return "warning";
             case "V" : return "danger";
             case "-" : return "danger";
             default: return "info";

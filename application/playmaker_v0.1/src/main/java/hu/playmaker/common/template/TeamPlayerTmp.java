@@ -2,13 +2,14 @@ package hu.playmaker.common.template;
 
 import hu.playmaker.database.model.databank.PlayerData;
 import hu.playmaker.database.model.system.User;
+import hu.playmaker.database.model.system.UserOrganization;
 
 public class TeamPlayerTmp {
 
-    private User player;
+    private UserOrganization player;
     private PlayerData playerData;
 
-    public TeamPlayerTmp setPlayer(User player) {
+    public TeamPlayerTmp setPlayer(UserOrganization player) {
         this.player = player;
         return this;
     }
@@ -18,7 +19,7 @@ public class TeamPlayerTmp {
         return this;
     }
 
-    public User getPlayer() {
+    public UserOrganization getPlayer() {
         return player;
     }
 

@@ -13,6 +13,7 @@ import hu.playmaker.database.model.trainingplan.TrainingPlan;
 import hu.playmaker.database.model.workout.Attendance;
 import hu.playmaker.database.model.workout.Workout;
 import hu.playmaker.database.service.system.LookupCodeService;
+import hu.playmaker.database.service.system.UserNotificationService;
 import hu.playmaker.database.service.system.UserOrganizationService;
 import hu.playmaker.database.service.system.UserService;
 import hu.playmaker.database.service.trainingplan.ExerciseService;
@@ -45,8 +46,9 @@ public class WorkoutController extends BaseController {
     private LookupCodeService lookupCodeService;
     private WorkoutService workoutService;
     private AttendanceService attendanceService;
+    private UserNotificationService userNotificationService;
 
-    public WorkoutController(TrainingPlanService trainingPlanService, UserService userService, UserOrganizationService userOrganizationService, ExerciseService exerciseService, LookupCodeService lookupCodeService, WorkoutService workoutService, AttendanceService attendanceService) {
+    public WorkoutController(TrainingPlanService trainingPlanService, UserService userService, UserOrganizationService userOrganizationService, ExerciseService exerciseService, LookupCodeService lookupCodeService, WorkoutService workoutService, AttendanceService attendanceService, UserNotificationService userNotificationService) {
         this.trainingPlanService = trainingPlanService;
         this.userService = userService;
         this.userOrganizationService = userOrganizationService;
@@ -54,6 +56,7 @@ public class WorkoutController extends BaseController {
         this.lookupCodeService = lookupCodeService;
         this.workoutService = workoutService;
         this.attendanceService = attendanceService;
+        this.userNotificationService = userNotificationService;
     }
 
     @RequestMapping("")
@@ -174,7 +177,7 @@ public class WorkoutController extends BaseController {
             for(String playerResult : data.split(";")){
                 if(!playerResult.equals("")){
                     String[] trainDatas = playerResult.split(",");
-                    if(trainDatas.length > 2 && !trainDatas[0].equals("")){
+                    if(trainDatas.length > 2 && !trainDatas[0].equals("")) {
                         User currentUser = userService.find(Integer.parseInt(trainDatas[0]));
                         Organization organization = userOrganizationService.getOrgByUser(currentUser).getOrganization();
                         Attendance attendance = new Attendance();
@@ -236,6 +239,14 @@ public class WorkoutController extends BaseController {
                             default  : attendance.setJelen("igazolatlan");
                         }
                         attendanceService.mergeFlush(attendance);
+                        pushNotificationToUser(
+                                "training/workout",
+                                "Értékelt edzés",
+                                "Új edzés került értékelésre!",
+                                currentUser,
+                                userNotificationService
+
+                        );
                     } else {
                         return "hiba: rossz data";
                     }

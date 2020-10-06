@@ -58,7 +58,7 @@ function sendRating(id, slider) {
 function getNoti() {
     const notificationList = $('#notiList');
     var body =
-        "<li>" +
+        "<li style='background-color: #f1f1f1'>" +
         "  <h6>Értesítések</h6>" +
         "</li>";
     $.post("/getnoti", {}, function (notifications) {

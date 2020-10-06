@@ -36,6 +36,7 @@ function showTraining(id) {
                 $('#add').click();
             }
         }
+        $('#modifyTraining_id').val(id);
     });
 }
 

@@ -17,7 +17,7 @@ import javax.persistence.*;
 		@NamedQuery(name="Goals.countAll", query="SELECT COUNT(p) FROM Goals p"),
 		@NamedQuery(name="Goals.findByOrg", query="SELECT p FROM Goals p WHERE p.organization = :porg AND p.liga=:pliga"),
 		@NamedQuery(name="Goals.findUni", query="SELECT p FROM Goals p WHERE p.organization = :porg AND p.liga=:pliga AND p.fordulo=:pford AND p.name=:pname"),
-		@NamedQuery(name="Goals.findForStat", query="SELECT p FROM Goals p WHERE p.organization = :porg AND p.liga=:pliga  AND p.name=:pname")
+		@NamedQuery(name="Goals.findForStat", query="SELECT p.name, max(p.goal) FROM Goals p WHERE p.organization = :porg AND p.liga=:pliga GROUP BY p.name")
 })
 @Cacheable(false)
 public class Goals extends BaseModel {

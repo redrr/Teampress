@@ -13,6 +13,7 @@ import hu.playmaker.database.service.gameplan.CustomGameService;
 import hu.playmaker.database.service.gameplan.GamePlanService;
 import hu.playmaker.database.service.index.CalendarService;
 import hu.playmaker.database.service.system.LookupCodeService;
+import hu.playmaker.database.service.system.UserNotificationService;
 import hu.playmaker.database.service.system.UserOrganizationService;
 import hu.playmaker.database.service.system.UserService;
 import hu.playmaker.form.GameForm;
@@ -45,15 +46,16 @@ public class GameCreateController extends BaseController {
     private GamePlanService gamePlanService;
     private CustomGameService customGameService;
     private CalendarService calendarService;
-    private SorsolasService sorsolasService;
+    private UserNotificationService userNotificationService;
 
-    public GameCreateController(UserOrganizationService userOrganizationService, UserService userService, LookupCodeService lookupCodeService, GamePlanService gamePlanService, CustomGameService customGameService, CalendarService calendarService) {
+    public GameCreateController(UserOrganizationService userOrganizationService, UserService userService, LookupCodeService lookupCodeService, GamePlanService gamePlanService, CustomGameService customGameService, CalendarService calendarService, UserNotificationService userNotificationService) {
         this.userOrganizationService = userOrganizationService;
         this.userService = userService;
         this.lookupCodeService = lookupCodeService;
         this.gamePlanService = gamePlanService;
         this.customGameService = customGameService;
         this.calendarService = calendarService;
+        this.userNotificationService = userNotificationService;
     }
 
     @RequestMapping("")
@@ -99,7 +101,8 @@ public class GameCreateController extends BaseController {
                 errorView.getModel().replace("error", team.getCode()+" csapatnak ebben az időpontban már van mérkőzése!");
                 return errorView;
             } else {
-                Organization organization = userOrganizationService.getOrgByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession())).getOrganization();
+                User currentUser = userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession());
+                Organization organization = userOrganizationService.getOrgByUser(currentUser).getOrganization();
                 CustomGame customGame = (isNull(form.getId())) ? new CustomGame() : customGameService.find(form.getId());
                 customGame.setDate(form.getDate());
                 customGame.setOrganization(organization);
@@ -108,7 +111,14 @@ public class GameCreateController extends BaseController {
                 customGame.setDeleted(false);
                 customGame.setTeam(team);
                 customGameService.mergeFlush(customGame);
-
+                pushNotification(
+                        "calendar",
+                        "Új mérkőzés",
+                        "Mérkőzés került felvételre!",
+                        userOrganizationService.getUsersByOrgIfPlayer(organization, team),
+                        userNotificationService,
+                        currentUser
+                );
                 pushEvents(customGame.getDate(), organization.getName()+" - "+customGame.getEnemy(), organization, calendarService);
             }
         }

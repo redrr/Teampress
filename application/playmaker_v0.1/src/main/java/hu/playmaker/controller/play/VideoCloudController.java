@@ -41,7 +41,7 @@ public class VideoCloudController extends BaseController {
 
     @RequestMapping("")
     public ModelAndView show(){
-        if(hasPermission(Permissions.VIDEO_ANALYTICS)) {
+        if(hasPermission(Permissions.VIDEO_CLOUD) || hasPermission(Permissions.VIDEO_ANALYTICS)) {
             ModelAndView view = new ModelAndView("play/VideoCloud");
             User user = userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession());
             Organization organization = userOrganizationService.getOrgByUser(user).getOrganization();
@@ -54,7 +54,7 @@ public class VideoCloudController extends BaseController {
 
     @RequestMapping("/{id}")
     public ModelAndView folder(@PathVariable String id){
-        if(hasPermission(Permissions.VIDEO_ANALYTICS)) {
+        if(hasPermission(Permissions.VIDEO_CLOUD) || hasPermission(Permissions.VIDEO_ANALYTICS)) {
             ModelAndView view = show();
             view.getModel().replace("isFolderPage", false);
             view.addObject("videos", sceneService.find(folderService.find(Integer.parseInt(id))));

@@ -119,7 +119,7 @@
                                                                                                                     <c:set var="css1" value="primary"/>
                                                                                                                 </c:if>
                                                                                                                 <c:if test="${t.forma1.equals('D')}">
-                                                                                                                    <c:set var="css1" value="secondary"/>
+                                                                                                                    <c:set var="css1" value="warning"/>
                                                                                                                 </c:if>
                                                                                                                 <c:if test="${t.forma1.equals('V')}">
                                                                                                                     <c:set var="css1" value="danger"/>
@@ -129,7 +129,7 @@
                                                                                                                     <c:set var="css2" value="primary"/>
                                                                                                                 </c:if>
                                                                                                                 <c:if test="${t.forma2.equals('D')}">
-                                                                                                                    <c:set var="css2" value="secondary"/>
+                                                                                                                    <c:set var="css2" value="warning"/>
                                                                                                                 </c:if>
                                                                                                                 <c:if test="${t.forma2.equals('V')}">
                                                                                                                     <c:set var="css2" value="danger"/>
@@ -139,7 +139,7 @@
                                                                                                                     <c:set var="css3" value="primary"/>
                                                                                                                 </c:if>
                                                                                                                 <c:if test="${t.forma3.equals('D')}">
-                                                                                                                    <c:set var="css3" value="secondary"/>
+                                                                                                                    <c:set var="css3" value="warning"/>
                                                                                                                 </c:if>
                                                                                                                 <c:if test="${t.forma3.equals('V')}">
                                                                                                                     <c:set var="css3" value="danger"/>
@@ -149,7 +149,7 @@
                                                                                                                     <c:set var="css4" value="primary"/>
                                                                                                                 </c:if>
                                                                                                                 <c:if test="${t.forma4.equals('D')}">
-                                                                                                                    <c:set var="css4" value="secondary"/>
+                                                                                                                    <c:set var="css4" value="warning"/>
                                                                                                                 </c:if>
                                                                                                                 <c:if test="${t.forma4.equals('V')}">
                                                                                                                     <c:set var="css4" value="danger"/>
@@ -159,7 +159,7 @@
                                                                                                                     <c:set var="css5" value="primary"/>
                                                                                                                 </c:if>
                                                                                                                 <c:if test="${t.forma5.equals('D')}">
-                                                                                                                    <c:set var="css5" value="secondary"/>
+                                                                                                                    <c:set var="css5" value="warning"/>
                                                                                                                 </c:if>
                                                                                                                 <c:if test="${t.forma5.equals('V')}">
                                                                                                                     <c:set var="css5" value="danger"/>

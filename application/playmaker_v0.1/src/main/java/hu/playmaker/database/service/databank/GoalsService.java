@@ -19,8 +19,8 @@ public class GoalsService extends BaseService {
         return getEntityManager().createNamedQuery("Goals.findUni").setParameter("pliga", liga).setParameter("porg", organization).setParameter("pford", ford).setParameter("pname", name).getResultList();
     }
 
-    public List<Goals> findForStat(Liga liga, Organization organization, String name){
-        return getEntityManager().createNamedQuery("Goals.findForStat").setParameter("pliga", liga).setParameter("porg", organization).setParameter("pname", name).getResultList();
+    public List findLastByleagueAndClub(Liga liga, Organization organization){
+        return getEntityManager().createNamedQuery("Goals.findForStat").setParameter("pliga", liga).setParameter("porg", organization).getResultList();
     }
 
     public Goals findUnique(Liga liga, Organization organization, Integer ford, String name) {

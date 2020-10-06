@@ -81,13 +81,13 @@ public class IndexController extends BaseController {
     public ModelAndView showIndex() {
         if(hasPermission(Permissions.LOGGED_IN)) {
             ModelAndView view;
+            UserOrganization uOrg = userOrganizationService.getOrgByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession()));
             if(hasPermission(Permissions.POST_COMMENT_CREATE)) {
                 view = new ModelAndView("Index", "createPost", new IndexForm());
             } else {
                 view = new ModelAndView("Index");
             }
             if(hasPermission(Permissions.HOME_HEADER_BUTTONS)){
-                UserOrganization uOrg = userOrganizationService.getOrgByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession()));
                 view.addObject("nextTraining", trainingPlanService.findNext(uOrg.getOrganization(), uOrg.getType()));
                 view.addObject("nextTrainingDay", getDay(trainingPlanService.findNext(uOrg.getOrganization(), uOrg.getType())));
                 view.addObject("playerHeader", playerDataService.getPlayerHeader(
@@ -95,6 +95,8 @@ public class IndexController extends BaseController {
                         attendanceService.findLastFiveTrainingJelenByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession()))));
                 view.addObject("teamHeader", playerDataService.getTeamHeader(uOrg.getOrganization(), tabellaService.getTabellaByTeamAndLiga(uOrg.getLiga(), uOrg.getOrganization().getName())));
                 view.addObject("sorsolasHeader", sorsolasService.getSorsolas(uOrg.getLiga(), uOrg.getOrganization().getName()));
+            }
+            if(hasPermission(Permissions.HOME_WEATHER)){
                 view.addObject("temp", weatherController(uOrg.getOrganization()));
                 view.addObject("city", orgCountryService.find(uOrg.getOrganization()).get(0).getCity());
             }

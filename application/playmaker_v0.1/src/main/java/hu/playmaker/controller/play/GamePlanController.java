@@ -15,6 +15,7 @@ import hu.playmaker.database.service.databank.LigaService;
 import hu.playmaker.database.service.gameplan.CustomGameService;
 import hu.playmaker.database.service.gameplan.GamePlanService;
 import hu.playmaker.database.service.system.LookupCodeService;
+import hu.playmaker.database.service.system.UserNotificationService;
 import hu.playmaker.database.service.system.UserOrganizationService;
 import hu.playmaker.database.service.system.UserService;
 import hu.playmaker.database.service.databank.PlayerDataService;
@@ -46,8 +47,9 @@ public class GamePlanController extends BaseController {
     private GamePlanService gamePlanService;
     private WorkoutService workoutService;
     private CustomGameService customGameService;
+    private UserNotificationService userNotificationService;
 
-    public GamePlanController(UserOrganizationService userOrganizationService, UserService userService, LookupCodeService lookupCodeService, SorsolasService sorsolasService, LigaService ligaService, PlayerDataService playerDataService, GamePlanService gamePlanService, WorkoutService workoutService, CustomGameService customGameService) {
+    public GamePlanController(UserOrganizationService userOrganizationService, UserService userService, LookupCodeService lookupCodeService, SorsolasService sorsolasService, LigaService ligaService, PlayerDataService playerDataService, GamePlanService gamePlanService, WorkoutService workoutService, CustomGameService customGameService, UserNotificationService userNotificationService) {
         this.userOrganizationService = userOrganizationService;
         this.userService = userService;
         this.lookupCodeService = lookupCodeService;
@@ -57,6 +59,7 @@ public class GamePlanController extends BaseController {
         this.gamePlanService = gamePlanService;
         this.workoutService = workoutService;
         this.customGameService = customGameService;
+        this.userNotificationService = userNotificationService;
     }
 
     @RequestMapping("")
@@ -237,6 +240,13 @@ public class GamePlanController extends BaseController {
                 gamePlan.setUser(user);
                 gamePlan.setOrganization(organization);
                 gamePlanService.mergeFlush(gamePlan);
+                pushNotificationToUser(
+                        "training/workout",
+                        "Új felállás",
+                        "Új felállás került létrehozásra!",
+                        user,
+                        userNotificationService
+                );
             }
             return "success";
         }

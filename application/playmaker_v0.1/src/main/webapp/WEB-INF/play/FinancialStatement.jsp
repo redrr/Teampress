@@ -50,28 +50,11 @@
                                                     <div class="row">
                                                         <div class="col-6">
                                                             <div class="row">
-                                                                <div class="col-4">
-                                                                    <b>Megnevezés</b>
-                                                                </div>
-                                                                <div class="col-4">
-                                                                    <b>Csoport</b>
-                                                                </div>
-                                                                <div class="col-4">
-                                                                    <b>Érték</b>
+                                                                <div class="col-12 text-center">
+                                                                    <b style="font-size: 20px">Bevétel</b>
                                                                 </div>
                                                             </div>
-                                                            <hr>
-                                                            <c:forEach var="data" items="${monthIncome}">
-                                                                <c:if test="${data.income.income}">
-                                                                    <div class="row" style="margin-bottom: 16px;padding: 0 16px;">
-                                                                        <div class="col-4">${data.income.name}</div>
-                                                                        <div class="col-4">${data.group.name}</div>
-                                                                        <div class="col-4">${data.income.prize}</div>
-                                                                    </div>
-                                                                </c:if>
-                                                            </c:forEach>
-                                                        </div>
-                                                        <div class="col-6">
+                                                            <hr style="margin-top: 8px; margin-bottom: 8px">
                                                             <div class="row">
                                                                 <div class="col-4">
                                                                     <b>Megnevezés</b>
@@ -83,16 +66,69 @@
                                                                     <b>Érték</b>
                                                                 </div>
                                                             </div>
-                                                            <hr>
+                                                            <hr style="margin-top: 8px">
+                                                            <c:forEach var="data" items="${monthIncome}">
+                                                                <c:if test="${data.income.income}">
+                                                                    <div class="row" style="margin-bottom: 16px;padding: 0 16px;">
+                                                                        <div class="col-4">${data.income.name}</div>
+                                                                        <div class="col-4">${data.group.name}</div>
+                                                                        <div class="col-4 in-amount">${data.income.prize}</div>
+                                                                    </div>
+                                                                </c:if>
+                                                            </c:forEach>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="row">
+                                                                <div class="col-12 text-center">
+                                                                    <b style="font-size: 20px">Kiadás</b>
+                                                                </div>
+                                                            </div>
+                                                            <hr style="margin-top: 8px; margin-bottom: 8px">
+                                                            <div class="row">
+                                                                <div class="col-4">
+                                                                    <b>Megnevezés</b>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <b>Csoport</b>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <b>Érték</b>
+                                                                </div>
+                                                            </div>
+                                                            <hr style="margin-top: 8px">
                                                             <c:forEach var="data" items="${monthIncome}">
                                                                 <c:if test="${!data.income.income}">
                                                                     <div class="row" style="margin-bottom: 16px;padding: 0 16px;">
                                                                         <div class="col-4">${data.income.name}</div>
                                                                         <div class="col-4">${data.group.name}</div>
-                                                                        <div class="col-4">${data.income.prize}</div>
+                                                                        <div class="col-4 ex-amount">${data.income.prize}</div>
                                                                     </div>
                                                                 </c:if>
                                                             </c:forEach>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <hr>
+                                                            <div class="row">
+                                                                <div class="col-4">
+                                                                    <b>Összesen:</b>
+                                                                </div>
+                                                                <div class="col-4"></div>
+                                                                <div class="col-4">
+                                                                    <b id="sum-in-amount"></b>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <hr>
+                                                            <div class="row">
+                                                                <div class="col-4">
+                                                                    <b>Összesen:</b>
+                                                                </div>
+                                                                <div class="col-4"></div>
+                                                                <div class="col-4">
+                                                                    <b id="sum-ex-amount"></b>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -118,7 +154,7 @@
                                         <div class="modal-dialog modal-success modal-lg" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title">Játékos statisztika lekérdezés</h4>
+                                                    <h4 class="modal-title">Bevétel-kiadás excel export</h4>
                                                     <button id="close" class="btn btn-icon" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i style="margin: 0" class="ti-close"></i></span></button>
                                                 </div>
                                                 <div class="modal-body">

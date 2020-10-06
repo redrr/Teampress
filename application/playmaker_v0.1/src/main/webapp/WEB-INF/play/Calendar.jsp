@@ -70,7 +70,9 @@
                                                                 </div>
                                                                 <div class="col-4">
                                                                     <select id="type">
-                                                                        <option value="0">Teljes egyesület</option>
+                                                                        <c:if test="${sessionHandler.userHasPermission('OWNER')}">
+                                                                            <option value="0">Teljes egyesület</option>
+                                                                        </c:if>
                                                                         <c:forEach var="team" items="${teams}">
                                                                             <option value="${team.type.id}">${team.type.code}</option>
                                                                         </c:forEach>

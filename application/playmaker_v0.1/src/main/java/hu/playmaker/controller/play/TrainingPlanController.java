@@ -126,11 +126,11 @@ public class TrainingPlanController extends BaseController {
             trainingPlan.setExercise18Time(form.getExercise18Time());
             trainingPlan.setExercise19Time(form.getExercise19Time());
             trainingPlan.setExercise20Time(form.getExercise20Time());
-            trainingPlan.setTrainingDate(form.getDate());
+            trainingPlan.setTrainingDate(form.getDate().replaceAll("\\s", "").replaceAll("-", "").replace('.', '/'));
             trainingPlanService.mergeFlush(trainingPlan);
             User currentUser = userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession());
             pushNotification(
-                    "workout",
+                    "training/workout",
                     "Új edzés",
                     currentUser.getName()+" edzést vett fel!",
                     userOrganizationService.getUsersByOrgIfPlayer(organization, lookupCodeService.find(form.getTeam())),
@@ -140,11 +140,11 @@ public class TrainingPlanController extends BaseController {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd/HH:mm");
             Date parsedDate = null;
             try {
-                parsedDate = dateFormat.parse(form.getDate());
+                parsedDate = dateFormat.parse(form.getDate().replaceAll("\\s", "").replaceAll("-", "").replace('.', '/'));
+                pushEvents(parsedDate, lookupCodeService.find(form.getTeam()).getCode()+" edzése", organization, calendarService);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            pushEvents(parsedDate, lookupCodeService.find(form.getTeam()).getCode()+" edzése", organization, calendarService);
         }
         return show();
     }

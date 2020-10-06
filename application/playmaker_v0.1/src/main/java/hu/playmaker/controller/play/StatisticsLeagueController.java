@@ -22,10 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Controller
 @RequestMapping("/statistics/league")
@@ -163,8 +160,22 @@ public class StatisticsLeagueController extends BaseController {
     private HashMap<Integer, List<Goals>> getGoalsByLiga(ArrayList<Liga> playerLigas, Organization organization) {
         HashMap<Integer, List<Goals>> result = new HashMap<>();
         for(Liga liga : playerLigas) {
-            List<Goals> data = goalsService.findByOrg(liga, organization);
-            result.put(liga.getId(), data);
+            List<Goals> goals = new ArrayList<>();
+            List<Object[]> objects = goalsService.findLastByleagueAndClub(liga, organization);
+            if(objects.size() > 0){
+                objects.forEach(o -> {
+                    Goals data = new Goals();
+                    data.setName((String) o[0]);
+                    data.setGoal((Integer) o[1]);
+                    goals.add(data);
+                });
+            }
+            goals.sort(Comparator.comparing(Goals::getGoal));
+            Collections.reverse(goals);
+            for (int i = 0; i < goals.size(); i++) {
+                goals.get(i).setHely(i+1);
+            }
+            result.put(liga.getId(), goals);
         }
         return result;
     }

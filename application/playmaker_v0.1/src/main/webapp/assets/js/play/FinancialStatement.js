@@ -29,13 +29,22 @@ $(document).ready(function () {
             }
         });
     });
+    $('#sum-in-amount')[0].innerText = calcSum($('.in-amount'));
+    $('#sum-ex-amount')[0].innerText = calcSum($('.ex-amount'));
     statchart();
 });
+
+function calcSum(datas) {
+    var sum = 0;
+    for(var i = 0; i < datas.length; i++) {
+        sum += parseFloat(datas[i].innerText);
+    }
+    return sum;
+}
 
 function statchart() {
     var ctx = document.getElementById('plus').getContext('2d');
     $.post("/financial/statement/yeardata", {}, function (data) {
-        console.log(data);
         var myChart = new Chart(ctx, JSON.parse(data));
     });
 }

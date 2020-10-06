@@ -167,6 +167,15 @@ public class BaseController {
         service.flush();
     }
 
+    public void pushNotificationToUser(String location, String title, String description, User user, UserNotificationService service){
+        UserNotification notification = new UserNotification();
+        notification.setTitle(title);
+        notification.setDescription(description);
+        notification.setUser(user);
+        notification.setLocation(location);
+       service.mergeFlush(notification);
+    }
+
     //endregion
 
     //region [Region] Events

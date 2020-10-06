@@ -57,50 +57,184 @@
                                                 <div class="col-12">
                                                     <c:forEach var="team" items="${teams}">
                                                         <div id="team_${team.key.id}" class="row">
-                                                            <c:forEach var="player" items="${team.value}">
-                                                                <div class="col-12 col-xl-3">
-                                                                    <div class="card overflow-hidden">
-                                                                        <div class="card-body p-0 d-flex align-items-center" style="height: 100px">
-                                                                            <div class="row p-0 d-flex align-items-center" style="width: 100%">
-                                                                                <div class="col-6" style="padding-right: 0">
-                                                                                    <img class="img-circle" style="width: 100%;max-width: 100px;max-height: 80px;margin-left: 10px;width: 80px;height: 80px;" src="/content/profileImages/${player.player.profilImg}">
-                                                                                </div>
-                                                                                <div class="col-6" style="padding-left: 0">
-                                                                                    <div class="text-center" style="font-size: 16px;font-weight: 600;margin-bottom: 8px;">${player.player.name}</div>
-                                                                                    <div class="text-center">
-                                                                                        <button class="btn btn-primary btn-soft" data-toggle="modal" data-target="#playerModal">Részletek</button>
+                                                            <c:forEach var="teamData" items="${team.value}">
+                                                                <c:forEach var="player" items="${teamData.value}">
+                                                                    <div class="col-12 col-xl-3">
+                                                                        <div class="card overflow-hidden">
+                                                                            <div class="card-body p-0 d-flex align-items-center" style="height: 100px">
+                                                                                <div class="row p-0 d-flex align-items-center" style="width: 100%">
+                                                                                    <div class="col-6" style="padding-right: 0">
+                                                                                        <img class="img-circle" style="max-width: 100px;max-height: 80px;margin-left: 10px;width: 80px;height: 80px;" src="/content/profileImages/${player.player.user.profilImg}">
+                                                                                    </div>
+                                                                                    <div class="col-6" style="padding-left: 0">
+                                                                                        <div class="text-center" style="font-size: 16px;font-weight: 600;margin-bottom: 8px;">${player.player.user.name}</div>
+                                                                                        <div class="text-center">
+                                                                                            <button class="btn btn-primary btn-soft" data-toggle="modal" data-target="#playerModal-${player.player.id}">Részletek</button>
+                                                                                        </div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
+                                                                </c:forEach>
                                                             </c:forEach>
                                                         </div>
                                                     </c:forEach>
                                                 </div>
                                             </div>
                                             <!-- Stat modal -->
-                                            <div class="modal fade" id="playerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog modal-success modal-lg" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title">Játékos adatok</h4>
-                                                            <button class="btn btn-icon" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i style="margin: 0" class="ti-close"></i></span></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="row">
-                                                                <div class="col-6">
+                                            <c:forEach var="team" items="${teams}">
+                                                <c:forEach var="teamData" items="${team.value}">
+                                                    <c:forEach var="player" items="${teamData.value}">
 
-                                                                </div>
-                                                                <div class="col-6">
+                                                        <div class="modal fade" id="playerModal-${player.player.id}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered modal-success modal-lg" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header" style="padding-top: 8px; padding-bottom: 8px">
+                                                                        <!--<img class="img-circle" style="max-width: 120px;max-height: 120px;margin-left: 10px;width: 100px;height: 100px;margin-top: -50px; border: 4px solid #fff;background-color: #fff;" src="${player.player.organization.url}">-->
+                                                                        <h4 class="modal-title">${player.player.user.name}</h4>
+                                                                        <button class="btn btn-icon" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i style="margin: 0" class="ti-close"></i></span></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <div class="row">
+                                                                            <div class="col-6">
+                                                                                <div class="row" style="margin-bottom: 4px">
+                                                                                    <div class="col-5">
+                                                                                        <b>Meccsek</b>
+                                                                                    </div>
+                                                                                    <div class="col-7">
+                                                                                        <b style="float: right">${player.playerData.meccsek}</b>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row" style="margin-bottom: 16px">
+                                                                                    <div class="col-12">
+                                                                                        <div style="background-color: #e9ecef; border-radius: 8px; width: 100%">
+                                                                                            <div style="background-color: #28e1bd;width: ${player.playerData.meccsek / teamData.key.meccsek * 100}%;border-radius: 8px; height: 8px"></div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
 
+                                                                                <div class="row" style="margin-bottom: 4px">
+                                                                                    <div class="col-5">
+                                                                                        <b>Gólok</b>
+                                                                                    </div>
+                                                                                    <div class="col-7">
+                                                                                        <b style="float: right">${player.playerData.golok}</b>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row" style="margin-bottom: 16px">
+                                                                                    <div class="col-12">
+                                                                                        <div style="background-color: #e9ecef; border-radius: 8px; width: 100%">
+                                                                                            <div style="background-color: #28e1bd;width: ${player.playerData.golok / teamData.key.golok * 100}%;border-radius: 8px; height: 8px"></div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="row" style="margin-bottom: 4px">
+                                                                                    <div class="col-5">
+                                                                                        <b>Kezdő</b>
+                                                                                    </div>
+                                                                                    <div class="col-7">
+                                                                                        <b style="float: right">${player.playerData.kezdo}</b>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row" style="margin-bottom: 16px">
+                                                                                    <div class="col-12">
+                                                                                        <div style="background-color: #e9ecef; border-radius: 8px; width: 100%">
+                                                                                            <div style="background-color: #28e1bd;width: ${player.playerData.kezdo / teamData.key.kezdo * 100}%;border-radius: 8px; height: 8px"></div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="row" style="margin-bottom: 4px">
+                                                                                    <div class="col-5">
+                                                                                        <b>Csere</b>
+                                                                                    </div>
+                                                                                    <div class="col-7">
+                                                                                        <b style="float: right">${player.playerData.csere}</b>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row" style="margin-bottom: 16px">
+                                                                                    <div class="col-12">
+                                                                                        <div style="background-color: #e9ecef; border-radius: 8px; width: 100%">
+                                                                                            <div style="background-color: #28e1bd;width: ${player.playerData.csere / teamData.key.csere * 100}%;border-radius: 8px; height: 8px"></div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-6">
+                                                                                <div class="row" style="margin-bottom: 4px">
+                                                                                    <div class="col-5">
+                                                                                        <b>Kispad</b>
+                                                                                    </div>
+                                                                                    <div class="col-7">
+                                                                                        <b style="float: right">${player.playerData.kispad}</b>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row" style="margin-bottom: 16px">
+                                                                                    <div class="col-12">
+                                                                                        <div style="background-color: #e9ecef; border-radius: 8px; width: 100%">
+                                                                                            <div style="background-color: #28e1bd;width: ${player.playerData.kispad / teamData.key.kispad* 100}%;border-radius: 8px; height: 8px"></div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="row" style="margin-bottom: 4px">
+                                                                                    <div class="col-5">
+                                                                                        <b>Öngólok</b>
+                                                                                    </div>
+                                                                                    <div class="col-7">
+                                                                                        <b style="float: right">${player.playerData.onGolok}</b>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row" style="margin-bottom: 16px">
+                                                                                    <div class="col-12">
+                                                                                        <div style="background-color: #e9ecef; border-radius: 8px; width: 100%">
+                                                                                            <div style="background-color: #28e1bd;width: ${player.playerData.onGolok / teamData.key.onGolok * 100}%;border-radius: 8px; height: 8px"></div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="row" style="margin-bottom: 4px">
+                                                                                    <div class="col-5">
+                                                                                        <b>Sárgalapok</b>
+                                                                                    </div>
+                                                                                    <div class="col-7">
+                                                                                        <b style="float: right">${player.playerData.sargaLap}</b>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row" style="margin-bottom: 16px">
+                                                                                    <div class="col-12">
+                                                                                        <div style="background-color: #e9ecef; border-radius: 8px; width: 100%">
+                                                                                            <div style="background-color: #28e1bd;width: ${player.playerData.sargaLap / teamData.key.sargaLap * 100}%;border-radius: 8px; height: 8px"></div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="row" style="margin-bottom: 4px">
+                                                                                    <div class="col-5">
+                                                                                        <b>Piroslapok</b>
+                                                                                    </div>
+                                                                                    <div class="col-7">
+                                                                                        <b style="float: right">${player.playerData.pirosLap}</b>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row" style="margin-bottom: 16px">
+                                                                                    <div class="col-12">
+                                                                                        <div style="background-color: #e9ecef; border-radius: 8px; width: 100%">
+                                                                                            <div style="background-color: #28e1bd;width: ${player.playerData.pirosLap / teamData.key.pirosLap * 100}%;border-radius: 8px; height: 8px"></div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                    </c:forEach>
+                                                </c:forEach>
+                                            </c:forEach>
                                         </c:if>
                                     </div>
                                 </div>
@@ -114,7 +248,7 @@
     <%@include file="../include/IE.jsp" %>
     <%@include file="../include/JavaScript.jsp" %>
     <script>
-        <%@include file="../../assets/js/play/Exercise.js" %>
+        <%@include file="../../assets/js/play/Team.js" %>
     </script>
 </body>
 </html>

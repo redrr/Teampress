@@ -79,7 +79,6 @@
                                                     <table id="table" class="table table-striped table-bordered" style="width:100%">
                                                         <thead>
                                                         <tr>
-                                                            <th>#</th>
                                                             <th>Név</th>
                                                             <th>Leírás</th>
                                                             <th>Műveletek</th>
@@ -88,11 +87,10 @@
                                                         <tbody>
                                                         <c:forEach var="data" items="${table}">
                                                             <tr>
-                                                                <td>${data.id}</td>
                                                                 <td>${data.name}</td>
                                                                 <td>${data.description}</td>
                                                                 <td>
-                                                                    <button type="button" class="btn btn-info btn-soft" onclick="modifyGroup(${data.id}, '${data.name}', '${data.description}')"><i class="ti-pencil-alt"></i> Módosítás</button>
+                                                                    <button type="button" class="btn btn-primary btn-soft" onclick="modifyGroup(${data.id}, '${data.name}', '${data.description}')"><i class="ti-pencil-alt"></i> Módosítás</button>
                                                                     <button type="button" class="btn btn-danger btn-soft" onclick="deleteGroup(${data.id})"><i class="ti-trash"></i> Törlés</button>
                                                                 </td>
                                                             </tr>

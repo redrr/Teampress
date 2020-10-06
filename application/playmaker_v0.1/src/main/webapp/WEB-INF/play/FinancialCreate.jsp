@@ -88,7 +88,6 @@
                                                     <table id="table" class="table table-striped table-bordered" style="width:100%">
                                                         <thead>
                                                         <tr>
-                                                            <th>#</th>
                                                             <th>Megnevezés</th>
                                                             <th>Típus</th>
                                                             <th>Összeg</th>
@@ -98,7 +97,6 @@
                                                         <tbody>
                                                         <c:forEach var="data" items="${table}">
                                                             <tr>
-                                                                <td>${data.id}</td>
                                                                 <td>${data.name}</td>
                                                                 <td>
                                                                     <c:if test="${data.income}">Bevétel</c:if>
@@ -106,7 +104,7 @@
                                                                 </td>
                                                                 <td>${data.prize} Ft</td>
                                                                 <td>
-                                                                    <button type="button" class="btn btn-info btn-soft" onclick="modifyIncome(${data.id}, '${data.name}', '${data.income}', ${data.prize})"><i class="ti-pencil-alt"></i> Módosítás</button>
+                                                                    <button type="button" class="btn btn-primary btn-soft" onclick="modifyIncome(${data.id}, '${data.name}', '${data.income}', ${data.prize})"><i class="ti-pencil-alt"></i> Módosítás</button>
                                                                     <button type="button" class="btn btn-danger btn-soft" onclick="deleteIncome(${data.id})"><i class="ti-trash"></i> Törlés</button>
                                                                 </td>
                                                             </tr>

@@ -3,6 +3,7 @@ package hu.playmaker.controller.play;
 import hu.playmaker.common.Permissions;
 import hu.playmaker.common.template.TeamPlayerTmp;
 import hu.playmaker.controller.BaseController;
+import hu.playmaker.database.model.databank.PlayerData;
 import hu.playmaker.database.model.system.LookupCode;
 import hu.playmaker.database.model.system.User;
 import hu.playmaker.database.model.system.UserOrganization;
@@ -43,20 +44,31 @@ public class TeamController extends BaseController {
         return new ModelAndView("403");
     }
 
-    private LinkedMap<LookupCode, List<TeamPlayerTmp>> getTeams() {
-        LinkedMap<LookupCode, List<TeamPlayerTmp>> result = new LinkedMap<>();
+    private LinkedMap<LookupCode, LinkedMap<PlayerData, List<TeamPlayerTmp>>> getTeams() {
+        LinkedMap<LookupCode, LinkedMap<PlayerData, List<TeamPlayerTmp>>> result = new LinkedMap<>();
         User currentUser = userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession());
         List<UserOrganization> userOrganizations = userOrganizationService.getOrgListByUser(currentUser);
         for(UserOrganization userOrganization : userOrganizations) {
             LookupCode team = userOrganization.getType();
-            List<TeamPlayerTmp> players = new ArrayList<>();
+            LinkedMap<PlayerData, List<TeamPlayerTmp>> teamDatas = new LinkedMap<>();
+            List<TeamPlayerTmp> playersData = new ArrayList<>();
             userOrganizationService.getUsersByOrgIfPlayer(userOrganization.getOrganization(), team).forEach(userOrg -> {
                 if(playerDataService.existsByCodeAndUser(userOrg.getUser()))
-                    players.add(new TeamPlayerTmp()
-                        .setPlayer(userOrg.getUser())
+                    playersData.add(new TeamPlayerTmp()
+                        .setPlayer(userOrg)
                         .setData(playerDataService.getPlayerDataByCode(userOrg.getUser())));
             });
-            result.put(team, players);
+            PlayerData teamMaxData = new PlayerData();
+            teamMaxData.setGolok(playerDataService.maxgolok());
+            teamMaxData.setCsere(playerDataService.maxcsere());
+            teamMaxData.setKezdo(playerDataService.maxkezdo());
+            teamMaxData.setKispad(playerDataService.maxkispad());
+            teamMaxData.setMeccsek(playerDataService.maxmeccsek());
+            teamMaxData.setOnGolok(playerDataService.maxonGolok());
+            teamMaxData.setPirosLap(playerDataService.maxpirosLap());
+            teamMaxData.setSargaLap(playerDataService.maxsargaLap());
+            teamDatas.put(teamMaxData, playersData);
+            result.put(team, teamDatas);
         }
         return result;
     }

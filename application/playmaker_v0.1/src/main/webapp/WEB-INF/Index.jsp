@@ -132,15 +132,15 @@
                                                         <div class="col-12">
                                                             <div>
                                                                 <c:forEach var="post" items="${posts}">
-                                                                    <div class="card bg-white p-relative">
-                                                                        <div class="card-block">
-                                                                            <div class="media">
-                                                                                <div class="media-left media-middle friend-box">
+                                                                    <div class="card">
+                                                                        <div class="card-header">
+                                                                            <div class="row">
+                                                                                <div class="col-1 media-left media-middle friend-box">
                                                                                     <a>
                                                                                         <img class="media-object img-circle m-r-20" src="/content/profileImages/${post.key.user.profilImg}" alt="">
                                                                                     </a>
                                                                                 </div>
-                                                                                <div class="media-body">
+                                                                                <div class="col-11 media-body">
                                                                                     <div class="chat-header">${post.key.user.name}</div>
                                                                                     <div class="f-13 text-muted">${post.key.getRealDate()}</div>
                                                                                 </div>
@@ -165,33 +165,32 @@
                                                                             </a>
                                                                         </div>-->
                                                                         <div class="card-block user-box" style="padding-top: 0">
+                                                                            <c:if test="${post.value.size() > 0}">
+                                                                                <hr>
+                                                                            </c:if>
                                                                             <c:forEach var="comment" items="${post.value}">
-                                                                                <div class="media" style="padding-top: 1.25rem">
-                                                                                    <a class="media-left" style="padding-right: 0">
+                                                                                <div class="row" style="padding-top: 1.25rem; padding-right: 1rem">
+                                                                                    <div class="col-1" style="padding-right: 0">
                                                                                         <img class="media-object img-circle m-r-20" src="/content/profileImages/${comment.value.user.profilImg}" alt="Generic placeholder image">
-                                                                                    </a>
-                                                                                    <div class="media-body" style="border-radius: 8px;background-color: #4b556614;padding: 16px;">
+                                                                                    </div>
+                                                                                    <div class="col-11" style="border-radius: 8px;background-color: #4b556614;padding: 16px;">
                                                                                         <div class="chat-header">${comment.value.user.name}</div>
                                                                                         <p class="text-muted" style="margin: 0">${comment.value.comment}</p>
                                                                                     </div>
                                                                                 </div>
                                                                             </c:forEach>
                                                                             <hr>
-                                                                            <div class="media">
-                                                                                <a class="media-left">
+                                                                            <div class="row">
+                                                                                <div class="col-1 m-auto">
                                                                                     <img class="media-object img-circle m-r-20 comment-avatar" src="/content/profileImages/${post.key.user.profilImg}" alt="Generic placeholder image">
-                                                                                </a>
-                                                                                <div class="media-body">
-                                                                                    <form class="">
-                                                                                        <div class="row">
-                                                                                            <input id="text${post.key.id}" class="col-11 f-13 form-control msg-send"/>
-                                                                                            <div class="col-1 text-right">
-                                                                                                <button style="padding: 0;padding-top: 4px" class="btn btn-primary waves-effect waves-light btn-icon" onclick="$.post('/docomment', {userPostId: ${post.key.id}, comment: document.getElementById('text${post.key.id}').value }, function () { window.location='/home'; });">
-                                                                                                    <i style="font-size: 25px;margin: 0" class="icofont icofont-paper-plane"></i>
-                                                                                                </button>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </form>
+                                                                                </div>
+                                                                                <div class="col-10 m-auto">
+                                                                                    <input id="text${post.key.id}" class="form-control msg-send"/>
+                                                                                </div>
+                                                                                <div class="col-1 m-auto">
+                                                                                    <button style="padding: 0;padding-top: 4px" class="btn btn-primary waves-effect waves-light btn-icon" onclick="$.post('/docomment', {userPostId: ${post.key.id}, comment: document.getElementById('text${post.key.id}').value }, function () { window.location='/home'; });">
+                                                                                        <i style="font-size: 25px;margin: 0" class="icofont icofont-paper-plane"></i>
+                                                                                    </button>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -203,31 +202,35 @@
                                                 </c:if>
                                             </div>
                                             <div class="col-3">
-                                                <c:if test="${sessionHandler.userHasPermission('HOME_HEADER_BUTTONS')}">
+                                                <c:if test="${sessionHandler.userHasPermission('HOME_HEADER_BUTTONS') || sessionHandler.userHasPermission('HOME_WEATHER')}">
                                                     <div class="row" style="position: fixed;width: auto;">
-                                                        <div class="col-12">
-                                                            <a href="/calendar" class="card overflow-hidden" style="max-width: 90%;border:none;background-color: #3B5998">
-                                                                <div class="card-body">
-                                                                    <h1 style="color: #fff;font-size: 65px;font-weight: 600;margin-left: 16px;margin-top: 0;margin-bottom: 16px">${nextTraining.trainingDate.split("-")[1].trim()}</h1>
-                                                                    <img style="width: 100%" src="/content/baseImages/119097464_3315359685224384_3814610594506716376_n.png">
-                                                                    <c:if test="${nextTraining != null}">
-                                                                        <h3 style="color: #fff;margin-top: -130px;margin-bottom: 100px;margin-left: 16px">${nextTrainingDay}</h3>
-                                                                        <h3 style="color: #fff;margin-top: -100px;margin-bottom: 100px;margin-left: 16px">${nextTraining.trainingDate.split("-")[0].trim()}</h3>
-                                                                    </c:if>
-                                                                    <c:if test="${nextTraining == null}">
-                                                                        <h4 style="color: #fff;margin-left: 16px">Nincs edzés a közeljövőben.</h4>
-                                                                    </c:if>
-                                                                </div>
-                                                            </a>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <div class="card overflow-hidden" style="max-width: 90%;border:none;background-color: #3B5998">
-                                                                <div class="card-body text-center">
-                                                                    <h1 style="color: #fff">${city}</h1>
-                                                                    <h1 style="color: #fff;font-size: 50px;font-weight: 600;">${temp}°</h1>
+                                                        <c:if test="${sessionHandler.userHasPermission('HOME_HEADER_BUTTONS')}">
+                                                            <div class="col-12">
+                                                                <a href="/calendar" class="card overflow-hidden" style="max-width: 90%;border:none;background-color: #3B5998">
+                                                                    <div class="card-body">
+                                                                        <h1 style="color: #fff;font-size: 65px;font-weight: 600;margin-left: 16px;margin-top: 0;margin-bottom: 16px">${nextTraining.trainingDate.split("-")[1].trim()}</h1>
+                                                                        <img style="width: 100%" src="/content/baseImages/119097464_3315359685224384_3814610594506716376_n.png">
+                                                                        <c:if test="${nextTraining != null}">
+                                                                            <h3 style="color: #fff;margin-top: -130px;margin-bottom: 100px;margin-left: 16px">${nextTrainingDay}</h3>
+                                                                            <h3 style="color: #fff;margin-top: -100px;margin-bottom: 100px;margin-left: 16px">${nextTraining.trainingDate.split("-")[0].trim()}</h3>
+                                                                        </c:if>
+                                                                        <c:if test="${nextTraining == null}">
+                                                                            <h4 style="color: #fff;margin-left: 16px">Nincs edzés a közeljövőben.</h4>
+                                                                        </c:if>
+                                                                    </div>
+                                                                </a>
+                                                            </div>
+                                                        </c:if>
+                                                        <c:if test="${sessionHandler.userHasPermission('HOME_WEATHER')}">
+                                                            <div class="col-12">
+                                                                <div class="card overflow-hidden" style="max-width: 90%;min-width: 300px;border:none;background-color: #3B5998">
+                                                                    <div class="card-body text-center">
+                                                                        <h1 style="color: #fff">${city}</h1>
+                                                                        <h1 style="color: #fff;font-size: 50px;font-weight: 600;">${temp}°</h1>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
+                                                        </c:if>
                                                     </div>
                                                 </c:if>
                                             </div>

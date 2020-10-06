@@ -26,7 +26,7 @@ import static java.util.Objects.isNull;
 		@NamedQuery(name="TrainingPlan.findByTeam", query="SELECT exc FROM TrainingPlan exc WHERE exc.team = :pteam AND exc.organization = :porg"),
 		@NamedQuery(name="TrainingPlan.findNextTraining", query="SELECT t FROM TrainingPlan t WHERE t.team = :pteam AND t.organization = :porg AND t.trainingDate > :pdate ORDER BY t.trainingDate DESC "),
 		@NamedQuery(name="TrainingPlan.findByOrg", query="SELECT exc FROM TrainingPlan exc WHERE exc.organization = :porg"),
-		@NamedQuery(name="TrainingPlan.findCount", query="SELECT count(u) FROM TrainingPlan u WHERE u.createdBy = :pu AND u.organization = :porg AND u.creationDate BETWEEN :pd1 AND :pd2"),
+		@NamedQuery(name="TrainingPlan.findCount", query="SELECT count(u) FROM TrainingPlan u WHERE u.createdBy = :pu AND u.organization = :porg AND u.trainingDate BETWEEN :pd1 AND :pd2"),
 		@NamedQuery(name="TrainingPlan.findMaxByOrg", query="SELECT u FROM TrainingPlan u WHERE u.organization = :porg ORDER BY u.creationDate ASC"),
 		@NamedQuery(name="TrainingPlan.findMinByOrg", query="SELECT u FROM TrainingPlan u WHERE u.organization = :porg ORDER BY u.creationDate DESC"),
 		@NamedQuery(name="TrainingPlan.findAllCreatedBy", query="SELECT exc FROM TrainingPlan exc WHERE exc.createdBy = :pusername")
