@@ -34,7 +34,7 @@ public class TrainerRatingController {
         this.trainerRatingService = trainerRatingService;
     }
 
-    //@Scheduled(fixedDelay = 1000000)
+    @Scheduled(cron = "0 0 4 * * MON")
     public void create(){
         List<Parameter> parameters = parameterService.findParameterByGroup(GROUP);
         Calendar calendar = Calendar.getInstance();

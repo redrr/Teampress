@@ -112,7 +112,57 @@ public class MLSZDataHandler {
     public ArrayList<Tabella> processTabella(List<Liga> ligas) throws InterruptedException {
         ArrayList<Tabella> arrayList = new ArrayList<>();
         for (Liga liga : ligas){
-            for(int i = 1; i < 19; i++){
+            int ford = selectFederationAndLeague(liga.getSzervezo(), liga.getLiga());
+            List<WebElement> sorok = driver.findElement(By.id("tableContent")).findElements(By.tagName("tr"));
+            for (int f = 0; sorok.size() > f; f++) {
+                List<WebElement> adatok = sorok.get(f).findElements(By.tagName("td"));
+                ArrayList<String> rowData = new ArrayList<>();
+                for (int g = 0; adatok.size() > g; g++) {
+                    String s = adatok.get(g).getText();
+                    if (!s.equals("")) {
+                        rowData.add(s);
+                    }
+                }
+                Tabella tabella = new Tabella();
+                tabella.setLiga(liga);
+                tabella.setFordulo(ford);
+                tabella.setHelyezes(Integer.parseInt(rowData.get(0)));
+                tabella.setCsapat(rowData.get(1));
+                tabella.setMecsekSzama(Integer.parseInt(rowData.get(2)));
+                tabella.setGyozelemekSzama(Integer.parseInt(rowData.get(3)));
+                tabella.setDontetlenekSzama(Integer.parseInt(rowData.get(4)));
+                tabella.setVeresegekSzama(Integer.parseInt(rowData.get(5)));
+                tabella.setLottGolokSzama(Integer.parseInt(rowData.get(6)));
+                tabella.setKapottGolokSzama(Integer.parseInt(rowData.get(7)));
+                tabella.setGolkulonbseg(Integer.parseInt(rowData.get(8)));
+                tabella.setPontszam(Integer.parseInt(rowData.get(9)));
+                tabella.setEllenfelekHelyezesenekAtlaga(rowData.get(10));
+                if(rowData.size() > 11) {
+                    int length = rowData.get(11).split("\n").length;
+                    tabella.setForma1(rowData.get(11).split("\n")[0]);
+                    if (length > 1){
+                        tabella.setForma2(rowData.get(11).split("\n")[1]);
+                    }
+                    if (length > 2){
+                        tabella.setForma3(rowData.get(11).split("\n")[2]);
+                    }
+                    if (length > 3){
+                        tabella.setForma4(rowData.get(11).split("\n")[3]);
+                    }
+                    if (length > 4){
+                        tabella.setForma5(rowData.get(11).split("\n")[4]);
+                    }
+                }
+                arrayList.add(tabella);
+            }
+        }
+        return arrayList;
+    }
+
+    public ArrayList<Tabella> processTabellaFirst(List<Liga> ligas, Integer maxFord) throws InterruptedException {
+        ArrayList<Tabella> arrayList = new ArrayList<>();
+        for (Liga liga : ligas){
+            for(int i = 1; i < maxFord; i++){
                 int ford = selectFederationAndLeague(liga.getSzervezo(), liga.getLiga(), i);
                 List<WebElement> sorok = driver.findElement(By.id("tableContent")).findElements(By.tagName("tr"));
                 for (int f = 0; sorok.size() > f; f++) {

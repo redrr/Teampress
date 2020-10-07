@@ -9,6 +9,7 @@ import hu.playmaker.handler.MLSZDataHandler;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDateTime;
@@ -53,10 +54,10 @@ public class DataPollingController {
         return "redirect:/";
     }
 
-    @RequestMapping("/t")
-    public String getTabella() throws InterruptedException {
+    @RequestMapping("/t/{ford}")
+    public String getTabella(@PathVariable String ford) throws InterruptedException {
         MLSZDataHandler handler = new MLSZDataHandler();
-        ArrayList<Tabella> arrayList = handler.processTabella(ligaService.findAll());
+        ArrayList<Tabella> arrayList = handler.processTabellaFirst(ligaService.findAll(), Integer.parseInt(ford));
         updateTabella(arrayList);
         return "redirect:/";
     }
@@ -107,7 +108,7 @@ public class DataPollingController {
                 System.out.println(dtf.format(now));
                 handler.startProcessor();
                 //updatePlayerData(handler.processPlayerData(allPlayers));
-                updateTabella(handler.processTabella(allLigas));
+                //updateTabella(handler.processTabella(allLigas));
                 //updateSorsolas(handler.processSorsolas(allLigas));
                 //updateGoals(handler.processGoals(allLigas, organizationService));
                 //updateYellowCards(handler.processYellowCard(allLigas, organizationService));

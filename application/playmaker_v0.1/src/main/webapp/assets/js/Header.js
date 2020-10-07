@@ -50,7 +50,7 @@ function sendRating(id, slider) {
             value   :   value
         },function (value) {
             if(value === 'success'){
-                $('#ratingModalout').click();
+                location.reload();
             }
     });
 }

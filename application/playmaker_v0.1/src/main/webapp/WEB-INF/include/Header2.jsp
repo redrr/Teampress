@@ -55,7 +55,6 @@
     </div>
 </nav>
 <%@include file="TrainerRating.jsp" %>
-<%@include file="Logout.jsp" %>
 <noscript>
     <div id="wrapper">
         <div class="container">

@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class PlaymakerApplication {
 
 	public static void main(String[] args) {
-		System.setProperty("webdriver.chrome.driver","chromedriver.exe");
+		System.setProperty("webdriver.chrome.driver","chromedriver_85.exe");
 		SpringApplication.run(PlaymakerApplication.class, args);
 	}
 
