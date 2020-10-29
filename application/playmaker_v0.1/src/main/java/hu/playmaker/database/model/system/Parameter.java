@@ -127,9 +127,4 @@ public class Parameter extends BaseModel {
 	}
 
 	//endregion
-
-	@Override
-	public String innerToDisplay() {
-	    return code;
-	}
 }

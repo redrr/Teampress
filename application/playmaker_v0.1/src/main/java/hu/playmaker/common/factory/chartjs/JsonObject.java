@@ -2,6 +2,7 @@ package hu.playmaker.common.factory.chartjs;
 
 import hu.playmaker.common.factory.chartjs.common.Constants;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -24,11 +25,15 @@ class JsonObject {
 
     String convertJsonString() {
         object.forEach((key, value) -> {
+            if(value instanceof Arrays)
+                this.jsonStringBuilder
+                        .append(Constants.stringEscape).append(key).append(Constants.stringEscape).append(Constants.objectKeySeparator)
+                        .append(Constants.startJsonArray).append(value.toString()).append(Constants.endJsonArray).append(Constants.objectSeparator);
             if(value instanceof String)
                 this.jsonStringBuilder
                         .append(Constants.stringEscape).append(key).append(Constants.stringEscape).append(Constants.objectKeySeparator)
                         .append(Constants.stringEscape).append(value).append(Constants.stringEscape).append(Constants.objectSeparator);
-            if(value instanceof Boolean || value instanceof Integer)
+            if(value instanceof Boolean || value instanceof Integer || value instanceof Double)
                 this.jsonStringBuilder
                         .append(Constants.stringEscape).append(key).append(Constants.stringEscape).append(Constants.objectKeySeparator)
                         .append(value).append(Constants.objectSeparator);

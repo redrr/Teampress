@@ -11,6 +11,33 @@ public class BarDataSet extends DataSet {
     private BorderSkipped borderSkipped;
     private Integer barPercentage, categoryPercentage, barThickness, maxBarThickness, minBarLength, order;
 
+    public BarDataSet() {
+    }
+
+    public BarDataSet(BarDataSet template) {
+        this.setBackgroundColor(template.getBackgroundColor());
+        this.setBorderColor(template.getBorderColor());
+        this.setHoverBackgroundColor(template.getHoverBackgroundColor());
+        this.setHoverBorderColor(template.getHoverBorderColor());
+        this.setBorderWidth(template.getBorderWidth());
+        this.setHoverBorderWidth(template.getHoverBorderWidth());
+        this.setClip(template.getClip());
+        this.setData(template.getData());
+        this.setLabel(template.getLabel());
+        this.setxAxisID(template.getxAxisID());
+        this.setyAxisID(template.getyAxisID());
+        this.setIndexAxis(template.getIndexAxis());
+        this.setBorderSkipped(template.getBorderSkipped());
+        this.setBarPercentage(template.getBarPercentage());
+        this.setCategoryPercentage(template.getCategoryPercentage());
+        this.setBarThickness(template.getBarThickness());
+        this.setMaxBarThickness(template.getMaxBarThickness());
+        this.setMinBarLength(template.getMinBarLength());
+        this.setOrder(template.getOrder());
+    }
+
+
+
     //region[Region] Setters
 
     public void setLabel(String label) {

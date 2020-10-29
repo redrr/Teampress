@@ -70,10 +70,4 @@ public class Exercise extends BaseModel {
 
 
     //endregion
-
-    @Override
-    public String innerToDisplay() {
-        return name;
-    }
-
 }

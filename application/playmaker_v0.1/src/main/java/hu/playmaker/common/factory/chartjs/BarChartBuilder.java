@@ -5,6 +5,7 @@ import hu.playmaker.common.factory.chartjs.common.Constants;
 import hu.playmaker.common.factory.chartjs.common.enums.ChartType;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class BarChartBuilder extends ChartBuilder {
 
@@ -24,14 +25,14 @@ public class BarChartBuilder extends ChartBuilder {
         JsonObject dataObject = new JsonObject();
         JsonArray labels = new JsonArray();
         data.getLabels().forEach(labels::put);
-        dataObject.put(Constants.labels, labels.toString());
+        dataObject.put(Constants.labels, labels);
         JsonArray dataSets = new JsonArray();
         data.getDatasets().forEach(d -> {
             JsonObject dataSet = new JsonObject();
             if (d.getData().length > 0) {
                 JsonArray data = new JsonArray();
                 Arrays.asList(d.getData()).forEach(data::put);
-                dataSet.put(Constants.data, data.toString());
+                dataSet.put(Constants.data, data);
             }
             dataSet.put(Constants.backgroundColor, d.getBackgroundColor())
                     .put(Constants.borderColor, d.getHoverBackgroundColor())
@@ -51,13 +52,33 @@ public class BarChartBuilder extends ChartBuilder {
                     .put(Constants.maxBarThickness, d.getMaxBarThickness())
                     .put(Constants.minBarLength, d.getMinBarLength())
                     .put(Constants.order, d.getOrder());
-            dataSets.put(dataSet);
+            dataSets.put(dataSet.convertJsonString());
         });
+        dataObject.put(Constants.datasets, dataSets);
         JsonObject optionObject = new JsonObject();
-        //TODO: Options implementation
+        if(Objects.nonNull(getOptions())){
+            Animation animation = getOptions().getAnimation();
+            if(Objects.nonNull(animation)){
+                JsonObject animationObject = new JsonObject();
+                animationObject.put(Constants.debug, animation.getDebug());
+                animationObject.put(Constants.delay, animation.getDelay());
+                animationObject.put(Constants.duration, animation.getDuration());
+                animationObject.put(Constants.easing, animation.getEasing());
+                animationObject.put(Constants.loop, animation.getLoop());
+                animationObject.put(Constants.mode, animation.getMode());
+                optionObject.put(Constants.animation, animationObject);
+            }
+            if(Objects.nonNull(getOptions().getLegend())){
+                JsonObject legendObject = new JsonObject();
+                if(Objects.nonNull(getOptions().getLegend().getDisplay()))
+                    legendObject.put("display", getOptions().getLegend().getDisplay());
+                optionObject.put("legend", legendObject);
+            }
+            //TODO: Options implementation
+        }
         config.put(Constants.type, getType().name())
                 .put(Constants.data, dataObject)
                 .put(Constants.options, optionObject);
-        return config.toString();
+        return config.convertJsonString();
     }
 }

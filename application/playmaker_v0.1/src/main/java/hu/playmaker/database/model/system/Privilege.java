@@ -90,9 +90,4 @@ public class Privilege extends BaseModel {
 
 	}
 	//endregion
-
-	@Override
-	public String innerToDisplay() {
-	    return getId() + "- " + name;
-	}
 }

@@ -117,10 +117,4 @@ public class Role extends BaseModel {
 	}
 
 	//endregion
-
-	@Override
-	public String innerToDisplay() {
-	    return name;
-	}
-
 }

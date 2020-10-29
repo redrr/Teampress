@@ -1,8 +1,5 @@
 package hu.playmaker.form;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
 public class ExerciseForm extends BaseForm {
 
     public Integer typeId;

@@ -76,15 +76,23 @@ public class LineChartBuilder extends ChartBuilder {
                 .put(Constants.data, dataObject);
         if(Objects.nonNull(getOptions())){
             JsonObject optionObject = new JsonObject();
-            JsonObject animationObject = new JsonObject();
             Animation animation = getOptions().getAnimation();
-            animationObject.put(Constants.debug, animation.getDebug());
-            animationObject.put(Constants.delay, animation.getDelay());
-            animationObject.put(Constants.duration, animation.getDuration());
-            animationObject.put(Constants.easing, animation.getEasing());
-            animationObject.put(Constants.loop, animation.getLoop());
-            animationObject.put(Constants.mode, animation.getMode());
-            optionObject.put(Constants.animation, animationObject);
+            if(Objects.nonNull(animation)){
+                JsonObject animationObject = new JsonObject();
+                animationObject.put(Constants.debug, animation.getDebug());
+                animationObject.put(Constants.delay, animation.getDelay());
+                animationObject.put(Constants.duration, animation.getDuration());
+                animationObject.put(Constants.easing, animation.getEasing());
+                animationObject.put(Constants.loop, animation.getLoop());
+                animationObject.put(Constants.mode, animation.getMode());
+                optionObject.put(Constants.animation, animationObject);
+            }
+            if(Objects.nonNull(getOptions().getLegend())){
+                JsonObject legendObject = new JsonObject();
+                if(Objects.nonNull(getOptions().getLegend().getDisplay()))
+                    legendObject.put("display", getOptions().getLegend().getDisplay());
+                optionObject.put("legend", legendObject);
+            }
             Layout layout = getOptions().getLayout();
             if(Objects.nonNull(optionObject))
                 config.put(Constants.options, optionObject);

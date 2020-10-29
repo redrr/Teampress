@@ -6,6 +6,15 @@ public class Options {
     private Legend legend;
     private Title title;
     private Tooltip tooltip;
+    private Double circumference, rotation;
+
+    Double getCircumference() {
+        return circumference;
+    }
+
+    Double getRotation() {
+        return rotation;
+    }
 
     Animation getAnimation() {
         return animation;
@@ -45,5 +54,13 @@ public class Options {
 
     public void setTooltip(Tooltip tooltip) {
         this.tooltip = tooltip;
+    }
+
+    public void setCircumference(Double circumference) {
+        this.circumference = circumference;
+    }
+
+    public void setRotation(Double rotation) {
+        this.rotation = rotation;
     }
 }

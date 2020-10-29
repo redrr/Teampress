@@ -14,7 +14,6 @@ public abstract class BaseService {
         return entityManager;
     }
 
-
     @Transactional
     public <T> T merge(T unmanaged) {
         return getEntityManager().merge(unmanaged);

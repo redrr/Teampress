@@ -119,11 +119,6 @@ public class Organization extends BaseModel {
     }
 
     @Override
-	public String innerToDisplay() {
-		return getName();
-    }
-
-    @Override
 	public boolean equals(Object object) {
 		if (!(object instanceof Organization))
 			return false;

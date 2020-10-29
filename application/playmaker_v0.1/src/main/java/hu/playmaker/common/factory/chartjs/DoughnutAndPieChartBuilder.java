@@ -10,7 +10,7 @@ public class DoughnutAndPieChartBuilder extends ChartBuilder {
     private Data<DoughnutAndPieDataSet> data;
 
     public DoughnutAndPieChartBuilder() {
-        this.setType(ChartType.bar);
+        this.setType(ChartType.doughnut);
     }
 
     public void setData(Data<DoughnutAndPieDataSet> data) {
@@ -23,14 +23,14 @@ public class DoughnutAndPieChartBuilder extends ChartBuilder {
         JsonObject dataObject = new JsonObject();
         JsonArray labels = new JsonArray();
         data.getLabels().forEach(labels::put);
-        dataObject.put(Constants.labels, labels.toString());
+        dataObject.put(Constants.labels, labels);
         JsonArray dataSets = new JsonArray();
         data.getDatasets().forEach(d -> {
             JsonObject dataSet = new JsonObject();
             if (d.getData().length > 0) {
                 JsonArray data = new JsonArray();
                 Arrays.asList(d.getData()).forEach(data::put);
-                dataSet.put(Constants.data, data.toString());
+                dataSet.put(Constants.data, data);
             }
             dataSet.put(Constants.backgroundColor, d.getBackgroundColor())
                     .put(Constants.borderColor, d.getHoverBackgroundColor())
@@ -43,13 +43,16 @@ public class DoughnutAndPieChartBuilder extends ChartBuilder {
                     .put(Constants.hoverOffset, d.getHoverOffset())
                     .put(Constants.offset, d.getOffset())
                     .put(Constants.weight, d.getWeight());
-            dataSets.put(dataSet);
+            dataSets.put(dataSet.convertJsonString());
         });
+        dataObject.put(Constants.datasets, dataSets);
         JsonObject optionObject = new JsonObject();
+        optionObject.put("circumference", getOptions().getCircumference());
+        optionObject.put("rotation", getOptions().getRotation());
         //TODO: Options implementation
         config.put(Constants.type, getType().name())
                 .put(Constants.data, dataObject)
                 .put(Constants.options, optionObject);
-        return config.toString();
+        return config.convertJsonString();
     }
 }

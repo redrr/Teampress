@@ -13,6 +13,7 @@ import javax.persistence.*;
         @NamedQuery(name="Tabella.findById", query = "SELECT l FROM Tabella l WHERE l.id = :pid"),
         @NamedQuery(name="Tabella.findByLiga", query = "SELECT l FROM Tabella l WHERE l.liga = :pliga AND l.fordulo=:pford"),
         @NamedQuery(name="Tabella.findByMaxLiga", query = "SELECT DISTINCT MAX(l.fordulo) FROM Tabella l WHERE l.liga = :pliga"),
+        @NamedQuery(name="Tabella.findByMaxPoint", query = "SELECT DISTINCT MAX(l.pontszam) FROM Tabella l WHERE l.liga = :pliga AND l.csapat = :pteam"),
         @NamedQuery(name="Tabella.findTeamsByLiga", query = "SELECT DISTINCT l.csapat FROM Tabella l WHERE l.liga = :pliga"),
         @NamedQuery(name="Tabella.findByFord", query = "SELECT l FROM Tabella l WHERE l.csapat = :pcsapat"),
         @NamedQuery(name="Tabella.findByLigaAndTeam", query = "SELECT l FROM Tabella l WHERE l.liga = :pliga AND l.csapat = :pcsapat AND l.fordulo=:pford"),

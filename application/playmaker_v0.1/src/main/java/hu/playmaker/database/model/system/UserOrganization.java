@@ -85,10 +85,4 @@ public class UserOrganization extends BaseModel {
 	}
 
 	//endregion
-
-	@Override
-	public String innerToDisplay() {
-	    return user.innerToDisplay() + " - " + organization.innerToDisplay();
-	}
-
 }

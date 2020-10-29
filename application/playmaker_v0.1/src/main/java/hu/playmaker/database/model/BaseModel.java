@@ -105,9 +105,6 @@ public abstract class BaseModel implements Serializable {
         this.createdBy = SessionHandler.getUsernameFromCurrentSession();
     }
 
-    /**
-     * Változás esetén automatikusan updateli a LAST_UPDATE_DATE mezőt.
-     */
     @PreUpdate
     protected void setAutoLastUpdateDate() {
         this.lastUpdateDate = new Date();
@@ -132,19 +129,4 @@ public abstract class BaseModel implements Serializable {
             setId(savedId);
         }
     }
-
-    public String innerToDisplay() {
-        //Azért hogy meglegyen csinálva az új modelleknél és legyen normális hiba, ha nincs megcsinálva a modelnél.
-        return null;
-    }
-
-    public String toDisplay() {
-        return innerToDisplay();
-    }
-
-    @Deprecated
-    public String encode(String in){ return in; }
-
-    @Deprecated
-    public String decode(String in){ return in; }
 }

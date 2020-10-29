@@ -18,8 +18,12 @@ public class TabellaService extends BaseService {
         return getEntityManager().createNamedQuery("Tabella.findByLiga").setParameter("pliga", liga).setParameter("pford", getLastFordByLiga(liga)).getResultList();
     }
 
-    public int getLastFordByLiga(Liga liga){
-        return (int) getEntityManager().createNamedQuery("Tabella.findByMaxLiga").setParameter("pliga", liga).getResultList().get(0);
+    public Integer getLastFordByLiga(Liga liga){
+        return (Integer) getEntityManager().createNamedQuery("Tabella.findByMaxLiga").setParameter("pliga", liga).getResultList().get(0);
+    }
+
+    public Integer getMaxPoints(Liga liga, String team){
+        return (Integer) getEntityManager().createNamedQuery("Tabella.findByMaxPoint").setParameter("pliga", liga).setParameter("pteam", team).getResultList().get(0);
     }
 
     public List<Tabella> getLiga(String csapat){

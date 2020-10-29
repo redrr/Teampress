@@ -185,9 +185,4 @@ public class User extends BaseModel {
 		}
 		return o;
 	}
-	
-	@Override
-	public String innerToDisplay() {
-	    return username;
-	}
 }

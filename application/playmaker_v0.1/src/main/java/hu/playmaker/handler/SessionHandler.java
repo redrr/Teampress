@@ -13,16 +13,11 @@ import java.util.UUID;
 @Configuration
 public class SessionHandler implements Serializable{
 
-    /**
-     * Dinamikusan a legújabb HttpRequestből leszedi a Sessionben lévő username-t.
-     * Ha nincs bejelentkezve felhasználó, akkor "null"-t ad vissza.
-     * @return A username a jelenlegi fehasználónak
-     */
     public static String getUsernameFromCurrentSession() {
         try {
             ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
             String username = (String)attr.getRequest().getSession().getAttribute("username");
-            return Objects.nonNull(username) && username.isEmpty()?null:username;
+            return Objects.nonNull(username) && username.isEmpty() ? null : username;
         } catch (IllegalStateException e) {
             return "system";
         }

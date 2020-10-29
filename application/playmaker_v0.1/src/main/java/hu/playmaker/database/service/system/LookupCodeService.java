@@ -41,14 +41,6 @@ public class LookupCodeService extends BaseService {
         return getEntityManager().createNamedQuery("LookupCode.findAllByLgroup").setParameter("plgroup", lgroup).getResultList();
     }
 
-    public HashMap<Integer, String> getLocalizedLookupForEnum(String lgroup){
-        HashMap<Integer, String> result = new HashMap<>();
-        for (LookupCode s : (List<LookupCode>)findAllLookupByLgroup(lgroup)){
-            result.put(s.getId(), s.toDisplay());
-        }
-        return result;
-    }
-
     public HashMap<Integer, String> getLookupCodeForEnum(String lgroup){
         HashMap<Integer, String> result = new HashMap<>();
         for (LookupCode s : (List<LookupCode>)findAllLookupByLgroup(lgroup)){

@@ -2,7 +2,7 @@ package hu.playmaker.common.factory.chartjs;
 
 public class DoughnutAndPieDataSet extends AreaTypeDataSet {
 
-    private Integer hoverOffset, offset, weight;
+    private Integer hoverOffset, offset, weight, circumference;
 
     //region[Region] Setters
 
@@ -16,6 +16,10 @@ public class DoughnutAndPieDataSet extends AreaTypeDataSet {
 
     public void setWeight(Integer weight) {
         this.weight = weight;
+    }
+
+    public void setCircumference(Integer circumference) {
+        this.circumference = circumference;
     }
 
     //endregion
@@ -32,6 +36,10 @@ public class DoughnutAndPieDataSet extends AreaTypeDataSet {
 
     Integer getWeight() {
         return weight;
+    }
+
+    Integer getCircumference() {
+        return circumference;
     }
 
     //endregion
