@@ -56,7 +56,7 @@ public class CalendarController extends BaseController {
 
     @RequestMapping(method = RequestMethod.POST)
     public String doSubmit(@RequestParam String date, @RequestParam String name, @RequestParam String type) {
-        if(hasPermission(Permissions.EVENT_CREATE)) {
+        if(hasPermission(Permissions.EVENT_CREATE) && !date.trim().equals("") && !name.trim().equals("") && !type.trim().equals("")) {
             UserOrganization userOrganization = userOrganizationService.getOrgByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession()));
             Calendar event = new Calendar();
             event.setEndDateTime(date.replace("/", "-"));
@@ -85,7 +85,7 @@ public class CalendarController extends BaseController {
                 }
                 events.append(calendarService.getEventsAsJSON(userOrganization.getOrganization(), userOrganization.getType()));
             }
-            return "[\n" +events+ "]";
+            return "[\n" +events.toString()+ "]";
         }
         return "[]";
     }

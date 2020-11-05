@@ -43,7 +43,7 @@ public class FinancialIncomeController extends BaseController {
     @RequestMapping(method = RequestMethod.POST, value = "/new")
     @ResponseBody
     public String createIncome(@RequestParam("id") String id,@RequestParam("name") String name, @RequestParam("type") String type, @RequestParam("val") String prize){
-        if(hasPermission(Permissions.COST_CREATE)){
+        if(hasPermission(Permissions.COST_CREATE) && !name.trim().equals("") && !type.trim().equals("") && !prize.trim().equals("")){
             Income income;
             if(!id.equals("") && incomeService.exist(Integer.parseInt(id))){
                 income = incomeService.find(Integer.parseInt(id));

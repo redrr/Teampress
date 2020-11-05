@@ -49,9 +49,9 @@ public class IndexController extends BaseController {
     private TrainerRatingResultService trainerRatingResultService;
     private TrainingPlanService trainingPlanService;
     private OrgCountryService orgCountryService;
-    private static String UPLOADED_FOLDER = "C:\\Projects\\PlaymakerProjects\\playmaker_v0.1\\src\\main\\webapp\\content\\postImages\\";
+    private ParameterService parameterService;
 
-    public IndexController(PlayerDataService playerDataService, UserService userService, UserOrganizationService userOrganizationService, TabellaService tabellaService, SorsolasService sorsolasService, UserPostService userPostService, UserPostCommentService userPostCommentService, AttendanceService attendanceService, UserNotificationService notificationService, TrainerRatingService trainerRatingService, TrainerRatingResultService trainerRatingResultService, TrainingPlanService trainingPlanService, OrgCountryService orgCountryService) {
+    public IndexController(PlayerDataService playerDataService, UserService userService, UserOrganizationService userOrganizationService, TabellaService tabellaService, SorsolasService sorsolasService, UserPostService userPostService, UserPostCommentService userPostCommentService, AttendanceService attendanceService, UserNotificationService notificationService, TrainerRatingService trainerRatingService, TrainerRatingResultService trainerRatingResultService, TrainingPlanService trainingPlanService, OrgCountryService orgCountryService, ParameterService parameterService) {
         this.playerDataService = playerDataService;
         this.userService = userService;
         this.userOrganizationService = userOrganizationService;
@@ -65,6 +65,7 @@ public class IndexController extends BaseController {
         this.trainerRatingResultService = trainerRatingResultService;
         this.trainingPlanService = trainingPlanService;
         this.orgCountryService = orgCountryService;
+        this.parameterService = parameterService;
     }
 
     @RequestMapping("/redirect")
@@ -81,13 +82,14 @@ public class IndexController extends BaseController {
     public ModelAndView showIndex() {
         if(hasPermission(Permissions.LOGGED_IN)) {
             ModelAndView view;
-            UserOrganization uOrg = userOrganizationService.getOrgByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession()));
+            UserOrganization uOrg;
             if(hasPermission(Permissions.POST_COMMENT_CREATE)) {
                 view = new ModelAndView("Index", "createPost", new IndexForm());
             } else {
                 view = new ModelAndView("Index");
             }
-            if(hasPermission(Permissions.HOME_HEADER_BUTTONS)){
+            if(hasPermission(Permissions.HOME_HEADER_BUTTONS)) {
+                uOrg = userOrganizationService.getOrgByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession()));
                 view.addObject("nextTraining", trainingPlanService.findNext(uOrg.getOrganization(), uOrg.getType()));
                 view.addObject("nextTrainingDay", getDay(trainingPlanService.findNext(uOrg.getOrganization(), uOrg.getType())));
                 view.addObject("playerHeader", playerDataService.getPlayerHeader(
@@ -97,6 +99,7 @@ public class IndexController extends BaseController {
                 view.addObject("sorsolasHeader", sorsolasService.getSorsolas(uOrg.getLiga(), uOrg.getOrganization().getName()));
             }
             if(hasPermission(Permissions.HOME_WEATHER)){
+                uOrg = userOrganizationService.getOrgByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession()));
                 view.addObject("temp", weatherController(uOrg.getOrganization()));
                 view.addObject("city", orgCountryService.find(uOrg.getOrganization()).get(0).getCity());
             }
@@ -119,33 +122,35 @@ public class IndexController extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/dopost")
-    public String doPost(@Valid @ModelAttribute("createPost") IndexForm form, BindingResult result, HttpServletRequest request) {
+    public String doPost(@Valid @ModelAttribute("createPost") IndexForm form) {
         if(hasPermission(Permissions.POST_COMMENT_CREATE) && (Objects.nonNull(form.getFile()) || !form.getPostText().trim().equals(""))){
+            String uploadFolder = parameterService.findParameterByGroupAndCode("SYSTEM", "POST_IMG").getValue();
             UserPost post = new UserPost();
             User user = userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession());
             post.setUser(user);
             post.setOrganization(userOrganizationService.getOrgByUser(user).getOrganization());
             if(!form.getPostText().trim().equals("")){
-                post.setPost("<div class=\"mb-4\">"+form.getPostText()+"</div>");
+                post.setPost(form.getPostText());
+                userPostService.mergeFlush(post);
             }
             if(!form.getFile().isEmpty() && form.getFile().getContentType().contains("image")){
                 try {
                     byte[] bytes = form.getFile().getBytes();
-                    Path path = Paths.get(UPLOADED_FOLDER+user.getUsername()+"_"+form.getFile().getOriginalFilename());
+                    Path path = Paths.get(uploadFolder+user.getUsername()+"_"+form.getFile().getOriginalFilename());
                     Files.write(path, bytes);
                     post.setImageUrl(user.getUsername()+"_"+form.getFile().getOriginalFilename());
+                    userPostService.mergeFlush(post);
                 } catch (Exception e){
                     e.printStackTrace();
                 }
             }
-            userPostService.mergeFlush(post);
         }
         return "redirect:/";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/docomment")
     public String doComment(Integer userPostId, String comment) {
-        if(hasPermission(Permissions.POST_COMMENT_CREATE)){
+        if(hasPermission(Permissions.POST_COMMENT_CREATE) && Objects.nonNull(userPostId) && !comment.trim().equals("")) {
             UserPostComment p = new UserPostComment();
             p.setUserPost(userPostService.find(userPostId));
             p.setUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession()));

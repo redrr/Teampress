@@ -54,16 +54,15 @@ public class ExerciseController extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ModelAndView doSubmit(@Valid @ModelAttribute("modifyTrainingType") ExerciseForm form, BindingResult result, HttpServletRequest request) {
+    public ModelAndView doSubmit(@Valid @ModelAttribute("modifyTrainingType") ExerciseForm form, BindingResult result) {
         if(hasPermission(Permissions.EXERCISE_CREATE)){
             ExerciseFormValidator validator = new ExerciseFormValidator();
             validator.validate(form, result);
+            ModelAndView errorView = show();
             if(result.hasErrors()){
-                ModelAndView errorView = show();
                 errorView.getModel().replace("error", Objects.requireNonNull(result.getFieldError("name")).getDefaultMessage());
                 return errorView;
             } else if (exerciseService.exist(lookupCodeService.find(form.getTypeId()), form.getName())){
-                ModelAndView errorView = show();
                 errorView.getModel().replace("error", "Már létezik ilyen gyakorlat!");
                 return errorView;
             } else {
@@ -79,7 +78,7 @@ public class ExerciseController extends BaseController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/del")
     public String del(Integer id) {
-        if(hasPermission(Permissions.EXERCISE_CREATE)) {
+        if(hasPermission(Permissions.EXERCISE_CREATE) && Objects.nonNull(id) && exerciseService.exist(id)) {
             exerciseService.delete(exerciseService.find(id));
             exerciseService.flush();
         }

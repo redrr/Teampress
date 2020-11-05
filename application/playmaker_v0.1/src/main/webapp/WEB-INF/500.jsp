@@ -23,6 +23,9 @@
             <div class="input-prepend input-group">
                 <a href="/" class="btn btn-danger btn-soft" type="button">Vissza a Főoldalra</a>
             </div>
+            <div class="input-prepend input-group">
+                <a href="/logout" class="btn btn-danger btn-soft" type="button">Kijelentkezés</a>
+            </div>
         </div>
     </div>
 </div>

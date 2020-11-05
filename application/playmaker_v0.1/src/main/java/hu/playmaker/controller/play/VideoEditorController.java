@@ -16,6 +16,7 @@ import hu.playmaker.database.service.databank.LigaService;
 import hu.playmaker.database.service.databank.SorsolasService;
 import hu.playmaker.database.service.gameplan.CustomGameService;
 import hu.playmaker.database.service.system.LookupCodeService;
+import hu.playmaker.database.service.system.ParameterService;
 import hu.playmaker.database.service.system.UserOrganizationService;
 import hu.playmaker.database.service.system.UserService;
 import hu.playmaker.database.service.trainingplan.TrainingPlanService;
@@ -46,9 +47,6 @@ import java.util.UUID;
 @RequestMapping("/videoeditor")
 public class VideoEditorController extends BaseController {
 
-    private static String UPLOADED_FOLDER = "C:\\Projects\\PlaymakerProjects\\playmaker_v0.1\\src\\main\\webapp\\content\\videoAnalytics\\upload\\";
-    private static String SCENE_FOLDER = "C:\\Projects\\PlaymakerProjects\\playmaker_v0.1\\src\\main\\webapp\\content\\videoAnalytics\\scene\\";
-
     private SorsolasService sorsolasService;
     private CustomGameService customGameService;
     private UserService userService;
@@ -59,8 +57,9 @@ public class VideoEditorController extends BaseController {
     private FolderService folderService;
     private SceneService sceneService;
     private LookupCodeService lookupCodeService;
+    private ParameterService parameterService;
 
-    public VideoEditorController(SorsolasService sorsolasService, CustomGameService customGameService, UserService userService, UserOrganizationService userOrganizationService, VideoService videoService, VideoEditorService videoEditorService, TrainingPlanService trainingPlanService, FolderService folderService, SceneService sceneService) {
+    public VideoEditorController(SorsolasService sorsolasService, CustomGameService customGameService, UserService userService, UserOrganizationService userOrganizationService, VideoService videoService, VideoEditorService videoEditorService, TrainingPlanService trainingPlanService, FolderService folderService, SceneService sceneService, LookupCodeService lookupCodeService, ParameterService parameterService) {
         this.sorsolasService = sorsolasService;
         this.customGameService = customGameService;
         this.userService = userService;
@@ -70,6 +69,8 @@ public class VideoEditorController extends BaseController {
         this.trainingPlanService = trainingPlanService;
         this.folderService = folderService;
         this.sceneService = sceneService;
+        this.lookupCodeService = lookupCodeService;
+        this.parameterService = parameterService;
     }
 
     @RequestMapping("")
@@ -88,14 +89,15 @@ public class VideoEditorController extends BaseController {
 
     @RequestMapping(method = RequestMethod.POST)
     public String doSubmit(@Valid @ModelAttribute("video") VideoAnalyticsForm form, BindingResult result, HttpServletRequest request) {
-        if(hasPermission(Permissions.VIDEO_ANALYTICS)){
+        if(hasPermission(Permissions.VIDEO_ANALYTICS)) {
+            String uploadFolder = parameterService.findParameterByGroupAndCode("SYSTEM", "UPLOAD_FOLDER").getValue();
             if(!form.getVideo().isEmpty() && (Objects.nonNull(form.getCustomId()) || Objects.nonNull(form.getSorsId())) && form.getVideo().getContentType().contains("mp4")){
                 Video video = new Video();
                 int id = (Objects.nonNull(form.getCustomId())) ? form.getCustomId() : form.getSorsId();
                 String fileName = UUID.randomUUID()+".mp4";
                 try {
                     byte[] bytes = form.getVideo().getBytes();
-                    Path path = Paths.get(UPLOADED_FOLDER+fileName);
+                    Path path = Paths.get(uploadFolder+fileName);
                     Files.write(path, bytes);
                     video.setName(fileName);
                 } catch (Exception e){
@@ -128,6 +130,9 @@ public class VideoEditorController extends BaseController {
     @ResponseBody
     public String doCut(@RequestParam("videoId") String videoId, @RequestParam("folderId") String folderId, @RequestParam("userId") String userId, @RequestParam("start") String start, @RequestParam("end") String end, @RequestParam("name") String name, @RequestParam("desc") String desc) {
         if(hasPermission(Permissions.VIDEO_ANALYTICS)){
+            String uploadFolder = parameterService.findParameterByGroupAndCode("SYSTEM", "UPLOAD_FOLDER").getValue();
+            String sceneFolder = parameterService.findParameterByGroupAndCode("SYSTEM", "SCENE_FOLDER").getValue();
+
             VideoEditor videoEditor = videoEditorService.find(videoService.find(Integer.parseInt(videoId))).get(0);
             Scene scene = new Scene();
             Folder folder = folderService.find(Integer.parseInt(folderId));
@@ -144,7 +149,7 @@ public class VideoEditorController extends BaseController {
             try {
                 Runtime rt = Runtime.getRuntime();
                 String sceneVideoName = UUID.randomUUID().toString();
-                String[] cmd={"ffmpeg","-ss" , startTime+"","-i", UPLOADED_FOLDER+videoEditor.getVideo().getName(), "-t", (endTime-startTime)+"", "-c", "copy", SCENE_FOLDER+ sceneVideoName+".mp4"};
+                String[] cmd={"ffmpeg","-ss" , startTime+"","-i", uploadFolder+videoEditor.getVideo().getName(), "-t", (endTime-startTime)+"", "-c", "copy", sceneFolder+ sceneVideoName+".mp4"};
                 Process p = rt.exec(cmd);
                 BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
                 String line;

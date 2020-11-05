@@ -44,15 +44,11 @@ import java.util.UUID;
 @RequestMapping("/videoanalytics")
 public class VideoAnalyticsController extends BaseController {
 
-    private SorsolasService sorsolasService;
-    private CustomGameService customGameService;
     private UserService userService;
     private UserOrganizationService userOrganizationService;
     private VideoEditorService videoEditorService;
 
-    public VideoAnalyticsController(SorsolasService sorsolasService, CustomGameService customGameService, UserService userService, UserOrganizationService userOrganizationService, VideoEditorService videoEditorService) {
-        this.sorsolasService = sorsolasService;
-        this.customGameService = customGameService;
+    public VideoAnalyticsController(UserService userService, UserOrganizationService userOrganizationService, VideoEditorService videoEditorService) {
         this.userService = userService;
         this.userOrganizationService = userOrganizationService;
         this.videoEditorService = videoEditorService;

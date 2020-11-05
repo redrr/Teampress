@@ -7,6 +7,7 @@ import hu.playmaker.database.model.system.User;
 import hu.playmaker.database.model.system.UserOrganization;
 import hu.playmaker.database.model.trainingplan.Exercise;
 import hu.playmaker.database.model.videoanalytics.Folder;
+import hu.playmaker.database.service.system.ParameterService;
 import hu.playmaker.database.service.system.UserOrganizationService;
 import hu.playmaker.database.service.system.UserService;
 import hu.playmaker.database.service.videoanalytics.FolderService;
@@ -38,12 +39,13 @@ public class FolderController extends BaseController {
     private UserService userService;
     private UserOrganizationService userOrganizationService;
     private FolderService folderService;
-    private static String UPLOADED_FOLDER = "C:\\Projects\\PlaymakerProjects\\playmaker_v0.1\\src\\main\\webapp\\content\\folderImages\\";
+    private ParameterService parameterService;
 
-    public FolderController(UserService userService, UserOrganizationService userOrganizationService, FolderService folderService) {
+    public FolderController(UserService userService, UserOrganizationService userOrganizationService, FolderService folderService, ParameterService parameterService) {
         this.userService = userService;
         this.userOrganizationService = userOrganizationService;
         this.folderService = folderService;
+        this.parameterService = parameterService;
     }
 
     @RequestMapping("")
@@ -60,8 +62,9 @@ public class FolderController extends BaseController {
 
     @RequestMapping(method = RequestMethod.POST)
     public String doSubmit(@Valid @ModelAttribute("modifyFolder") FolderForm form, BindingResult result, HttpServletRequest request) {
-        if(hasPermission(Permissions.EXERCISE_CREATE)){
-            if(form.getName().trim().equals(""))
+        if(hasPermission(Permissions.EXERCISE_CREATE)) {
+            String uploadFolder = parameterService.findParameterByGroupAndCode("SYSTEM", "FOLDER_IMG").getValue();
+            if(form.getName().trim().equals("") || form.getBgImg().isEmpty() || !form.getBgImg().getContentType().contains("image"))
                 return "redirect:/folder";
             User user = userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession());
             Organization organization = userOrganizationService.getOrgByUser(user).getOrganization();
@@ -69,16 +72,14 @@ public class FolderController extends BaseController {
             folder.setOrganization(organization);
             folder.setName(form.getName());
             folder.setDescription(form.getDesc());
-            if(!form.getBgImg().isEmpty() && form.getBgImg().getContentType().contains("image")){
-                try {
-                    byte[] bytes = form.getBgImg().getBytes();
-                    Path path = Paths.get(UPLOADED_FOLDER+user.getUsername()+"_"+form.getBgImg().getOriginalFilename());
-                    Files.write(path, bytes);
-                    folder.setUrl(user.getUsername()+"_"+form.getBgImg().getOriginalFilename());
-                } catch (Exception e){
-                    e.printStackTrace();
-                    return "redirect:/folder";
-                }
+            try {
+                byte[] bytes = form.getBgImg().getBytes();
+                Path path = Paths.get(uploadFolder+user.getUsername()+"_"+form.getBgImg().getOriginalFilename());
+                Files.write(path, bytes);
+                folder.setUrl(user.getUsername()+"_"+form.getBgImg().getOriginalFilename());
+            } catch (Exception e){
+                e.printStackTrace();
+                return "redirect:/folder";
             }
             folderService.mergeFlush(folder);
         }
@@ -87,7 +88,7 @@ public class FolderController extends BaseController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/del")
     public String del(Integer id) {
-        if(hasPermission(Permissions.EXERCISE_CREATE)) {
+        if(hasPermission(Permissions.EXERCISE_CREATE) && Objects.nonNull(id) && folderService.exist(id)) {
             folderService.delete(folderService.find(id));
             folderService.flush();
         }

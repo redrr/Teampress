@@ -58,7 +58,7 @@ public class FinancialGroupingController extends BaseController {
     @RequestMapping(method = RequestMethod.POST, value = "/create")
     @ResponseBody
     public String grpIncome(@RequestParam("id") String id, @RequestParam("group") String group, @RequestParam("item") String income){
-        if(hasPermission(Permissions.GROUP_COSTS)){
+        if(hasPermission(Permissions.GROUP_COSTS) && !group.trim().equals("") && !income.trim().equals("")){
             Organization organization = userOrganizationService.getOrgByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession())).getOrganization();
             IncomeGroupConnection connection;
             if(!id.equals("") && incomeGroupConnectionService.exist(Integer.parseInt(id))){

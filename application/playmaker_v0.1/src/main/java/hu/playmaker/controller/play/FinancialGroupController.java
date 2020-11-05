@@ -35,7 +35,7 @@ public class FinancialGroupController extends BaseController {
     @RequestMapping(method = RequestMethod.POST, value = "/create")
     @ResponseBody
     public String createGroup(@RequestParam("id") String id,@RequestParam("name") String name, @RequestParam("desc") String description){
-        if(hasPermission(Permissions.GROUP_COSTS)){
+        if(hasPermission(Permissions.GROUP_COSTS) && !name.trim().equals("")) {
             IncomeGroup group;
             if(!id.equals("") && incomeGroupService.exist(Integer.parseInt(id))){
                 group = incomeGroupService.find(Integer.parseInt(id));

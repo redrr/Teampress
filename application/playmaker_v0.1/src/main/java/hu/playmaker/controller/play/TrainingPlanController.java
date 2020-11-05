@@ -73,7 +73,7 @@ public class TrainingPlanController extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ModelAndView doSubmit(@Valid @ModelAttribute("modifyTrainingPlan") TrainingPlanForm form, BindingResult result, HttpServletRequest request) {
+    public ModelAndView doSubmit(@Valid @ModelAttribute("modifyTrainingPlan") TrainingPlanForm form, BindingResult result) {
         if(hasPermission(Permissions.TRAIN_CREATE)){
             TrainingPlanFormValidator validator = new TrainingPlanFormValidator();
             validator.validate(form, result);

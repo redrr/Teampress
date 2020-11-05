@@ -288,12 +288,6 @@
                                                                     </c:forEach>
                                                                 </div>
                                                             </div>
-                                                            <hr>
-                                                            <div class="row">
-                                                                <div class="col-xl-12 col-md-12">
-                                                                    <canvas id="history" width="800" height="400"></canvas>
-                                                                </div>
-                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>

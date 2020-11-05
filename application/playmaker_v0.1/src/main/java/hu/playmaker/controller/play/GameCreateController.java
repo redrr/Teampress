@@ -80,9 +80,10 @@ public class GameCreateController extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ModelAndView doSubmit(@Valid @ModelAttribute("modifyGame") GameForm form, BindingResult result, HttpServletRequest request) {
+    public ModelAndView doSubmit(@Valid @ModelAttribute("modifyGame") GameForm form, BindingResult result) {
         if(hasPermission(Permissions.PLANS_CREATE)){
             GameFormValidator validator = new GameFormValidator();
+            ModelAndView errorView = show();
             validator.validate(form, result);
             LookupCode team = lookupCodeService.find(form.getTeamId());
             Date date = null;
@@ -91,13 +92,13 @@ public class GameCreateController extends BaseController {
                 date = dateFormat.parse(form.getDate());
             } catch (ParseException e) {
                 e.printStackTrace();
+                errorView.getModel().replace("error", "A megadott időpont nem értelmezhető!");
+                return errorView;
             }
             if(result.hasErrors()){
-                ModelAndView errorView = show();
                 errorView.getModel().replace("error", Objects.requireNonNull(result.getFieldError("name")).getDefaultMessage());
                 return errorView;
             } else if (customGameService.exist(team, date)) {
-                ModelAndView errorView = show();
                 errorView.getModel().replace("error", team.getCode()+" csapatnak ebben az időpontban már van mérkőzése!");
                 return errorView;
             } else {

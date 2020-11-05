@@ -3,6 +3,7 @@ package hu.playmaker.controller.basic;
 import hu.playmaker.common.Permissions;
 import hu.playmaker.controller.BaseController;
 import hu.playmaker.database.model.system.User;
+import hu.playmaker.database.service.system.ParameterService;
 import hu.playmaker.database.service.system.UserService;
 import hu.playmaker.form.UserForm;
 import hu.playmaker.handler.SessionHandler;
@@ -16,19 +17,22 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/profile")
 public class ProfileController extends BaseController {
 
     private UserService userService;
-    private static String UPLOADED_FOLDER = "C:\\Projects\\PlaymakerProjects\\playmaker\\src\\main\\webapp\\content\\profileImages\\";
+    private ParameterService parameterService;
 
-    public ProfileController(UserService userService) {
+    public ProfileController(UserService userService, ParameterService parameterService) {
         this.userService = userService;
+        this.parameterService = parameterService;
     }
 
     @RequestMapping("")
@@ -42,33 +46,33 @@ public class ProfileController extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String doSubmit(@Valid @ModelAttribute("modifyProfile") UserForm form, BindingResult result, HttpServletRequest request) {
-        //:TODO validáció!!!
+    public String doSubmit(@Valid @ModelAttribute("modifyProfile") UserForm form) {
         if(hasPermission(Permissions.LOGGED_IN)){
-            User profil = userService.find(form.getId());
-            profil.setName(form.getName());
-            if(form.getPassword().equals(form.getRepassword()) && !form.getPassword().equals("") && !BCrypt.checkpw(form.getPassword(), profil.getPassword())){
-                profil.setPassword(form.getPassword());
-            }
-            profil.setEmail((form.getEmail().equals("") || form.getEmail().equals("példa@email.com")) ? profil.getEmail() : form.getEmail());
-            if(!form.getPhone().isEmpty()){
-                profil.setPhoneNumber(form.getPhone());
-            }
-            if(!form.getProfileImg().isEmpty() && form.getProfileImg().getContentType().contains("image")){
-                try {
-                    byte[] bytes = form.getProfileImg().getBytes();
-                    Path path = Paths.get(UPLOADED_FOLDER+profil.getUsername()+"_"+form.getProfileImg().getOriginalFilename());
-                    Files.write(path, bytes);
-                    String oldImg = profil.getProfilImg();
-                    profil.setProfilImg(profil.getUsername()+"_"+form.getProfileImg().getOriginalFilename());
-                    if(!oldImg.equals("userphoto.png")){
-                        Files.delete(Paths.get(UPLOADED_FOLDER+oldImg));
-                    }
-                } catch (Exception e){
-                    e.printStackTrace();
+            String uploadFolder = parameterService.findParameterByGroupAndCode("SYSTEM", "PROFILE_IMG").getValue();
+            if(Objects.nonNull(form.getId())) {
+                User profil = userService.find(form.getId());
+                profil.setName(form.getName());
+                if(form.getPassword().equals(form.getRepassword()) && !form.getPassword().equals("") && !BCrypt.checkpw(form.getPassword(), profil.getPassword())){
+                    profil.setPassword(form.getPassword());
                 }
+                if(!form.getEmail().trim().equals("")) {
+                    profil.setEmail(form.getEmail());
+                }
+                if(!form.getPhone().isEmpty()){
+                    profil.setPhoneNumber(form.getPhone());
+                }
+                if(!form.getProfileImg().isEmpty() && form.getProfileImg().getContentType().contains("image")){
+                    try {
+                        byte[] bytes = form.getProfileImg().getBytes();
+                        Path path = Paths.get(uploadFolder+profil.getUsername()+"_"+form.getProfileImg().getOriginalFilename());
+                        Files.write(path, bytes);
+                        profil.setProfilImg(profil.getUsername()+"_"+form.getProfileImg().getOriginalFilename());
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+                userService.mergeFlush(profil);
             }
-            userService.mergeFlush(profil);
         }
         return "Profile";
     }

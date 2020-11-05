@@ -66,7 +66,6 @@ public class LoginController {
                 request.getSession().setAttribute("roles", roles);
                 return "redirect:/";
             } catch (Exception e) {
-                //todo: into exception
                 e.printStackTrace();
                 return "redirect:/";
             }

@@ -23,6 +23,10 @@ public class FolderService extends BaseService {
         return (Folder) getEntityManager().createNamedQuery("Folder.findById").setParameter("pid",id).getResultList().get(0);
     }
 
+    public boolean exist(Integer id){
+        return getEntityManager().createNamedQuery("Folder.findById").setParameter("pid",id).getResultList().size() > 0;
+    }
+
     public List<Folder> findByOrg(Organization organization){
         return getEntityManager().createNamedQuery("Folder.findByOrg").setParameter("porg", organization).getResultList();
     }

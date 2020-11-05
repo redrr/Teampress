@@ -36,6 +36,10 @@ public class ExerciseService extends BaseService {
         return (Exercise) getEntityManager().createNamedQuery("Exercise.findById").setParameter("pid", id).getSingleResult();
     }
 
+    public boolean exist(Integer id){
+        return getEntityManager().createNamedQuery("Exercise.findById").setParameter("pid", id).getResultList().size() > 0;
+    }
+
     public ArrayList<Exercise> findByOrg(Organization organization) {
         return (ArrayList<Exercise>) getEntityManager().createNamedQuery("Exercise.findByOrg").setParameter("porg", organization).getResultList();
     }
