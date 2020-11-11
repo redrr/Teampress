@@ -140,3 +140,6 @@ display: none;
     border-color: #28e1bd;
 }
 
+div.pcoded-overlay-box {
+    z-index: 90!important;
+}

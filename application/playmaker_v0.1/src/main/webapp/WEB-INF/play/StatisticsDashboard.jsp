@@ -34,7 +34,7 @@
                                 <div class="page-body">
                                     <c:if test="${sessionHandler.userHasPermission('PLAYERS_STAT')}">
                                         <div class="row">
-                                            <div class="col-4">
+                                            <div class="col-xl-4 col-lg-4 col-md-12 col-12">
                                                 <div class="card">
                                                     <div class="card-header py-2">
                                                         <h3>Szerzett pontok</h3>
@@ -44,7 +44,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-4">
+                                            <div class="col-xl-4 col-lg-4 col-md-12 col-12">
                                                 <div class="card">
                                                     <div class="card-header py-2">
                                                         <h3>Gólok aránya</h3>
@@ -54,7 +54,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-4">
+                                            <div class="col-xl-4 col-lg-4 col-md-12 col-12">
                                                 <div class="card">
                                                     <div class="card-header py-2">
                                                         <h3>Mérkőzések megoszlása</h3>
@@ -64,7 +64,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-xl-6 col-lg-6 col-md-12 col-12">
                                                 <div class="card">
                                                     <div class="card-header py-2">
                                                         <h3>Forma mutató</h3>
@@ -74,7 +74,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-xl-6 col-lg-6 col-md-12 col-12">
                                                 <div class="card">
                                                     <div class="card-header py-2">
                                                         <h3>Bajnoki tabella</h3>

@@ -41,11 +41,11 @@
                                                 <div class="card">
                                                     <div class="card-header">
                                                         <div class="row">
-                                                            <div class="col-10">
+                                                            <div class="col-9 col-md-10">
                                                                 <h5>Játékos statisztika</h5>
                                                                 <span>Játékos statisztikák lekérdezése</span>
                                                             </div>
-                                                            <div class="col-2">
+                                                            <div class="col-3 col-md-2">
                                                                 <button class="btn btn-primary btn-soft" data-toggle="modal" data-target="#playerQueryModal"><i class="ti-plus"></i> Új lekérdezés</button>
                                                             </div>
                                                         </div>
@@ -148,11 +148,11 @@
                                                 <div class="card">
                                                     <div class="card-header">
                                                         <div class="row">
-                                                            <div class="col-10">
+                                                            <div class="col-9 col-md-10">
                                                                 <h5>Edző statisztika</h5>
                                                                 <span>Edzői statisztikák lekérdezése</span>
                                                             </div>
-                                                            <div class="col-2">
+                                                            <div class="col-3 col-md-2">
                                                                 <button class="btn btn-primary btn-soft" data-toggle="modal" data-target="#trainerQueryModal"><i class="ti-plus"></i> Új lekérdezés</button>
                                                             </div>
                                                         </div>

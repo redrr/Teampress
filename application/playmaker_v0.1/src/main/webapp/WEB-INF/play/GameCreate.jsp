@@ -33,7 +33,7 @@
                                 <div class="page-wrapper">
                                     <div class="page-body">
                                         <div class="row  animated fadeInUpBig">
-                                            <div class="col-6">
+                                            <div class="col-xl-6 col-lg-8 col-md-12 col-12">
                                                 <div class="card">
                                                     <div class="card-header">
                                                         <h5>Meccs létrehozás</h5>

@@ -35,7 +35,7 @@
                                 <div class="page-wrapper">
                                     <div class="page-body">
                                         <div class="row animated fadeInUpBig">
-                                            <div class="col-9">
+                                            <div class="col-12 col-xl-9">
                                                 <c:if test="${sessionHandler.userHasPermission('HOME_HEADER_BUTTONS')}">
                                                     <div class="row">
                                                         <div class="col-12 col-xl-4">
@@ -102,15 +102,15 @@
                                                             <div class="card bg-white">
                                                                 <f:form id="form" cssClass="form-wp1" name='f' htmlEscape="true" action='/dopost' method='POST' modelAttribute="createPost" enctype="multipart/form-data">
                                                                     <div class="post-new-contain row card-block">
-                                                                        <div class="col-md-1 col-xs-3 post-profile">
+                                                                        <div class="col-md-1 col-2 post-profile">
                                                                             <img id="post-avatar" src="../assets/vendor/assets/images/social/pro_icon.jpg" class="img-circle" alt="" style="width: 50px;height: 50px;">
                                                                         </div>
-                                                                        <div class="col-md-10 col-xs-6">
+                                                                        <div class="col-md-10 col-8">
                                                                             <div class="">
                                                                                 <f:input type="text" required="" path="postText" placeholder="Ossz meg valamit....." cssErrorClass="form-control" cssClass="form-control post-input" id="post-message" style="margin-top: 5px;background-color: #4b556614;padding: 10px;"/>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="col-md-1 col-xs-3">
+                                                                        <div class="col-md-1 col-2">
                                                                             <div class="btn btn-default btn-icon image-upload" style="padding: 0;padding-top: 5px; margin-top: 4px;padding-left: 3px">
                                                                                 <label class="cr-pointer" for="file-input" style="margin: 0">
                                                                                     <i style="font-size: 25px; margin: 0" class="icofont icofont-image text-muted"></i>
@@ -170,10 +170,10 @@
                                                                             </c:if>
                                                                             <c:forEach var="comment" items="${post.value}">
                                                                                 <div class="row" style="padding-top: 1.25rem; padding-right: 1rem">
-                                                                                    <div class="col-1" style="padding-right: 0">
+                                                                                    <div class="col-2 col-md-1" style="padding-right: 0">
                                                                                         <img class="media-object img-circle m-r-20" src="/content/profileImages/${comment.value.user.profilImg}" alt="Generic placeholder image">
                                                                                     </div>
-                                                                                    <div class="col-11" style="border-radius: 8px;background-color: #4b556614;padding: 16px;">
+                                                                                    <div class="col-10 col-md-11" style="border-radius: 8px;background-color: #4b556614;padding: 16px;">
                                                                                         <div class="chat-header">${comment.value.user.name}</div>
                                                                                         <p class="text-muted" style="margin: 0">${comment.value.comment}</p>
                                                                                     </div>
@@ -184,10 +184,10 @@
                                                                                 <div class="col-1 m-auto">
                                                                                     <img class="media-object img-circle m-r-20 comment-avatar" src="/content/profileImages/${post.key.user.profilImg}" alt="Generic placeholder image">
                                                                                 </div>
-                                                                                <div class="col-10 m-auto">
+                                                                                <div class="col-9 col-md-10 m-auto">
                                                                                     <input id="text${post.key.id}" class="form-control msg-send"/>
                                                                                 </div>
-                                                                                <div class="col-1 m-auto">
+                                                                                <div class="col-2 col-md-1 m-auto">
                                                                                     <button style="padding: 0;padding-top: 4px" class="btn btn-primary waves-effect waves-light btn-icon" onclick="$.post('/docomment', {userPostId: ${post.key.id}, comment: document.getElementById('text${post.key.id}').value }, function () { window.location='/home'; });">
                                                                                         <i style="font-size: 25px;margin: 0" class="icofont icofont-paper-plane"></i>
                                                                                     </button>
@@ -201,9 +201,9 @@
                                                     </div>
                                                 </c:if>
                                             </div>
-                                            <div class="col-3">
+                                            <div class="col-3 d-flex">
                                                 <c:if test="${sessionHandler.userHasPermission('HOME_HEADER_BUTTONS') || sessionHandler.userHasPermission('HOME_WEATHER')}">
-                                                    <div class="row" style="position: fixed;width: auto;">
+                                                    <div class="row d-none d-xl-block" style="position: fixed;width: auto;">
                                                         <c:if test="${sessionHandler.userHasPermission('HOME_HEADER_BUTTONS')}">
                                                             <div class="col-12">
                                                                 <a href="/calendar" class="card overflow-hidden" style="max-width: 90%;border:none;background-color: #3B5998">

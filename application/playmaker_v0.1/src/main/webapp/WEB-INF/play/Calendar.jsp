@@ -49,7 +49,7 @@
                                             </div>
                                             <div class="card-block">
                                                 <div class="row">
-                                                    <div class="col-xl-12 col-md-12">
+                                                    <div class="col-12">
                                                         <div id='calendar'></div>
                                                     </div>
                                                 </div>
@@ -65,10 +65,10 @@
                                                         </div>
                                                         <div class="modal-body">
                                                             <div class="row">
-                                                                <div class="col-4">
+                                                                <div class="col-12 col-md-4">
                                                                     <input id="name" type="text" class="form-control" required>
                                                                 </div>
-                                                                <div class="col-4">
+                                                                <div class="col-12 col-md-4">
                                                                     <select id="type">
                                                                         <c:if test="${sessionHandler.userHasPermission('OWNER')}">
                                                                             <option value="0">Teljes egyesület</option>
@@ -78,7 +78,7 @@
                                                                         </c:forEach>
                                                                     </select>
                                                                 </div>
-                                                                <div class="col-4">
+                                                                <div class="col-12 col-md-4">
                                                                     <input type="text" autocomplete="off" class="form-control" id="date"/>
                                                                 </div>
                                                                 <div class="col-12">
