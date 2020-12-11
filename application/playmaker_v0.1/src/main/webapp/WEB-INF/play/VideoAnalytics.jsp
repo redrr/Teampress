@@ -35,23 +35,12 @@
                                                                 <h5>Videó elemző</h5>
                                                             </div>
                                                             <div class="col-2">
-                                                                <button id="play" class="btn btn-secondary btn-soft"><i class="icon-control-play"></i></button>
-                                                                <button id="mute" class="btn btn-primary btn-soft"><i class="icon-volume-2"></i></button>
+                                                                <!--<button id="play" class="btn btn-secondary btn-soft"><i class="icon-control-play"></i></button>
+                                                                <button id="mute" class="btn btn-primary btn-soft"><i class="icon-volume-2"></i></button>-->
+                                                                <button id="edit" class="btn btn-secondary btn-soft"><i class="glyphicon-edit"></i></button>
                                                             </div>
-                                                            <!--<div class="col-4">
-                                                                <div class="row">
-                                                                    <label class="col-3 col-form-label" for="color">Vastagság</label>
-                                                                    <div class="col-9">
-                                                                        <div class="d-flex justify-content-center my-2">
-                                                                            <div class="w-75">
-                                                                                <input id="width" type="range" class="custom-range" onchange="$('#percentvalue').text($(this).val()+' px')" value='1' min="1" max="20"/>
-                                                                            </div>
-                                                                            <span class="font-weight-bold text-primary ml-2" id='percentvalue'>1 px</span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>-->
-                                                            <div class="col-2">
+
+                                                            <div class="col-3">
                                                                 <div class="form-group row" style="margin: 0">
                                                                     <label class="col-4 col-form-label" for="select">Mode</label>
                                                                     <select class="col-8 form-control" id="select">
@@ -62,7 +51,7 @@
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-2">
+                                                            <div class="col-3">
                                                                 <div class="form-group row" style="margin: 0">
                                                                     <label class="col-4 col-form-label" for="color">Szín</label>
                                                                     <select class="col-8 form-control" id="color">
@@ -83,7 +72,7 @@
                                                     <div class="card-body">
                                                         <div class="mx-auto" style="min-height: 550px">
                                                             <div id="videoHolder" style="position: absolute;">
-                                                                <video id="video" height="540">
+                                                                <video id="video" height="540" controls>
                                                                     <source id="source" src="" type="video/mp4">
                                                                     Your browser does not support the video tag.
                                                                 </video>

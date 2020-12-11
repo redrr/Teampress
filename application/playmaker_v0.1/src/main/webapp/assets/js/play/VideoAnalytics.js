@@ -1,5 +1,6 @@
 var isplaying = false;
 var ismuted = false;
+var isEdit = false;
 var cuting = false;
 var startTime, endTime, videoId;
 var pos = [];
@@ -8,6 +9,7 @@ $(document).ready(function () {
     $().ready(function () {
         createDataTable($('#table'));
         drawer();
+        $('#container').hide();
         const video = $('#video')[0];
         $(window).keypress(function (e) {
             if (e.key === ' ' || e.key === 'Spacebar') {
@@ -62,6 +64,25 @@ $(document).ready(function () {
                 $('#mute > i').removeClass("icon-volume-off");
                 video.muted = false;
                 ismuted = false;
+            }
+        });
+        $('#edit').on('click', function () {
+            if(!isEdit){
+                $('#edit').addClass("btn-secondary");
+                $('#edit').removeClass("btn-primary");
+                $('#edit > i').addClass("icon-control-play");
+                $('#edit > i').removeClass("glyphicon-edit");
+                video.pause();
+                $('#container').show();
+                isEdit = true;
+            } else {
+                $('#edit').removeClass("btn-secondary");
+                $('#edit').addClass("btn-primary");
+                $('#edit > i').addClass("glyphicon-edit");
+                $('#edit > i').removeClass("icon-control-play");
+                video.play();
+                $('#container').hide();
+                isEdit = false;
             }
         });
         $('#clear').on('click', function () {
