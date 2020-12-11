@@ -179,7 +179,7 @@
 
 	</dependencies>
 	<build>
-		<finalName>ROOT</finalName>
+		<finalName>Teampress</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
