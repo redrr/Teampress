@@ -2,6 +2,8 @@ var isplaying = false;
 var ismuted = false;
 var cuting = false;
 var startTime, endTime, videoId;
+var pos = [];
+var mode;
 $(document).ready(function () {
     $().ready(function () {
         createDataTable($('#table'));
@@ -62,9 +64,13 @@ $(document).ready(function () {
                 ismuted = false;
             }
         });
+        $('#clear').on('click', function () {
+            drawer();
+        });
     });
 });
 
+/*
 function drawer() {
     var width = 960;
     var height = 500;
@@ -162,7 +168,76 @@ function drawer() {
         layer.batchDraw();
     });
 }
+*/
 
+//Create Analyzer
+function drawer() {
+    var stage = new Konva.Stage({
+        container: 'container',
+        width: 960,
+        height: 500
+    });
+
+    // add canvas element
+    var layer = new Konva.Layer();
+    stage.add(layer);
+    layer.draw();
+
+    document.getElementById("select").addEventListener("change", function() {
+        pos = [];
+        mode = document.getElementById("select").value;
+    });
+
+    // add cursor styling
+    stage.on('click', function() {
+        //log
+        console.log(stage.getPointerPosition());
+        //main
+        pos.push(stage.getPointerPosition().x);
+        pos.push(stage.getPointerPosition().y);
+        if(mode === 'line') {
+            var line = new Konva.Line({
+                points: pos,
+                stroke: '#fefefe',
+                strokeWidth: 4,
+                lineCap: 'round',
+                lineJoin: 'round',
+            });
+            layer.add(line);
+        }
+        if(mode === 'arrow') {
+            var arrow = new Konva.Arrow({
+                points: pos,
+                stroke: '#fefefe',
+                strokeWidth: 4,
+                lineCap: 'round',
+                lineJoin: 'round',
+            });
+            layer.add(arrow);
+        }
+        if(mode === 'select') {
+            if(pos.length === 2) {
+                var select = new Konva.RegularPolygon({
+                    x: pos[0],
+                    y: pos[1],
+                    sides: 3,
+                    radius: 8,
+                    fill: '#fefefe',
+                    stroke: '#fefefe',
+                    strokeWidth: 4,
+                    lineCap: 'round',
+                    lineJoin: 'round',
+                });
+                layer.add(select);
+                pos = [];
+            }
+        }
+        layer.draw();
+    });
+
+}
+
+//Load video
 function setupVideo(id,url) {
     videoId = id;
     $('#analyzer').show();

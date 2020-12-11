@@ -38,7 +38,7 @@
                                                                 <button id="play" class="btn btn-secondary btn-soft"><i class="icon-control-play"></i></button>
                                                                 <button id="mute" class="btn btn-primary btn-soft"><i class="icon-volume-2"></i></button>
                                                             </div>
-                                                            <div class="col-4">
+                                                            <!--<div class="col-4">
                                                                 <div class="row">
                                                                     <label class="col-3 col-form-label" for="color">Vastagság</label>
                                                                     <div class="col-9">
@@ -50,6 +50,17 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                            </div>-->
+                                                            <div class="col-2">
+                                                                <div class="form-group row" style="margin: 0">
+                                                                    <label class="col-4 col-form-label" for="select">Mode</label>
+                                                                    <select class="col-8 form-control" id="select">
+                                                                        <option value=""></option>
+                                                                        <option value="line">Line</option>
+                                                                        <option value="arrow">Arrow</option>
+                                                                        <option value="select">Select</option>
+                                                                    </select>
+                                                                </div>
                                                             </div>
                                                             <div class="col-2">
                                                                 <div class="form-group row" style="margin: 0">
@@ -57,7 +68,6 @@
                                                                     <select class="col-8 form-control" id="color">
                                                                         <option value="#ffffff">Fehér</option>
                                                                         <option value="#CC0034">Piros</option>
-                                                                        <option value="#3E38F2">Kék</option>
                                                                         <option value="#75FFB0">Zöld</option>
                                                                     </select>
                                                                 </div>
