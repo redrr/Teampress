@@ -66,7 +66,7 @@
                                                                 <div class="form-group row" style="margin: 0">
                                                                     <label class="col-4 col-form-label" for="color">Szín</label>
                                                                     <select class="col-8 form-control" id="color">
-                                                                        <option value="#ffffff">Fehér</option>
+                                                                        <option value="#f3f3f3">Fehér</option>
                                                                         <option value="#CC0034">Piros</option>
                                                                         <option value="#75FFB0">Zöld</option>
                                                                     </select>

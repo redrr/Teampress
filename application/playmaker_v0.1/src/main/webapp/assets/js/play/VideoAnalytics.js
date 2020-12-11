@@ -198,7 +198,7 @@ function drawer() {
         if(mode === 'line') {
             var line = new Konva.Line({
                 points: pos,
-                stroke: '#fefefe',
+                stroke: $('#color').val(),
                 strokeWidth: 4,
                 lineCap: 'round',
                 lineJoin: 'round',
@@ -208,7 +208,7 @@ function drawer() {
         if(mode === 'arrow') {
             var arrow = new Konva.Arrow({
                 points: pos,
-                stroke: '#fefefe',
+                stroke: $('#color').val(),
                 strokeWidth: 4,
                 lineCap: 'round',
                 lineJoin: 'round',
@@ -222,8 +222,8 @@ function drawer() {
                     y: pos[1],
                     sides: 3,
                     radius: 8,
-                    fill: '#fefefe',
-                    stroke: '#fefefe',
+                    fill: $('#color').val(),
+                    stroke: $('#color').val(),
                     strokeWidth: 4,
                     lineCap: 'round',
                     lineJoin: 'round',
