@@ -4,10 +4,7 @@ import hu.playmaker.common.Permissions;
 import hu.playmaker.common.Roles;
 import hu.playmaker.common.factory.excel.ExcelBuilder;
 import hu.playmaker.controller.BaseController;
-import hu.playmaker.database.model.system.LookupCode;
-import hu.playmaker.database.model.system.Organization;
-import hu.playmaker.database.model.system.User;
-import hu.playmaker.database.model.system.UserOrganization;
+import hu.playmaker.database.model.system.*;
 import hu.playmaker.database.model.trainingplan.Exercise;
 import hu.playmaker.database.model.trainingplan.TrainingPlan;
 import hu.playmaker.database.model.workout.Attendance;
@@ -286,33 +283,39 @@ public class WorkoutController extends BaseController {
     @ResponseBody
     public String exportStatement(HttpServletResponse response, @PathVariable String tid, @PathVariable String id1, @PathVariable String id2) throws IOException, ParseException {
         if(hasPermission(Permissions.LOGGED_IN)) {
-            Organization organization = userOrganizationService.getOrgByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession())).getOrganization();
+            User currentUser = userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession());
+            Organization organization = userOrganizationService.getOrgByUser(currentUser).getOrganization();
             Date fromDate = new SimpleDateFormat("yyyy-MM-dd").parse(id1);
             Date toDate = new SimpleDateFormat("yyyy-MM-dd").parse(id2);
             LookupCode team = lookupCodeService.find(Integer.parseInt(tid));
             List<Attendance> attendances = attendanceService.findByDateAndTeam(organization, team, fromDate, toDate);
-            ExcelBuilder excel = new ExcelBuilder()
-                    .setFileName("Teampress_"+organization.getName().replace(" ", "_")+"_jelenleti_iv_export.xls")
-                    .setSheetName("Statement")
-                    .addTitle("Sportoló", "Csapat", "Jelenlét", "Létrehozás ideje", "Létrehozó");
-            for(Attendance attendance : attendances) {
-                excel.addData(attendance.getUser().getName(), attendance.getTeam().getCode(), attendance.getJelen(), attendance.getCreationDateAsString(), attendance.getCreatedBy());
-            }
-            File data = excel.build();
-            response.setContentType("application/force-download");
-            response.setHeader("Content-Disposition", "attachment; filename=\"" + data.getName() + "\"");
-            BufferedInputStream inStream = new BufferedInputStream(new FileInputStream(data));
-            BufferedOutputStream outStream = new BufferedOutputStream(response.getOutputStream());
+            if(attendances.size() > 0) {
+                ExcelBuilder excel = new ExcelBuilder()
+                        .setFileName("Teampress_"+organization.getName().replace(" ", "_")+"_jelenleti_iv_export.xls")
+                        .setSheetName("Statement")
+                        .addTitle("Sportoló", "Csapat", "Jelenlét", "Létrehozás ideje", "Létrehozó");
+                for(Attendance attendance : attendances) {
+                    excel.addData(attendance.getUser().getName(), attendance.getTeam().getCode(), attendance.getJelen(), attendance.getCreationDateAsString(), attendance.getCreatedBy());
+                }
+                File data = excel.build();
+                response.setContentType("application/force-download");
+                response.setHeader("Content-Disposition", "attachment; filename=\"" + data.getName() + "\"");
+                BufferedInputStream inStream = new BufferedInputStream(new FileInputStream(data));
+                BufferedOutputStream outStream = new BufferedOutputStream(response.getOutputStream());
 
-            byte[] buffer = new byte[1024];
-            int bytesRead = 0;
-            while ((bytesRead = inStream.read(buffer)) != -1) {
-                outStream.write(buffer, 0, bytesRead);
+                byte[] buffer = new byte[1024];
+                int bytesRead = 0;
+                while ((bytesRead = inStream.read(buffer)) != -1) {
+                    outStream.write(buffer, 0, bytesRead);
+                }
+                outStream.flush();
+                inStream.close();
+                return data.toString();
+            } else {
+                pushNotificationToUser("/training/workout", "Jelenlétiív export", "A megadott időszakban nem található jelenléti ív!", currentUser, this.userNotificationService);
+                return "redirect:/training/workout";
             }
-            outStream.flush();
-            inStream.close();
-            return data.toString();
         }
-        return null;
+        return "";
     }
 }
