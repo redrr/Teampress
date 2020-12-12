@@ -1,85 +1,36 @@
 var isplaying = false;
-var ismuted = false;
 var isEdit = false;
-var cuting = false;
-var startTime, endTime, videoId;
+var videoId;
 var pos = [];
 var mode;
 $(document).ready(function () {
     $().ready(function () {
+        //Setup
         createDataTable($('#table'));
-        drawer();
-        $('#container').hide();
         const video = $('#video')[0];
+        console.log(video.innerWidth+", "+video.innerHeight);
+        drawer(video.innerWidth, video.innerHeight);
+        $('#container').hide();
+        //Control
         $(window).keypress(function (e) {
             if (e.key === ' ' || e.key === 'Spacebar') {
                 // ' ' is standard, 'Spacebar' was used by IE9 and Firefox < 37
                 e.preventDefault();
                 if(!isplaying){
-                    $('#play').addClass("btn-primary");
-                    $('#play').removeClass("btn-secondary");
-                    $('#play > i').addClass("icon-control-play");
-                    $('#play > i').removeClass("icon-control-pause");
                     isplaying = true;
                     video.play();
                 } else {
-                    $('#play').removeClass("btn-primary");
-                    $('#play').addClass("btn-secondary");
-                    $('#play > i').addClass("icon-control-pause");
-                    $('#play > i').removeClass("icon-control-play");
                     isplaying = false;
                     video.pause();
                 }
             }
         });
-        $('#play').on('click', function () {
-            if(!isplaying){
-                $('#play').addClass("btn-primary");
-                $('#play').removeClass("btn-secondary");
-                $('#play > i').addClass("icon-control-pause");
-                $('#play > i').removeClass("icon-control-play");
-                video.play();
-                isplaying = true;
-            } else {
-                $('#play').removeClass("btn-primary");
-                $('#play').addClass("btn-secondary");
-                $('#play > i').addClass("icon-control-play");
-                $('#play > i').removeClass("icon-control-pause");
-                isplaying = false;
-                video.pause();
-            }
-        });
-        $('#mute').on('click', function () {
-            if(!ismuted){
-                $('#mute').addClass("btn-secondary");
-                $('#mute').removeClass("btn-primary");
-                $('#mute > i').addClass("icon-volume-off");
-                $('#mute > i').removeClass("icon-volume-2");
-                video.muted = true;
-                ismuted = true;
-            } else {
-                $('#mute').removeClass("btn-secondary");
-                $('#mute').addClass("btn-primary");
-                $('#mute > i').addClass("icon-volume-2");
-                $('#mute > i').removeClass("icon-volume-off");
-                video.muted = false;
-                ismuted = false;
-            }
-        });
         $('#edit').on('click', function () {
             if(!isEdit){
-                $('#edit').addClass("btn-secondary");
-                $('#edit').removeClass("btn-primary");
-                $('#edit > i').addClass("icon-control-play");
-                $('#edit > i').removeClass("glyphicon-edit");
                 video.pause();
                 $('#container').show();
                 isEdit = true;
             } else {
-                $('#edit').removeClass("btn-secondary");
-                $('#edit').addClass("btn-primary");
-                $('#edit > i').addClass("glyphicon-edit");
-                $('#edit > i').removeClass("icon-control-play");
                 video.play();
                 $('#container').hide();
                 isEdit = false;
@@ -87,6 +38,10 @@ $(document).ready(function () {
         });
         $('#clear').on('click', function () {
             drawer();
+        });
+        $('#mode').on("change", function() {
+            pos = [];
+            mode = $('#mode').val();
         });
     });
 });
@@ -192,22 +147,17 @@ function drawer() {
 */
 
 //Create Analyzer
-function drawer() {
+function drawer(width, height) {
     var stage = new Konva.Stage({
         container: 'container',
-        width: 960,
-        height: 500
+        width: width,
+        height: height
     });
 
     // add canvas element
     var layer = new Konva.Layer();
     stage.add(layer);
     layer.draw();
-
-    document.getElementById("select").addEventListener("change", function() {
-        pos = [];
-        mode = document.getElementById("select").value;
-    });
 
     // add cursor styling
     stage.on('click', function() {

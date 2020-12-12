@@ -30,20 +30,22 @@
                                             <div class="col-12">
                                                 <div class="card">
                                                     <div class="card-header">
+                                                        <h5>Videó elemző</h5>
+                                                    </div>
+                                                    <div class="card-body">
                                                         <div class="row">
                                                             <div class="col-2">
-                                                                <h5>Videó elemző</h5>
+
                                                             </div>
                                                             <div class="col-2">
                                                                 <!--<button id="play" class="btn btn-secondary btn-soft"><i class="icon-control-play"></i></button>
                                                                 <button id="mute" class="btn btn-primary btn-soft"><i class="icon-volume-2"></i></button>-->
-                                                                <button id="edit" class="btn btn-secondary btn-soft"><i class="glyphicon-edit"></i></button>
                                                             </div>
 
                                                             <div class="col-3">
                                                                 <div class="form-group row" style="margin: 0">
-                                                                    <label class="col-4 col-form-label" for="select">Mode</label>
-                                                                    <select class="col-8 form-control" id="select">
+                                                                    <label class="col-4 col-form-label" for="mode">Mode</label>
+                                                                    <select class="col-8 form-control" id="mode">
                                                                         <option value=""></option>
                                                                         <option value="line">Line</option>
                                                                         <option value="arrow">Arrow</option>
@@ -68,16 +70,29 @@
                                                                 <button class="btn btn-icon" type="button" onclick="$('#analyzer').hide()"><span aria-hidden="true"><i style="margin: 0" class="ti-close"></i></span></button>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <div class="mx-auto" style="min-height: 550px">
-                                                            <div id="videoHolder" style="position: absolute;">
-                                                                <video id="video" height="540" controls>
-                                                                    <source id="source" src="" type="video/mp4">
-                                                                    Your browser does not support the video tag.
-                                                                </video>
+                                                        <div class="row">
+                                                            <div class="col-10">
+                                                                <div class="mx-auto" style="min-height: 550px">
+                                                                    <div id="videoHolder" style="position: absolute;">
+                                                                        <video id="video" height="540" controls>
+                                                                            <source id="source" src="" type="video/mp4">
+                                                                            Your browser does not support the video tag.
+                                                                        </video>
+                                                                    </div>
+                                                                    <div id="container" style="height: 500px; position: relative; z-index: 10; width: max-content;"></div>
+                                                                </div>
                                                             </div>
-                                                            <div id="container" style="height: 500px; position: relative; z-index: 10; width: max-content;"></div>
+                                                            <div class="col-2">
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <button id="edit" class="btn btn-primary btn-soft">New highlight</button>
+                                                                    </div>
+                                                                    <hr>
+                                                                    <div class="col-12">
+                                                                        35:55
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
