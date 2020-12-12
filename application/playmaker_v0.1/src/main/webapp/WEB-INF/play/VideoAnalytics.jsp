@@ -74,7 +74,7 @@
                                                             <div class="col-10">
                                                                 <div class="mx-auto" style="min-height: 550px">
                                                                     <div id="videoHolder" style="position: absolute;">
-                                                                        <video id="video" height="540" controls>
+                                                                        <video id="video" controls>
                                                                             <source id="source" src="" type="video/mp4">
                                                                             Your browser does not support the video tag.
                                                                         </video>
