@@ -72,15 +72,11 @@
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-10">
-                                                                <div class="mx-auto" style="min-height: 550px">
-                                                                    <div id="videoHolder" style="position: absolute;">
-                                                                        <video id="video" controls>
-                                                                            <source id="source" src="" type="video/mp4">
-                                                                            Your browser does not support the video tag.
-                                                                        </video>
-                                                                    </div>
-                                                                    <div id="container" style="height: 500px; position: relative; z-index: 10; width: max-content;"></div>
-                                                                </div>
+                                                                <video id="video" controls style="position: absolute">
+                                                                    <source id="source" src="" type="video/mp4">
+                                                                    Your browser does not support the video tag.
+                                                                </video>
+                                                                <div id="container" style="height: 500px; position: relative; z-index: 10; width: max-content;"></div>
                                                             </div>
                                                             <div class="col-2">
                                                                 <div class="row">

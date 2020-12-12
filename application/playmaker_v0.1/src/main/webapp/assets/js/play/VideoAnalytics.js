@@ -1,6 +1,6 @@
 var isplaying = false;
 var isEdit = false;
-var width, heigth;
+var width, height;
 var videoId;
 var pos = [];
 var mode;
@@ -215,6 +215,6 @@ function setupVideo(id,url) {
     $('#source').attr('src', '/content/videoAnalytics/upload/'+url);
     $('#video')[0].load();
     width = $('#video').width();
-    heigth = $('#video').height();
+    height = $('#video').height();
     console.log($('#video').width()+", "+$('#video').height());
 }
