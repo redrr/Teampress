@@ -16,9 +16,9 @@
 <body>
     <!-- Pre-loader start -->
     <div class="theme-loader">
-        <div class="ball-scale">
-            <div></div>
-        </div>
+        <svg id="loader2" viewBox="0 0 100 100">
+            <circle id="circle-loader2" cx="50" cy="50" r="45"></circle>
+        </svg>
     </div>
     <!-- Pre-loader end -->
     <div id="pcoded" class="pcoded">
