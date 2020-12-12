@@ -15,13 +15,7 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 </head>
 <body>
-<!-- Pre-loader start -->
-<div class="theme-loader">
-    <div class="ball-scale">
-        <div></div>
-    </div>
-</div>
-<!-- Pre-loader end -->
+<%@include file="../include/Loader.jsp" %>
 <div id="pcoded" class="pcoded">
     <div class="pcoded-overlay-box"></div>
     <div class="pcoded-container navbar-wrapper">

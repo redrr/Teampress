@@ -15,13 +15,7 @@
         <link rel="stylesheet" type="text/css" href="../assets/vendor/assets/icon/SVG-animated/svg-weather.css">
     </head>
     <body>
-    <!-- Pre-loader start -->
-    <div class="theme-loader">
-        <div class="ball-scale">
-            <div></div>
-        </div>
-    </div>
-    <!-- Pre-loader end -->
+    <%@include file="include/Loader.jsp" %>
     <div id="pcoded" class="pcoded">
         <div class="pcoded-overlay-box"></div>
         <div class="pcoded-container navbar-wrapper">

@@ -6,13 +6,7 @@
     <%@include file="../include/Css.jsp" %>
 </head>
 <body>
-    <!-- Pre-loader start -->
-    <div class="theme-loader">
-        <div class="ball-scale">
-            <div></div>
-        </div>
-    </div>
-    <!-- Pre-loader end -->
+<%@include file="../include/Loader.jsp" %>
     <div id="pcoded" class="pcoded">
         <div class="pcoded-overlay-box"></div>
         <div class="pcoded-container navbar-wrapper">
