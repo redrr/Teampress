@@ -12,7 +12,7 @@
     <%@include file="include/Head.jsp" %>
 </head>
 <body class="c-app flex-row align-items-center">
-<%@include file="include/Loader.jsp" %>
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">

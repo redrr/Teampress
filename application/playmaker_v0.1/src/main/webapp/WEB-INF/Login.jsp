@@ -13,7 +13,6 @@
     <%@include file="include/Css.jsp" %>
 </head>
 <body class="fix-menu">
-<%@include file="include/Loader.jsp" %>
     <section class="login p-fixed d-flex text-center bg-primary common-img-bg">
         <!-- Container-fluid starts -->
         <div class="container-fluid">

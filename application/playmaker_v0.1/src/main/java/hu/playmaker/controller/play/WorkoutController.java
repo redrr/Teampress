@@ -311,11 +311,8 @@ public class WorkoutController extends BaseController {
                 outStream.flush();
                 inStream.close();
                 return data.toString();
-            } else {
-                pushNotificationToUser("/training/workout", "Jelenlétiív export", "A megadott időszakban nem található jelenléti ív!", currentUser, this.userNotificationService);
-                return "redirect:/training/workout";
             }
         }
-        return "";
+        return null;
     }
 }

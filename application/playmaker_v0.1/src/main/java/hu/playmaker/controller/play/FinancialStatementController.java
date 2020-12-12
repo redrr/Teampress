@@ -150,29 +150,31 @@ public class FinancialStatementController extends BaseController {
             Date fromDate = new SimpleDateFormat("yyyy-MM-dd").parse(id1);
             Date toDate = new SimpleDateFormat("yyyy-MM-dd").parse(id2);
             List<Income> incomes = incomeService.findByOrgAcceptedDate(organization, fromDate, toDate);
-            ExcelBuilder excel = new ExcelBuilder()
-                    .setFileName("Teampress_"+organization.getName().replace(" ", "_")+"_financial_export.xls")
-                    .setSheetName("Statement")
-                    .addTitle("Megnevezés", "Csoport", "Típus", "Érték", "Létrehozás ideje", "Létrehozó");
-            for(Income income : incomes) {
-                String type = (income.isIncome()) ? "Bevétel" : "Kiadás";
-                String group = (incomeGroupConnectionService.exist(income)) ? incomeGroupConnectionService.find(income).getGroup().getName() : "";
-                excel.addData(income.getName(), group, type, income.getPrize().toString(), income.getCreationDateAsString(), income.getCreatedBy());
-            }
-            File data = excel.build();
-            response.setContentType("application/force-download");
-            response.setHeader("Content-Disposition", "attachment; filename=\"" + data.getName() + "\"");
-            BufferedInputStream inStream = new BufferedInputStream(new FileInputStream(data));
-            BufferedOutputStream outStream = new BufferedOutputStream(response.getOutputStream());
+            if(incomes.size() > 0) {
+                ExcelBuilder excel = new ExcelBuilder()
+                        .setFileName("Teampress_"+organization.getName().replace(" ", "_")+"_financial_export.xls")
+                        .setSheetName("Statement")
+                        .addTitle("Megnevezés", "Csoport", "Típus", "Érték", "Létrehozás ideje", "Létrehozó");
+                for(Income income : incomes) {
+                    String type = (income.isIncome()) ? "Bevétel" : "Kiadás";
+                    String group = (incomeGroupConnectionService.exist(income)) ? incomeGroupConnectionService.find(income).getGroup().getName() : "";
+                    excel.addData(income.getName(), group, type, income.getPrize().toString(), income.getCreationDateAsString(), income.getCreatedBy());
+                }
+                File data = excel.build();
+                response.setContentType("application/force-download");
+                response.setHeader("Content-Disposition", "attachment; filename=\"" + data.getName() + "\"");
+                BufferedInputStream inStream = new BufferedInputStream(new FileInputStream(data));
+                BufferedOutputStream outStream = new BufferedOutputStream(response.getOutputStream());
 
-            byte[] buffer = new byte[1024];
-            int bytesRead = 0;
-            while ((bytesRead = inStream.read(buffer)) != -1) {
-                outStream.write(buffer, 0, bytesRead);
+                byte[] buffer = new byte[1024];
+                int bytesRead = 0;
+                while ((bytesRead = inStream.read(buffer)) != -1) {
+                    outStream.write(buffer, 0, bytesRead);
+                }
+                outStream.flush();
+                inStream.close();
+                return data.toString();
             }
-            outStream.flush();
-            inStream.close();
-            return data.toString();
         }
         return null;
     }
