@@ -8,8 +8,8 @@ $(document).ready(function () {
         //Setup
         createDataTable($('#table'));
         const video = $('#video')[0];
-        console.log(video.innerWidth+", "+video.innerHeight);
-        drawer(video.innerWidth, video.innerHeight);
+        console.log($('#video').width()+", "+$('#video').height());
+        drawer($('#video').width(), $('#video').height());
         $('#container').hide();
         //Control
         $(window).keypress(function (e) {
