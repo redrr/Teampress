@@ -1,5 +1,6 @@
 var isplaying = false;
 var isEdit = false;
+var width, heigth;
 var videoId;
 var pos = [];
 var mode;
@@ -8,8 +9,7 @@ $(document).ready(function () {
         //Setup
         createDataTable($('#table'));
         const video = $('#video')[0];
-        console.log($('#video').width()+", "+$('#video').height());
-        drawer($('#video').width(), $('#video').height());
+        drawer();
         $('#container').hide();
         //Control
         $(window).keypress(function (e) {
@@ -147,7 +147,7 @@ function drawer() {
 */
 
 //Create Analyzer
-function drawer(width, height) {
+function drawer() {
     var stage = new Konva.Stage({
         container: 'container',
         width: width,
@@ -214,4 +214,7 @@ function setupVideo(id,url) {
     $('#analyzer').show();
     $('#source').attr('src', '/content/videoAnalytics/upload/'+url);
     $('#video')[0].load();
+    width = $('#video').width();
+    heigth = $('#video').height();
+    console.log($('#video').width()+", "+$('#video').height());
 }
