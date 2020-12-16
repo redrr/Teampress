@@ -13,6 +13,7 @@ import hu.playmaker.database.model.videoanalytics.VideoEditor;
 import hu.playmaker.database.service.databank.SorsolasService;
 import hu.playmaker.database.service.gameplan.CustomGameService;
 import hu.playmaker.database.service.system.LookupCodeService;
+import hu.playmaker.database.service.system.ParameterService;
 import hu.playmaker.database.service.system.UserOrganizationService;
 import hu.playmaker.database.service.system.UserService;
 import hu.playmaker.database.service.trainingplan.TrainingPlanService;
@@ -46,23 +47,52 @@ public class VideoAnalyticsController extends BaseController {
 
     private UserService userService;
     private UserOrganizationService userOrganizationService;
-    private VideoEditorService videoEditorService;
+    private LookupCodeService lookupCodeService;
+    private ParameterService parameterService;
+    private VideoService videoService;
 
-    public VideoAnalyticsController(UserService userService, UserOrganizationService userOrganizationService, VideoEditorService videoEditorService) {
+    public VideoAnalyticsController(UserService userService, UserOrganizationService userOrganizationService, LookupCodeService lookupCodeService, ParameterService parameterService, VideoService videoService) {
         this.userService = userService;
         this.userOrganizationService = userOrganizationService;
-        this.videoEditorService = videoEditorService;
+        this.lookupCodeService = lookupCodeService;
+        this.parameterService = parameterService;
+        this.videoService = videoService;
     }
 
     @RequestMapping("")
     public ModelAndView show(){
         if(hasPermission(Permissions.VIDEO_ANALYTICS)) {
-            ModelAndView view = new ModelAndView("play/VideoAnalytics");
+            ModelAndView view = new ModelAndView("play/VideoAnalytics", "video", new VideoAnalyticsForm());
             User currentUser = userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession());
             UserOrganization userOrganization = userOrganizationService.getOrgByUser(currentUser);
-            view.addObject("data", videoEditorService.find(userOrganization.getOrganization()));
+            view.addObject("data", videoService.findAll());
             return view;
         }
         return new ModelAndView("403");
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public String doSubmit(@Valid @ModelAttribute("video") VideoAnalyticsForm form, BindingResult result, HttpServletRequest request) {
+        if(hasPermission(Permissions.VIDEO_ANALYTICS)) {
+            String uploadFolder = parameterService.findParameterByGroupAndCode("SYSTEM", "UPLOAD_FOLDER").getValue();
+            if(!form.getVideo().isEmpty() && form.getVideo().getContentType().contains("mp4")){
+                Video video = new Video();
+                String fileName = UUID.randomUUID()+".mp4";
+                try {
+                    byte[] bytes = form.getVideo().getBytes();
+                    Path path = Paths.get(uploadFolder+fileName);
+                    Files.write(path, bytes);
+                    video.setName(fileName);
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+                videoService.mergeFlush(video);
+            }
+        }
+        return "redirect:/videoanalytics";
+    }
+
+    public String createAction(@RequestParam String id, @RequestParam String time, @RequestParam String data) {
+        return "";
     }
 }

@@ -184,53 +184,11 @@
                     </ul>
                 </li>
             </c:if>
-            <c:if test="${sessionHandler.userHasPermission('VIDEO_ANALYTICS') || sessionHandler.userHasPermission('FOLDER_CREATE')}">
-                <li class="pcoded-hasmenu ${(requestURI.contains('folder') || requestURI.contains('videoeditor') || requestURI.contains('videocloud') || requestURI.equals('/videoanalytics')) ? 'active' : ''}">
-                    <a href="javascript:void(0)">
+            <c:if test="${sessionHandler.userHasPermission('VIDEO_ANALYTICS')}">
+                <li class="${requestURI.equals('/videoanalytics') ? 'active' : ''}">
+                    <a href="/videoanalytics">
                         <span class="pcoded-micon"><i class="ti-video-clapper"></i></span>
-                        <span class="pcoded-mtext" data-i18n="nav.social.main">Videóelemző</span>
-                    </a>
-                    <ul class="pcoded-submenu">
-                        <c:if test="${sessionHandler.userHasPermission('VIDEO_ANALYTICS')}">
-                            <li class="${requestURI.equals('/folder') ? 'active' : ''}">
-                                <a href="/folder">
-                                    <span class="pcoded-micon"><i class="ti-folder"></i></span>
-                                    <span class="pcoded-mtext" data-i18n="nav.social.fb-wall">Mappák</span>
-                                </a>
-                            </li>
-                        </c:if>
-                        <c:if test="${sessionHandler.userHasPermission('VIDEO_ANALYTICS')}">
-                            <li class="${requestURI.equals('/videoanalytics') ? 'active' : ''}">
-                                <a href="/videoanalytics">
-                                    <span class="pcoded-micon"><i class="ti-video-clapper"></i></span>
-                                    <span class="pcoded-mtext" data-i18n="nav.social.fb-wall">Videóelemző</span>
-                                </a>
-                            </li>
-                        </c:if>
-                        <c:if test="${sessionHandler.userHasPermission('VIDEO_ANALYTICS')}">
-                            <li class="${requestURI.equals('/videoeditor') ? 'active' : ''}">
-                                <a href="/videoeditor">
-                                    <span class="pcoded-micon"><i class="ti-video-clapper"></i></span>
-                                    <span class="pcoded-mtext" data-i18n="nav.social.fb-wall">Videóeditor</span>
-                                </a>
-                            </li>
-                        </c:if>
-                        <c:if test="${sessionHandler.userHasPermission('VIDEO_ANALYTICS')}">
-                            <li class="${requestURI.equals('/videocloud') ? 'active' : ''}">
-                                <a href="/videocloud">
-                                    <span class="pcoded-micon"><i class="ti-video-clapper"></i></span>
-                                    <span class="pcoded-mtext" data-i18n="nav.social.fb-wall">Videótár</span>
-                                </a>
-                            </li>
-                        </c:if>
-                    </ul>
-                </li>
-            </c:if>
-            <c:if test="${sessionHandler.userHasPermission('VIDEO_CLOUD')}">
-                <li class="${requestURI.contains('/videocloud') ? 'active' : ''}">
-                    <a href="/videocloud">
-                        <span class="pcoded-micon"><i class="ti-gallery"></i></span>
-                        <span class="pcoded-mtext" data-i18n="nav.crm-contact.main">Videótár</span>
+                        <span class="pcoded-mtext" data-i18n="nav.social.fb-wall">Videóelemző</span>
                     </a>
                 </li>
             </c:if>

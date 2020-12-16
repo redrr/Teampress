@@ -3,13 +3,15 @@ var isEdit = false;
 var width, height;
 var videoId;
 var pos = [];
-var mode;
+var mode = "line";
 $(document).ready(function () {
     $().ready(function () {
         //Setup
         createDataTable($('#table'));
         const video = $('#video')[0];
-        drawer();
+        video.oncanplay = function() {
+            video.width = $('#videoHolder').width();
+        };
         $('#container').hide();
         //Control
         $(window).keypress(function (e) {
@@ -37,7 +39,7 @@ $(document).ready(function () {
             }
         });
         $('#clear').on('click', function () {
-            drawer();
+            initLayer();
         });
         $('#mode').on("change", function() {
             pos = [];
@@ -147,7 +149,7 @@ function drawer() {
 */
 
 //Create Analyzer
-function drawer() {
+function initLayer() {
     var stage = new Konva.Stage({
         container: 'container',
         width: width,
@@ -212,9 +214,20 @@ function drawer() {
 function setupVideo(id,url) {
     videoId = id;
     $('#analyzer').show();
+    $('#tableCard').hide();
     $('#source').attr('src', '/content/videoAnalytics/upload/'+url);
-    $('#video')[0].load();
-    width = $('#video').width();
-    height = $('#video').height();
-    console.log($('#video').width()+", "+$('#video').height());
+    var video = $('#video');
+    video[0].load();
+    setTimeout(function (){
+        $('#actions').height($('#video').height());
+        height = $('#video').height()
+        width = $('#video').width();
+        initLayer();
+    }, 300);
+    setTimeout(function (){
+        $('#actions').mCustomScrollbar({
+            theme:"dark-thick",
+            scrollInertia: 200
+        });
+    }, 300);
 }
