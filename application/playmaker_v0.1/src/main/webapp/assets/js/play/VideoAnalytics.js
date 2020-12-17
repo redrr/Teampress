@@ -10,7 +10,6 @@ $(document).ready(function () {
         //Setup
         createDataTable($('#table'));
         const video = $('#video')[0];
-        drawer();
         $('#container').hide();
         //Control
         $(window).keypress(function (e) {
@@ -29,8 +28,10 @@ $(document).ready(function () {
         $('#edit').on('click', function () {
             if(!isEdit){
                 video.pause();
+                video.controls = false;
                 changeSidebar($('#actionsSidebar'), $('#recordActionSidebar'));
                 $('#container').show();
+                drawer();
                 isEdit = true;
             } else {
                 console.log('ERROR - Need to change sidebar!')
@@ -50,15 +51,16 @@ $(document).ready(function () {
                     },
                     function () {
                         video.play();
+                        video.controls = true;
                         changeSidebar($('#recordActionSidebar'), $('#actionsSidebar'));
-                        $('#container').show();
+                        $('#container').hide();
                         isEdit = false;
                     }
                 )
             } else {
                 console.log('ERROR - Need to change sidebar!')
                 video.pause();
-                $('#container').hide();
+                $('#container').show();
                 isEdit = true;
             }
         });
@@ -74,6 +76,7 @@ $(document).ready(function () {
 
 //Create Analyzer
 function drawer() {
+    console.log("start draw:" + width + "," + height);
     var stage = new Konva.Stage({
         container: 'container',
         width: width,
