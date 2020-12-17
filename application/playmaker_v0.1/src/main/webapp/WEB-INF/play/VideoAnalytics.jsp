@@ -27,12 +27,12 @@
                                                         <h5>Videó elemző</h5>
                                                     </div>
                                                     <div class="card-body">
-                                                        <div class="row">
+                                                        <div id="analyticTools" class="row analytictools">
                                                             <div class="col-4 mx-auto">
                                                                 <div class="btn-group " role="group">
-                                                                    <button type="button" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="Select"><i class="icofont icofont-info-square"></i>S</button>
-                                                                    <button type="button" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="Area"><i class="icofont icofont-info-square"></i>A</button>
-                                                                    <button type="button" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="Arrow"><i class="icofont icofont-info-square"></i>A</button>
+                                                                    <button type="button" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="Select"><i class="icofont icofont-simple-down"></i></button>
+                                                                    <button type="button" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="Area"><i class="icofont icofont-angle"></i></button>
+                                                                    <button type="button" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="Arrow"><i class="icofont icofont-long-arrow-right"></i></button>
                                                                     <div class="dropdown-primary dropdown open" data-toggle="tooltip" data-placement="top" title="Color">
                                                                         <button class="btn btn-dark btn-sm dropdown-toggle" type="button" id="dropdown-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">C</button>
                                                                         <div class="dropdown-menu" aria-labelledby="dropdown-2" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
@@ -41,6 +41,14 @@
                                                                             <a class="dropdown-item" href="#">R</a>
                                                                         </div>
                                                                     </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="analyticConfirm" class="row analytictools">
+                                                            <div class="col-4 mx-auto">
+                                                                <div class="btn-group " role="group">
+                                                                    <button type="button" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="no"><<i class="icofont icofont-ui-close"></i></button>
+                                                                    <button type="button" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="yes"><i class="icofont icofont-ui-check"></i></button>
                                                                 </div>
                                                             </div>
                                                         </div>
