@@ -65,4 +65,12 @@ public class VideoAnalyticsController extends BaseController {
         }
         return new ModelAndView("403");
     }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/recordAction")
+    @ResponseBody
+    public void recordAction(@RequestParam String videoId, @RequestParam String time, @RequestParam String bluePrint){
+        System.out.println("Video ID:" + videoId);
+        System.out.println("Action time:" + time);
+        System.out.println("Action data:" + bluePrint);
+    }
 }

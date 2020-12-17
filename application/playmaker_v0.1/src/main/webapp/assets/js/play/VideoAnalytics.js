@@ -28,12 +28,27 @@ $(document).ready(function () {
         $('#edit').on('click', function () {
             if(!isEdit){
                 video.pause();
+                changeSidebar($('#actionsSidebar'), $('#recordActionSidebar'));
                 $('#container').show();
                 isEdit = true;
             } else {
+                console.log('ERROR - Need to change sidebar!')
                 video.play();
                 $('#container').hide();
                 isEdit = false;
+            }
+        });
+        $('#saveAction').on('click', function () {
+            if(isEdit){
+                video.play();
+                changeSidebar($('#recordActionSidebar'), $('#actionsSidebar'));
+                $('#container').show();
+                isEdit = false;
+            } else {
+                console.log('ERROR - Need to change sidebar!')
+                video.pause();
+                $('#container').hide();
+                isEdit = true;
             }
         });
         $('#clear').on('click', function () {
@@ -45,106 +60,6 @@ $(document).ready(function () {
         });
     });
 });
-
-/*
-function drawer() {
-    var width = 960;
-    var height = 500;
-
-    // first we need Konva core things: stage and layer
-    var stage = new Konva.Stage({
-        container: 'container',
-        width: 960,
-        height: 500
-    });
-
-    var layer = new Konva.Layer();
-    stage.add(layer);
-
-    // then we are going to draw into special canvas element
-    var canvas = document.createElement('canvas');
-    canvas.width = 960;
-    canvas.height = 500;
-
-    // created canvas we can add to layer as "Konva.Image" element
-    var image = new Konva.Image({
-        image: canvas,
-        x: 0,
-        y: 0
-    });
-    layer.add(image);
-    stage.draw();
-
-    $('#clear').on('click', function () {
-        drawer();
-    });
-
-    // Good. Now we need to get access to context element
-    var context = canvas.getContext('2d');
-    context.strokeStyle = $('#color').val();
-    context.lineJoin = 'round';
-    context.lineWidth = $('#width').val();
-
-    var isPaint = false;
-    var lastPointerPosition;
-    var mode = 'brush';
-
-    layer.on('mouseenter', function () {
-        stage.container().style.cursor = 'pointer';
-    });
-
-    layer.on('mouseleave', function () {
-        stage.container().style.cursor = 'default';
-    });
-
-    // now we need to bind some events
-    // we need to start drawing on mousedown
-    // and stop drawing on mouseup
-    image.on('mousedown touchstart', function() {
-        isPaint = true;
-        lastPointerPosition = stage.getPointerPosition();
-    });
-
-    // will it be better to listen move/end events on the window?
-
-    stage.on('mouseup touchend', function() {
-        isPaint = false;
-    });
-
-    // and core function - drawing
-    stage.on('mousemove touchmove', function() {
-        if (!isPaint) {
-            return;
-        }
-
-        if (mode === 'brush') {
-            context.globalCompositeOperation = 'source-over';
-        }
-        if (mode === 'eraser') {
-            context.globalCompositeOperation = 'destination-out';
-        }
-        context.beginPath();
-
-        var localPos = {
-            x: lastPointerPosition.x - image.x(),
-            y: lastPointerPosition.y - image.y()
-        };
-        context.moveTo(localPos.x, localPos.y);
-        var pos = stage.getPointerPosition();
-        localPos = {
-            x: pos.x - image.x(),
-            y: pos.y - image.y()
-        };
-        context.strokeStyle = $('#color').val();
-        context.lineWidth = $('#width').val();
-        context.lineTo(localPos.x, localPos.y);
-        context.closePath();
-        context.stroke();
-        lastPointerPosition = pos;
-        layer.batchDraw();
-    });
-}
-*/
 
 //Create Analyzer
 function drawer() {
@@ -217,4 +132,10 @@ function setupVideo(id,url) {
     width = $('#video').width();
     height = $('#video').height();
     console.log($('#video').width()+", "+$('#video').height());
+}
+
+function changeSidebar(from, to) {
+    const hideCssClass = "highlight-sidebar-hidden";
+    from.addClass(hideCssClass);
+    to.removeClass(hideCssClass);
 }

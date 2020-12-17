@@ -77,13 +77,22 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-2">
-                                                                <div class="row">
+                                                                <div id="actionsSidebar" class="row highlight-sidebar">
                                                                     <div class="col-12">
                                                                         <button id="edit" class="btn btn-primary btn-soft">New highlight</button>
                                                                     </div>
                                                                     <hr>
                                                                     <div class="col-12">
                                                                         35:55
+                                                                    </div>
+                                                                </div>
+                                                                <div id="recordActionSidebar" class="row highlight-sidebar highlight-sidebar-hidden">
+                                                                    <div class="col-12">
+                                                                        <button id="saveAction" class="btn btn-primary btn-soft">Save</button>
+                                                                    </div>
+                                                                    <hr>
+                                                                    <div class="col-12">
+
                                                                     </div>
                                                                 </div>
                                                             </div>
