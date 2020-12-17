@@ -3,7 +3,8 @@ var isEdit = false;
 var width, height;
 var videoId;
 var pos = [];
-var mode;
+var mode = 'line';
+var color = '#fff';
 var bluePrintJSON;
 $(document).ready(function () {
     $().ready(function () {
@@ -66,13 +67,6 @@ $(document).ready(function () {
                 isEdit = true;
             }
         });
-        $('#clear').on('click', function () {
-            drawer();
-        });
-        $('#mode').on("change", function() {
-            pos = [];
-            mode = $('#mode').val();
-        });
     });
 });
 
@@ -100,7 +94,7 @@ function drawer() {
         if(mode === 'line') {
             var line = new Konva.Line({
                 points: pos,
-                stroke: $('#color').val(),
+                stroke: color,
                 strokeWidth: 4,
                 lineCap: 'round',
                 lineJoin: 'round',
@@ -110,7 +104,7 @@ function drawer() {
         if(mode === 'arrow') {
             var arrow = new Konva.Arrow({
                 points: pos,
-                stroke: $('#color').val(),
+                stroke: color,
                 strokeWidth: 4,
                 lineCap: 'round',
                 lineJoin: 'round',
@@ -124,8 +118,8 @@ function drawer() {
                     y: pos[1],
                     sides: 3,
                     radius: 8,
-                    fill: $('#color').val(),
-                    stroke: $('#color').val(),
+                    fill: color,
+                    stroke: color,
                     strokeWidth: 4,
                     lineCap: 'round',
                     lineJoin: 'round',

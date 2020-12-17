@@ -30,15 +30,15 @@
                                                         <div id="analyticTools" class="row analytictools highlight-sidebar-hidden">
                                                             <div class="col-4 mx-auto">
                                                                 <div class="btn-group " role="group">
-                                                                    <button type="button" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="Select"><i class="icofont icofont-simple-down"></i></button>
-                                                                    <button type="button" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="Area"><i class="icofont icofont-angle"></i></button>
-                                                                    <button type="button" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="Arrow"><i class="icofont icofont-long-arrow-right"></i></button>
+                                                                    <button type="button" onclick="pos = [];mode = 'line';$('#analyticTools').addClass('highlight-sidebar-hidden');$('#analyticConfirm').removeClass('highlight-sidebar-hidden')" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="Select"><i class="icofont icofont-simple-down"></i></button>
+                                                                    <button type="button" onclick="pos = [];mode = 'line';$('#analyticTools').addClass('highlight-sidebar-hidden');$('#analyticConfirm').removeClass('highlight-sidebar-hidden')" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="Area"><i class="icofont icofont-angle"></i></button>
+                                                                    <button type="button" onclick="pos = [];mode = 'line';$('#analyticTools').addClass('highlight-sidebar-hidden');$('#analyticConfirm').removeClass('highlight-sidebar-hidden')" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="Arrow"><i class="icofont icofont-long-arrow-right"></i></button>
                                                                     <div class="dropdown-primary dropdown open" data-toggle="tooltip" data-placement="top" title="Color">
                                                                         <button class="btn btn-dark btn-sm dropdown-toggle" type="button" id="dropdown-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">C</button>
                                                                         <div class="dropdown-menu" aria-labelledby="dropdown-2" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
-                                                                            <a class="dropdown-item" href="#">W</a>
-                                                                            <a class="dropdown-item" href="#">G</a>
-                                                                            <a class="dropdown-item" href="#">R</a>
+                                                                            <button class="dropdown-item" onclick="color = '#f3f3f3'">W</button>
+                                                                            <button class="dropdown-item" onclick="color = '#CC0034'">G</button>
+                                                                            <button class="dropdown-item" onclick="color = '#75FFB0'">R</button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -47,8 +47,8 @@
                                                         <div id="analyticConfirm" class="row analytictools highlight-sidebar-hidden">
                                                             <div class="col-4 mx-auto">
                                                                 <div class="btn-group " role="group">
-                                                                    <button type="button" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="yes"><i class="icofont icofont-ui-check"></i></button>
-                                                                    <button type="button" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="no"><i class="icofont icofont-ui-close"></i></button>
+                                                                    <button type="button" onclick="pos = [];$('#analyticTools').removeClass('highlight-sidebar-hidden')" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="yes"><i class="icofont icofont-ui-check"></i></button>
+                                                                    <button type="button" onclick="pos = [];drawer();$('#analyticTools').removeClass('highlight-sidebar-hidden')" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="no"><i class="icofont icofont-ui-close"></i></button>
                                                                 </div>
                                                             </div>
                                                         </div>
