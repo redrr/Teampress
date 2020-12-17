@@ -44,6 +44,13 @@ public class VideoAnalyticsController extends BaseController {
     private VideoService videoService;
     private AnalyticsActionService analyticsActionService;
 
+    public VideoAnalyticsController(UserService userService, UserOrganizationService userOrganizationService, VideoEditorService videoEditorService, VideoService videoService, AnalyticsActionService analyticsActionService) {
+        this.userService = userService;
+        this.userOrganizationService = userOrganizationService;
+        this.videoEditorService = videoEditorService;
+        this.videoService = videoService;
+        this.analyticsActionService = analyticsActionService;
+    }
 
     @RequestMapping("")
     public ModelAndView show(){
