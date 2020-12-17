@@ -29,22 +29,22 @@
                                                     <div class="card-body">
                                                         <div class="row">
                                                             <div class="col-4 mx-auto">
-                                                                <div class="btn-group " role="group" data-toggle="tooltip" data-placement="top" title="Teszt">
-                                                                    <div class="dropdown-primary dropdown open">
-                                                                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdown-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Color</button>
+                                                                <div class="btn-group " role="group">
+                                                                    <button type="button" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="Select"><i class="icofont icofont-info-square"></i>S</button>
+                                                                    <button type="button" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="Area"><i class="icofont icofont-info-square"></i>A</button>
+                                                                    <button type="button" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="Arrow"><i class="icofont icofont-info-square"></i>A</button>
+                                                                    <div class="dropdown-primary dropdown open" data-toggle="tooltip" data-placement="top" title="Color">
+                                                                        <button class="btn btn-dark btn-sm dropdown-toggle" type="button" id="dropdown-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">C</button>
                                                                         <div class="dropdown-menu" aria-labelledby="dropdown-2" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
-                                                                            <a class="dropdown-item" href="#">White</a>
-                                                                            <a class="dropdown-item" href="#">Green</a>
-                                                                            <a class="dropdown-item" href="#">Red</a>
+                                                                            <a class="dropdown-item" href="#">W</a>
+                                                                            <a class="dropdown-item" href="#">G</a>
+                                                                            <a class="dropdown-item" href="#">R</a>
                                                                         </div>
                                                                     </div>
-                                                                    <button type="button" class="btn btn-dark btn-sm"><i class="icofont icofont-info-square"></i>Select</button>
-                                                                    <button type="button" class="btn btn-dark btn-sm"><i class="icofont icofont-info-square"></i>Area</button>
-                                                                    <button type="button" class="btn btn-dark btn-sm"><i class="icofont icofont-info-square"></i>Arrow</button>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="row">
+                                                        <div style="display: none" class="row">
                                                             <div class="col-4">
                                                                 <div class="form-group row" style="margin: 0">
                                                                     <label class="col-4 col-form-label" for="mode">Mode</label>
