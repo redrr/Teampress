@@ -38,19 +38,6 @@ $(document).ready(function () {
                 isEdit = false;
             }
         });
-        $('#saveAction').on('click', function () {
-            if(isEdit){
-                video.play();
-                changeSidebar($('#recordActionSidebar'), $('#actionsSidebar'));
-                $('#container').show();
-                isEdit = false;
-            } else {
-                console.log('ERROR - Need to change sidebar!')
-                video.pause();
-                $('#container').hide();
-                isEdit = true;
-            }
-        });
         $('#clear').on('click', function () {
             drawer();
         });
@@ -73,6 +60,21 @@ function drawer() {
     var layer = new Konva.Layer();
     stage.add(layer);
     layer.draw();
+
+    $('#saveAction').on('click', function () {
+        if(isEdit){
+            $.post
+            $('#video')[0].play();
+            changeSidebar($('#recordActionSidebar'), $('#actionsSidebar'));
+            $('#container').show();
+            isEdit = false;
+        } else {
+            console.log('ERROR - Need to change sidebar!')
+            $('#video')[0].pause();
+            $('#container').hide();
+            isEdit = true;
+        }
+    });
 
     // add cursor styling
     stage.on('click', function() {

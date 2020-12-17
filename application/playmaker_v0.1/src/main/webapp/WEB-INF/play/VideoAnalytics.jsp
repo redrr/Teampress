@@ -65,7 +65,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="row">
-                                                            <div class="col-10">
+                                                            <div class="col-9">
                                                                 <div class="mx-auto" style="min-height: 550px">
                                                                     <div id="videoHolder" style="position: absolute;">
                                                                         <video id="video" height="540" controls>
@@ -76,21 +76,21 @@
                                                                     <div id="container" style="height: 500px; position: relative; z-index: 10; width: max-content;"></div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-2">
+                                                            <div class="col-3">
                                                                 <div id="actionsSidebar" class="row highlight-sidebar">
                                                                     <div class="col-12">
-                                                                        <button id="edit" class="btn btn-primary btn-soft">New highlight</button>
+                                                                        <button id="edit" class="btn btn-primary btn-soft w-100">New highlight</button>
+                                                                        <hr>
                                                                     </div>
-                                                                    <hr>
                                                                     <div class="col-12">
                                                                         35:55
                                                                     </div>
                                                                 </div>
                                                                 <div id="recordActionSidebar" class="row highlight-sidebar highlight-sidebar-hidden">
                                                                     <div class="col-12">
-                                                                        <button id="saveAction" class="btn btn-primary btn-soft">Save</button>
+                                                                        <button id="saveAction" class="btn btn-primary btn-soft w-100">Save</button>
+                                                                        <hr>
                                                                     </div>
-                                                                    <hr>
                                                                     <div class="col-12">
 
                                                                     </div>
