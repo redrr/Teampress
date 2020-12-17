@@ -28,15 +28,24 @@
                                                     </div>
                                                     <div class="card-body">
                                                         <div class="row">
-                                                            <div class="col-2">
-
+                                                            <div class="col-4 mx-auto">
+                                                                <div class="btn-group " role="group" data-toggle="tooltip" data-placement="top" title="Teszt">
+                                                                    <div class="dropdown-primary dropdown open">
+                                                                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdown-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Color</button>
+                                                                        <div class="dropdown-menu" aria-labelledby="dropdown-2" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
+                                                                            <a class="dropdown-item" href="#">White</a>
+                                                                            <a class="dropdown-item" href="#">Green</a>
+                                                                            <a class="dropdown-item" href="#">Red</a>
+                                                                        </div>
+                                                                    </div>
+                                                                    <button type="button" class="btn btn-dark btn-sm"><i class="icofont icofont-info-square"></i>Select</button>
+                                                                    <button type="button" class="btn btn-dark btn-sm"><i class="icofont icofont-info-square"></i>Area</button>
+                                                                    <button type="button" class="btn btn-dark btn-sm"><i class="icofont icofont-info-square"></i>Arrow</button>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-2">
-                                                                <!--<button id="play" class="btn btn-secondary btn-soft"><i class="icon-control-play"></i></button>
-                                                                <button id="mute" class="btn btn-primary btn-soft"><i class="icon-volume-2"></i></button>-->
-                                                            </div>
-
-                                                            <div class="col-3">
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-4">
                                                                 <div class="form-group row" style="margin: 0">
                                                                     <label class="col-4 col-form-label" for="mode">Mode</label>
                                                                     <select class="col-8 form-control" id="mode">
@@ -47,7 +56,7 @@
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-3">
+                                                            <div class="col-4">
                                                                 <div class="form-group row" style="margin: 0">
                                                                     <label class="col-4 col-form-label" for="color">Szín</label>
                                                                     <select class="col-8 form-control" id="color">
@@ -57,10 +66,10 @@
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-1">
+                                                            <div class="col-2">
                                                                 <button style="float: right" id="clear" class="btn btn-danger btn-soft"><i class="ti-trash"></i></button>
                                                             </div>
-                                                            <div class="col-1">
+                                                            <div class="col-2">
                                                                 <button class="btn btn-icon" type="button" onclick="$('#analyzer').hide()"><span aria-hidden="true"><i style="margin: 0" class="ti-close"></i></span></button>
                                                             </div>
                                                         </div>
@@ -82,7 +91,7 @@
                                                                         <button id="edit" class="btn btn-primary btn-soft w-100">New highlight</button>
                                                                         <hr>
                                                                     </div>
-                                                                    <div class="col-12">
+                                                                    <div id="actionsHolder" class="col-12">
                                                                         35:55
                                                                     </div>
                                                                 </div>
