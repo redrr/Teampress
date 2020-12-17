@@ -27,6 +27,7 @@ $(document).ready(function () {
         });
         $('#edit').on('click', function () {
             if(!isEdit){
+                pos = [];
                 video.pause();
                 video.controls = false;
                 changeSidebar($('#actionsSidebar'), $('#recordActionSidebar'));
@@ -50,6 +51,7 @@ $(document).ready(function () {
                         bluePrint   :   bluePrintJSON
                     },
                     function () {
+                        pos = [];
                         video.play();
                         video.controls = true;
                         changeSidebar($('#recordActionSidebar'), $('#actionsSidebar'));
