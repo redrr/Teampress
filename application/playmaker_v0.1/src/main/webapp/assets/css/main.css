@@ -155,7 +155,7 @@ div.pcoded-overlay-box {
 }
 
 .analytictools {
-    margin-top: 55px;
+    margin-top: -55px;
     margin-bottom: 15px;
     display: block;
     transition: .2s;

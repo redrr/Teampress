@@ -27,13 +27,13 @@ $(document).ready(function () {
         });
         $('#edit').on('click', function () {
             if(!isEdit){
+                isEdit = true;
                 pos = [];
                 video.pause();
                 video.controls = false;
                 changeSidebar($('#actionsSidebar'), $('#recordActionSidebar'));
                 $('#container').show();
                 drawer();
-                isEdit = true;
             } else {
                 console.log('ERROR - Need to change sidebar!')
                 video.play();
@@ -52,11 +52,11 @@ $(document).ready(function () {
                     },
                     function () {
                         pos = [];
+                        isEdit = false;
                         video.play();
                         video.controls = true;
                         changeSidebar($('#recordActionSidebar'), $('#actionsSidebar'));
                         $('#container').hide();
-                        isEdit = false;
                     }
                 )
             } else {
@@ -153,6 +153,11 @@ function setupVideo(id,url) {
 
 function changeSidebar(from, to) {
     const hideCssClass = "highlight-sidebar-hidden";
+    const tools = $('#analyticTools');
     from.addClass(hideCssClass);
     to.removeClass(hideCssClass);
+    if(!isEdit)
+        tools.addClass(hideCssClass);
+    else
+        tools.removeClass(hideCssClass);
 }

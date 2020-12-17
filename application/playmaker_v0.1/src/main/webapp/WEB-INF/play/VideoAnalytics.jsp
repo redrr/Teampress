@@ -27,7 +27,7 @@
                                                         <h5>Videó elemző</h5>
                                                     </div>
                                                     <div class="card-body">
-                                                        <div id="analyticTools" class="row analytictools">
+                                                        <div id="analyticTools" class="row analytictools highlight-sidebar-hidden">
                                                             <div class="col-4 mx-auto">
                                                                 <div class="btn-group " role="group">
                                                                     <button type="button" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="Select"><i class="icofont icofont-simple-down"></i></button>
@@ -44,11 +44,11 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div id="analyticConfirm" class="row analytictools">
+                                                        <div id="analyticConfirm" class="row analytictools highlight-sidebar-hidden">
                                                             <div class="col-4 mx-auto">
                                                                 <div class="btn-group " role="group">
-                                                                    <button type="button" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="no"><<i class="icofont icofont-ui-close"></i></button>
                                                                     <button type="button" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="yes"><i class="icofont icofont-ui-check"></i></button>
+                                                                    <button type="button" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="no"><i class="icofont icofont-ui-close"></i></button>
                                                                 </div>
                                                             </div>
                                                         </div>
