@@ -143,3 +143,20 @@ display: none;
 div.pcoded-overlay-box {
     z-index: 90!important;
 }
+
+.highlight-sidebar {
+    display: block;
+    transition: .2s;
+}
+
+.analytictools {
+    margin-top: -55px;
+    margin-bottom: 15px;
+    display: block;
+    transition: .2s;
+}
+
+.highlight-sidebar-hidden {
+    display: none;
+    transition: .2s;
+}

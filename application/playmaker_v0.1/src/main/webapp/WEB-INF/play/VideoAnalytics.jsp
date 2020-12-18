@@ -35,9 +35,33 @@
                                                         </div>
                                                     </div>
                                                     <div class="card-body">
-                                                        <div class="row" style="display: none">
-
-                                                            <div class="col-3">
+                                                        <div id="analyticTools" class="row analytictools highlight-sidebar-hidden">
+                                                            <div class="col-4 mx-auto">
+                                                                <div class="btn-group " role="group">
+                                                                    <button type="button" onclick="pos = [];mode = 'select';$('#analyticTools').addClass('highlight-sidebar-hidden');$('#analyticConfirm').removeClass('highlight-sidebar-hidden')" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="Select"><i class="icofont icofont-simple-down"></i></button>
+                                                                    <button type="button" onclick="pos = [];mode = 'line';$('#analyticTools').addClass('highlight-sidebar-hidden');$('#analyticConfirm').removeClass('highlight-sidebar-hidden')" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="Area"><i class="icofont icofont-angle"></i></button>
+                                                                    <button type="button" onclick="pos = [];mode = 'arrow';$('#analyticTools').addClass('highlight-sidebar-hidden');$('#analyticConfirm').removeClass('highlight-sidebar-hidden')" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="Arrow"><i class="icofont icofont-long-arrow-right"></i></button>
+                                                                    <div class="dropdown-primary dropdown open" data-toggle="tooltip" data-placement="top" title="Color">
+                                                                        <button class="btn btn-dark btn-sm dropdown-toggle" type="button" id="dropdown-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">C</button>
+                                                                        <div class="dropdown-menu" aria-labelledby="dropdown-2" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
+                                                                            <button class="dropdown-item" onclick="color = '#f3f3f3'">W</button>
+                                                                            <button class="dropdown-item" onclick="color = '#CC0034'">G</button>
+                                                                            <button class="dropdown-item" onclick="color = '#75FFB0'">R</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="analyticConfirm" class="row analytictools highlight-sidebar-hidden">
+                                                            <div class="col-4 mx-auto">
+                                                                <div class="btn-group " role="group">
+                                                                    <button type="button" onclick="pos = [];$('#analyticTools').removeClass('highlight-sidebar-hidden');$('#analyticConfirm').addClass('highlight-sidebar-hidden');" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="yes"><i class="icofont icofont-ui-check"></i></button>
+                                                                    <button type="button" onclick="pos = [];drawer();$('#analyticTools').removeClass('highlight-sidebar-hidden');$('#analyticConfirm').addClass('highlight-sidebar-hidden');" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="no"><i class="icofont icofont-ui-close"></i></button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div style="display: none" class="row">
+                                                            <div class="col-4">
                                                                 <div class="form-group row" style="margin: 0">
                                                                     <label class="col-4 col-form-label" for="mode">Mode</label>
                                                                     <select class="col-8 form-control" id="mode">
@@ -47,7 +71,7 @@
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-3">
+                                                            <div class="col-4">
                                                                 <div class="form-group row" style="margin: 0">
                                                                     <label class="col-4 col-form-label" for="color">Szín</label>
                                                                     <select class="col-8 form-control" id="color">
@@ -57,7 +81,7 @@
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-1">
+                                                            <div class="col-2">
                                                                 <button style="float: right" id="clear" class="btn btn-danger btn-soft"><i class="ti-trash"></i></button>
                                                             </div>
                                                         </div>
@@ -74,60 +98,12 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-3">
-                                                                <div id="actions" class="row" style="overflow: hidden;">
+                                                                <div id="actionsSidebar" class="row highlight-sidebar">
                                                                     <div class="col-12">
                                                                         <button id="edit" class="btn btn-primary btn-soft w-100">New highlight</button>
                                                                         <hr>
                                                                     </div>
-                                                                    <div class="col-12">
-                                                                        <button class="btn btn-light btn-soft m-1 p-1">
-                                                                            <div class="row">
-                                                                                <div class="col-4">
-                                                                                    <b>35:14</b>
-                                                                                </div>
-                                                                                <div class="col-8">
-                                                                                    <p class="text-left">Teszt akció</p>
-                                                                                </div>
-                                                                                <div class="col-12">
-                                                                                    <p class="text-left">Típus: Támadás</p>
-                                                                                </div>
-                                                                                <div class="col-12">
-                                                                                    <p class="text-left">Játékos: Faragó Sámuel</p>
-                                                                                </div>
-                                                                            </div>
-                                                                        </button>
-                                                                        <button class="btn btn-light btn-soft m-1 p-1">
-                                                                            <div class="row">
-                                                                                <div class="col-4">
-                                                                                    <b>35:14</b>
-                                                                                </div>
-                                                                                <div class="col-8">
-                                                                                    <p class="text-left">Teszt akció</p>
-                                                                                </div>
-                                                                                <div class="col-12">
-                                                                                    <p class="text-left">Típus: Támadás</p>
-                                                                                </div>
-                                                                                <div class="col-12">
-                                                                                    <p class="text-left">Játékos: Faragó Sámuel</p>
-                                                                                </div>
-                                                                            </div>
-                                                                        </button>
-                                                                        <button class="btn btn-light btn-soft m-1 p-1">
-                                                                            <div class="row">
-                                                                                <div class="col-4">
-                                                                                    <b>35:14</b>
-                                                                                </div>
-                                                                                <div class="col-8">
-                                                                                    <p class="text-left">Teszt akció</p>
-                                                                                </div>
-                                                                                <div class="col-12">
-                                                                                    <p class="text-left">Típus: Támadás</p>
-                                                                                </div>
-                                                                                <div class="col-12">
-                                                                                    <p class="text-left">Játékos: Faragó Sámuel</p>
-                                                                                </div>
-                                                                            </div>
-                                                                        </button>
+                                                                    <div id="actionsHolder" class="col-12" style="overflow: hidden;">
                                                                         <button class="btn btn-light btn-soft m-1 p-1">
                                                                             <div class="row">
                                                                                 <div class="col-4">
@@ -146,13 +122,22 @@
                                                                         </button>
                                                                     </div>
                                                                 </div>
+                                                                <div id="recordActionSidebar" class="row highlight-sidebar highlight-sidebar-hidden">
+                                                                    <div class="col-12">
+                                                                        <button id="saveAction" class="btn btn-primary btn-soft w-100">Save</button>
+                                                                        <hr>
+                                                                    </div>
+                                                                    <div id="actions" class="col-12" style="overflow: hidden;">
+
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div id="tableCard" class="row">
+                                        <div class="row">
                                             <div class="col-12">
                                                 <div class="card">
                                                     <div class="card-header">

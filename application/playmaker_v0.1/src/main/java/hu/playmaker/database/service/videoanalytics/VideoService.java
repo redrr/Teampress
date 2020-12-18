@@ -18,6 +18,7 @@ public class VideoService extends BaseService {
     }
 
     public Video find(Integer id){
-        return (Video) getEntityManager().createNamedQuery("Video.findById").setParameter("pid",id).getResultList().get(0);
+        List videos = getEntityManager().createNamedQuery("Video.findById").setParameter("pid",id).getResultList();
+        return (videos.size() == 1) ? (Video) videos.get(0) : null;
     }
 }
