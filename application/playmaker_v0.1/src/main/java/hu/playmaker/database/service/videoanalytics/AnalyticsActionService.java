@@ -22,7 +22,11 @@ public class AnalyticsActionService extends BaseService {
         return false;
     }
 
-    public List<AnalyticsAction> findBySourceVideo(Video video){
-        return null;
+    public List<AnalyticsAction> findBySourceVideo(Video video) {
+        try {
+            return getEntityManager().createNamedQuery("AnalyticsAction.findByVideo").setParameter("pvideo", video).getResultList();
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

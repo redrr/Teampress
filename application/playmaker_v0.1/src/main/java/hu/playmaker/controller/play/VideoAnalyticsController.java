@@ -39,6 +39,20 @@ import java.util.UUID;
 @RequestMapping("/videoanalytics")
 public class VideoAnalyticsController extends BaseController {
 
+    private UserService userService;
+    private UserOrganizationService userOrganizationService;
+    private ParameterService parameterService;
+    private VideoService videoService;
+    private AnalyticsActionService analyticsActionService;
+
+    public VideoAnalyticsController(UserService userService, UserOrganizationService userOrganizationService, ParameterService parameterService, VideoService videoService, AnalyticsActionService analyticsActionService) {
+        this.userService = userService;
+        this.userOrganizationService = userOrganizationService;
+        this.parameterService = parameterService;
+        this.videoService = videoService;
+        this.analyticsActionService = analyticsActionService;
+    }
+
     @RequestMapping("")
     public ModelAndView show(){
         if(hasPermission(Permissions.VIDEO_ANALYTICS)) {
@@ -72,10 +86,6 @@ public class VideoAnalyticsController extends BaseController {
         return "redirect:/videoanalytics";
     }
 
-    public String createAction(@RequestParam String id, @RequestParam String time, @RequestParam String data) {
-        return "";
-    }
-
 
     @RequestMapping(method = RequestMethod.POST, value = "/getActionsAsArray")
     @ResponseBody
@@ -87,7 +97,7 @@ public class VideoAnalyticsController extends BaseController {
             JSONArray array = new JSONArray();
             try {
                 for (AnalyticsAction action : analyticsActions) {
-                    array.put(new JSONObject().put("id", 0).put("time", action.getTime()));
+                    array.put(new JSONObject().put("id", action.getId()).put("time", action.getTime()));
                 }
             } catch (Exception e) {
                 return "[]";
@@ -113,9 +123,6 @@ public class VideoAnalyticsController extends BaseController {
     @RequestMapping(method = RequestMethod.POST, value = "/recordAction")
     @ResponseBody
     public String recordAction(@RequestParam String videoId, @RequestParam String time, @RequestParam String bluePrint){
-        System.out.println("Video ID:" + videoId);
-        System.out.println("Action time:" + time);
-        System.out.println("Action data:" + bluePrint);
         if(hasPermission(Permissions.VIDEO_ANALYTICS)) {
             if(videoId.trim().equals(""))   return "Video is missing!";
             Video video = videoService.find(Integer.parseInt(videoId));

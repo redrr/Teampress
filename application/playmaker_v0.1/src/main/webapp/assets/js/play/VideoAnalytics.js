@@ -32,25 +32,18 @@ $(document).ready(function () {
         $('#edit').on('click', function () {
             if(!isEdit){
                 isEdit = true;
-                pos = [];
                 video.pause();
                 video.controls = false;
                 changeSidebar($('#actionsSidebar'), $('#recordActionSidebar'));
                 $('#container').show();
-                isEdit = true;
+                initLayer('');
             } else {
                 console.log('ERROR - Need to change sidebar!')
-                video.play();
-                $('#container').hide();
-                isEdit = false;
             }
         });
         $('#clear').on('click', function () {
-            initLayer();
-        });
-        $('#mode').on("change", function() {
-            pos = [];
-            mode = $('#mode').val();
+            //TODO: Confirm.js
+            initLayer('');
         });
         $('#saveAction').on('click', function () {
             if(isEdit){
@@ -62,31 +55,38 @@ $(document).ready(function () {
                         bluePrint   :   bluePrintJSON
                     },
                     function () {
-                        pos = [];
-                        isEdit = false;
-                        video.play();
-                        video.controls = true;
-                        changeSidebar($('#recordActionSidebar'), $('#actionsSidebar'));
-                        $('#container').hide();
+                        clearLayerAndCloseEdit();
                     }
                 )
             } else {
                 console.log('ERROR - Need to change sidebar!')
-                video.pause();
-                $('#container').show();
-                isEdit = true;
+            }
+        });
+        $('#cancelAction').on('click', function () {
+            if(isEdit){
+                //TODO: Confirm.js
+                clearLayerAndCloseEdit();
+            } else {
+                console.log('ERROR - Need to change sidebar!')
             }
         });
     });
 });
 
 //Create Analyzer
-function initLayer() {
-    var stage = new Konva.Stage({
-        container: 'container',
-        width: width,
-        height: height
-    });
+function initLayer(config) {
+    bluePrintJSON = "";
+    pos = [];
+    var stage;
+    if(config === ''){
+        stage= new Konva.Stage({
+            container: 'container',
+            width: width,
+            height: height
+        });
+    } else {
+        stage = Konva.Node.create(json, 'container');
+    }
 
     // add canvas element
     var layer = new Konva.Layer();
@@ -98,67 +98,126 @@ function initLayer() {
         //log
         console.log(stage.getPointerPosition());
         //main
-        pos.push(stage.getPointerPosition().x);
-        pos.push(stage.getPointerPosition().y);
-        if(mode === 'line') {
-            var line = new Konva.Line({
-                points: pos,
-                stroke: color,
-                strokeWidth: 4,
-                lineCap: 'round',
-                lineJoin: 'round',
-            });
-            layer.add(line);
-        }
-        if(mode === 'arrow') {
-            var arrow = new Konva.Arrow({
-                points: pos,
-                stroke: color,
-                strokeWidth: 4,
-                lineCap: 'round',
-                lineJoin: 'round',
-            });
-            layer.add(arrow);
-        }
-        if(mode === 'select') {
-            if(pos.length === 2) {
-                var select = new Konva.RegularPolygon({
-                    x: pos[0],
-                    y: pos[1],
-                    sides: 3,
-                    radius: 8,
-                    fill: color,
+        if(isEdit) {
+            pos.push(stage.getPointerPosition().x);
+            pos.push(stage.getPointerPosition().y);
+            if(mode === 'line') {
+                var line = new Konva.Line({
+                    points: pos,
                     stroke: color,
                     strokeWidth: 4,
                     lineCap: 'round',
                     lineJoin: 'round',
                 });
-                layer.add(select);
-                pos = [];
+                layer.add(line);
             }
+            if(mode === 'arrow') {
+                var arrow = new Konva.Arrow({
+                    points: pos,
+                    stroke: color,
+                    strokeWidth: 4,
+                    lineCap: 'round',
+                    lineJoin: 'round',
+                });
+                layer.add(arrow);
+            }
+            if(mode === 'select') {
+                if(pos.length === 2) {
+                    var select = new Konva.RegularPolygon({
+                        x: pos[0],
+                        y: pos[1],
+                        sides: 3,
+                        radius: 8,
+                        fill: color,
+                        stroke: color,
+                        strokeWidth: 4,
+                        lineCap: 'round',
+                        lineJoin: 'round',
+                    });
+                    layer.add(select);
+                    pos = [];
+                }
+            }
+            layer.draw();
+            bluePrintJSON = stage.toJSON();
         }
-        layer.draw();
-        bluePrintJSON = stage.toJSON();
     });
 
+}
+
+function clearLayerAndCloseEdit() {
+    initLayer('');
+    isEdit = false;
+    let video = $('#video');
+    video.play();
+    video.controls = true;
+    changeSidebar($('#recordActionSidebar'), $('#actionsSidebar'));
+    $('#container').hide();
+}
+
+function loadLayerForViewer(id) {
+    $.post(
+        "/videoanalytics/getActionBlueprint",
+        {
+            id  :   id
+        },
+        function (jsonString) {
+            initLayer(jsonString)
+        }
+    )
 }
 
 //Load video
 function setupVideo(id,url) {
     videoId = id;
+    $.post(
+        "/videoanalytics/getActionsAsArray",
+        {
+            videoId  :   videoId
+        },
+        function (array) {
+            let body = '';
+            console.log(array);
+            let jsonArray = array;
+            var holder = $('#actionsHolder');
+            holder[0].innerHTML = '';
+            jsonArray.forEach(function (val) {
+                console.log(val);
+                let jsonObject = JSON(val);
+                body =
+                    '<button class="btn btn-light btn-soft m-1 p-1" onclick="loadLayerForViewer('+jsonObject.id+')">\n' +
+                    '   <div class="row">\n' +
+                    '       <div class="col-4">\n' +
+                    '           <b>'+jsonObject.time+'</b>\n' +
+                    '       </div>\n' +
+                    '       <div class="col-8">\n' +
+                    '           <p class="text-left">Teszt akció</p>\n' +
+                    '       </div>\n' +
+                    '       <div class="col-12">\n' +
+                    '           <p class="text-left">Típus: Támadás</p>\n' +
+                    '       </div>\n' +
+                    '       <div class="col-12">\n' +
+                    '           <p class="text-left">Játékos: Faragó Sámuel</p>\n' +
+                    '       </div>\n' +
+                    '   </div>\n' +
+                    '</button>';
+                holder[0].innerHTML += body;
+            })
+        }
+    )
     $('#analyzer').show();
     $('#tableCard').hide();
     $('#source').attr('src', '/content/videoAnalytics/upload/'+url);
-    var video = $('#video');
-    video[0].load();
+    $('#video')[0].load();
     setTimeout(function (){
-        $('#actions').height($('#video').height());
-        height = $('#video').height()
-        width = $('#video').width();
-        initLayer();
+        let video = $('#video');
+        $('#actionsHolder').height(video.height() - 80);
+        height = video.height()
+        width = video.width();
+        initLayer('');
     }, 300);
     setTimeout(function (){
-        $('#actions').mCustomScrollbar({
+        $('#actionsHolder').mCustomScrollbar({
             theme:"dark-thick",
             scrollInertia: 200
         });
