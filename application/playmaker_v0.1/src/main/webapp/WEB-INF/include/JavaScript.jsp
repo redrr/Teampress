@@ -61,5 +61,8 @@
 <script src="../../assets/vendor/assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="../../assets/vendor/assets/js/jquery.mousewheel.min.js"></script>
 
+<!-- Toolbar js -->
+<script src="../../assets/vendor/assets/pages/toolbar/jquery.toolbar.min.js"></script>
+
 <script src="../../assets/js/Header.js"></script>
 <script src="../../assets/js/Index.js"></script>

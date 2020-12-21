@@ -74,6 +74,12 @@
 <link rel="stylesheet" type="text/css" href="../../assets/vendor/bower_components/jquery-bar-rating/css/bars-square.css">
 <link rel="stylesheet" type="text/css" href="../../assets/vendor/bower_components/jquery-bar-rating/css/css-stars.css">
 <link rel="stylesheet" type="text/css" href="../../assets/vendor/bower_components/jquery-bar-rating/css/fontawesome-stars-o.css">
+<!-- Calender css -->
+<link rel="stylesheet" href="../../assets/vendor/fullcalendar/fullcalendar.min.css" type="text/css"/>
+<link rel="stylesheet" href="../../assets/vendor/fullcalendar/packages/daygrid/main.css" type="text/css"/>
+<!-- VideoAnalytics toolbar -->
+<link rel="stylesheet" href="../../assets/vendor/assets/pages/toolbar/jquery.toolbar.css" type="text/css"/>
+
 <!-- Required Jquery -->
 <script type="text/javascript" src="../../assets/vendor/bower_components/jquery/js/jquery.min.js"></script>
 <script type="text/javascript" src="../../assets/vendor/bower_components/jquery-ui/js/jquery-ui.min.js"></script>
@@ -81,6 +87,3 @@
 <script type="text/javascript" src="../../assets/vendor/bower_components/bootstrap/js/bootstrap.min.js"></script>
 <!-- jquery slimscroll js -->
 <script type="text/javascript" src="../../assets/vendor/bower_components/jquery-slimscroll/js/jquery.slimscroll.js"></script>
-<!-- Calender css -->
-<link rel="stylesheet" href="../../assets/vendor/fullcalendar/fullcalendar.min.css" type="text/css"/>
-<link rel="stylesheet" href="../../assets/vendor/fullcalendar/packages/daygrid/main.css" type="text/css"/>
