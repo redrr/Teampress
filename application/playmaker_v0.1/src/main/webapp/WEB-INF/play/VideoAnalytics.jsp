@@ -38,18 +38,20 @@
                                                         <div id="analyticTools" class="row analytictools highlight-sidebar-hidden">
                                                             <div class="col-4 mx-auto">
                                                                 <div class="btn-group " role="group">
-                                                                    <button style="float: right" id="clear" type="button" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="Clear"><i class="ti-trash"></i></button>
-                                                                    <button type="button" onclick="pos = [];mode = 'select';$('#analyticTools').addClass('highlight-sidebar-hidden');$('#analyticConfirm').removeClass('highlight-sidebar-hidden')" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="Select"><i class="icofont icofont-simple-down"></i></button>
-                                                                    <button type="button" onclick="pos = [];mode = 'line';$('#analyticTools').addClass('highlight-sidebar-hidden');$('#analyticConfirm').removeClass('highlight-sidebar-hidden')" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="Area"><i class="icofont icofont-angle"></i></button>
-                                                                    <button type="button" onclick="pos = [];mode = 'arrow';$('#analyticTools').addClass('highlight-sidebar-hidden');$('#analyticConfirm').removeClass('highlight-sidebar-hidden')" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="Arrow"><i class="icofont icofont-long-arrow-right"></i></button>
-                                                                    <div class="dropdown-primary dropdown open" data-toggle="tooltip" data-placement="top" title="Color">
-                                                                        <button class="btn btn-dark btn-sm dropdown-toggle" type="button" id="dropdown-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">C</button>
-                                                                        <div class="dropdown-menu" aria-labelledby="dropdown-2" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
-                                                                            <button class="dropdown-item" onclick="color = '#f3f3f3'">W</button>
-                                                                            <button class="dropdown-item" onclick="color = '#CC0034'">R</button>
-                                                                            <button class="dropdown-item" onclick="color = '#75FFB0'">G</button>
+                                                                    <div class="dropdown-primary dropdown open f-left mr-2" data-toggle="tooltip" data-placement="top" title="Color">
+                                                                        <button class="btn btn-dark btn-sm dropdown-toggle" type="button" id="dropdown-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-circle" style="color: #f3f3f3"></i></button>
+                                                                        <div class="dropdown-menu bg-dark" style="min-width: 55px" aria-labelledby="dropdown-2" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
+                                                                            <button class="dropdown-item" onclick="changeColor('#f3f3f3')"><i class="fa fa-circle" style="color: #f3f3f3"></i></button>
+                                                                            <button class="dropdown-item" onclick="changeColor('#CC0034')"><i class="fa fa-circle" style="color: #CC0034"></i></button>
+                                                                            <button class="dropdown-item" onclick="changeColor('#75FFB0')"><i class="fa fa-circle" style="color: #75FFB0"></i></button>
                                                                         </div>
                                                                     </div>
+
+                                                                    <button type="button" onclick="pos = [];mode = 'select';$('#analyticTools').addClass('highlight-sidebar-hidden');$('#analyticConfirm').removeClass('highlight-sidebar-hidden')" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="Select"><i class="ti-target"></i></button>
+                                                                    <button type="button" onclick="pos = [];mode = 'line';$('#analyticTools').addClass('highlight-sidebar-hidden');$('#analyticConfirm').removeClass('highlight-sidebar-hidden')" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="Area"><i class="ti-vector"></i></button>
+                                                                    <button type="button" onclick="pos = [];mode = 'arrow';$('#analyticTools').addClass('highlight-sidebar-hidden');$('#analyticConfirm').removeClass('highlight-sidebar-hidden')" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="Arrow"><i class="ti-arrows-corner"></i></button>
+
+                                                                    <button id="clear" type="button" class="btn btn-danger btn-sm ml-2" data-toggle="tooltip" data-placement="top" title="Clear"><i class="ti-trash"></i></button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -61,6 +63,9 @@
                                                                     <!--<button type="button" onclick="pos = [];drawer();$('#analyticTools').removeClass('highlight-sidebar-hidden');$('#analyticConfirm').addClass('highlight-sidebar-hidden');" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="no"><i class="icofont icofont-ui-close"></i></button>-->
                                                                 </div>
                                                             </div>
+                                                        </div>
+                                                        <div id="errorHolder" class="row">
+
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-9">
@@ -77,164 +82,43 @@
                                                             <div class="col-3">
                                                                 <div id="actionsSidebar" class="row highlight-sidebar">
                                                                     <div class="col-12">
-                                                                        <button id="edit" class="btn btn-primary btn-soft w-100">New highlight</button>
+                                                                        <button id="edit" class="btn btn-primary btn-soft w-100"><i class="ti-plus"></i> Új akció</button>
                                                                         <hr>
                                                                     </div>
-                                                                    <div id="actionsHolder" class="col-12" style="overflow: hidden;">
-                                                                        <button class="btn btn-light btn-soft m-1 p-1">
-                                                                            <div class="row">
-                                                                                <div class="col-4">
-                                                                                    <b>35:14</b>
-                                                                                </div>
-                                                                                <div class="col-8">
-                                                                                    <p class="text-left">Teszt akció</p>
-                                                                                </div>
-                                                                                <div class="col-12">
-                                                                                    <p class="text-left">Típus: Támadás</p>
-                                                                                </div>
-                                                                                <div class="col-12">
-                                                                                    <p class="text-left">Játékos: Faragó Sámuel</p>
-                                                                                </div>
-                                                                            </div>
-                                                                        </button>
-                                                                        <button class="btn btn-light btn-soft m-1 p-1">
-                                                                            <div class="row">
-                                                                                <div class="col-4">
-                                                                                    <b>35:14</b>
-                                                                                </div>
-                                                                                <div class="col-8">
-                                                                                    <p class="text-left">Teszt akció</p>
-                                                                                </div>
-                                                                                <div class="col-12">
-                                                                                    <p class="text-left">Típus: Támadás</p>
-                                                                                </div>
-                                                                                <div class="col-12">
-                                                                                    <p class="text-left">Játékos: Faragó Sámuel</p>
-                                                                                </div>
-                                                                            </div>
-                                                                        </button>
-                                                                        <button class="btn btn-light btn-soft m-1 p-1">
-                                                                            <div class="row">
-                                                                                <div class="col-4">
-                                                                                    <b>35:14</b>
-                                                                                </div>
-                                                                                <div class="col-8">
-                                                                                    <p class="text-left">Teszt akció</p>
-                                                                                </div>
-                                                                                <div class="col-12">
-                                                                                    <p class="text-left">Típus: Támadás</p>
-                                                                                </div>
-                                                                                <div class="col-12">
-                                                                                    <p class="text-left">Játékos: Faragó Sámuel</p>
-                                                                                </div>
-                                                                            </div>
-                                                                        </button>
-                                                                        <button class="btn btn-light btn-soft m-1 p-1">
-                                                                            <div class="row">
-                                                                                <div class="col-4">
-                                                                                    <b>35:14</b>
-                                                                                </div>
-                                                                                <div class="col-8">
-                                                                                    <p class="text-left">Teszt akció</p>
-                                                                                </div>
-                                                                                <div class="col-12">
-                                                                                    <p class="text-left">Típus: Támadás</p>
-                                                                                </div>
-                                                                                <div class="col-12">
-                                                                                    <p class="text-left">Játékos: Faragó Sámuel</p>
-                                                                                </div>
-                                                                            </div>
-                                                                        </button>
-                                                                        <button class="btn btn-light btn-soft m-1 p-1">
-                                                                            <div class="row">
-                                                                                <div class="col-4">
-                                                                                    <b>35:14</b>
-                                                                                </div>
-                                                                                <div class="col-8">
-                                                                                    <p class="text-left">Teszt akció</p>
-                                                                                </div>
-                                                                                <div class="col-12">
-                                                                                    <p class="text-left">Típus: Támadás</p>
-                                                                                </div>
-                                                                                <div class="col-12">
-                                                                                    <p class="text-left">Játékos: Faragó Sámuel</p>
-                                                                                </div>
-                                                                            </div>
-                                                                        </button>
-                                                                        <button class="btn btn-light btn-soft m-1 p-1">
-                                                                            <div class="row">
-                                                                                <div class="col-4">
-                                                                                    <b>35:14</b>
-                                                                                </div>
-                                                                                <div class="col-8">
-                                                                                    <p class="text-left">Teszt akció</p>
-                                                                                </div>
-                                                                                <div class="col-12">
-                                                                                    <p class="text-left">Típus: Támadás</p>
-                                                                                </div>
-                                                                                <div class="col-12">
-                                                                                    <p class="text-left">Játékos: Faragó Sámuel</p>
-                                                                                </div>
-                                                                            </div>
-                                                                        </button>
-                                                                        <button class="btn btn-light btn-soft m-1 p-1">
-                                                                            <div class="row">
-                                                                                <div class="col-4">
-                                                                                    <b>35:14</b>
-                                                                                </div>
-                                                                                <div class="col-8">
-                                                                                    <p class="text-left">Teszt akció</p>
-                                                                                </div>
-                                                                                <div class="col-12">
-                                                                                    <p class="text-left">Típus: Támadás</p>
-                                                                                </div>
-                                                                                <div class="col-12">
-                                                                                    <p class="text-left">Játékos: Faragó Sámuel</p>
-                                                                                </div>
-                                                                            </div>
-                                                                        </button>
-                                                                        <button class="btn btn-light btn-soft m-1 p-1">
-                                                                            <div class="row">
-                                                                                <div class="col-4">
-                                                                                    <b>35:14</b>
-                                                                                </div>
-                                                                                <div class="col-8">
-                                                                                    <p class="text-left">Teszt akció</p>
-                                                                                </div>
-                                                                                <div class="col-12">
-                                                                                    <p class="text-left">Típus: Támadás</p>
-                                                                                </div>
-                                                                                <div class="col-12">
-                                                                                    <p class="text-left">Játékos: Faragó Sámuel</p>
-                                                                                </div>
-                                                                            </div>
-                                                                        </button>
-                                                                        <button class="btn btn-light btn-soft m-1 p-1">
-                                                                            <div class="row">
-                                                                                <div class="col-4">
-                                                                                    <b>35:14</b>
-                                                                                </div>
-                                                                                <div class="col-8">
-                                                                                    <p class="text-left">Teszt akció</p>
-                                                                                </div>
-                                                                                <div class="col-12">
-                                                                                    <p class="text-left">Típus: Támadás</p>
-                                                                                </div>
-                                                                                <div class="col-12">
-                                                                                    <p class="text-left">Játékos: Faragó Sámuel</p>
-                                                                                </div>
-                                                                            </div>
-                                                                        </button>
-                                                                    </div>
+                                                                    <div id="actionsHolder" class="col-12" style="overflow: hidden;"></div>
                                                                 </div>
                                                                 <div id="recordActionSidebar" class="row highlight-sidebar highlight-sidebar-hidden">
                                                                     <div class="col-12">
-                                                                        <button id="saveAction" class="btn btn-primary btn-soft w-50">Save</button>
-                                                                        <button id="cancelAction" class="btn btn-primary btn-soft w-50">Cancel</button>
+                                                                        <div class="row">
+                                                                            <div class="col">
+                                                                                <button id="saveAction" class="btn btn-primary btn-soft w-100 editInput"><i class="ti-save"></i> Mentés</button>
+                                                                            </div>
+                                                                            <div class="col">
+                                                                                <button id="cancelAction" class="btn btn-secondary btn-soft w-100"><i class="ti-back-right"></i> Vissza</button>
+                                                                            </div>
+                                                                        </div>
                                                                         <hr>
                                                                     </div>
                                                                     <div class="col-12" style="overflow: hidden;">
-
+                                                                        <input id="actionId" style="display: none"/>
+                                                                        <div class="form-group row">
+                                                                            <label class="col-12 col-form-label" for="actionName">Név</label>
+                                                                            <div class="col-12 col-form-label">
+                                                                                <input id="actionName" class="form-control" type="text" name="actionName"/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group row">
+                                                                            <label class="col-12 col-form-label" for="actionPlayers">Résztvevők</label>
+                                                                            <div class="col-12 col-form-label">
+                                                                                <select id="actionPlayers" class="form-control" type="text" name="actionName"></select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group row">
+                                                                            <label class="col-12 col-form-label" for="actionComment">Megjegyzés</label>
+                                                                            <div class="col-12 col-form-label">
+                                                                                <textarea id="actionComment" class="form-control" type="text" name="actionName" rows="5"></textarea>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -272,7 +156,7 @@
                                                                     <td>${video.name}</td>
                                                                     <td>${video.simpleCreationDateAsString}</td>
                                                                     <td>
-                                                                        <button class="btn btn-primary btn-soft" onclick="setupVideo(${video.id},'${video.name}')"><i class="ti-video-clapper"></i> Elemzés</button>
+                                                                        <button class="btn btn-primary btn-soft" onclick="setupVideo(${video.id},'${video.fileName}', ${video.team.id})"><i class="ti-video-clapper"></i> Elemzés</button>
                                                                     </td>
                                                                 </tr>
                                                             </c:forEach>
@@ -293,6 +177,22 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <f:form id="form" class="form-horizontal" name='f' htmlEscape="true" action='/videoanalytics' method='POST' modelAttribute="video" enctype="multipart/form-data">
+                                                            <div class="form-group row">
+                                                                <label class="col-md-4 col-form-label" for="name-input">Név</label>
+                                                                <div class="col-md-8 col-form-label">
+                                                                    <f:input id="name-input" cssClass="form-control" type="text" path="name" name="name-input"/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row">
+                                                                <label class="col-md-4 col-form-label" for="team-input">Csapat</label>
+                                                                <div class="col-md-8 col-form-label">
+                                                                    <f:select id="team-input" type="text" path="teamId" name="team-input">
+                                                                        <c:forEach var="team" items="${teamTypes}">
+                                                                            <f:option value="${team.id}">${team.code}</f:option>
+                                                                        </c:forEach>
+                                                                    </f:select>
+                                                                </div>
+                                                            </div>
                                                             <div class="form-group row">
                                                                 <label class="col-md-4 col-form-label" for="file-input">Video feltöltése</label>
                                                                 <div class="col-md-8 col-form-label">

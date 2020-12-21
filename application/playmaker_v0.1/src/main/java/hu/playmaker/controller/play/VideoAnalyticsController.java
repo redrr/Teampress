@@ -1,5 +1,6 @@
 package hu.playmaker.controller.play;
 
+import hu.playmaker.common.LGroups;
 import hu.playmaker.common.Permissions;
 import hu.playmaker.controller.BaseController;
 import hu.playmaker.database.model.system.LookupCode;
@@ -31,9 +32,11 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/videoanalytics")
@@ -44,13 +47,15 @@ public class VideoAnalyticsController extends BaseController {
     private ParameterService parameterService;
     private VideoService videoService;
     private AnalyticsActionService analyticsActionService;
+    private LookupCodeService lookupCodeService;
 
-    public VideoAnalyticsController(UserService userService, UserOrganizationService userOrganizationService, ParameterService parameterService, VideoService videoService, AnalyticsActionService analyticsActionService) {
+    public VideoAnalyticsController(UserService userService, UserOrganizationService userOrganizationService, ParameterService parameterService, VideoService videoService, AnalyticsActionService analyticsActionService, LookupCodeService lookupCodeService) {
         this.userService = userService;
         this.userOrganizationService = userOrganizationService;
         this.parameterService = parameterService;
         this.videoService = videoService;
         this.analyticsActionService = analyticsActionService;
+        this.lookupCodeService = lookupCodeService;
     }
 
     @RequestMapping("")
@@ -59,6 +64,7 @@ public class VideoAnalyticsController extends BaseController {
             ModelAndView view = new ModelAndView("play/VideoAnalytics", "video", new VideoAnalyticsForm());
             User currentUser = userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession());
             UserOrganization userOrganization = userOrganizationService.getOrgByUser(currentUser);
+            view.addObject("teamTypes", lookupCodeService.findAllLookupByLgroup(LGroups.TEAM_TYPE.name()));
             view.addObject("data", videoService.findAll());
             return view;
         }
@@ -66,26 +72,51 @@ public class VideoAnalyticsController extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String doSubmit(@Valid @ModelAttribute("video") VideoAnalyticsForm form, BindingResult result, HttpServletRequest request) {
+    public String doSubmit(@Valid @ModelAttribute("video") VideoAnalyticsForm form) {
         if(hasPermission(Permissions.VIDEO_ANALYTICS)) {
             String uploadFolder = parameterService.findParameterByGroupAndCode("SYSTEM", "UPLOAD_FOLDER").getValue();
-            if(!form.getVideo().isEmpty() && form.getVideo().getContentType().contains("mp4")){
+            boolean isNameValid = !form.getName().trim().equals("");
+            boolean isTeamValid = Objects.nonNull(form.getTeamId()) && lookupCodeService.exists(form.getTeamId());
+            boolean isFileValid = !form.getVideo().isEmpty() && form.getVideo().getContentType().contains("mp4");
+            if(isNameValid && isTeamValid && isFileValid) {
                 Video video = new Video();
                 String fileName = UUID.randomUUID()+".mp4";
                 try {
                     byte[] bytes = form.getVideo().getBytes();
                     Path path = Paths.get(uploadFolder+fileName);
                     Files.write(path, bytes);
-                    video.setName(fileName);
+                    video.setFileName(fileName);
+                    video.setName(form.getName());
+                    video.setTeam(lookupCodeService.find(form.getTeamId()));
+                    videoService.mergeFlush(video);
                 } catch (Exception e){
                     e.printStackTrace();
                 }
-                videoService.mergeFlush(video);
             }
         }
         return "redirect:/videoanalytics";
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/getPlayers")
+    @ResponseBody
+    public String getPlayerList(@RequestParam String id) {
+        if(hasPermission(Permissions.VIDEO_ANALYTICS)) {
+            if(Objects.nonNull(id) && id.trim().equals("") && lookupCodeService.exists(Integer.parseInt(id)))
+                return "[]";
+            Organization organization = userOrganizationService.getOrgByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession())).getOrganization();
+            List<UserOrganization> players = userOrganizationService.getUsersByOrgIfPlayer(organization, lookupCodeService.find(Integer.parseInt(id)));
+            JSONArray array = new JSONArray();
+            try {
+                for (UserOrganization player : players) {
+                    array.put(new JSONObject().put("id", player.getUser().getId()).put("name", player.getUser().getName()));
+                }
+            } catch (Exception e) {
+                return "[]";
+            }
+            return array.toString();
+        }
+        return "redirect:/403";
+    }
 
     @RequestMapping(method = RequestMethod.POST, value = "/getActionsAsArray")
     @ResponseBody
@@ -96,8 +127,17 @@ public class VideoAnalyticsController extends BaseController {
             List<AnalyticsAction> analyticsActions = analyticsActionService.findBySourceVideo(video);
             JSONArray array = new JSONArray();
             try {
-                for (AnalyticsAction action : analyticsActions) {
-                    array.put(new JSONObject().put("id", action.getId()).put("time", action.getTime()));
+                List<AnalyticsAction> sorted = analyticsActions.stream()
+                        .sorted(Comparator.comparingInt(a -> Integer.parseInt(a.getTime())))
+                        .collect(Collectors.toList());
+                for (AnalyticsAction action : sorted) {
+                    User player = userService.find(Integer.parseInt(action.getPlayerIds()));
+                    array.put(new JSONObject()
+                            .put("id", action.getId())
+                            .put("name", action.getName())
+                            .put("player", player.getName())
+                            .put("time", action.getTime())
+                    );
                 }
             } catch (Exception e) {
                 return "[]";
@@ -107,22 +147,33 @@ public class VideoAnalyticsController extends BaseController {
         return "redirect:/403";
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/getActionBlueprint")
+    @RequestMapping(method = RequestMethod.POST, value = "/getAction")
     @ResponseBody
     public String getActionBlueprint(@RequestParam String analyticsActionId) {
         if(hasPermission(Permissions.VIDEO_ANALYTICS)) {
             if(!analyticsActionId.trim().equals("") && analyticsActionService.exist(Integer.parseInt(analyticsActionId))) {
-                AnalyticsAction action = analyticsActionService.find(Integer.parseInt(analyticsActionId));
-                return action.getBluePrint();
+                try {
+                    AnalyticsAction action = analyticsActionService.find(Integer.parseInt(analyticsActionId));
+                    JSONObject object = new JSONObject();
+                    object.put("id", action.getId());
+                    object.put("name", action.getName());
+                    object.put("time", action.getTime());
+                    object.put("player", action.getPlayerIds());
+                    object.put("comment", action.getComment());
+                    object.put("data", action.getBluePrint());
+                    return object.toString();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-            return "Empty Blueprint!";
+            return "";
         }
         return "redirect:/403";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/recordAction")
     @ResponseBody
-    public String recordAction(@RequestParam String videoId, @RequestParam String time, @RequestParam String bluePrint){
+    public String recordAction(@RequestParam String id, @RequestParam String videoId, @RequestParam String time, @RequestParam String bluePrint, @RequestParam String name, @RequestParam String players, @RequestParam String comment){
         if(hasPermission(Permissions.VIDEO_ANALYTICS)) {
             if(videoId.trim().equals(""))   return "Video is missing!";
             Video video = videoService.find(Integer.parseInt(videoId));
@@ -130,8 +181,12 @@ public class VideoAnalyticsController extends BaseController {
             if(time.trim().equals(""))  return "Time is missing!";
             if(bluePrint.trim().equals("")) return "Analysis is missing!";
             try {
-                AnalyticsAction action = new AnalyticsAction();
+                boolean isNewAction = id.trim().equals("") || !analyticsActionService.exist(Integer.parseInt(id));
+                AnalyticsAction action = isNewAction ? new AnalyticsAction() : analyticsActionService.find(Integer.parseInt(id));
                 action.setSourceVideo(video);
+                action.setName(name);
+                action.setPlayerIds(players);
+                action.setComment(comment);
                 action.setTime(time);
                 action.setBluePrint(bluePrint);
                 analyticsActionService.mergeFlush(action);

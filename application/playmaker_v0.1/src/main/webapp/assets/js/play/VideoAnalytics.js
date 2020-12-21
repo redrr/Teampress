@@ -1,81 +1,180 @@
-var isplaying = false;
 var isEdit = false;
 var width, height;
 var videoId;
 var pos = [];
 var mode = 'line';
-var color = '#fff';
+var color = '#f3f3f3';
 var bluePrintJSON;
+var actionsTime = [];
+var actionsId = [];
+
 $(document).ready(function () {
     $().ready(function () {
-        //Setup
         createDataTable($('#table'));
         const video = $('#video')[0];
         video.oncanplay = function() {
             video.width = $('#videoHolder').width();
         };
-        $('#container').hide();
-        //Control
-        $(window).keypress(function (e) {
-            if (e.key === ' ' || e.key === 'Spacebar') {
-                // ' ' is standard, 'Spacebar' was used by IE9 and Firefox < 37
-                e.preventDefault();
-                if(!isplaying){
-                    isplaying = true;
-                    video.play();
-                } else {
-                    isplaying = false;
-                    video.pause();
+        let pastTime = -1;
+        video.ontimeupdate = function () {
+            let shortCurrentTime = Math.round(video.currentTime);
+            if (pastTime !== shortCurrentTime){
+                pastTime = shortCurrentTime;
+                if(!video.paused) {
+                    console.log(actionsTime.includes(shortCurrentTime.toString()));
+                    if(actionsTime.includes(shortCurrentTime.toString())) {
+                        let action = actionsId[actionsTime.indexOf(shortCurrentTime.toString())];
+                        loadLayerForViewer(action, false, false);
+                    }
                 }
             }
-        });
+        }
+        visibleLayer(false);
         $('#edit').on('click', function () {
             if(!isEdit){
                 isEdit = true;
-                video.pause();
-                video.controls = false;
+                let realTime = Math.round(video.currentTime);
+                video.currentTime = getFreeTime(realTime);
+                clearActionInputs();
+                stopVideo();
                 changeSidebar($('#actionsSidebar'), $('#recordActionSidebar'));
-                $('#container').show();
                 initLayer('');
+                visibleLayer(true);
             } else {
-                console.log('ERROR - Need to change sidebar!')
+                console.log('ERROR - You are already in edit mode!')
             }
         });
         $('#clear').on('click', function () {
-            //TODO: Confirm.js
-            initLayer('');
+            if(bluePrintJSON !== ''){
+                $.confirm({
+                    title: 'Biztosan törlöd?',
+                    content: 'Az akció tervezet örökre törlődni fog!',
+                    type: 'red',
+                    theme: 'supervan',
+                    animation: 'zoom',
+                    animationBounce: 1.5,
+                    typeAnimated: true,
+                    buttons: {
+                        delete: {
+                            text: 'Törlés',
+                            btnClass: 'btn-red',
+                            action: function() {
+                                initLayer('');
+                            }
+                        },
+                        cancel: {
+                            text: 'Mégse',
+                            btnClass: 'btn-blue',
+                        }
+                    }
+                })
+            }
         });
         $('#saveAction').on('click', function () {
             if(isEdit){
                 $.post(
                     "/videoanalytics/recordAction",
                     {
+                        id          :   $('#actionId').val(),
                         time        :   video.currentTime,
                         videoId     :   videoId,
-                        bluePrint   :   bluePrintJSON
+                        bluePrint   :   bluePrintJSON,
+                        name        :   $('#actionName').val(),
+                        players     :   $('#actionPlayers').val(),
+                        comment     :   $('#actionComment').val()
                     },
-                    function () {
-                        clearLayerAndCloseEdit();
+                    function (data) {
+                        if(data === "")
+                            clearLayerAndCloseEdit();
+                        else
+                            addError(data);
                     }
                 )
             } else {
-                console.log('ERROR - Need to change sidebar!')
+                console.log('ERROR - You are in view mode!')
             }
         });
         $('#cancelAction').on('click', function () {
-            if(isEdit){
-                //TODO: Confirm.js
-                clearLayerAndCloseEdit();
+            if(bluePrintJSON !== '') {
+                $.confirm({
+                    title: 'Biztosan visszalépsz?',
+                    content: 'A nem mentett változtatások örökre el fognak veszni!',
+                    type: 'red',
+                    theme: 'supervan',
+                    animation: 'zoom',
+                    animationBounce: 1.5,
+                    typeAnimated: true,
+                    buttons: {
+                        delete: {
+                            text: 'Tovább',
+                            btnClass: 'btn-red',
+                            action: function() {
+                                clearLayerAndCloseEdit();
+                            }
+                        },
+                        cancel: {
+                            text: 'Mégse',
+                            btnClass: 'btn-blue',
+                        }
+                    }
+                })
             } else {
-                console.log('ERROR - Need to change sidebar!')
+                clearLayerAndCloseEdit();
             }
         });
+        //$(window).keypress(function (e) {});
     });
 });
 
-//Create Analyzer
+function getFreeTime(time) {
+    let realTime = time;
+    while (true) {
+        if(actionsTime.includes(realTime.toString())) {
+            realTime++;
+        } else {
+            console.log(time+','+realTime);
+            return realTime;
+        }
+    }
+}
+
+//Load video
+function setupVideo(id, url ,teamId) {
+    videoId = id;
+    $.post(
+        "/videoanalytics/getActionsAsArray",
+        {
+            videoId  :   videoId
+        },
+        function (actionsArray) {
+            $('#analyzer').show();
+            $('#tableCard').hide();
+            $('#source').attr('src', '/content/videoAnalytics/upload/'+url);
+            $('#video')[0].load();
+            loadActionCards(actionsArray);
+            let select = $('#actionPlayers');
+            $.post(
+                "/videoanalytics/getPlayers",
+                {
+                    id  :   teamId
+                },
+                function (teamPlayersArray) {
+                    select[0].innerHTML = '';
+                    let teamPlayers = JSON.parse(teamPlayersArray);
+                    teamPlayers.forEach(function (player) {
+                        select[0].innerHTML +=
+                            "<option value='"+player.id+"'>"+player.name+"</option>"
+                    });
+                    select.trigger("change");
+                }
+            );
+        }
+    )
+}
+
+//region[region] Action
 function initLayer(config) {
-    bluePrintJSON = "";
+    bluePrintJSON = config;
     pos = [];
     var stage;
     if(config === ''){
@@ -85,7 +184,7 @@ function initLayer(config) {
             height: height
         });
     } else {
-        stage = Konva.Node.create(json, 'container');
+        stage = Konva.Node.create(config, 'container');
     }
 
     // add canvas element
@@ -140,75 +239,163 @@ function initLayer(config) {
             }
             layer.draw();
             bluePrintJSON = stage.toJSON();
+        } else {
+            clearLayerAndCloseEdit();
+            startVideo();
         }
     });
 
 }
 
-function clearLayerAndCloseEdit() {
-    initLayer('');
-    isEdit = false;
-    let video = $('#video');
-    video.play();
-    video.controls = true;
-    changeSidebar($('#recordActionSidebar'), $('#actionsSidebar'));
-    $('#container').hide();
-}
-
-function loadLayerForViewer(id) {
+function loadLayerForViewer(id, forEdit, isEditView) {
     $.post(
-        "/videoanalytics/getActionBlueprint",
+        "/videoanalytics/getAction",
         {
-            id  :   id
+            analyticsActionId  :   id
         },
         function (jsonString) {
-            initLayer(jsonString)
+            let object = JSON.parse(jsonString);
+            isEdit = forEdit;
+            if (isEditView) {
+                changeSidebar($('#actionsSidebar'), $('#recordActionSidebar'));
+            }
+            let video = $('#video')[0];
+            stopVideo();
+            video.currentTime = object.time;
+            $('#actionId').val(object.id);
+            $('#actionName').val(object.name);
+            $('#actionPlayers').val(object.player).trigger("change");
+            $('#actionComment').val(object.comment);
+            initLayer(object.data);
+            visibleLayer(true);
         }
     )
 }
 
-//Load video
-function setupVideo(id,url) {
-    videoId = id;
+function clearLayerAndCloseEdit() {
+    isEdit = false;
+    clearActionInputs();
+    initLayer('');
+    visibleLayer(false);
+    let video = $('#video')[0];
+    stopVideo();
+    changeSidebar($('#recordActionSidebar'), $('#actionsSidebar'));
     $.post(
         "/videoanalytics/getActionsAsArray",
         {
             videoId  :   videoId
         },
         function (array) {
-            let body = '';
-            console.log(array);
-            let jsonArray = array;
-            var holder = $('#actionsHolder');
-            holder[0].innerHTML = '';
-            jsonArray.forEach(function (val) {
-                console.log(val);
-                let jsonObject = JSON(val);
-                body =
-                    '<button class="btn btn-light btn-soft m-1 p-1" onclick="loadLayerForViewer('+jsonObject.id+')">\n' +
-                    '   <div class="row">\n' +
-                    '       <div class="col-4">\n' +
-                    '           <b>'+jsonObject.time+'</b>\n' +
-                    '       </div>\n' +
-                    '       <div class="col-8">\n' +
-                    '           <p class="text-left">Teszt akció</p>\n' +
-                    '       </div>\n' +
-                    '       <div class="col-12">\n' +
-                    '           <p class="text-left">Típus: Támadás</p>\n' +
-                    '       </div>\n' +
-                    '       <div class="col-12">\n' +
-                    '           <p class="text-left">Játékos: Faragó Sámuel</p>\n' +
-                    '       </div>\n' +
-                    '   </div>\n' +
-                    '</button>';
-                holder[0].innerHTML += body;
-            })
+            loadActionCards(array);
         }
     )
-    $('#analyzer').show();
-    $('#tableCard').hide();
-    $('#source').attr('src', '/content/videoAnalytics/upload/'+url);
-    $('#video')[0].load();
+}
+
+function deleteAction(id, element, url) {
+    $.confirm({
+        title: 'Biztosan törlöd?',
+        content: '',
+        type: 'red',
+        theme: 'supervan',
+        animation: 'zoom',
+        animationBounce: 1.5,
+        typeAnimated: true,
+        buttons: {
+            delete: {
+                text: 'Törlés',
+                btnClass: 'btn-red',
+                action: function() {
+                    $.ajax({
+                        url: url+"/del",
+                        type: "POST",
+                        data: {
+                            analyticsActionId: id,
+                        },
+                        success: function () {
+                            $.post(
+                                "/videoanalytics/getActionsAsArray",
+                                {
+                                    videoId  :   videoId
+                                },
+                                function (array) {
+                                    loadActionCards(array);
+                                }
+                            )
+                        },
+                    });
+                }
+            },
+            cancel: {
+                text: 'Mégse',
+                btnClass: 'btn-blue',
+            }
+        }
+    })
+}
+//endregion
+
+//region[region] Helpers
+function changeSidebar(from, to) {
+    const hideCssClass = "highlight-sidebar-hidden";
+    const tools = $('#analyticTools');
+    from.addClass(hideCssClass);
+    to.removeClass(hideCssClass);
+    if(!isEdit)
+        tools.addClass(hideCssClass);
+    else
+        tools.removeClass(hideCssClass);
+}
+
+function visibleLayer(isVisible) {
+    let layer = $('#container');
+    if(isVisible)
+        layer.show()
+    else
+        layer.hide()
+}
+
+function loadActionCards(array) {
+    let body = '';
+    let jsonArray = JSON.parse(array);
+    let holder = $('#actionsHolder');
+    holder.mCustomScrollbar('destroy');
+    holder[0].innerHTML = '';
+    actionsTime = [];
+    actionsId = [];
+    jsonArray.forEach(function (val, i) {
+        actionsTime.push(val.time);
+        actionsId.push(val.id);
+        let jsonObject = val;
+        let randId = i;
+        let minutes = Math.floor(jsonObject.time / 60);
+        let seconds = jsonObject.time - minutes * 60;
+        body =
+            '<div id="'+randId+'" class="btn-soft bg-light m-1 p-1">\n' +
+            '   <div class="row">\n' +
+            '       <div class="col-6">\n' +
+            '           <b class="text-left">'+minutes+':'+seconds+'</b>\n' +
+            '       </div>\n' +
+            '       <div class="col-6 pl-0">\n' +
+            '           <div class="btn-group f-right" role="group">\n' +
+            '               <button type="button" class="btn btn-dark btn-mini" onclick="loadLayerForViewer('+jsonObject.id+','+false+','+false+')" data-toggle="tooltip" data-placement="top" title="Megtekintés"><i class="ti-eye"></i></button>\n' +
+            '               <button type="button" class="btn btn-dark btn-mini" onclick="loadLayerForViewer('+jsonObject.id+','+true+','+true+')" data-toggle="tooltip" data-placement="top" title="Szerkesztés"><i class="ti-pencil"></i></button>\n' +
+            '               <button type="button" class="btn btn-danger btn-mini" onclick="deleteAction('+jsonObject.id+','+randId+',\'/videoanalytics\')" data-toggle="tooltip" data-placement="top" title="Törlés"><i class="ti-trash"></i></button>\n' +
+            '           </div>' +
+            '       </div>\n' +
+            '       <div class="col-12">\n' +
+            '           <p class="text-left">'+jsonObject.name+'</p>\n' +
+            '       </div>\n' +
+            '       <div class="col-12">\n' +
+            '           <p class="text-left">Típus: Támadás</p>\n' +
+            '       </div>\n' +
+            '       <div class="col-12">\n' +
+            '           <p class="text-left">Játékos: '+jsonObject.player+'</p>\n' +
+            '       </div>\n' +
+            '   </div>\n' +
+            '</div>';
+        holder[0].innerHTML += body;
+        $('#actionsHolder button').tooltip();
+    });
     setTimeout(function (){
         let video = $('#video');
         $('#actionsHolder').height(video.height() - 80);
@@ -224,13 +411,34 @@ function setupVideo(id,url) {
     }, 300);
 }
 
-function changeSidebar(from, to) {
-    const hideCssClass = "highlight-sidebar-hidden";
-    const tools = $('#analyticTools');
-    from.addClass(hideCssClass);
-    to.removeClass(hideCssClass);
-    if(!isEdit)
-        tools.addClass(hideCssClass);
-    else
-        tools.removeClass(hideCssClass);
+function changeColor(newColor) {
+    color = newColor;
+    $('#dropdown-2 i').css('color', newColor);
 }
+
+function clearActionInputs() {
+    $('#actionId').val("");
+    $('#actionName').val("");
+    $('#actionPlayers').val("").trigger("change");
+    $('#actionComment').val("");
+}
+
+function addError(message) {
+    let error =
+        "<div class=\"alert alert-danger background-danger\">\n" +
+        "   <button type=\"button\" class=\"btn btn-icon\" data-dismiss=\"alert\" aria-label=\"Close\">\n" +
+        "       <i class=\"ti-close\"></i>\n" +
+        "   </button>\n" +
+        "   "+message+"\n" +
+        "</div>"
+    $('#errorHolder').html(error);
+}
+
+function startVideo() {
+    $('#video')[0].play();
+}
+
+function stopVideo() {
+    $('#video')[0].pause();
+}
+//endregion

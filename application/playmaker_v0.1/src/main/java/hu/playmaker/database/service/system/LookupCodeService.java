@@ -33,6 +33,10 @@ public class LookupCodeService extends BaseService {
         return (LookupCode) getEntityManager().createNamedQuery("LookupCode.findById").setParameter("pid", id).getSingleResult();
     }
 
+    public boolean exists(Integer id) {
+        return !getEntityManager().createNamedQuery("LookupCode.findById").setParameter("pid", id).getResultList().isEmpty();
+    }
+
     public boolean existsByLgroupAndCode(String lgroup, String code){
         return Objects.nonNull(getByCodeAndLgroup(code, lgroup));
     }

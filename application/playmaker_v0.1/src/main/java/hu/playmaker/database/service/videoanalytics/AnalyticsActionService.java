@@ -15,11 +15,12 @@ public class AnalyticsActionService extends BaseService {
     }
 
     public AnalyticsAction find(Integer id){
-        return null;
+        List list = getEntityManager().createNamedQuery("AnalyticsAction.findById").setParameter("pid", id).getResultList();
+        return list.size() > 0 ? (AnalyticsAction) list.get(0) : null;
     }
 
     public boolean exist(Integer id){
-        return false;
+        return getEntityManager().createNamedQuery("AnalyticsAction.findById").setParameter("pid", id).getResultList().size() > 0;
     }
 
     public List<AnalyticsAction> findBySourceVideo(Video video) {

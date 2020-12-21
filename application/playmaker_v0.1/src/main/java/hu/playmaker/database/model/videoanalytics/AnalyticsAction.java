@@ -1,8 +1,13 @@
 package hu.playmaker.database.model.videoanalytics;
 
 import hu.playmaker.database.model.BaseModel;
+import hu.playmaker.database.model.system.User;
+import hu.playmaker.database.service.system.UserService;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name="ANALYTICSACTION", schema="teampress")
@@ -17,6 +22,15 @@ public class AnalyticsAction extends BaseModel {
     @ManyToOne
     @JoinColumn(name="VIDEO_ID")
     private Video sourceVideo;
+
+    @Column(name="NAME", length=255)
+    private String name;
+
+    @Column(name="PLAYERS", length=255)
+    private String playerIds;
+
+    @Column(name="COMMENT", length=255)
+    private String comment;
 
     @Column(name="TIME", length=255)
     private String time;
@@ -49,5 +63,29 @@ public class AnalyticsAction extends BaseModel {
 
     public void setBluePrint(String bluePrint) {
         this.bluePrint = bluePrint;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPlayerIds() {
+        return playerIds;
+    }
+
+    public void setPlayerIds(String playerIds) {
+        this.playerIds = playerIds;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

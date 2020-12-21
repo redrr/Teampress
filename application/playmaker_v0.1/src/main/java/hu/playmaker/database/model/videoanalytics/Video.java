@@ -3,6 +3,7 @@ package hu.playmaker.database.model.videoanalytics;
 import hu.playmaker.database.model.BaseModel;
 import hu.playmaker.database.model.databank.Sorsolas;
 import hu.playmaker.database.model.gameplan.CustomGame;
+import hu.playmaker.database.model.system.LookupCode;
 import hu.playmaker.database.model.system.Organization;
 import hu.playmaker.database.model.system.User;
 
@@ -20,8 +21,15 @@ import javax.persistence.*;
 public class Video extends BaseModel {
     private static final long serialVersionUID = 1L;
 
+    @Column(name="FILENAME", length=255)
+    private String fileName;
+
     @Column(name="NAME", length=255)
     private String name;
+
+    @ManyToOne
+    @JoinColumn(name="TEAM_ID")
+    private LookupCode team;
 
     public Video() {
     }
@@ -32,5 +40,21 @@ public class Video extends BaseModel {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public LookupCode getTeam() {
+        return team;
+    }
+
+    public void setTeam(LookupCode team) {
+        this.team = team;
     }
 }

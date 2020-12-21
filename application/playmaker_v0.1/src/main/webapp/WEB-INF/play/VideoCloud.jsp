@@ -89,7 +89,7 @@
                                                                         <div class="video-card">
                                                                             <b class="video-title">${video.name}</b>
                                                                             <video width="100%" controls>
-                                                                                <source src="../../content/videoAnalytics/scene/${video.video.name}" type="video/mp4">
+                                                                                <source src="../../content/videoAnalytics/scene/${video.video.fileName}" type="video/mp4">
                                                                                 Your browser does not support the video tag.
                                                                             </video>
                                                                             <p class="video-description">${video.description}</p>
