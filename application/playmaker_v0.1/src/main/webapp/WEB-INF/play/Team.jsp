@@ -58,12 +58,12 @@
                                                                             <div class="card-body p-0 d-flex align-items-center" style="height: 100px">
                                                                                 <div class="row p-0 d-flex align-items-center" style="width: 100%">
                                                                                     <div class="col-6" style="padding-right: 0">
-                                                                                        <img class="img-circle" style="max-width: 100px;max-height: 80px;margin-left: 10px;width: 80px;height: 80px;" src="/content/profileImages/${player.player.user.profilImg}">
+                                                                                        <img class="img-circle" style="max-width: 100px;max-height: 80px;margin-left: 10px;width: 80px;height: 80px;" src="/content/profileImages/${player.user.profilImg}">
                                                                                     </div>
                                                                                     <div class="col-6" style="padding-left: 0">
-                                                                                        <div class="text-center" style="font-size: 16px;font-weight: 600;margin-bottom: 8px;">${player.player.user.name}</div>
+                                                                                        <div class="text-center" style="font-size: 16px;font-weight: 600;margin-bottom: 8px;">${player.user.name}</div>
                                                                                         <div class="text-center">
-                                                                                            <button class="btn btn-primary btn-soft" data-toggle="modal" data-target="#playerModal-${player.player.id}">Részletek</button>
+                                                                                            <button class="btn btn-primary btn-soft" data-toggle="modal" data-target="#playerModal-${player.user.id}">Részletek</button>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -79,14 +79,14 @@
                                             <!-- Stat modal -->
                                             <c:forEach var="team" items="${teams}">
                                                 <c:forEach var="teamData" items="${team.value}">
-                                                    <c:forEach var="player" items="${teamData.value}">
+                                                    <c:forEach var="playerData" items="${teamData.value}">
 
-                                                        <div class="modal fade" id="playerModal-${player.player.id}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                        <div class="modal fade" id="playerModal-${playerData.user.id}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                                             <div class="modal-dialog modal-dialog-centered modal-success modal-lg" role="document">
                                                                 <div class="modal-content">
                                                                     <div class="modal-header" style="padding-top: 8px; padding-bottom: 8px">
-                                                                        <!--<img class="img-circle" style="max-width: 120px;max-height: 120px;margin-left: 10px;width: 100px;height: 100px;margin-top: -50px; border: 4px solid #fff;background-color: #fff;" src="${player.player.organization.url}">-->
-                                                                        <h4 class="modal-title">${player.player.user.name}</h4>
+                                                                        <!--<img class="img-circle" style="max-width: 120px;max-height: 120px;margin-left: 10px;width: 100px;height: 100px;margin-top: -50px; border: 4px solid #fff;background-color: #fff;" src="${player.organization.url}">-->
+                                                                        <h4 class="modal-title">${playerData.user.name}</h4>
                                                                         <button class="btn btn-icon" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i style="margin: 0" class="ti-close"></i></span></button>
                                                                     </div>
                                                                     <div class="modal-body">
@@ -97,13 +97,13 @@
                                                                                         <b>Meccsek</b>
                                                                                     </div>
                                                                                     <div class="col-7">
-                                                                                        <b style="float: right">${player.playerData.meccsek}</b>
+                                                                                        <b style="float: right">${playerData.meccsek}</b>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="row" style="margin-bottom: 16px">
                                                                                     <div class="col-12">
                                                                                         <div style="background-color: #e9ecef; border-radius: 8px; width: 100%">
-                                                                                            <div style="background-color: #28e1bd;width: ${player.playerData.meccsek / teamData.key.meccsek * 100}%;border-radius: 8px; height: 8px"></div>
+                                                                                            <div style="background-color: #28e1bd;width: ${playerData.meccsek / teamData.key.meccsek * 100}%;border-radius: 8px; height: 8px"></div>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -113,13 +113,13 @@
                                                                                         <b>Gólok</b>
                                                                                     </div>
                                                                                     <div class="col-7">
-                                                                                        <b style="float: right">${player.playerData.golok}</b>
+                                                                                        <b style="float: right">${playerData.golok}</b>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="row" style="margin-bottom: 16px">
                                                                                     <div class="col-12">
                                                                                         <div style="background-color: #e9ecef; border-radius: 8px; width: 100%">
-                                                                                            <div style="background-color: #28e1bd;width: ${player.playerData.golok / teamData.key.golok * 100}%;border-radius: 8px; height: 8px"></div>
+                                                                                            <div style="background-color: #28e1bd;width: ${playerData.golok / teamData.key.golok * 100}%;border-radius: 8px; height: 8px"></div>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -129,13 +129,13 @@
                                                                                         <b>Kezdő</b>
                                                                                     </div>
                                                                                     <div class="col-7">
-                                                                                        <b style="float: right">${player.playerData.kezdo}</b>
+                                                                                        <b style="float: right">${playerData.kezdo}</b>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="row" style="margin-bottom: 16px">
                                                                                     <div class="col-12">
                                                                                         <div style="background-color: #e9ecef; border-radius: 8px; width: 100%">
-                                                                                            <div style="background-color: #28e1bd;width: ${player.playerData.kezdo / teamData.key.kezdo * 100}%;border-radius: 8px; height: 8px"></div>
+                                                                                            <div style="background-color: #28e1bd;width: ${playerData.kezdo / teamData.key.kezdo * 100}%;border-radius: 8px; height: 8px"></div>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -145,13 +145,13 @@
                                                                                         <b>Csere</b>
                                                                                     </div>
                                                                                     <div class="col-7">
-                                                                                        <b style="float: right">${player.playerData.csere}</b>
+                                                                                        <b style="float: right">${playerData.csere}</b>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="row" style="margin-bottom: 16px">
                                                                                     <div class="col-12">
                                                                                         <div style="background-color: #e9ecef; border-radius: 8px; width: 100%">
-                                                                                            <div style="background-color: #28e1bd;width: ${player.playerData.csere / teamData.key.csere * 100}%;border-radius: 8px; height: 8px"></div>
+                                                                                            <div style="background-color: #28e1bd;width: ${playerData.csere / teamData.key.csere * 100}%;border-radius: 8px; height: 8px"></div>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -162,13 +162,13 @@
                                                                                         <b>Kispad</b>
                                                                                     </div>
                                                                                     <div class="col-7">
-                                                                                        <b style="float: right">${player.playerData.kispad}</b>
+                                                                                        <b style="float: right">${playerData.kispad}</b>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="row" style="margin-bottom: 16px">
                                                                                     <div class="col-12">
                                                                                         <div style="background-color: #e9ecef; border-radius: 8px; width: 100%">
-                                                                                            <div style="background-color: #28e1bd;width: ${player.playerData.kispad / teamData.key.kispad* 100}%;border-radius: 8px; height: 8px"></div>
+                                                                                            <div style="background-color: #28e1bd;width: ${playerData.kispad / teamData.key.kispad* 100}%;border-radius: 8px; height: 8px"></div>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -178,13 +178,13 @@
                                                                                         <b>Öngólok</b>
                                                                                     </div>
                                                                                     <div class="col-7">
-                                                                                        <b style="float: right">${player.playerData.onGolok}</b>
+                                                                                        <b style="float: right">${playerData.onGolok}</b>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="row" style="margin-bottom: 16px">
                                                                                     <div class="col-12">
                                                                                         <div style="background-color: #e9ecef; border-radius: 8px; width: 100%">
-                                                                                            <div style="background-color: #28e1bd;width: ${player.playerData.onGolok / teamData.key.onGolok * 100}%;border-radius: 8px; height: 8px"></div>
+                                                                                            <div style="background-color: #28e1bd;width: ${playerData.onGolok / teamData.key.onGolok * 100}%;border-radius: 8px; height: 8px"></div>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -194,13 +194,13 @@
                                                                                         <b>Sárgalapok</b>
                                                                                     </div>
                                                                                     <div class="col-7">
-                                                                                        <b style="float: right">${player.playerData.sargaLap}</b>
+                                                                                        <b style="float: right">${playerData.sargaLap}</b>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="row" style="margin-bottom: 16px">
                                                                                     <div class="col-12">
                                                                                         <div style="background-color: #e9ecef; border-radius: 8px; width: 100%">
-                                                                                            <div style="background-color: #28e1bd;width: ${player.playerData.sargaLap / teamData.key.sargaLap * 100}%;border-radius: 8px; height: 8px"></div>
+                                                                                            <div style="background-color: #28e1bd;width: ${playerData.sargaLap / teamData.key.sargaLap * 100}%;border-radius: 8px; height: 8px"></div>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -210,13 +210,13 @@
                                                                                         <b>Piroslapok</b>
                                                                                     </div>
                                                                                     <div class="col-7">
-                                                                                        <b style="float: right">${player.playerData.pirosLap}</b>
+                                                                                        <b style="float: right">${playerData.pirosLap}</b>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="row" style="margin-bottom: 16px">
                                                                                     <div class="col-12">
                                                                                         <div style="background-color: #e9ecef; border-radius: 8px; width: 100%">
-                                                                                            <div style="background-color: #28e1bd;width: ${player.playerData.pirosLap / teamData.key.pirosLap * 100}%;border-radius: 8px; height: 8px"></div>
+                                                                                            <div style="background-color: #28e1bd;width: ${playerData.pirosLap / teamData.key.pirosLap * 100}%;border-radius: 8px; height: 8px"></div>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>

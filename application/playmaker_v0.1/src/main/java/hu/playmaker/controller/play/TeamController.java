@@ -1,6 +1,8 @@
 package hu.playmaker.controller.play;
 
 import hu.playmaker.common.Permissions;
+import hu.playmaker.common.factory.mlsz.MLSZ;
+import hu.playmaker.common.factory.mlsz.MLSZParser;
 import hu.playmaker.common.template.TeamPlayerTmp;
 import hu.playmaker.controller.BaseController;
 import hu.playmaker.database.model.databank.PlayerData;
@@ -19,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/statistics/team")
@@ -26,12 +29,10 @@ public class TeamController extends BaseController {
 
     private UserService userService;
     private UserOrganizationService userOrganizationService;
-    private PlayerDataService playerDataService;
 
-    public TeamController(UserService userService, UserOrganizationService userOrganizationService, PlayerDataService playerDataService) {
+    public TeamController(UserService userService, UserOrganizationService userOrganizationService) {
         this.userService = userService;
         this.userOrganizationService = userOrganizationService;
-        this.playerDataService = playerDataService;
     }
 
     @RequestMapping("")
@@ -44,41 +45,42 @@ public class TeamController extends BaseController {
         return new ModelAndView("403");
     }
 
-    private LinkedMap<LookupCode, LinkedMap<PlayerData, List<TeamPlayerTmp>>> getTeams() {
-        LinkedMap<LookupCode, LinkedMap<PlayerData, List<TeamPlayerTmp>>> result = new LinkedMap<>();
+    private LinkedMap<LookupCode, LinkedMap<PlayerData, List<PlayerData>>> getTeams() {
+        LinkedMap<LookupCode, LinkedMap<PlayerData, List<PlayerData>>> result = new LinkedMap<>();
+        //Get current data
         User currentUser = userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession());
-        List<UserOrganization> userOrganizations = userOrganizationService.getOrgListByUser(currentUser);
-        for(UserOrganization userOrganization : userOrganizations) {
+        List<UserOrganization> currentUser_UserOrganizations = userOrganizationService.getOrgListByUser(currentUser);
+        for(UserOrganization userOrganization : currentUser_UserOrganizations) {
             LookupCode team = userOrganization.getType();
-            LinkedMap<PlayerData, List<TeamPlayerTmp>> teamDatas = new LinkedMap<>();
-            List<TeamPlayerTmp> playersData = new ArrayList<>();
-            userOrganizationService.getUsersByOrgIfPlayer(userOrganization.getOrganization(), team).forEach(userOrg -> {
-                if(playerDataService.existsByCodeAndUser(userOrg.getUser()))
-                    playersData.add(new TeamPlayerTmp()
-                        .setPlayer(userOrg)
-                        .setData(playerDataService.getPlayerDataByCode(userOrg.getUser())));
-            });
-            PlayerData teamMaxData = new PlayerData();
-            teamMaxData.setGolok(playerDataService.maxgolok());
-            teamMaxData.setCsere(playerDataService.maxcsere());
-            teamMaxData.setKezdo(playerDataService.maxkezdo());
-            teamMaxData.setKispad(playerDataService.maxkispad());
-            teamMaxData.setMeccsek(playerDataService.maxmeccsek());
-            teamMaxData.setOnGolok(playerDataService.maxonGolok());
-            teamMaxData.setPirosLap(playerDataService.maxpirosLap());
-            teamMaxData.setSargaLap(playerDataService.maxsargaLap());
-            teamDatas.put(teamMaxData, playersData);
+            LinkedMap<PlayerData, List<PlayerData>> teamDatas = new LinkedMap<>();
+            List<UserOrganization> allUserOfTeam = userOrganizationService.getUsersByOrgIfPlayer(userOrganization.getOrganization(), team);
+            List<PlayerData> allPlayerData = new ArrayList<>();
+            PlayerData maxData = new PlayerData();
+            for (UserOrganization uOrg : allUserOfTeam) {
+                PlayerData playerData = new MLSZParser(uOrg.getUser().getUrl(), MLSZ.PLAYER_PROFILE).getProfileData();
+                playerData.setUser(uOrg.getUser());
+                allPlayerData.add(playerData);
+                //find max
+                if(Objects.isNull(maxData.getCsere()) || maxData.getCsere() < playerData.getCsere())
+                    maxData.setCsere(playerData.getCsere());
+                if(Objects.isNull(maxData.getGolok()) || maxData.getGolok() < playerData.getGolok())
+                    maxData.setGolok(playerData.getGolok());
+                if(Objects.isNull(maxData.getKezdo()) || maxData.getKezdo() < playerData.getKezdo())
+                    maxData.setKezdo(playerData.getKezdo());
+                if(Objects.isNull(maxData.getKispad()) || maxData.getKispad() < playerData.getKispad())
+                    maxData.setKispad(playerData.getKispad());
+                if(Objects.isNull(maxData.getMeccsek()) || maxData.getMeccsek() < playerData.getMeccsek())
+                    maxData.setMeccsek(playerData.getMeccsek());
+                if(Objects.isNull(maxData.getOnGolok()) || maxData.getOnGolok() < playerData.getOnGolok())
+                    maxData.setOnGolok(playerData.getOnGolok());
+                if(Objects.isNull(maxData.getPirosLap()) || maxData.getPirosLap() < playerData.getPirosLap())
+                    maxData.setPirosLap(playerData.getPirosLap());
+                if(Objects.isNull(maxData.getSargaLap()) || maxData.getSargaLap() < playerData.getSargaLap())
+                    maxData.setSargaLap(playerData.getSargaLap());
+            }
+            teamDatas.put(maxData, allPlayerData);
             result.put(team, teamDatas);
         }
         return result;
-    }
-
-
-    @RequestMapping(method = RequestMethod.POST, value = "/del")
-    public String del() {
-        if(hasPermission(Permissions.EXERCISE_CREATE)) {
-            return "asd";
-        }
-        return "";
     }
 }
