@@ -57,7 +57,7 @@ public class TeamController extends BaseController {
             List<PlayerData> allPlayerData = new ArrayList<>();
             PlayerData maxData = new PlayerData();
             for (UserOrganization uOrg : allUserOfTeam) {
-                PlayerData playerData = new MLSZParser(uOrg.getUser().getUrl(), MLSZ.PLAYER_PROFILE).getProfileData();
+                PlayerData playerData = new MLSZParser(uOrg.getUser().getUrl()).getPlayerData();
                 playerData.setUser(uOrg.getUser());
                 allPlayerData.add(playerData);
                 //find max
