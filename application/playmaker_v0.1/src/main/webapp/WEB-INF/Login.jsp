@@ -21,9 +21,6 @@
                     <!-- Authentication card start -->
                     <div class="login-card card-block auth-body animated fadeInDownBig">
                         <f:form cssClass="md-float-material" name='f' htmlEscape="true" action='/login' method='POST' modelAttribute="login">
-                            <div class="text-center">
-                                <img src="../assets/vendor/assets/images/auth/logo.png" alt="logo.png">
-                            </div>
                             <div class="auth-box">
                                 <div class="row m-b-20">
                                     <div class="col-md-12">
