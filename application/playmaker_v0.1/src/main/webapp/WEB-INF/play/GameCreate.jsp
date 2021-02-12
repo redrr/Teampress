@@ -52,7 +52,7 @@
                                                             <div class="form-group row bmd-form-group">
                                                                 <label for="team" class="col-4 col-form-label">Csapat</label>
                                                                 <div class="col-8 col-form-label">
-                                                                    <f:select path="teamId" required="true" id="team">
+                                                                    <f:select path="teamId" required="true" id="team" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
                                                                         <c:forEach var="type" items="${types}">
                                                                             <option value="${type.getId()}">
                                                                                     ${type.getCode()}

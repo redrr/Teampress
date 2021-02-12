@@ -60,8 +60,7 @@
                                                             <div class="form-group row">
                                                                 <label for="team" class="col-3 col-form-label">Csapat</label>
                                                                 <div class="col-9 col-form-label">
-                                                                    <f:select path="team" required="true" id="team">
-                                                                        <option value=""></option>
+                                                                    <f:select path="team" required="true" id="team" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
                                                                         <c:forEach items="${teams}" var="t">
                                                                             <option value="${t.type.id}">
                                                                                     ${t.type.code}
@@ -84,7 +83,7 @@
                                                             <div id="exerciserow1" class="form-group row">
                                                                 <label for="exercise1" class="col-3 col-form-label">1.</label>
                                                                 <div class="col-6 col-form-label">
-                                                                    <f:select path="exercise1" required="true" id="exercise1">
+                                                                    <f:select path="exercise1" required="true" id="exercise1" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
                                                                         <option value=""></option>
                                                                         <c:forEach items="${exercises}" var="exercise">
                                                                             <option value="${exercise.id}">
@@ -100,7 +99,7 @@
                                                             <div id="exerciserow2" class="form-group row bmd-form-group">
                                                                 <label for="exercise2" class="col-3 col-form-label">2.</label>
                                                                 <div class="col-6 label-static">
-                                                                    <f:select path="exercise2" id="exercise2">
+                                                                    <f:select path="exercise2" id="exercise2" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
                                                                         <option value=""></option>
                                                                         <c:forEach items="${exercises}" var="exercise">
                                                                             <option value="${exercise.id}">
@@ -116,7 +115,7 @@
                                                             <div id="exerciserow3" class="form-group row bmd-form-group">
                                                                 <label for="exercise3" class="col-3 col-form-label">3.</label>
                                                                 <div class="col-6 label-static">
-                                                                    <f:select path="exercise3" id="exercise3">
+                                                                    <f:select path="exercise3" id="exercise3" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
                                                                         <option value=""></option>
                                                                         <c:forEach items="${exercises}" var="exercise">
                                                                             <option value="${exercise.id}">
@@ -132,7 +131,7 @@
                                                             <div id="exerciserow4" class="form-group row bmd-form-group">
                                                                 <label for="exercise4" class="col-3 col-form-label">4.</label>
                                                                 <div class="col-6 label-static">
-                                                                    <f:select path="exercise4" id="exercise4">
+                                                                    <f:select path="exercise4" id="exercise4" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
                                                                         <option value=""></option>
                                                                         <c:forEach items="${exercises}" var="exercise">
                                                                             <option value="${exercise.id}">
@@ -148,7 +147,7 @@
                                                             <div id="exerciserow5" class="form-group row bmd-form-group">
                                                                 <label for="exercise5" class="col-3 col-form-label">5.</label>
                                                                 <div class="col-6 label-static">
-                                                                    <f:select path="exercise5" id="exercise5">
+                                                                    <f:select path="exercise5" id="exercise5" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
                                                                         <option value=""></option>
                                                                         <c:forEach items="${exercises}" var="exercise">
                                                                             <option value="${exercise.id}">
@@ -164,7 +163,7 @@
                                                             <div id="exerciserow6" class="form-group row bmd-form-group">
                                                                 <label for="exercise6" class="col-3 col-form-label">6.</label>
                                                                 <div class="col-6 label-static">
-                                                                    <f:select path="exercise6" id="exercise6">
+                                                                    <f:select path="exercise6" id="exercise6" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
                                                                         <option value=""></option>
                                                                         <c:forEach items="${exercises}" var="exercise">
                                                                             <option value="${exercise.id}">
@@ -180,7 +179,7 @@
                                                             <div id="exerciserow7" class="form-group row bmd-form-group">
                                                                 <label for="exercise7" class="col-3 col-form-label">7.</label>
                                                                 <div class="col-6 label-static">
-                                                                    <f:select path="exercise7" id="exercise7">
+                                                                    <f:select path="exercise7" id="exercise7" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
                                                                         <option value=""></option>
                                                                         <c:forEach items="${exercises}" var="exercise">
                                                                             <option value="${exercise.id}">
@@ -196,7 +195,7 @@
                                                             <div id="exerciserow8" class="form-group row bmd-form-group">
                                                                 <label for="exercise8" class="col-3 col-form-label">8.</label>
                                                                 <div class="col-6 label-static">
-                                                                    <f:select path="exercise8" id="exercise8">
+                                                                    <f:select path="exercise8" id="exercise8" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
                                                                         <option value=""></option>
                                                                         <c:forEach items="${exercises}" var="exercise">
                                                                             <option value="${exercise.id}">
@@ -212,7 +211,7 @@
                                                             <div id="exerciserow9" class="form-group row bmd-form-group">
                                                                 <label for="exercise9" class="col-3 col-form-label">9.</label>
                                                                 <div class="col-6 label-static">
-                                                                    <f:select path="exercise9" id="exercise9">
+                                                                    <f:select path="exercise9" id="exercise9" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
                                                                         <option value=""></option>
                                                                         <c:forEach items="${exercises}" var="exercise">
                                                                             <option value="${exercise.id}">
@@ -228,7 +227,7 @@
                                                             <div id="exerciserow10" class="form-group row bmd-form-group">
                                                                 <label for="exercise10" class="col-3 col-form-label">10.</label>
                                                                 <div class="col-6 label-static">
-                                                                    <f:select path="exercise10" id="exercise10">
+                                                                    <f:select path="exercise10" id="exercise10" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
                                                                         <option value=""></option>
                                                                         <c:forEach items="${exercises}" var="exercise">
                                                                             <option value="${exercise.id}">
@@ -244,7 +243,7 @@
                                                             <div id="exerciserow11" class="form-group row bmd-form-group">
                                                                 <label for="exercise11" class="col-3 col-form-label">11.</label>
                                                                 <div class="col-6 label-static">
-                                                                    <f:select path="exercise11" id="exercise11">
+                                                                    <f:select path="exercise11" id="exercise11" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
                                                                         <option value=""></option>
                                                                         <c:forEach items="${exercises}" var="exercise">
                                                                             <option value="${exercise.id}">
@@ -260,7 +259,7 @@
                                                             <div id="exerciserow12" class="form-group row bmd-form-group">
                                                                 <label for="exercise12" class="col-3 col-form-label">12.</label>
                                                                 <div class="col-6 label-static">
-                                                                    <f:select path="exercise12" id="exercise12">
+                                                                    <f:select path="exercise12" id="exercise12" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
                                                                         <option value=""></option>
                                                                         <c:forEach items="${exercises}" var="exercise">
                                                                             <option value="${exercise.id}">
@@ -276,7 +275,7 @@
                                                             <div id="exerciserow13" class="form-group row bmd-form-group">
                                                                 <label for="exercise13" class="col-3 col-form-label">13.</label>
                                                                 <div class="col-6 label-static">
-                                                                    <f:select path="exercise13" id="exercise13">
+                                                                    <f:select path="exercise13" id="exercise13" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
                                                                         <option value=""></option>
                                                                         <c:forEach items="${exercises}" var="exercise">
                                                                             <option value="${exercise.id}">
@@ -292,7 +291,7 @@
                                                             <div id="exerciserow14" class="form-group row bmd-form-group">
                                                                 <label for="exercise14" class="col-3 col-form-label">14.</label>
                                                                 <div class="col-6 label-static">
-                                                                    <f:select path="exercise14" id="exercise14">
+                                                                    <f:select path="exercise14" id="exercise14" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
                                                                         <option value=""></option>
                                                                         <c:forEach items="${exercises}" var="exercise">
                                                                             <option value="${exercise.id}">
@@ -308,7 +307,7 @@
                                                             <div id="exerciserow15" class="form-group row bmd-form-group">
                                                                 <label for="exercise15" class="col-3 col-form-label">15.</label>
                                                                 <div class="col-6 label-static">
-                                                                    <f:select path="exercise15" id="exercise15">
+                                                                    <f:select path="exercise15" id="exercise15" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
                                                                         <option value=""></option>
                                                                         <c:forEach items="${exercises}" var="exercise">
                                                                             <option value="${exercise.id}">
@@ -324,7 +323,7 @@
                                                             <div id="exerciserow16" class="form-group row bmd-form-group">
                                                                 <label for="exercise16" class="col-3 col-form-label">16.</label>
                                                                 <div class="col-6 label-static">
-                                                                    <f:select path="exercise16" id="exercise16">
+                                                                    <f:select path="exercise16" id="exercise16" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
                                                                         <option value=""></option>
                                                                         <c:forEach items="${exercises}" var="exercise">
                                                                             <option value="${exercise.id}">
@@ -340,7 +339,7 @@
                                                             <div id="exerciserow17" class="form-group row bmd-form-group">
                                                                 <label for="exercise17" class="col-3 col-form-label">17.</label>
                                                                 <div class="col-6 label-static">
-                                                                    <f:select path="exercise17" id="exercise17">
+                                                                    <f:select path="exercise17" id="exercise17" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
                                                                         <option value=""></option>
                                                                         <c:forEach items="${exercises}" var="exercise">
                                                                             <option value="${exercise.id}">
@@ -356,7 +355,7 @@
                                                             <div id="exerciserow18" class="form-group row bmd-form-group">
                                                                 <label for="exercise18" class="col-3 col-form-label">18.</label>
                                                                 <div class="col-6 label-static">
-                                                                    <f:select path="exercise18" id="exercise18">
+                                                                    <f:select path="exercise18" id="exercise18" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
                                                                         <option value=""></option>
                                                                         <c:forEach items="${exercises}" var="exercise">
                                                                             <option value="${exercise.id}">
@@ -372,7 +371,7 @@
                                                             <div id="exerciserow19" class="form-group row  bmd-form-group">
                                                                 <label for="exercise19" class="col-3 col-form-label">19.</label>
                                                                 <div class="col-6 label-static">
-                                                                    <f:select path="exercise19"  id="exercise19">
+                                                                    <f:select path="exercise19"  id="exercise19" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
                                                                         <option value=""></option>
                                                                         <c:forEach items="${exercises}" var="exercise">
                                                                             <option value="${exercise.id}">
@@ -388,7 +387,7 @@
                                                             <div id="exerciserow20" class="form-group row bmd-form-group">
                                                                 <label for="exercise20" class="col-3 col-form-label">20.</label>
                                                                 <div class="col-6 label-static">
-                                                                    <f:select path="exercise20" id="exercise20">
+                                                                    <f:select path="exercise20" id="exercise20" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
                                                                         <option value=""></option>
                                                                         <c:forEach items="${exercises}" var="exercise">
                                                                             <option value="${exercise.id}">

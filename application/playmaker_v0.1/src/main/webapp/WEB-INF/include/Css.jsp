@@ -61,7 +61,7 @@
 <link rel="stylesheet" type="text/css" href="../../assets/vendor/assets/css/simple-line-icons.css">
 <link rel="stylesheet" type="text/css" href="../../assets/vendor/assets/css/ionicons.css">
 <link rel="stylesheet" type="text/css" href="../../assets/vendor/assets/css/jquery.mCustomScrollbar.css">
-<link rel="stylesheet" type="text/css" href="../../assets/css/main.css">
+
 <link rel="stylesheet" type="text/css" href="../../assets/vendor/bower_components/animate.css/css/animate.css">
 <!-- Rating -->
 <link rel="stylesheet" type="text/css" href="../../assets/vendor/bower_components/font-awesome/css/font-awesome.min.css">
@@ -79,6 +79,9 @@
 <link rel="stylesheet" href="../../assets/vendor/fullcalendar/packages/daygrid/main.css" type="text/css"/>
 <!-- VideoAnalytics toolbar -->
 <link rel="stylesheet" href="../../assets/vendor/assets/pages/toolbar/jquery.toolbar.css" type="text/css"/>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+<link rel="stylesheet" type="text/css" href="../../assets/css/main.css">
 
 <!-- Required Jquery -->
 <script type="text/javascript" src="../../assets/vendor/bower_components/jquery/js/jquery.min.js"></script>
@@ -87,3 +90,6 @@
 <script type="text/javascript" src="../../assets/vendor/bower_components/bootstrap/js/bootstrap.min.js"></script>
 <!-- jquery slimscroll js -->
 <script type="text/javascript" src="../../assets/vendor/bower_components/jquery-slimscroll/js/jquery.slimscroll.js"></script>
+<script type="text/javascript" src="../../assets/vendor/bower_components/jquery-slimscroll/js/jquery.slimscroll.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>

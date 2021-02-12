@@ -186,7 +186,7 @@
                                                             <div class="form-group row">
                                                                 <label class="col-md-4 col-form-label" for="team-input">Csapat</label>
                                                                 <div class="col-md-8 col-form-label">
-                                                                    <f:select id="team-input" type="text" path="teamId" name="team-input">
+                                                                    <f:select id="team-input" type="text" path="teamId" name="team-input" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
                                                                         <c:forEach var="team" items="${teamTypes}">
                                                                             <f:option value="${team.id}">${team.code}</f:option>
                                                                         </c:forEach>

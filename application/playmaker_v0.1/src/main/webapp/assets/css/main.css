@@ -6,18 +6,60 @@ a {
     text-decoration: none!important;
 }
 
-.form-control {
+.bootstrap-select>.dropdown-toggle, .show>.btn-light.dropdown-toggle {
+    width: 100%;
+    min-height: calc(1.5em + .75rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 8px;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.form-control, .bootstrap-select>.dropdown-toggle, .show>.btn-light.dropdown-toggle {
     padding: 8px;
     min-height: unset;
 }
-.form-control:focus {
+.form-control:focus, .bootstrap-select>.dropdown-toggle:focus, .show>.btn-light.dropdown-toggle:focus {
     box-shadow: 0 0 0 0.25rem rgba(26,188,156,.25);
 }
 
 select.form-control {
-    -webkit-appearance: menulist;
-    -moz-appearance: menulist;
+    -webkit-appearance: caret;
+    -moz-appearance: caret;
     appearance: auto;
+}
+
+.bootstrap-select ul.dropdown-menu.inner {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+div.inner {
+    margin-left: 8px;
+    width: 100%;
+}
+
+.bs-searchbox {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.card .card-block .dropdown-menu {
+    border-radius: 8px;
+}
+
+.bootstrap-select .dropdown-menu li:hover {
+    background-color: #8CDDCD;
+    color: #fff;
 }
 
 .text-value-lg {

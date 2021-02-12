@@ -52,7 +52,7 @@
                                                             <div class="form-group row bmd-form-group">
                                                                 <label for="type" class="col-sm-4 col-form-label">Értékelés típusa</label>
                                                                 <div class="col-sm-8 label-static">
-                                                                    <f:select path="typeId" required="true" id="type">
+                                                                    <f:select path="typeId" required="true" id="type" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
                                                                         <c:forEach items="${types}" var="type">
                                                                             <option value="${type.getId()}">
                                                                                     ${type.getCode()}
