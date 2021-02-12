@@ -183,8 +183,9 @@ public class WorkoutController extends BaseController {
                         attendance.setTrainingPlan(training);
                         attendance.setUser(currentUser);
                         String jelen = trainDatas[1];
-                        if(trainDatas[1].equals("0")){
+                        if(jelen.equals("0")){
                             //jelen volt
+                            attendance.setJelen("jelen");
                             for(int i = 2; i < trainDatas.length; i++){
                                 if(trainDatas[i].contains(":")){
                                     String exerciseId = trainDatas[i].split(":")[0];
@@ -216,6 +217,10 @@ public class WorkoutController extends BaseController {
                                 }
                             }
                         } else {
+                            if (jelen.equals("1"))
+                                attendance.setJelen("igazolt");
+                            else
+                                attendance.setJelen("igazolatlan");
                             for(int i = 2; i < trainDatas.length; i++){
                                 if(trainDatas[i].contains(":")){
                                     String exerciseId = trainDatas[i].split(":")[0];
@@ -229,11 +234,6 @@ public class WorkoutController extends BaseController {
                                     workoutService.mergeFlush(workout);
                                 }
                             }
-                        }
-                        switch (trainDatas[1]) {
-                            case "0" : attendance.setJelen("jelen");
-                            case "1" : attendance.setJelen("igazolt");
-                            default  : attendance.setJelen("igazolatlan");
                         }
                         attendanceService.mergeFlush(attendance);
                         pushNotificationToUser(

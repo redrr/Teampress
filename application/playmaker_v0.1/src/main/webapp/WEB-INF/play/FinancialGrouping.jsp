@@ -113,8 +113,6 @@
 </div>
 <%@include file="../include/IE.jsp" %>
 <%@include file="../include/JavaScript.jsp" %>
-<script>
-    <%@include file="../../assets/js/play/FinancialGrouping.js" %>
-</script>
+<script src="../../assets/js/play/FinancialGrouping.js"></script>
 </body>
 </html>

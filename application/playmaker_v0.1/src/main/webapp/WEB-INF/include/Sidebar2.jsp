@@ -108,12 +108,12 @@
                             </li>
                         </c:if>
                         <c:if test="${sessionHandler.userHasPermission('PLAYERS_STAT') || sessionHandler.userHasPermission('TRAINERS_STAT')}">
-                            <li class="${requestURI.equals('/statistics/query') ? 'active' : ''}">
+                            <!--<li class="${requestURI.equals('/statistics/query') ? 'active' : ''}">
                                 <a href="/statistics/query">
                                     <span class="pcoded-micon"><i class="ti-pulse"></i></span>
                                     <span class="pcoded-mtext" data-i18n="nav.social.fb-wall">Lekérdezés</span>
                                 </a>
-                            </li>
+                            </li>-->
                         </c:if>
                         <c:if test="${sessionHandler.userHasPermission('CAREER_TABLE')}">
                             <li class="${requestURI.equals('/statistics/league') ? 'active' : ''}">

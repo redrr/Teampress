@@ -27,7 +27,6 @@
                                         <h3 class="text-left txt-primary">Bejelentkezés</h3>
                                     </div>
                                 </div>
-                                <hr/>
                                 <div class="input-group">
                                     <f:input id="username" type='text' path='username' cssClass="form-control" placeholder="Felhasználónév"/>
                                     <span class="md-line"></span>
@@ -41,17 +40,6 @@
                                         <button id="submit" type="submit" class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20 btn-soft">Bejelentkezés</button>
                                     </div>
                                 </div>
-                                <hr/>
-                                <div class="row">
-                                    <div class="col-md-10">
-                                        <p class="text-inverse text-left m-b-0">Thank you and enjoy our website.</p>
-                                        <p class="text-inverse text-left"><b>Your Autentification Team</b></p>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <img src="../assets/vendor/assets/images/auth/Logo-small-bottom.png" alt="small-logo.png">
-                                    </div>
-                                </div>
-
                             </div>
                         </f:form>
                         <!-- end of form -->

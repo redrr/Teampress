@@ -166,12 +166,11 @@ function getPlayersByPlayer(data, teamId, hazai, vendeg, gameId, gameType, edito
     $('#title').text(hazai+" - "+vendeg);
     if(editor) {
         $('#statusBar').removeClass("col-2").addClass("col-3");
-        $('#statBar').removeClass("col-6").addClass("col-3");
         $('#workoutButtonBar').show();
         $('#statusIcons').show();
     } else {
         $('#statusBar').removeClass("col-3").addClass("col-2");
-        $('#statBar').removeClass("col-3").addClass("col-6");
+        $('#statBar').removeClass("col-4").addClass("col-6");
         $('#workoutButtonBar').hide();
         $('#statusIcons').hide();
     }
@@ -248,7 +247,7 @@ function getPlayersByPlayer(data, teamId, hazai, vendeg, gameId, gameType, edito
             if(editor) {
                 body +=
                     "   </div>" +
-                    "   <div class='col-3'>";
+                    "   <div class='col-4'>";
             } else {
                 body +=
                     "   </div>" +
@@ -256,24 +255,25 @@ function getPlayersByPlayer(data, teamId, hazai, vendeg, gameId, gameType, edito
             }
             body +=
                 "       <div class='row' style='padding-top: 5px'>"+
-                "           <div class='col-4'>"+
+                "           <div class='col-4' data-toggle=\"tooltip\" data-placement=\"top\" title=\"\" data-original-title=\"Meccsek száma: "+players.meccsek.split(';')[i]+"\">"+
                 "               <b>"+players.meccsek.split(';')[i]+"</b>"+
                 "           </div>"+
-                "           <div class='col-4'>"+
+                "           <div class='col-4' data-toggle=\"tooltip\" data-placement=\"top\" title=\"\" data-original-title=\"Kezdő volt: "+players.kezdo.split(';')[i]+"\">"+
                 "               <b>"+players.kezdo.split(';')[i]+"</b>"+
                 "           </div>"+
-                "           <div class='col-4'>"+
+                "           <div class='col-4' data-toggle=\"tooltip\" data-placement=\"top\" title=\"\" data-original-title=\"Lőtt gólok száma: "+players.golok.split(';')[i]+"\">"+
                 "               <b>"+players.golok.split(';')[i]+"</b>"+
                 "           </div>"+
                 "       </div>"+
                 "   </div>";
             if(editor) {
                 body +=
-                    "<div class='col-2'>" +
-                    "   <button class='btn btn-primary btn-icon' data-toggle=\"modal\" data-target=\"#trainingModal\"  onclick='getLastWorkout("+id+")'><i style='margin: 0' class=\"ti-bar-chart\"></i></button>"+
+                    "<div class='col-1 p-0'>" +
+                    "   <button class='btn btn-primary btn-icon float-right' data-toggle=\"modal\" data-target=\"#trainingModal\"  onclick='getLastWorkout("+id+")'><i style='margin: 0' class=\"ti-bar-chart\"></i></button>"+
                     "</div>";
             }
             element.append(body);
+            $('div[data-toggle="tooltip"]').tooltip();
             if(editor){
                 setupButtons(""+id, gameId, gameType);
                 if(status === '2'){
@@ -294,6 +294,7 @@ function getPlayersByPlayer(data, teamId, hazai, vendeg, gameId, gameType, edito
         });
     }, 300);
     window.scrollTo(0, 0);
+    $('[data-toggle="tooltip"]').tooltip();
 }
 //endregion
 

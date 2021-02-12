@@ -17,8 +17,8 @@ $(document).ready(function () {
                         label: 'My First Dataset',
                         data: JSON.parse(result),
                         backgroundColor: [
-                            '#3498DB',
-                            '#FF6384'
+                            '#1abc9c',
+                            '#bdc3c7'
                         ]
                     }]
                 },
@@ -56,14 +56,14 @@ $(document).ready(function () {
                             label: 'Lőtt gólok',
                             data: [goalChartDataConfig.lgoals],
                             backgroundColor: [
-                                '#3498DB'
+                                '#1abc9c'
                             ]
                         },
                         {
                             label: 'Kapott gólok',
                             data: [goalChartDataConfig.kgoals],
                             backgroundColor: [
-                                '#FF6384'
+                                '#e74c3c'
                             ]
                         }
                     ]
@@ -97,9 +97,9 @@ $(document).ready(function () {
                         label: 'My First Dataset',
                         data: JSON.parse(result),
                         backgroundColor: [
-                            '#3498DB',
-                            '#FFCD56',
-                            '#FF6384'
+                            '#1abc9c',
+                            '#bdc3c7',
+                            '#e74c3c'
                         ],
                         hoverOffset: 8
                     }]

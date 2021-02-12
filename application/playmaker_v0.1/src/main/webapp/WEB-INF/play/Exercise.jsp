@@ -30,7 +30,7 @@
                                             <div class="col-xl-6 col-lg-8 col-md-12 col-12">
                                                 <div class="card">
                                                     <div class="card-header">
-                                                        <h5>Gyakortal létrehozás</h5>
+                                                        <h5>Gyakorlat létrehozás</h5>
                                                     </div>
                                                     <div class="card-block">
                                                         <f:form id="form" cssClass="form-wp1" name='f' htmlEscape="true" action='/training/exercise' method='POST' modelAttribute="modifyExercise">
@@ -117,8 +117,6 @@
     </div>
     <%@include file="../include/IE.jsp" %>
     <%@include file="../include/JavaScript.jsp" %>
-    <script>
-        <%@include file="../../assets/js/play/Exercise.js" %>
-    </script>
+    <script src="../../assets/js/play/Exercise.js"></script>
 </body>
 </html>

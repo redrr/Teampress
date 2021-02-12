@@ -15,7 +15,7 @@
                             <div class="fade-in">
                                 <c:if test="${sessionHandler.userHasPermission('ADMIN')}">
                                     <div class="row">
-                                        <div class="col-xl-6 col-lg-8 col-md-12 col-12">
+                                        <div class="col-12">
                                             <div class="card">
                                                 <div class="card-body">
                                                     <h4 class="card-title">Paraméter létrehozás</h4>

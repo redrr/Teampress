@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class WorkoutService extends BaseService {
@@ -73,31 +74,9 @@ public class WorkoutService extends BaseService {
         int count = 0;
         double sum = 0.0;
         for (Workout workout : list){
-            if(!(workout.getResult().equals("H~h~H") || workout.getResult().equals(""))){
-                if(workout.getExercise().getType().getCode().equals("Százalék")){
-                    sum += Integer.parseInt(workout.getResult());
-                    count++;
-                }
-                else if(workout.getExercise().getType().getCode().contains("1-10")){
-                    sum =+ Integer.parseInt(workout.getResult())*10;
-                    count++;
-                }
-                else if(workout.getExercise().getType().getCode().equals("Sikeres/darabszám")){
-                    if(workout.getResult().split("/")[0].equals("0")){
-                        count++;
-                        continue;
-                    } else if (workout.getResult().split("/")[1].equals("0")){
-                        sum += 100;
-                        count++;
-                    } else {
-                        count++;
-                        sum += (int)(Double.parseDouble(workout.getResult().split("/")[0])/Double.parseDouble(workout.getResult().split("/")[1])*100);
-                    }
-                }
-                else if(workout.getExercise().getType().getCode().equals("Csillagok")){
-                    count++;
-                    sum += Integer.parseInt(workout.getResult())*20;
-                }
+            if(Objects.nonNull(workout.getResultPercent())) {
+                sum += workout.getResultPercent();
+                count++;
             }
         }
         return (int)Math.round(sum/count);

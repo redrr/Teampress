@@ -1,10 +1,7 @@
 package hu.playmaker.controller;
 
 import hu.playmaker.common.Permissions;
-import hu.playmaker.common.factory.chartjs.Color;
-import hu.playmaker.common.factory.chartjs.Data;
-import hu.playmaker.common.factory.chartjs.RadarChartBuilder;
-import hu.playmaker.common.factory.chartjs.RadarDataSet;
+import hu.playmaker.common.factory.chartjs.*;
 import hu.playmaker.common.factory.chartjs.common.enums.BorderCapStyle;
 import hu.playmaker.database.model.index.Calendar;
 import hu.playmaker.database.model.system.Organization;
@@ -120,23 +117,8 @@ public class BaseController {
                 if(!workout.getExercise().getType().getCode().equals("Szöveges értékelés")){
                     data.addLabel(workout.getExercise().getName());
                 }
-                if(workout.getExercise().getType().getCode().equals("Százalék")){
-                    results.add(Integer.parseInt(workout.getResult()));
-                }
-                else if(workout.getExercise().getType().getCode().contains("1-10")){
-                    results.add(Integer.parseInt(workout.getResult())*10);
-                }
-                else if(workout.getExercise().getType().getCode().equals("Sikeres/darabszám")){
-                    if(workout.getResult().split("/")[0].equals("0")){
-                        results.add(0);
-                    } else if (workout.getResult().split("/")[1].equals("0")){
-                        results.add(100);
-                    } else {
-                        results.add((int)(Double.parseDouble(workout.getResult().split("/")[0])/Double.parseDouble(workout.getResult().split("/")[1])*100));
-                    }
-                }
-                else if(workout.getExercise().getType().getCode().equals("Csillagok")){
-                    results.add(Integer.parseInt(workout.getResult())*20);
+                if(!workout.getExercise().getType().getCode().equals("Szöveges értékelés")){
+                    results.add(workout.getResultPercent());
                 }
                 avgs.add(workoutService.avgExercise(trainingPlan, workout.getExercise()));
             }
@@ -146,6 +128,14 @@ public class BaseController {
         data.addDataset(avgDataSet);
         data.addDataset(resultDataSet);
         chartBuilder.setData(data);
+        Scale scale = new Scale();
+        scale.setBeginAtZero(true);
+        scale.setMax(100);
+        scale.setMin(0);
+        scale.setStepSize(10);
+        Options options = new Options();
+        options.setScale(scale);
+        chartBuilder.setOptions(options);
         return chartBuilder.build();
     }
 

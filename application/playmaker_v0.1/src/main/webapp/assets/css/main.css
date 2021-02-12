@@ -160,3 +160,8 @@ div.pcoded-overlay-box {
     display: none;
     transition: .2s;
 }
+
+.fc-day-grid-event:hover {
+    color: #fff !important;
+    opacity: 1;
+}

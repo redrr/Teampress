@@ -56,20 +56,20 @@
                                                                         <div class="col-4">
                                                                             <h5 style="margin-top: 16px">Játékos</h5>
                                                                         </div>
-                                                                        <div id="statusBar" class="col-3" style="padding-left: 0">
+                                                                        <div id="statusBar" class="col-3 p-0">
                                                                             <div id="statusIcons" class="row">
-                                                                                <div class="col-4 p-0">
-                                                                                    <img style="max-width: 100%;height: 30px;" src="../../content/icons/shirt_icon.png">
+                                                                                <div class="col-4">
+                                                                                    <img style="max-width: 100%;height: 30px;float: right" src="../../content/icons/shirt_icon.png">
                                                                                 </div>
-                                                                                <div class="col-4 p-0">
+                                                                                <div class="col-4">
                                                                                     <img style="max-width: 100%;height: 30px;padding: 4px" src='../../content/icons/change_icon.png'>
                                                                                 </div>
-                                                                                <div class="col-4 p-0">
+                                                                                <div class="col-4">
                                                                                     <img style="max-width: 100%;height: 30px;padding: 4px" src='../../content/icons/cancel_icon.png'>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                        <div id="statBar" class="col-3" style="padding-left: 0">
+                                                                        <div id="statBar" class="col-4">
                                                                             <div class="row">
                                                                                 <div class="col-4 text-center">
                                                                                     <img style="max-width: 100%;height: 30px;" src="../../content/icons/map_icon.png">
@@ -82,7 +82,7 @@
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                        <div id="workoutButtonBar" style="padding-right: 0" class="col-2"></div>
+                                                                        <div id="workoutButtonBar" style="padding-right: 0" class="col-1"></div>
                                                                     </div>
                                                                     <hr style="margin-top: 0">
                                                                     <div id="teamPlayers" style="height: 800px;overflow: hidden;"></div>
@@ -259,8 +259,6 @@
     </div>
     <%@include file="../include/IE.jsp" %>
     <%@include file="../include/JavaScript.jsp" %>
-    <script>
-        <%@include file="../../assets/js/play/GamePlan.js" %>
-    </script>
+    <script src="../../assets/js/play/GamePlan.js" ></script>
 </body>
 </html>

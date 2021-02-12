@@ -148,6 +148,8 @@ function getTrainingConsole(trainingId, teamId, teamName) {
         $('.start-progress-btn').hide();
         $('.all_number').hide();
         $('.starinput').hide();
+        $('.exercise .tohide').hide();
+        window.scrollTo(0);
     });
 }
 
@@ -186,25 +188,25 @@ function setJelenleti(playerList, profile) {
             "</div>";*/
         jelen +=
             "<div class=\"col-4 jelen\">\n" +
-            "<div class=\"row\" style='margin-top: 16px'>\n" +
-            "                                                                <div class='col-2' style='padding: 0'>\n" +
-            "                                                                    <img alt=\"Image placeholder\" class=\"col-form-label rounded-circle player-icon-sm\" src='/content/profileImages/"+profile[i]+"'>\n" +
-            "                                                                </div>\n" +
-            "                                                                <div class='col-6' style='padding: 0; padding-left: 10px'>\n" +
+            "   <div class=\"row\" style='margin-top: 16px'>\n" +
+            "       <div class='col-2' style='padding: 0'>\n" +
+            "           <img alt=\"Image placeholder\" class=\"col-form-label rounded-circle player-icon-sm\" src='/content/profileImages/"+profile[i]+"'>\n" +
+            "       </div>\n" +
+            "       <div class='col-6' style='padding: 0; padding-left: 10px'>\n" +
             "           <label for='player"+value.split(',')[0]+"' title='"+value.split(',')[0]+"' class=\"col-form-label jelenname\">"+value.split(',')[1]+"</label>" +
-            "                                                                </div>\n" +
-            "                                                                <div class='col-4 col-form-label' style='padding: 0'>\n" +
-            "                                                                    <div class=\"dropdown-secondary dropdown f-right\" style='padding-right: 16px; padding-top: 8px'>\n" +
-            "                                                                        <button title='2' class=\"btn btn-danger btn-mini dropdown-toggle waves-effect waves-light jelenval\" type=\"button\" id=\"dropdown"+value.split(',')[0]+"\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">Igazolatlan</button>\n" +
-            "                                                                        <div class=\"dropdown-menu\" aria-labelledby=\"dropdown6\" data-dropdown-in=\"fadeIn\" data-dropdown-out=\"fadeOut\">\n" +
-            "                                                                            <button class=\"dropdown-item waves-light waves-effect\" onclick=\"changeButton($('#dropdown"+value.split(',')[0]+"'), 'Igazolatlan', 'btn-danger', 2);toshow('false', $('.play-"+i+"'));\"><span class=\"point-marker bg-danger\"></span>Igazolatlan</button>\n" +
-            "                                                                            <button class=\"dropdown-item waves-light waves-effect\" onclick=\"changeButton($('#dropdown"+value.split(',')[0]+"'), 'Igazolt', 'btn-info', 1);toshow('true', $('.play-"+i+"'));\"><span class=\"point-marker bg-info\"></span>Igazolt</button>\n" +
-            "                                                                            <button class=\"dropdown-item waves-light waves-effect\" onclick=\"changeButton($('#dropdown"+value.split(',')[0]+"'), 'Jelen', 'btn-primary', 0);toshow('jelen', $('.play-"+i+"'));\"><span class=\"point-marker bg-primary\"></span>Jelen</button>\n" +
-            "                                                                        </div>\n" +
-            "                                                                    </div>\n" +
-            "                                                                </div>\n" +
-            "                                                            </div>"+
-            "                                                            </div>";
+            "       </div>\n" +
+            "       <div class='col-4 col-form-label' style='padding: 0'>\n" +
+            "           <div class=\"dropdown-secondary dropdown f-right\" style='padding-right: 16px; padding-top: 8px'>\n" +
+            "               <button title='2' class=\"btn btn-danger btn-mini dropdown-toggle waves-effect waves-light jelenval\" type=\"button\" id=\"dropdown"+value.split(',')[0]+"\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">Igazolatlan</button>\n" +
+            "               <div class=\"dropdown-menu\" aria-labelledby=\"dropdown6\" data-dropdown-in=\"fadeIn\" data-dropdown-out=\"fadeOut\">\n" +
+            "                   <button class=\"dropdown-item waves-light waves-effect\" onclick=\"changeButton($('#dropdown"+value.split(',')[0]+"'), 'Igazolatlan', 'btn-danger', 2, "+i+");toshow('false', $('.play-"+i+"'));\"><span class=\"point-marker bg-danger\"></span>Igazolatlan</button>\n" +
+            "                   <button class=\"dropdown-item waves-light waves-effect\" onclick=\"changeButton($('#dropdown"+value.split(',')[0]+"'), 'Igazolt', 'btn-info', 1, "+i+");toshow('true', $('.play-"+i+"'));\"><span class=\"point-marker bg-info\"></span>Igazolt</button>\n" +
+            "                   <button class=\"dropdown-item waves-light waves-effect\" onclick=\"changeButton($('#dropdown"+value.split(',')[0]+"'), 'Jelen', 'btn-primary', 0, "+i+");toshow('jelen', $('.play-"+i+"'));\"><span class=\"point-marker bg-primary\"></span>Jelen</button>\n" +
+            "               </div>\n" +
+            "           </div>\n" +
+            "       </div>\n" +
+            "   </div>"+
+            "</div>";
     });
     jelen +=
         "   </div>" +
@@ -319,11 +321,16 @@ function change(value, text) {
 
 }
 
-function changeButton(element, text, className, title) {
+function changeButton(element, text, className, title, playerId) {
     element[0].title = title;
     element.removeClass('btn-primary').removeClass('btn-info').removeClass('btn-danger');
     element.text(text);
     element.addClass(className);
+    if(title === 0) {
+        console.log(playerId);
+        $('.exercise .play-'+playerId).show();
+        $('.exercise .play-'+playerId).removeClass().addClass("col-6 form-group tohide play-"+playerId);
+    }
 }
 
 function starSettings(id, val) {
@@ -343,6 +350,7 @@ function setupTrainingModal(id, date, playerId) {
     tile.text(date);
     $.post("/training/workout/getModalData", {id: id, playerId: playerId[0].selectedOptions[0].value}, function (jsonTrainingData) {
         const trainingData = JSON.parse(jsonTrainingData);
+        console.log(trainingData);
         $('#chartholder')[0].innerHTML = "<canvas id=\"trainingStat\" width=\"400\" height=\"400\"></canvas>";
         modalBody(trainingData);
     });

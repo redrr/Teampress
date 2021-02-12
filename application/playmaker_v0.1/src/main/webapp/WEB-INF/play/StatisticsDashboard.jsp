@@ -33,8 +33,8 @@
                                                     <div class="card-header py-2">
                                                         <h3>Szerzett pontok</h3>
                                                     </div>
-                                                    <div class="card-body">
-                                                        <canvas id="1"></canvas>
+                                                    <div class="card-body" style="min-height: 380px">
+                                                        <canvas id="1" height="300px"></canvas>
                                                     </div>
                                                 </div>
                                             </div>
@@ -43,8 +43,8 @@
                                                     <div class="card-header py-2">
                                                         <h3>Gólok aránya</h3>
                                                     </div>
-                                                    <div class="card-body">
-                                                        <canvas id="2"></canvas>
+                                                    <div class="card-body" style="min-height: 380px">
+                                                        <canvas id="2" height="300px"></canvas>
                                                     </div>
                                                 </div>
                                             </div>
@@ -53,8 +53,8 @@
                                                     <div class="card-header py-2">
                                                         <h3>Mérkőzések megoszlása</h3>
                                                     </div>
-                                                    <div class="card-body">
-                                                        <canvas id="3"></canvas>
+                                                    <div class="card-body" style="min-height: 380px">
+                                                        <canvas id="3" height="300px"></canvas>
                                                     </div>
                                                 </div>
                                             </div>
@@ -64,7 +64,7 @@
                                                         <h3>Forma mutató</h3>
                                                     </div>
                                                     <div class="card-body">
-                                                        <canvas id="4"></canvas>
+                                                        <canvas id="4" height="200px"></canvas>
                                                     </div>
                                                 </div>
                                             </div>
@@ -74,7 +74,7 @@
                                                         <h3>Bajnoki tabella</h3>
                                                     </div>
                                                     <div class="card-body">
-                                                        <canvas id="5"></canvas>
+                                                        <canvas id="5" height="200px"></canvas>
                                                     </div>
                                                 </div>
                                             </div>

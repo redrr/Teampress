@@ -4,6 +4,7 @@ import hu.playmaker.common.factory.chartjs.common.Constants;
 import hu.playmaker.common.factory.chartjs.common.enums.ChartType;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class RadarChartBuilder extends ChartBuilder {
 
@@ -68,7 +69,46 @@ public class RadarChartBuilder extends ChartBuilder {
         });
         dataObject.put(Constants.datasets, dataSets);
         JsonObject optionObject = new JsonObject();
-        //TODO: Options implementation
+        if(Objects.nonNull(getOptions())){
+            Options options = getOptions();
+            if(Objects.nonNull(options.getAnimation())) {
+
+            }
+            if(Objects.nonNull(options.getCircumference())) {
+
+            }
+            if(Objects.nonNull(options.getLayout())) {
+
+            }
+            if(Objects.nonNull(options.getLegend())) {
+                JsonObject legendObject = new JsonObject();
+                if(Objects.nonNull(options.getLegend().getDisplay()))
+                    legendObject.put("display", options.getLegend().getDisplay());
+                optionObject.put("legend", legendObject);
+            }
+            if(Objects.nonNull(options.getRotation())) {
+
+            }
+            if(Objects.nonNull(options.getScale())) {
+                JsonObject scaleObject = new JsonObject();
+                Scale scale = options.getScale();
+                if(Objects.nonNull(scale.getBeginAtZero()))
+                    scaleObject.put("beginAtZero", scale.getBeginAtZero());
+                if(Objects.nonNull(scale.getMin()))
+                    scaleObject.put("min", scale.getMin());
+                if(Objects.nonNull(scale.getMax()))
+                    scaleObject.put("max", scale.getMax());
+                if(Objects.nonNull(scale.getStepSize()))
+                    scaleObject.put("stepSize", scale.getStepSize());
+                optionObject.put("scale", new JsonObject().put("ticks", scaleObject));
+            }
+            if(Objects.nonNull(options.getTitle())) {
+
+            }
+            if(Objects.nonNull(options.getTooltip())) {
+
+            }
+        }
         config.put(Constants.type, getType().name())
                 .put(Constants.data, dataObject)
                 .put(Constants.options, optionObject);

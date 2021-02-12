@@ -7,6 +7,15 @@ public class Options {
     private Title title;
     private Tooltip tooltip;
     private Double circumference, rotation;
+    private Scale scale;
+
+    Scale getScale() {
+        return scale;
+    }
+
+    public void setScale(Scale scale) {
+        this.scale = scale;
+    }
 
     Double getCircumference() {
         return circumference;

@@ -76,11 +76,10 @@ function getNoti() {
                 body +=
                     "<li class='cr-pointer' onclick='readNoti(\""+msg[0]+"\","+noti.id.split(';')[i]+")'>\n" +
                     "   <div class=\"media\">\n" +
-                    "       <img class=\"d-flex align-self-center\" src=\"../assets/vendor/assets/images/user.png\" alt=\"Generic placeholder image\">\n" +
-                    "       <div class=\"media-body\">\n" +
-                    "           <h5 class=\"notification-user\">"+msg[2]+"</h5>\n" +
-                    "           <p class=\"notification-msg\">"+msg[3]+"</p>\n" +
-                    "           <span class=\"notification-time\">"+msg[1]+"</span>\n" +
+                    "       <div class=\"media-body row\">\n" +
+                    "           <h5 class=\"notification-user col-6\">"+msg[2]+"</h5>\n" +
+                    "           <span class=\"notification-time col-6\"><p class='float-right'>"+msg[1]+"</p></span>\n" +
+                    "           <p class=\"notification-msg col-12\">"+msg[3]+"</p>\n" +
                     "       </div>\n" +
                     "   </div>\n" +
                     "</li>";
