@@ -4,6 +4,7 @@ $(document).ready(function() {
     $('#date1').datetimepicker({
         format: 'YYYY-MM-DD',
         locale: 'hu',
+        maxDate: new Date(),
         icons: {
             time: "ti-alarm-clock",
             date: "ti-calendar",
@@ -18,6 +19,7 @@ $(document).ready(function() {
     $('#date2').datetimepicker({
         format: 'YYYY-MM-DD',
         locale: 'hu',
+        maxDate: new Date(),
         icons: {
             time: "ti-alarm-clock",
             date: "ti-calendar",
@@ -145,6 +147,7 @@ function getTrainingConsole(trainingId, teamId, teamName) {
         setJelenleti(training.players.split(';'), training.profile);
         setExercises(training.exercises.split(';'), training.players.split(';'), navBar, bodyObj, training.profile);
         $('#content').show();
+        $('.tr-table').hide();
         $('.start-progress-btn').hide();
         $('.all_number').hide();
         $('.starinput').hide();

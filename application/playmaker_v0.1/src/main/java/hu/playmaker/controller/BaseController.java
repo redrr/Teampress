@@ -12,6 +12,7 @@ import hu.playmaker.database.model.trainingplan.TrainingPlan;
 import hu.playmaker.database.model.workout.Workout;
 import hu.playmaker.database.service.index.CalendarService;
 import hu.playmaker.database.service.system.UserNotificationService;
+import hu.playmaker.database.service.trainingplan.TrainingPlanConnectionService;
 import hu.playmaker.database.service.workout.WorkoutService;
 import hu.playmaker.handler.SessionHandler;
 import org.json.JSONObject;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class BaseController {
 
@@ -29,7 +31,7 @@ public class BaseController {
 
     //region [Region] Workout result modal data
 
-    protected String processJSON(TrainingPlan training, User user, WorkoutService workoutService) {
+    protected String processJSON(TrainingPlan training, User user, WorkoutService workoutService, TrainingPlanConnectionService connectionService) {
         JSONObject json = new JSONObject();
         try {
             json.put("pastTraining", workoutService.existsByTraining(training, user));
@@ -37,7 +39,7 @@ public class BaseController {
                 json.put("exercises", processModalWorkout(workoutService.findAllByTraining(training, user)));
                 json.put("chart", getChart(training, user, workoutService));
             } else {
-                json.put("exercises", destroyLastSpliter(training.getStringForWorkoutJs()));
+                json.put("exercises", destroyLastSpliter(connectionService.findByTraining(training).stream().map(e -> e.getExercise().getName()).collect(Collectors.joining(";"))));
             }
         } catch (Exception e){
             e.printStackTrace();

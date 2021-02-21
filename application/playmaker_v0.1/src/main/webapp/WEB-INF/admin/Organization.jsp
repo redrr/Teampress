@@ -28,6 +28,12 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
+                                                            <label for="name" class="col-sm-4 col-form-label">Type</label>
+                                                            <div class="col-sm-8 label-static">
+                                                                <f:input id="type" type="text" required=""  path="type" cssErrorClass="form-control" cssClass="form-control"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
                                                             <label for="url" class="col-sm-4 col-form-label">Link</label>
                                                             <div class="col-sm-8 label-static">
                                                                 <f:input id="url" type="text" required="" path="url" cssErrorClass="form-control" cssClass="form-control"/>
@@ -58,6 +64,7 @@
                                                     <thead>
                                                     <tr>
                                                         <th>Név</th>
+                                                        <th>Típus</th>
                                                         <th>URL</th>
                                                         <th></th>
                                                     </tr>
@@ -66,6 +73,7 @@
                                                     <c:forEach var="data" items="${datas}">
                                                         <tr>
                                                             <td>${data.name}</td>
+                                                            <td>${data.type}</td>
                                                             <td>${data.url}</td>
                                                             <td>
                                                                 <button type="button" class="btn btn-info" onclick="get(${data.id})"><i class="cil-description"></i> Módosítás</button>

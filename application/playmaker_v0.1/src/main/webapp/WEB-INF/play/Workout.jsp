@@ -55,7 +55,7 @@
                                                             <ul id="trainingNav" class="nav nav-tabs md-tabs tabs-left b-none" role="tablist" style="z-index: 700">
                                                                 <!-- exercises list on training session -->
                                                             </ul>
-                                                            <div id="trainingBody" class="tab-content tabs-left-content card-block" style="min-height: 100px;z-index: 700">
+                                                            <div id="trainingBody" class="tab-content tabs-left-content card-block w-100" style="min-height: 100px;z-index: 700">
                                                                 <!-- exercises on training session -->
                                                             </div>
                                                         </div>
@@ -63,7 +63,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-12">
+                                            <div class="col-12 tr-table">
                                                 <div class="card">
                                                     <div class="card-header">
                                                         <h5>Edzés értékelés</h5>
@@ -98,7 +98,7 @@
                                         </c:if>
                                         <c:if test="${sessionHandler.userHasPermission('WORKOUT_PLAYER_TABLE')}">
                                             <!-- Player table-->
-                                            <div class="col-12">
+                                            <div class="col-12 tr-table">
                                                 <div class="card">
                                                     <div class="card-header">
                                                         <h5>Edzéseim</h5>
@@ -137,7 +137,7 @@
                                         </c:if>
                                         <c:if test="${sessionHandler.userHasPermission('WORKOUT_ALL_TABLE')}">
                                             <!-- Full table-->
-                                            <div class="col-12">
+                                            <div class="col-12 tr-table">
                                                 <div class="card">
                                                     <div class="card-header">
                                                         <div class="row">
@@ -210,7 +210,7 @@
                                         </div>
                                         <!-- Export modal -->
                                         <div class="modal fade" id="exportModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-success modal-lg" role="document">
+                                            <div class="modal-dialog modal-success" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h4 class="modal-title">Jelenléti ív export</h4>
@@ -218,29 +218,23 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="form-group row">
-                                                            <div class="col-4 row">
-                                                                <label for="team" class="col-sm-4 col-form-label">Csapat</label>
-                                                                <div class="col-sm-8 label-static">
-                                                                    <select id="team">
-                                                                        <c:forEach items="${teams}" var="type">
-                                                                            <option value="${type.type.id}">
-                                                                                    ${type.type.code}
-                                                                            </option>
-                                                                        </c:forEach>
-                                                                    </select>
-                                                                </div>
+                                                            <label for="team" class="col-sm-4 col-form-label">Csapat</label>
+                                                            <div class="col-sm-8 label-static">
+                                                                <select id="team">
+                                                                    <c:forEach items="${teams}" var="type">
+                                                                        <option value="${type.type.id}">
+                                                                                ${type.type.code}
+                                                                        </option>
+                                                                    </c:forEach>
+                                                                </select>
                                                             </div>
-                                                            <div class="col-4 row">
-                                                                <label for="date1" class="col-4 col-form-label">Kezdete</label>
-                                                                <div class="col-8 col-form-label">
-                                                                    <input type="text" autocomplete="off" class="form-control" id="date1"/>
-                                                                </div>
+                                                            <label for="date1" class="col-4 col-form-label">Kezdő időpont</label>
+                                                            <div class="col-8 col-form-label">
+                                                                <input type="text" autocomplete="off" class="form-control" id="date1"/>
                                                             </div>
-                                                            <div class="col-4 row">
-                                                                <label for="date2" class="col-4 col-form-label">Vége</label>
-                                                                <div class="col-8 col-form-label">
-                                                                    <input type="text" autocomplete="off" class="form-control" id="date2"/>
-                                                                </div>
+                                                            <label for="date2" class="col-4 col-form-label">Végső időpont</label>
+                                                            <div class="col-8 col-form-label">
+                                                                <input type="text" autocomplete="off" class="form-control" id="date2"/>
                                                             </div>
                                                         </div>
                                                     </div>

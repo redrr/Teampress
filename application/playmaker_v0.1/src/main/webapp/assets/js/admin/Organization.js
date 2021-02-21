@@ -27,6 +27,7 @@ function get(id){
             var o = JSON.parse(result);
             $('#id').val(o.id);
             $('#name').val(o.name);
+            $('#type').val(o.type);
             $('#url').val(o.url);
         });
 }

@@ -48,7 +48,7 @@
                                                     <div class="card-block">
                                                         <div class="row">
                                                             <div class="col-6">
-                                                                <div id="container" style="background-image: url('/content/baseImages/map.jpg');background-repeat: no-repeat;background-size: 100% ;display: block;width: 100%;height: 812px; border-radius: 16px; margin-top: 38px"></div>
+                                                                <div id="container" style="background-image: url('/content/baseImages/${type}.jpg');background-repeat: no-repeat;background-size: 100% ;display: block;width: 100%;height: 812px; border-radius: 16px; margin-top: 38px"></div>
                                                             </div>
                                                             <div class="col-6">
                                                                 <div id="playersSection">

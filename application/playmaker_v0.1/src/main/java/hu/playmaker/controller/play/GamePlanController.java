@@ -20,6 +20,7 @@ import hu.playmaker.database.service.system.UserOrganizationService;
 import hu.playmaker.database.service.system.UserService;
 import hu.playmaker.database.service.databank.PlayerDataService;
 import hu.playmaker.database.service.databank.SorsolasService;
+import hu.playmaker.database.service.trainingplan.TrainingPlanConnectionService;
 import hu.playmaker.database.service.workout.WorkoutService;
 import hu.playmaker.handler.SessionHandler;
 import org.json.JSONObject;
@@ -48,8 +49,9 @@ public class GamePlanController extends BaseController {
     private WorkoutService workoutService;
     private CustomGameService customGameService;
     private UserNotificationService userNotificationService;
+    private TrainingPlanConnectionService connectionService;
 
-    public GamePlanController(UserOrganizationService userOrganizationService, UserService userService, LookupCodeService lookupCodeService, SorsolasService sorsolasService, LigaService ligaService, PlayerDataService playerDataService, GamePlanService gamePlanService, WorkoutService workoutService, CustomGameService customGameService, UserNotificationService userNotificationService) {
+    public GamePlanController(UserOrganizationService userOrganizationService, UserService userService, LookupCodeService lookupCodeService, SorsolasService sorsolasService, LigaService ligaService, PlayerDataService playerDataService, GamePlanService gamePlanService, WorkoutService workoutService, CustomGameService customGameService, UserNotificationService userNotificationService, TrainingPlanConnectionService connectionService) {
         this.userOrganizationService = userOrganizationService;
         this.userService = userService;
         this.lookupCodeService = lookupCodeService;
@@ -60,6 +62,7 @@ public class GamePlanController extends BaseController {
         this.workoutService = workoutService;
         this.customGameService = customGameService;
         this.userNotificationService = userNotificationService;
+        this.connectionService = connectionService;
     }
 
     @RequestMapping("")
@@ -67,6 +70,7 @@ public class GamePlanController extends BaseController {
         ModelAndView view;
         if(hasPermission(Permissions.PLANNER) || hasPermission(Permissions.PLANS_TABLE)) {
             view = new ModelAndView("play/GamePlan");
+            Organization organization = userOrganizationService.getOrgByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession())).getOrganization();
             ArrayList<UserOrganization> teamList = userOrganizationService.getOrgListByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession()));
             if(hasPermission(Permissions.PLANNER)){
                 view.addObject("teams", teamList);
@@ -76,6 +80,7 @@ public class GamePlanController extends BaseController {
             if(hasPermission(Permissions.PLANS_TABLE) || hasPermission(Permissions.PLANNER)){
                 view.addObject("table", getCreated(teamList));
             }
+            view.addObject("type", organization.getType());
             return view;
         }
         return new ModelAndView("403");
@@ -259,7 +264,7 @@ public class GamePlanController extends BaseController {
         if(hasPermission(Permissions.PLANNER) || hasPermission(Permissions.PLANS_TABLE)){
             User player = userService.find(Integer.parseInt(playerId));
             TrainingPlan trainingPlan = workoutService.findLastByUser(player).getTrainingPlan();
-            return processJSON(trainingPlan, player, workoutService);
+            return processJSON(trainingPlan, player, workoutService, connectionService);
         }
         return "403";
     }

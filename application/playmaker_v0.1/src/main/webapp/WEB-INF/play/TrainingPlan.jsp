@@ -36,7 +36,9 @@
                                                                 <span>Edzés összeállítása</span>
                                                             </div>
                                                             <div class="col-6">
-                                                                <button id="add" onclick="shownext()" type="button" style="float: right" class="btn btn-primary btn-soft"><i class="ti-plus"></i> Új gyakorlat</button>
+                                                                <button class="btn btn-primary btn-soft" style="float: right" data-toggle="modal" data-target="#add-exercise-modal">
+                                                                    <i class="ti-plus"></i> Új gyakorlat
+                                                                </button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -70,336 +72,21 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row">
-                                                                <div class="col-3">
-                                                                    <b>#</b>
+                                                                <div class="col-4">
+                                                                    <b>Név</b>
                                                                 </div>
-                                                                <div class="col-6">
-                                                                    <b>Gyakorlat</b>
+                                                                <div class="col-4">
+                                                                    <b>Típus</b>
                                                                 </div>
-                                                                <div class="col-3">
+                                                                <div class="col-4">
                                                                     <b>Időtartam</b>
                                                                 </div>
+                                                                <div class="col-12">
+                                                                    <hr>
+                                                                </div>
+                                                                <div id="exerciseHolder" class="col-12"></div>
                                                             </div>
-                                                            <div id="exerciserow1" class="form-group row">
-                                                                <label for="exercise1" class="col-3 col-form-label">1.</label>
-                                                                <div class="col-6 col-form-label">
-                                                                    <f:select path="exercise1" required="true" id="exercise1" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
-                                                                        <option value=""></option>
-                                                                        <c:forEach items="${exercises}" var="exercise">
-                                                                            <option value="${exercise.id}">
-                                                                                    ${exercise.name}
-                                                                            </option>
-                                                                        </c:forEach>
-                                                                    </f:select>
-                                                                </div>
-                                                                <div class="col-3 col-form-label">
-                                                                    <f:input type="number" required="true" autocomplete="off" path="exercise1Time" cssErrorClass="form-control" cssClass="form-control" id="exercise1Time"/>
-                                                                </div>
-                                                            </div>
-                                                            <div id="exerciserow2" class="form-group row bmd-form-group">
-                                                                <label for="exercise2" class="col-3 col-form-label">2.</label>
-                                                                <div class="col-6 label-static">
-                                                                    <f:select path="exercise2" id="exercise2" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
-                                                                        <option value=""></option>
-                                                                        <c:forEach items="${exercises}" var="exercise">
-                                                                            <option value="${exercise.id}">
-                                                                                    ${exercise.name}
-                                                                            </option>
-                                                                        </c:forEach>
-                                                                    </f:select>
-                                                                </div>
-                                                                <div class="col-3 label-static">
-                                                                    <f:input type="number" autocomplete="off" path="exercise2Time" cssErrorClass="form-control" cssClass="form-control" id="exercise2Time"/>
-                                                                </div>
-                                                            </div>
-                                                            <div id="exerciserow3" class="form-group row bmd-form-group">
-                                                                <label for="exercise3" class="col-3 col-form-label">3.</label>
-                                                                <div class="col-6 label-static">
-                                                                    <f:select path="exercise3" id="exercise3" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
-                                                                        <option value=""></option>
-                                                                        <c:forEach items="${exercises}" var="exercise">
-                                                                            <option value="${exercise.id}">
-                                                                                    ${exercise.name}
-                                                                            </option>
-                                                                        </c:forEach>
-                                                                    </f:select>
-                                                                </div>
-                                                                <div class="col-3 label-static">
-                                                                    <f:input type="number" autocomplete="off" path="exercise3Time" cssErrorClass="form-control" cssClass="form-control" id="exercise3Time"/>
-                                                                </div>
-                                                            </div>
-                                                            <div id="exerciserow4" class="form-group row bmd-form-group">
-                                                                <label for="exercise4" class="col-3 col-form-label">4.</label>
-                                                                <div class="col-6 label-static">
-                                                                    <f:select path="exercise4" id="exercise4" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
-                                                                        <option value=""></option>
-                                                                        <c:forEach items="${exercises}" var="exercise">
-                                                                            <option value="${exercise.id}">
-                                                                                    ${exercise.name}
-                                                                            </option>
-                                                                        </c:forEach>
-                                                                    </f:select>
-                                                                </div>
-                                                                <div class="col-3 label-static">
-                                                                    <f:input type="number" autocomplete="off" path="exercise4Time" cssErrorClass="form-control" cssClass="form-control" id="exercise4Time"/>
-                                                                </div>
-                                                            </div>
-                                                            <div id="exerciserow5" class="form-group row bmd-form-group">
-                                                                <label for="exercise5" class="col-3 col-form-label">5.</label>
-                                                                <div class="col-6 label-static">
-                                                                    <f:select path="exercise5" id="exercise5" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
-                                                                        <option value=""></option>
-                                                                        <c:forEach items="${exercises}" var="exercise">
-                                                                            <option value="${exercise.id}">
-                                                                                    ${exercise.name}
-                                                                            </option>
-                                                                        </c:forEach>
-                                                                    </f:select>
-                                                                </div>
-                                                                <div class="col-3 label-static">
-                                                                    <f:input type="number" autocomplete="off" path="exercise5Time" cssErrorClass="form-control" cssClass="form-control" id="exercise5Time"/>
-                                                                </div>
-                                                            </div>
-                                                            <div id="exerciserow6" class="form-group row bmd-form-group">
-                                                                <label for="exercise6" class="col-3 col-form-label">6.</label>
-                                                                <div class="col-6 label-static">
-                                                                    <f:select path="exercise6" id="exercise6" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
-                                                                        <option value=""></option>
-                                                                        <c:forEach items="${exercises}" var="exercise">
-                                                                            <option value="${exercise.id}">
-                                                                                    ${exercise.name}
-                                                                            </option>
-                                                                        </c:forEach>
-                                                                    </f:select>
-                                                                </div>
-                                                                <div class="col-3 label-static">
-                                                                    <f:input type="number" autocomplete="off" path="exercise6Time" cssErrorClass="form-control" cssClass="form-control" id="exercise6Time"/>
-                                                                </div>
-                                                            </div>
-                                                            <div id="exerciserow7" class="form-group row bmd-form-group">
-                                                                <label for="exercise7" class="col-3 col-form-label">7.</label>
-                                                                <div class="col-6 label-static">
-                                                                    <f:select path="exercise7" id="exercise7" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
-                                                                        <option value=""></option>
-                                                                        <c:forEach items="${exercises}" var="exercise">
-                                                                            <option value="${exercise.id}">
-                                                                                    ${exercise.name}
-                                                                            </option>
-                                                                        </c:forEach>
-                                                                    </f:select>
-                                                                </div>
-                                                                <div class="col-3 label-static">
-                                                                    <f:input type="number" autocomplete="off" path="exercise7Time" cssErrorClass="form-control" cssClass="form-control" id="exercise7Time"/>
-                                                                </div>
-                                                            </div>
-                                                            <div id="exerciserow8" class="form-group row bmd-form-group">
-                                                                <label for="exercise8" class="col-3 col-form-label">8.</label>
-                                                                <div class="col-6 label-static">
-                                                                    <f:select path="exercise8" id="exercise8" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
-                                                                        <option value=""></option>
-                                                                        <c:forEach items="${exercises}" var="exercise">
-                                                                            <option value="${exercise.id}">
-                                                                                    ${exercise.name}
-                                                                            </option>
-                                                                        </c:forEach>
-                                                                    </f:select>
-                                                                </div>
-                                                                <div class="col-3 label-static">
-                                                                    <f:input type="number" autocomplete="off" path="exercise8Time" cssErrorClass="form-control" cssClass="form-control" id="exercise8Time"/>
-                                                                </div>
-                                                            </div>
-                                                            <div id="exerciserow9" class="form-group row bmd-form-group">
-                                                                <label for="exercise9" class="col-3 col-form-label">9.</label>
-                                                                <div class="col-6 label-static">
-                                                                    <f:select path="exercise9" id="exercise9" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
-                                                                        <option value=""></option>
-                                                                        <c:forEach items="${exercises}" var="exercise">
-                                                                            <option value="${exercise.id}">
-                                                                                    ${exercise.name}
-                                                                            </option>
-                                                                        </c:forEach>
-                                                                    </f:select>
-                                                                </div>
-                                                                <div class="col-3 label-static">
-                                                                    <f:input type="number" autocomplete="off" path="exercise9Time" cssErrorClass="form-control" cssClass="form-control" id="exercise9Time"/>
-                                                                </div>
-                                                            </div>
-                                                            <div id="exerciserow10" class="form-group row bmd-form-group">
-                                                                <label for="exercise10" class="col-3 col-form-label">10.</label>
-                                                                <div class="col-6 label-static">
-                                                                    <f:select path="exercise10" id="exercise10" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
-                                                                        <option value=""></option>
-                                                                        <c:forEach items="${exercises}" var="exercise">
-                                                                            <option value="${exercise.id}">
-                                                                                    ${exercise.name}
-                                                                            </option>
-                                                                        </c:forEach>
-                                                                    </f:select>
-                                                                </div>
-                                                                <div class="col-3 label-static">
-                                                                    <f:input type="number" autocomplete="off" path="exercise10Time" cssErrorClass="form-control" cssClass="form-control" id="exercise10Time"/>
-                                                                </div>
-                                                            </div>
-                                                            <div id="exerciserow11" class="form-group row bmd-form-group">
-                                                                <label for="exercise11" class="col-3 col-form-label">11.</label>
-                                                                <div class="col-6 label-static">
-                                                                    <f:select path="exercise11" id="exercise11" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
-                                                                        <option value=""></option>
-                                                                        <c:forEach items="${exercises}" var="exercise">
-                                                                            <option value="${exercise.id}">
-                                                                                    ${exercise.name}
-                                                                            </option>
-                                                                        </c:forEach>
-                                                                    </f:select>
-                                                                </div>
-                                                                <div class="col-3 label-static">
-                                                                    <f:input type="number" autocomplete="off" path="exercise11Time" cssErrorClass="form-control" cssClass="form-control" id="exercise11Time"/>
-                                                                </div>
-                                                            </div>
-                                                            <div id="exerciserow12" class="form-group row bmd-form-group">
-                                                                <label for="exercise12" class="col-3 col-form-label">12.</label>
-                                                                <div class="col-6 label-static">
-                                                                    <f:select path="exercise12" id="exercise12" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
-                                                                        <option value=""></option>
-                                                                        <c:forEach items="${exercises}" var="exercise">
-                                                                            <option value="${exercise.id}">
-                                                                                    ${exercise.name}
-                                                                            </option>
-                                                                        </c:forEach>
-                                                                    </f:select>
-                                                                </div>
-                                                                <div class="col-3 label-static">
-                                                                    <f:input type="number" autocomplete="off" path="exercise12Time" cssErrorClass="form-control" cssClass="form-control" id="exercise12Time"/>
-                                                                </div>
-                                                            </div>
-                                                            <div id="exerciserow13" class="form-group row bmd-form-group">
-                                                                <label for="exercise13" class="col-3 col-form-label">13.</label>
-                                                                <div class="col-6 label-static">
-                                                                    <f:select path="exercise13" id="exercise13" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
-                                                                        <option value=""></option>
-                                                                        <c:forEach items="${exercises}" var="exercise">
-                                                                            <option value="${exercise.id}">
-                                                                                    ${exercise.name}
-                                                                            </option>
-                                                                        </c:forEach>
-                                                                    </f:select>
-                                                                </div>
-                                                                <div class="col-3 label-static">
-                                                                    <f:input type="number" autocomplete="off" path="exercise13Time" cssErrorClass="form-control" cssClass="form-control" id="exercise13Time"/>
-                                                                </div>
-                                                            </div>
-                                                            <div id="exerciserow14" class="form-group row bmd-form-group">
-                                                                <label for="exercise14" class="col-3 col-form-label">14.</label>
-                                                                <div class="col-6 label-static">
-                                                                    <f:select path="exercise14" id="exercise14" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
-                                                                        <option value=""></option>
-                                                                        <c:forEach items="${exercises}" var="exercise">
-                                                                            <option value="${exercise.id}">
-                                                                                    ${exercise.name}
-                                                                            </option>
-                                                                        </c:forEach>
-                                                                    </f:select>
-                                                                </div>
-                                                                <div class="col-3 label-static">
-                                                                    <f:input type="number" autocomplete="off" path="exercise14Time" cssErrorClass="form-control" cssClass="form-control" id="exercise14Time"/>
-                                                                </div>
-                                                            </div>
-                                                            <div id="exerciserow15" class="form-group row bmd-form-group">
-                                                                <label for="exercise15" class="col-3 col-form-label">15.</label>
-                                                                <div class="col-6 label-static">
-                                                                    <f:select path="exercise15" id="exercise15" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
-                                                                        <option value=""></option>
-                                                                        <c:forEach items="${exercises}" var="exercise">
-                                                                            <option value="${exercise.id}">
-                                                                                    ${exercise.name}
-                                                                            </option>
-                                                                        </c:forEach>
-                                                                    </f:select>
-                                                                </div>
-                                                                <div class="col-3 label-static">
-                                                                    <f:input type="number" autocomplete="off" path="exercise15Time" cssErrorClass="form-control" cssClass="form-control" id="exercise15Time"/>
-                                                                </div>
-                                                            </div>
-                                                            <div id="exerciserow16" class="form-group row bmd-form-group">
-                                                                <label for="exercise16" class="col-3 col-form-label">16.</label>
-                                                                <div class="col-6 label-static">
-                                                                    <f:select path="exercise16" id="exercise16" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
-                                                                        <option value=""></option>
-                                                                        <c:forEach items="${exercises}" var="exercise">
-                                                                            <option value="${exercise.id}">
-                                                                                    ${exercise.name}
-                                                                            </option>
-                                                                        </c:forEach>
-                                                                    </f:select>
-                                                                </div>
-                                                                <div class="col-3 label-static">
-                                                                    <f:input type="number" autocomplete="off" path="exercise16Time" cssErrorClass="form-control" cssClass="form-control" id="exercise16Time"/>
-                                                                </div>
-                                                            </div>
-                                                            <div id="exerciserow17" class="form-group row bmd-form-group">
-                                                                <label for="exercise17" class="col-3 col-form-label">17.</label>
-                                                                <div class="col-6 label-static">
-                                                                    <f:select path="exercise17" id="exercise17" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
-                                                                        <option value=""></option>
-                                                                        <c:forEach items="${exercises}" var="exercise">
-                                                                            <option value="${exercise.id}">
-                                                                                    ${exercise.name}
-                                                                            </option>
-                                                                        </c:forEach>
-                                                                    </f:select>
-                                                                </div>
-                                                                <div class="col-3 label-static">
-                                                                    <f:input type="number" autocomplete="off" path="exercise17Time" cssErrorClass="form-control" cssClass="form-control" id="exercise17Time"/>
-                                                                </div>
-                                                            </div>
-                                                            <div id="exerciserow18" class="form-group row bmd-form-group">
-                                                                <label for="exercise18" class="col-3 col-form-label">18.</label>
-                                                                <div class="col-6 label-static">
-                                                                    <f:select path="exercise18" id="exercise18" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
-                                                                        <option value=""></option>
-                                                                        <c:forEach items="${exercises}" var="exercise">
-                                                                            <option value="${exercise.id}">
-                                                                                    ${exercise.name}
-                                                                            </option>
-                                                                        </c:forEach>
-                                                                    </f:select>
-                                                                </div>
-                                                                <div class="col-3 label-static">
-                                                                    <f:input type="number" autocomplete="off" path="exercise18Time" cssErrorClass="form-control" cssClass="form-control" id="exercise18Time"/>
-                                                                </div>
-                                                            </div>
-                                                            <div id="exerciserow19" class="form-group row  bmd-form-group">
-                                                                <label for="exercise19" class="col-3 col-form-label">19.</label>
-                                                                <div class="col-6 label-static">
-                                                                    <f:select path="exercise19"  id="exercise19" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
-                                                                        <option value=""></option>
-                                                                        <c:forEach items="${exercises}" var="exercise">
-                                                                            <option value="${exercise.id}">
-                                                                                    ${exercise.name}
-                                                                            </option>
-                                                                        </c:forEach>
-                                                                    </f:select>
-                                                                </div>
-                                                                <div class="col-3 label-static">
-                                                                    <f:input type="number" autocomplete="off" path="exercise19Time" cssErrorClass="form-control" cssClass="form-control" id="exercise19Time"/>
-                                                                </div>
-                                                            </div>
-                                                            <div id="exerciserow20" class="form-group row bmd-form-group">
-                                                                <label for="exercise20" class="col-3 col-form-label">20.</label>
-                                                                <div class="col-6 label-static">
-                                                                    <f:select path="exercise20" id="exercise20" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
-                                                                        <option value=""></option>
-                                                                        <c:forEach items="${exercises}" var="exercise">
-                                                                            <option value="${exercise.id}">
-                                                                                    ${exercise.name}
-                                                                            </option>
-                                                                        </c:forEach>
-                                                                    </f:select>
-                                                                </div>
-                                                                <div class="col-3 label-static">
-                                                                    <f:input type="number" autocomplete="off" path="exercise20Time" cssErrorClass="form-control" cssClass="form-control" id="exercise20Time"/>
-                                                                </div>
-                                                            </div>
+                                                            <f:input path="data" id="trainingData" cssStyle="display: none"/>
                                                             <f:hidden path="version" id="modifyTraining_version"/>
                                                             <f:hidden path="id" id="modifyTraining_id"/>
                                                             <div class="form-group row">
@@ -455,6 +142,47 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="add-exercise-modal" tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Gyakorlat hozzáadás</h4>
+                    <button class="btn btn-icon" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i style="margin: 0" class="ti-close"></i></span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label for="exercise" class="col-3 col-lg-2 col-form-label">Exercise</label>
+                        <div class="col-9 col-lg-10">
+                            <div class="form-group bmd-form-group">
+                                <select id="exercise" title="" class="selectpicker" data-style="select-with-transition" data-live-search="true" data-dropup-auto="false" data-size="5" data-width="100%" >
+                                    <c:forEach items="${exercises}" var="exercise">
+                                        <option value="${exercise.id},${exercise.name},${exercise.type.code}">
+                                                ${exercise.name} (<i>${exercise.type.code}</i>)
+                                        </option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="duration" class="col-3 col-lg-2 col-form-label">Duration</label>
+                        <div class="col-9 col-lg-10">
+                            <div class="input-group bmd-form-group">
+                                <input type="number" autocomplete="off"  class="form-control" id="duration" aria-describedby="basic-addon2">
+                                <div class="input-group-addon">
+                                    <span class="input-group-text" id="basic-addon2">perc</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btn-soft" onclick="addExercise($('#exercise'), $('#duration'))">Mentés</button>
+                    <button type="button" id="close" class="btn btn-default btn-soft" data-dismiss="modal">Mégse</button>
                 </div>
             </div>
         </div>

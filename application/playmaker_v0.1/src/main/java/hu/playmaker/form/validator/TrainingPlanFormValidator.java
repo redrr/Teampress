@@ -1,6 +1,5 @@
 package hu.playmaker.form.validator;
 
-import hu.playmaker.form.GameForm;
 import hu.playmaker.form.TrainingPlanForm;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -23,12 +22,6 @@ public class TrainingPlanFormValidator implements Validator {
         }
         if (isNull(trainingPlan.getTeam()) || trainingPlan.getDate() == null || trainingPlan.getDate().trim().length() == 0){
             errors.rejectValue("date", "", "Nem lett csapat megadva!");
-        }
-        if (isNull(trainingPlan.getExercise1()) || trainingPlan.getDate() == null || trainingPlan.getDate().trim().length() == 0){
-            errors.rejectValue("date", "", "Nem lett gyakorlat megadva");
-        }
-        if (isNull(trainingPlan.getExercise1Time()) || trainingPlan.getDate() == null || trainingPlan.getDate().trim().length() == 0){
-            errors.rejectValue("date", "", "Nem lett gyakorlat időtartam megadva!");
         }
     }
 }

@@ -4,6 +4,7 @@ import hu.playmaker.database.model.system.LookupCode;
 import hu.playmaker.database.model.system.Organization;
 import hu.playmaker.database.model.system.User;
 import hu.playmaker.database.model.trainingplan.TrainingPlan;
+import hu.playmaker.database.model.trainingplan.TrainingPlanConnection;
 import hu.playmaker.database.service.BaseService;
 import org.springframework.stereotype.Service;
 
@@ -14,25 +15,33 @@ import java.util.List;
 @Service
 public class TrainingPlanService extends BaseService {
 
-    public TrainingPlan findNext(Organization organization, LookupCode team) {
-        List<TrainingPlan> result = getEntityManager().createNamedQuery("TrainingPlan.findNextTraining").setParameter("porg", organization).setParameter("pteam", team).setParameter("pdate", new Date()).getResultList();
+    public TrainingPlanConnection findNext(Organization organization, LookupCode team) {
+        List<TrainingPlanConnection> result = getEntityManager().createNamedQuery("TrainingPlanConnection.findNextTraining").setParameter("porg", organization).setParameter("pteam", team).setParameter("pdate", new Date()).getResultList();
         return result.size() == 0 ? null : result.get(0);
     }
 
     public Long count(String user,Organization organization , Date date1, Date date2) {
-        return (Long) getEntityManager().createNamedQuery("TrainingPlan.findCount").setParameter("pu", user).setParameter("porg", organization).setParameter("pd1", date1).setParameter("pd2", date2).getResultList().get(0);
+        return (Long) getEntityManager().createNamedQuery("TrainingPlanConnection.findCount").setParameter("pu", user).setParameter("porg", organization).setParameter("pd1", date1).setParameter("pd2", date2).getResultList().get(0);
     }
 
-    public List<TrainingPlan> findAll(){
-        return getEntityManager().createNamedQuery("TrainingPlan.findAll").getResultList();
+    public List<TrainingPlanConnection> findAll(){
+        return getEntityManager().createNamedQuery("TrainingPlanConnection.findAll").getResultList();
     }
 
     public boolean exist(Integer id) {
-        return getEntityManager().createNamedQuery("TrainingPlan.findById").setParameter("pid", id).getResultList().size() > 0;
+        return getEntityManager().createNamedQuery("TrainingPlanConnection.findById").setParameter("pid", id).getResultList().size() > 0;
     }
 
     public TrainingPlan find(Integer id) {
         return (TrainingPlan) getEntityManager().createNamedQuery("TrainingPlan.findById").setParameter("pid", id).getSingleResult();
+    }
+
+    public TrainingPlan find(Organization o, LookupCode t, Date d) {
+        return (TrainingPlan) getEntityManager().createNamedQuery("TrainingPlan.findByUnique")
+                .setParameter("po", o)
+                .setParameter("pt", t)
+                .setParameter("pd", d)
+                .getSingleResult();
     }
 
     public TrainingPlan findMax(Organization organization) {

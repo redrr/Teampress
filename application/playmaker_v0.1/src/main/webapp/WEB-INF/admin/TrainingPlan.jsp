@@ -27,17 +27,15 @@
                                                         <th>Egyesület</th>
                                                         <th>Csapat</th>
                                                         <th>Dátum</th>
-                                                        <th>Edzés gyakorlatok</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
                                                     <c:forEach var="data" items="${datas}">
                                                         <tr>
                                                             <td>${data.id}</td>
-                                                            <td>${data.organization.name}</td>
-                                                            <td>${data.team.code}</td>
-                                                            <td>${data.trainingDate}</td>
-                                                            <td>${data.getStringForWorkoutJs()}</td>
+                                                            <td>${data.trainingPlan.organization.name}</td>
+                                                            <td>${data.trainingPlan.team.code}</td>
+                                                            <td>${data.trainingPlan.trainingDate}</td>
                                                         </tr>
                                                     </c:forEach>
                                                     </tbody>

@@ -30,6 +30,9 @@ public class Organization extends BaseModel {
 	@Column(name = "NAME")
 	private String name;
 
+	@Column(name = "TYPE")
+	private String type;
+
 	@Column(name = "DATABANK_URL")
 	private String url;
 
@@ -106,6 +109,14 @@ public class Organization extends BaseModel {
 		userOrganization.setOrganization(null);
 
 		return userOrganization;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	//endregion

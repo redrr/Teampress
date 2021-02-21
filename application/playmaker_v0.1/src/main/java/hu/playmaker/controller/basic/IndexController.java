@@ -6,6 +6,7 @@ import hu.playmaker.database.model.index.UserPost;
 import hu.playmaker.database.model.index.UserPostComment;
 import hu.playmaker.database.model.system.*;
 import hu.playmaker.database.model.trainingplan.TrainingPlan;
+import hu.playmaker.database.model.trainingplan.TrainingPlanConnection;
 import hu.playmaker.database.service.databank.PlayerDataService;
 import hu.playmaker.database.service.databank.SorsolasService;
 import hu.playmaker.database.service.databank.TabellaService;
@@ -111,11 +112,11 @@ public class IndexController extends BaseController {
         return new ModelAndView("403");
     }
 
-    private String getDay(TrainingPlan trainingPlan) {
+    private String getDay(TrainingPlanConnection trainingPlan) {
         if(Objects.nonNull(trainingPlan)){
             String[] days = {"Vasárnap", "Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat"};
             Calendar calendar = Calendar.getInstance();
-            calendar.setTime(trainingPlan.getRealTrainingDate());
+            calendar.setTime(trainingPlan.getTrainingPlan().getRealTrainingDate());
             return days[calendar.get(Calendar.DAY_OF_WEEK)-1];
         }
         return "";

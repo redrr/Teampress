@@ -96,4 +96,15 @@ nav .icon-bar {
 	width: 22px;
 	height: 2px
 }
+
 nav .icon-bar + .icon-bar { margin-top: 4px }
+
+.input-group-append, .input-group-prepend {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.input-group-append {
+    margin-left: -1px;
+}

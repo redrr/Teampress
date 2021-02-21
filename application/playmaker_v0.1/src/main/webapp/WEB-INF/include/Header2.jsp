@@ -54,6 +54,26 @@
         </div>
     </div>
 </nav>
+<style>
+    #notiList::-webkit-scrollbar, html::-webkit-scrollbar {
+        width: 12px!important;               /* width of the entire scrollbar */
+    }
+
+    #notiList::-webkit-scrollbar-track, html::-webkit-scrollbar-track {
+        background: rgba(0,0,0,.15)!important;        /* color of the tracking area */
+    }
+
+    #notiList::-webkit-scrollbar-thumb, html::-webkit-scrollbar-thumb {
+        background-color: #8D949E!important;    /* color of the scroll thumb */
+        border-radius: 20px!important; /* roundness of the scroll thumb */
+        transition: 3s!important;
+    }
+
+    #notiList::-webkit-scrollbar-thumb:hover, html::-webkit-scrollbar-thumb:hover {
+        background-color: #6c757d!important;    /* color of the scroll thumb */
+        transition: 3s!important;
+    }
+</style>
 <%@include file="TrainerRating.jsp" %>
 <noscript>
     <div id="wrapper">

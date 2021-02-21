@@ -14,6 +14,7 @@ import hu.playmaker.database.service.system.UserNotificationService;
 import hu.playmaker.database.service.system.UserOrganizationService;
 import hu.playmaker.database.service.system.UserService;
 import hu.playmaker.database.service.trainingplan.ExerciseService;
+import hu.playmaker.database.service.trainingplan.TrainingPlanConnectionService;
 import hu.playmaker.database.service.trainingplan.TrainingPlanService;
 import hu.playmaker.database.service.workout.AttendanceService;
 import hu.playmaker.database.service.workout.WorkoutService;
@@ -31,6 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/training/workout")
@@ -44,8 +46,9 @@ public class WorkoutController extends BaseController {
     private WorkoutService workoutService;
     private AttendanceService attendanceService;
     private UserNotificationService userNotificationService;
+    private TrainingPlanConnectionService connectionService;
 
-    public WorkoutController(TrainingPlanService trainingPlanService, UserService userService, UserOrganizationService userOrganizationService, ExerciseService exerciseService, LookupCodeService lookupCodeService, WorkoutService workoutService, AttendanceService attendanceService, UserNotificationService userNotificationService) {
+    public WorkoutController(TrainingPlanService trainingPlanService, UserService userService, UserOrganizationService userOrganizationService, ExerciseService exerciseService, LookupCodeService lookupCodeService, WorkoutService workoutService, AttendanceService attendanceService, UserNotificationService userNotificationService, TrainingPlanConnectionService connectionService) {
         this.trainingPlanService = trainingPlanService;
         this.userService = userService;
         this.userOrganizationService = userOrganizationService;
@@ -54,6 +57,7 @@ public class WorkoutController extends BaseController {
         this.workoutService = workoutService;
         this.attendanceService = attendanceService;
         this.userNotificationService = userNotificationService;
+        this.connectionService = connectionService;
     }
 
     @RequestMapping("")
@@ -157,7 +161,7 @@ public class WorkoutController extends BaseController {
             String players = getPlayers(Integer.parseInt(teamId));
             try {
                 json.put("players", (players.endsWith(";")) ? players.substring(0, players.length()-1) : players); //id,name;
-                json.put("exercises", (training.getStringForJs().endsWith(";")) ? training.getStringForJs().substring(0, training.getStringForJs().length()-1) : training.getStringForJs()); //id,type,name;
+                json.put("exercises", (connectionService.findByTraining(training).stream().map(e -> e.getExercise().getId()+","+e.getExercise().getType().getCode()+","+e.getExercise().getName()).collect(Collectors.joining(";")))); //id,type,name;
                 json.put("profile", getPlayersUrls(Integer.parseInt(teamId)));
             } catch (Exception e){
                 e.printStackTrace();
@@ -262,7 +266,7 @@ public class WorkoutController extends BaseController {
         if(hasPermission(Permissions.WORKOUT_PLAYER_TABLE)){
             TrainingPlan training = trainingPlanService.find(Integer.parseInt(id));
             User user = userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession());
-            return processJSON(training, user, workoutService);
+            return processJSON(training, user, workoutService, connectionService);
         }
         return "";
     }
@@ -273,7 +277,7 @@ public class WorkoutController extends BaseController {
         if(hasPermission(Permissions.WORKOUT_ALL_TABLE)){
             TrainingPlan training = trainingPlanService.find(Integer.parseInt(id));
             User user = userService.find(Integer.parseInt(userId));
-            return processJSON(training, user, workoutService);
+            return processJSON(training, user, workoutService, connectionService);
         }
         return "";
     }

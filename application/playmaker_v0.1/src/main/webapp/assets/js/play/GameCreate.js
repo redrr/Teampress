@@ -4,6 +4,7 @@ $(document).ready(function () {
         $('#date').datetimepicker({
             format: 'YYYY/MM/DD/HH:mm',
             locale: 'hu',
+            minDate: new Date(),
             icons: {
                 time: "ti-alarm-clock",
                 date: "ti-calendar",
