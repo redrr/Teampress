@@ -3,14 +3,14 @@ package hu.playmaker.database.model.trainingplan;
 import hu.playmaker.database.model.BaseModel;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 @Table(name="TRAININGPLAN_CONNECTION", schema="teampress")
 @NamedQueries({
         @NamedQuery(name="TrainingPlanConnection.findAll", query="SELECT t FROM TrainingPlanConnection t"),
         @NamedQuery(name="TrainingPlanConnection.findById", query="SELECT t FROM TrainingPlanConnection t WHERE t.id = :pid"),
-        @NamedQuery(name="TrainingPlanConnection.findByTraining", query="SELECT t FROM TrainingPlanConnection t WHERE t.trainingPlan = :pt"),
+        @NamedQuery(name="TrainingPlanConnection.findByTraining", query="SELECT t FROM TrainingPlanConnection t WHERE t.trainingPlan = :pt ORDER BY t.sort ASC"),
+        @NamedQuery(name="TrainingPlanConnection.findByTrainingAndExercise", query="SELECT t FROM TrainingPlanConnection t WHERE t.trainingPlan = :pt AND t.exercise = :pe"),
         @NamedQuery(name="TrainingPlanConnection.findByTeam", query="SELECT t FROM TrainingPlanConnection t WHERE t.trainingPlan.team = :pteam AND t.trainingPlan.organization = :porg"),
         @NamedQuery(name="TrainingPlanConnection.findNextTraining", query="SELECT t FROM TrainingPlanConnection t WHERE t.trainingPlan.team = :pteam AND t.trainingPlan.organization = :porg AND t.trainingPlan.trainingDate > :pdate ORDER BY t.trainingPlan.trainingDate DESC"),
         @NamedQuery(name="TrainingPlanConnection.findByOrg", query="SELECT t FROM TrainingPlanConnection t WHERE t.trainingPlan.organization = :porg"),
@@ -31,6 +31,9 @@ public class TrainingPlanConnection extends BaseModel {
 
     @Column(name = "DURATION")
     private Integer duration;
+
+    @Column(name = "SORT")
+    private Integer sort;
 
     public TrainingPlanConnection() {
     }
@@ -57,5 +60,13 @@ public class TrainingPlanConnection extends BaseModel {
 
     public void setDuration(Integer duration) {
         this.duration = duration;
+    }
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
     }
 }

@@ -14,4 +14,8 @@ public class TrainingPlanConnectionService extends BaseService {
     public List<TrainingPlanConnection> findByTraining(TrainingPlan trainingPlan) {
         return (List<TrainingPlanConnection>) getEntityManager().createNamedQuery("TrainingPlanConnection.findByTraining").setParameter("pt", trainingPlan).getResultList();
     }
+
+    public TrainingPlanConnection find(Integer id) {
+        return (TrainingPlanConnection) getEntityManager().createNamedQuery("TrainingPlanConnection.findById").setParameter("pid", id).getSingleResult();
+    }
 }

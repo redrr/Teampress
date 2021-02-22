@@ -30,7 +30,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import static java.util.Objects.isNull;
@@ -92,23 +94,41 @@ public class TrainingPlanController extends BaseController {
 
             Organization organization = userOrganizationService.getOrgByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession())).getOrganization();
 
+
             //Create Training plan
             TrainingPlan trainingPlan = (isNull(form.id)) ? new TrainingPlan() : trainingPlanService.find(form.id);
             trainingPlan.setOrganization(organization);
             trainingPlan.setTeam(lookupCodeService.find(form.getTeam()));
             trainingPlan.setTrainingDate(form.getDate().replaceAll("\\s", "").replaceAll("-", "").replace('.', '/'));
+            List<TrainingPlan> plans = trainingPlanService.findAll(trainingPlan.getOrganization(), trainingPlan.getTeam(), trainingPlan.getRealTrainingDate());
+            if (isNull(form.id) && plans.size() != 0) {
+                ModelAndView errorView = show();
+                errorView.getModel().replace("error", "Már létezik erre az időpontra edzés");
+                return errorView;
+            }
             trainingPlanService.mergeFlush(trainingPlan);
 
             //Add Training plan data {id(connection),id(exercise);}
             if (Objects.nonNull(form.getData()) && !"".equals(form.getData())) {
-                for (String data : form.getData().split(";")) {
-                    String[] d = data.split(",");
-                    if (d.length == 2 && !"".equals(d[0]) && !"".equals(d[1])) {
-                        TrainingPlanConnection planConnection = new TrainingPlanConnection();
-                        planConnection.setTrainingPlan(trainingPlanService.find(trainingPlan.getOrganization(), trainingPlan.getTeam(), trainingPlan.getRealTrainingDate()));
-                        planConnection.setExercise(exerciseService.find(Integer.valueOf(d[0])));
-                        planConnection.setDuration(Integer.valueOf(d[1]));
-                        connectionService.mergeFlush(planConnection);
+                String[] exercises = form.getData().split(";");
+                TrainingPlan plan = trainingPlanService.find(trainingPlan.getOrganization(), trainingPlan.getTeam(), trainingPlan.getRealTrainingDate());
+                if (exercises.length > 0) {
+                    for (TrainingPlanConnection connection : connectionService.findByTraining(plan)) {
+                        connectionService.delete(connection);
+                        connectionService.flush();
+                    }
+                    for (int i = 0; i < exercises.length; i++) {
+                        String data = exercises[i];
+                        String[] d = data.split(",");
+                        if (d.length == 2 && !"".equals(d[0]) && !"".equals(d[1])) {
+                            Exercise exercise = exerciseService.find(Integer.valueOf(d[0]));
+                            TrainingPlanConnection planConnection = new TrainingPlanConnection();
+                            planConnection.setTrainingPlan(plan);
+                            planConnection.setExercise(exercise);
+                            planConnection.setDuration(Integer.valueOf(d[1]));
+                            planConnection.setSort(i+1);
+                            connectionService.mergeFlush(planConnection);
+                        }
                     }
                 }
             }
@@ -143,6 +163,14 @@ public class TrainingPlanController extends BaseController {
         return "redirect:/training/plan";
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/connection/del")
+    public void connectionDelete(@RequestParam String id) {
+        if(hasPermission(Permissions.TRAIN_CREATE)){
+            connectionService.delete(connectionService.find(Integer.parseInt(id)));
+            connectionService.flush();
+        }
+    }
+
     @RequestMapping(method = RequestMethod.POST, value = "/get")
     @ResponseBody
     public String get(@RequestParam String id) {
@@ -158,7 +186,8 @@ public class TrainingPlanController extends BaseController {
                     exercises.put(
                             planConnection.getExercise().getId().toString().concat(",")
                             .concat(planConnection.getExercise().getName()).concat(",")
-                            .concat(planConnection.getExercise().getType().getCode())
+                            .concat(planConnection.getExercise().getType().getCode().concat(",")
+                            .concat(planConnection.getId().toString()))
                     );
                     times.put(planConnection.getDuration());
                 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TrainingPlanService extends BaseService {
@@ -36,12 +37,16 @@ public class TrainingPlanService extends BaseService {
         return (TrainingPlan) getEntityManager().createNamedQuery("TrainingPlan.findById").setParameter("pid", id).getSingleResult();
     }
 
-    public TrainingPlan find(Organization o, LookupCode t, Date d) {
-        return (TrainingPlan) getEntityManager().createNamedQuery("TrainingPlan.findByUnique")
+    public List<TrainingPlan> findAll(Organization o, LookupCode t, Date d) {
+        return Optional.of((List<TrainingPlan>) getEntityManager().createNamedQuery("TrainingPlan.findByUnique")
                 .setParameter("po", o)
                 .setParameter("pt", t)
                 .setParameter("pd", d)
-                .getSingleResult();
+                .getResultList()).orElse(null);
+    }
+
+    public TrainingPlan find(Organization o, LookupCode t, Date d) {
+        return findAll(o, t, d).get(0);
     }
 
     public TrainingPlan findMax(Organization organization) {

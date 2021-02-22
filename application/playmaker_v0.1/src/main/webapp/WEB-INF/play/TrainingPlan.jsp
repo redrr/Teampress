@@ -72,10 +72,13 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row">
-                                                                <div class="col-4">
+                                                                <div class="col-2">
+                                                                    <b>#</b>
+                                                                </div>
+                                                                <div class="col-3">
                                                                     <b>Név</b>
                                                                 </div>
-                                                                <div class="col-4">
+                                                                <div class="col-3">
                                                                     <b>Típus</b>
                                                                 </div>
                                                                 <div class="col-4">
@@ -84,7 +87,7 @@
                                                                 <div class="col-12">
                                                                     <hr>
                                                                 </div>
-                                                                <div id="exerciseHolder" class="col-12"></div>
+                                                                <ul id="exerciseHolder" class="col-12"></ul>
                                                             </div>
                                                             <f:input path="data" id="trainingData" cssStyle="display: none"/>
                                                             <f:hidden path="version" id="modifyTraining_version"/>
@@ -189,6 +192,8 @@
     </div>
     <%@include file="../include/IE.jsp" %>
     <%@include file="../include/JavaScript.jsp" %>
+    <!-- jsDelivr :: Sortable :: Latest (https://www.jsdelivr.com/package/npm/sortablejs) -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
     <script>
         <%@include file="../../assets/js/play/TrainingPlan.js" %>
     </script>

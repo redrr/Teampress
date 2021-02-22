@@ -207,3 +207,19 @@ div.pcoded-overlay-box {
     color: #fff !important;
     opacity: 1;
 }
+
+.draggg {
+    box-shadow: none;
+    transition: .2s;
+}
+
+.draggg:hover {
+    background-color: #eee;
+    transition: .2s;
+    cursor: move;
+}
+
+ul#exerciseHolder {
+    max-height: 200px!important;
+    overflow-y: auto!important;
+}
