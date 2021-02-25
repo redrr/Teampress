@@ -65,7 +65,6 @@ public class Attendance extends BaseModel {
 
 	//region [Region] Get Setters
 
-
 	public Organization getOrganization() {
 		return organization;
 	}

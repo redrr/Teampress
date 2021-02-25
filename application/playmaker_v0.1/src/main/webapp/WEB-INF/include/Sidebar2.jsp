@@ -134,6 +134,14 @@
                     </ul>
                 </li>
             </c:if>
+            <c:if test="${sessionHandler.userHasPermission('HOME_HEADER_BUTTONS')}">
+                <li class="${requestURI.equals('/payment/') ? 'active' : ''}">
+                    <a href="/payment/">
+                        <span class="pcoded-micon"><i class="ti-credit-card"></i></span>
+                        <span class="pcoded-mtext" data-i18n="nav.crm-contact.main">Befizetés</span>
+                    </a>
+                </li>
+            </c:if>
             <c:if test="${sessionHandler.userHasPermission('COST_CREATE') || sessionHandler.userHasPermission('GROUP_COSTS') || sessionHandler.userHasPermission('STATEMENT')}">
                 <li class="pcoded-hasmenu ${requestURI.contains('financial') ? 'active' : ''}">
                     <a href="javascript:void(0)">
