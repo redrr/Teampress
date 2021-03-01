@@ -135,8 +135,8 @@
                 </li>
             </c:if>
             <c:if test="${sessionHandler.userHasPermission('HOME_HEADER_BUTTONS')}">
-                <li class="${requestURI.equals('/payment/') ? 'active' : ''}">
-                    <a href="/payment/">
+                <li class="${requestURI.equals('/payment') ? 'active' : ''}">
+                    <a href="/payment">
                         <span class="pcoded-micon"><i class="ti-credit-card"></i></span>
                         <span class="pcoded-mtext" data-i18n="nav.crm-contact.main">Befizetés</span>
                     </a>

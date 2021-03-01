@@ -18,4 +18,8 @@ public class PaymentRequestService extends BaseService {
     public List<PaymentRequest> findByCreator(Organization organization, String name){
         return getEntityManager().createNamedQuery("PaymentRequest.findByCreator").setParameter("porg", organization).setParameter("pn", name).getResultList();
     }
+
+    public PaymentRequest find(Integer id) {
+        return (PaymentRequest) getEntityManager().createNamedQuery("PaymentRequest.findById").setParameter("pid", id).getSingleResult();
+    }
 }
