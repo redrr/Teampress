@@ -1,5 +1,6 @@
 package hu.playmaker.controller.play;
 
+import hu.playmaker.common.LGroups;
 import hu.playmaker.common.Permissions;
 import hu.playmaker.controller.BaseController;
 import hu.playmaker.database.model.index.Calendar;
@@ -63,9 +64,17 @@ public class CalendarController extends BaseController {
             event.setStartDateTime(date.replace("/", "-"));
             event.setEventName(name);
             event.setOrganization(userOrganization.getOrganization());
-            if(!type.equals("0"))
+            if(!type.equals("0")) {
                 event.setTeam(lookupCodeService.find(Integer.parseInt(type)));
-            calendarService.mergeFlush(event);
+                calendarService.mergeFlush(event);
+            } else {
+                List<LookupCode> teams = lookupCodeService.findAllLookupByLgroup(LGroups.TEAM_TYPE.name());
+                for (LookupCode team : teams) {
+                    Calendar singleEvent = event;
+                    singleEvent.setTeam(team);
+                    calendarService.mergeFlush(singleEvent);
+                }
+            }
         }
         return "redirect:/calendar";
     }

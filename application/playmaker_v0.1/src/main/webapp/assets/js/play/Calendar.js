@@ -62,6 +62,7 @@ function createCalendarEvent() {
             date : $('#date').val()
         }, function () {
             $('#close').click();
+            window.location = '/calendar'
         }
     )
 }

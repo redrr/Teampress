@@ -64,7 +64,7 @@
                                                                 </div>
                                                                 <div class="col-12 col-md-4">
                                                                     <select id="type">
-                                                                        <c:if test="${sessionHandler.userHasPermission('OWNER')}">
+                                                                        <c:if test="${sessionHandler.userHasPermission('EVENT_OWNER')}">
                                                                             <option value="0">Teljes egyesület</option>
                                                                         </c:if>
                                                                         <c:forEach var="team" items="${teams}">
