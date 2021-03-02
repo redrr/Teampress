@@ -85,7 +85,7 @@
                                                                         <div id="workoutButtonBar" style="padding-right: 0" class="col-1"></div>
                                                                     </div>
                                                                     <hr style="margin-top: 0">
-                                                                    <div id="teamPlayers" style="height: 800px;overflow: hidden;"></div>
+                                                                    <div id="teamPlayers" style="height: 800px;overflow-y: auto;overflow-x: hidden"></div>
                                                                 </div>
                                                             </div>
                                                         </div>

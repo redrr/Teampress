@@ -21,7 +21,6 @@ $(document).ready(function () {
             if (pastTime !== shortCurrentTime){
                 pastTime = shortCurrentTime;
                 if(!video.paused) {
-                    console.log(actionsTime.includes(shortCurrentTime.toString()));
                     if(actionsTime.includes(shortCurrentTime.toString())) {
                         let action = actionsId[actionsTime.indexOf(shortCurrentTime.toString())];
                         loadLayerForViewer(action, false, false);
@@ -358,7 +357,6 @@ function loadActionCards(array) {
     let body = '';
     let jsonArray = JSON.parse(array);
     let holder = $('#actionsHolder');
-    holder.mCustomScrollbar('destroy');
     holder[0].innerHTML = '';
     actionsTime = [];
     actionsId = [];
@@ -369,6 +367,9 @@ function loadActionCards(array) {
         let randId = i;
         let minutes = Math.floor(jsonObject.time / 60);
         let seconds = jsonObject.time - minutes * 60;
+        if (seconds < 10) {
+            seconds = '0'+seconds;
+        }
         body =
             '<div id="'+randId+'" class="btn-soft bg-light m-1 p-1">\n' +
             '   <div class="row">\n' +
@@ -402,12 +403,6 @@ function loadActionCards(array) {
         height = video.height()
         width = video.width();
         initLayer('');
-    }, 300);
-    setTimeout(function (){
-        $('#actionsHolder').mCustomScrollbar({
-            theme:"dark-thick",
-            scrollInertia: 200
-        });
     }, 300);
 }
 

@@ -85,7 +85,7 @@
                                                                         <button id="edit" class="btn btn-primary btn-soft w-100"><i class="ti-plus"></i> Új akció</button>
                                                                         <hr>
                                                                     </div>
-                                                                    <div id="actionsHolder" class="col-12" style="overflow: hidden;"></div>
+                                                                    <div id="actionsHolder" class="col-12" style="overflow-y: auto;"></div>
                                                                 </div>
                                                                 <div id="recordActionSidebar" class="row highlight-sidebar highlight-sidebar-hidden">
                                                                     <div class="col-12">

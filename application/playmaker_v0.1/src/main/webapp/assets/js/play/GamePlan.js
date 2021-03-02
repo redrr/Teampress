@@ -121,7 +121,7 @@ function setupButtons(id, sors, type) {
                 flag = false;
                 $.post('/gameplan/setplayers', {playerId: postId, gameId: sors, gameType: type, x: postX, y: postY, attendance: postAttendance}, function (result) {
                     if(result === 'success'){
-                        $('#teamPlayers').mCustomScrollbar('destroy');
+                        //$('#teamPlayers').mCustomScrollbar('destroy');
                         setTimeout(function (){
                             window.location = "/gameplan";
                         }, 100);
@@ -161,7 +161,7 @@ function loadEditorForTrainer(sd, teamId, hazai, vendeg, sors, type){
 
 function getPlayersByPlayer(data, teamId, hazai, vendeg, gameId, gameType, editor) {
     const element = $('#teamPlayers');
-    element.mCustomScrollbar('destroy');
+    //element.mCustomScrollbar('destroy');
     element.empty();
     $('#title').text(hazai+" - "+vendeg);
     if(editor) {
@@ -196,7 +196,7 @@ function getPlayersByPlayer(data, teamId, hazai, vendeg, gameId, gameType, edito
             var status = players.attendanceType.split(';')[i];
             setupLayer(id, players.url.split(';')[i], x, y, size, drag);
             var body =
-                "   <div class=\"row\" style='margin-bottom: 8px; padding-left: 16px'>" +
+                "   <div class=\"row\">" +
                 "       <div class='col-1' style='padding: 4px'>" +
                 "           <img alt=\"Image placeholder\" class=\"rounded-circle player-icon-sm\" src='/content/profileImages/"+players.url.split(';')[i]+"'>" +
                 "       </div>" +
@@ -268,7 +268,7 @@ function getPlayersByPlayer(data, teamId, hazai, vendeg, gameId, gameType, edito
                 "   </div>";
             if(editor) {
                 body +=
-                    "<div class='col-1 p-0'>" +
+                    "<div class='col-1'>" +
                     "   <button class='btn btn-primary btn-icon float-right' data-toggle=\"modal\" data-target=\"#trainingModal\"  onclick='getLastWorkout("+id+")'><i style='margin: 0' class=\"ti-bar-chart\"></i></button>"+
                     "</div>";
             }
@@ -287,12 +287,12 @@ function getPlayersByPlayer(data, teamId, hazai, vendeg, gameId, gameType, edito
         }
     });
     stage.add(layer);
-    setTimeout(function (){
+    /*setTimeout(function (){
         $('#teamPlayers').mCustomScrollbar({
             theme:"dark-thick",
             scrollInertia: 200
         });
-    }, 300);
+    }, 300);*/
     window.scrollTo(0, 0);
     $('[data-toggle="tooltip"]').tooltip();
 }
