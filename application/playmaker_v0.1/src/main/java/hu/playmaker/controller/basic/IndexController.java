@@ -130,21 +130,21 @@ public class IndexController extends BaseController {
             User user = userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession());
             post.setUser(user);
             post.setOrganization(userOrganizationService.getOrgByUser(user).getOrganization());
-            if(!form.getPostText().trim().equals("")){
-                post.setPost(form.getPostText());
-                userPostService.mergeFlush(post);
-            }
-            if(!form.getFile().isEmpty() && form.getFile().getContentType().contains("image")){
+            if(!form.getFile().isEmpty() && (form.getFile().getContentType().contains("image") || form.getFile().getContentType().contains("mp4"))){
                 try {
                     byte[] bytes = form.getFile().getBytes();
                     Path path = Paths.get(uploadFolder+user.getUsername()+"_"+form.getFile().getOriginalFilename());
                     Files.write(path, bytes);
                     post.setImageUrl(user.getUsername()+"_"+form.getFile().getOriginalFilename());
-                    userPostService.mergeFlush(post);
                 } catch (Exception e){
                     e.printStackTrace();
                 }
             }
+            if(!form.getPostText().trim().equals("")){
+                post.setPost(form.getPostText());
+            }
+            if (post.getImageUrl() != null || post.getPost() != null)
+                userPostService.mergeFlush(post);
         }
         return "redirect:/";
     }

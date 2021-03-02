@@ -145,19 +145,16 @@
                                                                                 <c:if test="${post.key.post != null}">
                                                                                     ${post.key.post}
                                                                                 </c:if>
-                                                                                <c:if test="${post.key.imageUrl != null}">
-                                                                                    <img src="/content/postImages/${post.key.imageUrl}" style="width: 100%; border-radius: 16px">
+                                                                                <c:if test="${post.key.imageUrl != null && !post.key.imageUrl.endsWith('mp4')}">
+                                                                                    <img src="/content/postImages/${post.key.imageUrl}" style="width: 100%; border-radius: 16px" alt="">
+                                                                                </c:if>
+                                                                                <c:if test="${post.key.imageUrl != null && post.key.imageUrl.endsWith('mp4')}">
+                                                                                    <video muted style="width: 100%; border-radius: 16px">
+                                                                                        <source src="/content/postImages/${post.key.imageUrl}" type="video/mp4">
+                                                                                    </video>
                                                                                 </c:if>
                                                                             </div>
                                                                         </div>
-                                                                        <!--<div class="b-t-theme social-msg">
-                                                                            <a>
-                                                                                <i class="icofont icofont-heart-alt text-muted"></i><span class="b-r-theme">Like</span>
-                                                                            </a>
-                                                                            <a>
-                                                                                <i class="icofont icofont-comment text-muted"></i><span class="b-r-theme">Comments</span>
-                                                                            </a>
-                                                                        </div>-->
                                                                         <div class="card-block user-box" style="padding-top: 0">
                                                                             <c:if test="${post.value.size() > 0}">
                                                                                 <hr>
