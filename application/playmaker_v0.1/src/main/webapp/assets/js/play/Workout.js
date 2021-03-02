@@ -169,26 +169,6 @@ function setJelenleti(playerList, profile) {
     const jelenObj = $('#jelen');
     jelenObj.empty();
     playerList.forEach(function (value, i) {
-        /*jelen +=
-            "<div class=\"form-group col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12 jelen\">" +
-            "   <div class='row'>" +
-            "       <div class='col-1' style='padding: 0'>" +
-            "           <img alt=\"Image placeholder\" class=\"col-form-label rounded-circle\"  style='width:100%' src='/content/profileImages/"+profile[i]+"'>" +
-            "       </div>" +
-            "       <div class='col-6' style='padding: 0; padding-left: 10px'>" +
-            "           <label for='player"+value.split(',')[0]+"' title='"+value.split(',')[0]+"' class=\"col-form-label jelenname\">"+value.split(',')[1]+"</label>" +
-            "       </div>" +
-            "       <div class='col-3 col-form-label' style='padding: 0'>" +
-            "           <select class='jelenval' onchange=\"toshow($(this).val(), $('.play-"+i+"'));\">\n" +
-            "                   <option value=\"jelen\">Jelen</option>" +
-            "                   <option value=\"igazolt\">Igazolt hiányzás</option>" +
-            "                   <option value=\"igazolatlan\">Igazolatlan hiányzás</option>" +
-            "           </select>"+
-            "       </div>" +
-            "       <div class='col-2'>" +
-            "       </div>" +
-            "   </div>" +
-            "</div>";*/
         jelen +=
             "<div class=\"col-4 jelen\">\n" +
             "   <div class=\"row\" style='margin-top: 16px'>\n" +
@@ -274,8 +254,8 @@ function setExercises(exerciseList, playerList, navBar, bodyObj, profile) {
                 }
                 if(type === 'Szöveges értékelés'){
                     body +=
-                        "<div class=\"col-12 exerciseresult"+index+"\">\n" +
-                        "   <input class=\"form-control\" id=\"text-rating"+i+"\" type=\"text\" name=\"text-rating\" placeholder=\"Értékelés\"/>\n" +
+                        "<div class=\"col-12 p"+i+" exerciseresult"+index+"\">\n" +
+                        "   <input class=\"form-control\" id=\"text-rating"+i+"\" type=\"text\" name=\"text-rating\" placeholder=\"Értékelés\"  maxlength=\"255\"/>\n" +
                         "</div>";
                 }
                 if(type === '1-10 -es skála'){
@@ -330,9 +310,9 @@ function changeButton(element, text, className, title, playerId) {
     element.text(text);
     element.addClass(className);
     if(title === 0) {
-        console.log(playerId);
-        $('.exercise .play-'+playerId).show();
-        $('.exercise .play-'+playerId).removeClass().addClass("col-6 form-group tohide play-"+playerId);
+        let player = $('.exercise .play-'+playerId);
+        player.show();
+        player.removeClass().addClass("col-6 form-group tohide play-"+playerId);
     }
 }
 
@@ -356,6 +336,7 @@ function setupTrainingModal(id, date, playerId) {
         console.log(trainingData);
         $('#chartholder')[0].innerHTML = "<canvas id=\"trainingStat\" width=\"400\" height=\"400\"></canvas>";
         modalBody(trainingData);
+        $('#trainingModalBody').height($('#trainingStat').height());
     });
 }
 

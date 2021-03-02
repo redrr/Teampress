@@ -202,7 +202,7 @@
                                                             <div id="chartholder" class="col-xl-6 col-lg-8 col-md-12 col-12">
                                                                 <canvas id="trainingStat" width="500" height="500"></canvas>
                                                             </div>
-                                                            <div id="trainingModalBody" class="col-xl-6 col-lg-8 col-md-12 col-12" style="padding-right: 32px; padding-left: 32px"></div>
+                                                            <div id="trainingModalBody" class="col-xl-6 col-lg-8 col-md-12 col-12" style="padding-right: 32px; padding-left: 32px; overflow-y: auto"></div>
                                                         </div>
                                                     </div>
                                                 </div>

@@ -204,13 +204,14 @@ function modalBody(trainingData){
         const name = exercise.split(',')[0];
         const type = exercise.split(',')[1];
         const result = exercise.split(',')[2];
-        var percent;
-        var bodyHtml =
+        let percent;
+        let bodyHtml =
             "<div class=\"row\" style='margin-bottom: 4px'>" +
             "   <div class='col-5'>" +
             "       <b>"+name+"</b>" +
             "   </div>" +
             "   <div class='col-7'>";
+        let writtenHtml = '';
         if(trainingData.pastTraining){
             if(result === 'H~h~H'){
                 bodyHtml +=
@@ -222,10 +223,15 @@ function modalBody(trainingData){
                         "<b style='float: right'>"+result/5*10+"</b>";
                 }
                 else if(type === 'Szöveges értékelés'){
-                    //todo szöveges?
-                    bodyHtml +=
-                        ""
-                    ;
+                    writtenHtml = "<div class=\"row\" style='margin-bottom: 4px'>" +
+                        "   <div class='col-12'>" +
+                        "       <b>"+name+"</b>" +
+                        "   </div>" +
+                        "   <div class='col-10 mx-auto'>"+
+                                "<p style='word-break: break-all;'>"+result+"</p>" +
+                        "   </div>" +
+                        "</div>";
+                    body.append(writtenHtml);
                 }
                 else if(type === '1-10 -es skála'){
                     percent = result*10;
@@ -253,6 +259,7 @@ function modalBody(trainingData){
             bodyHtml +=
                 "<b>Értékelésre vár!</b>"
         }
+
         bodyHtml +=
             "   </div>" +
             "</div>";
@@ -265,7 +272,9 @@ function modalBody(trainingData){
             "       </div>"+
             "   </div>"+
             "</div>";
-        body.append(bodyHtml);
+        if (writtenHtml === ''){
+            body.append(bodyHtml);
+        }
     });
     destroy(workoutChart);
     if(!(trainingData.chart===undefined)){

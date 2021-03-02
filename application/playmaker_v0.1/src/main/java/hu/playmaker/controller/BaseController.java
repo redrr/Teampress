@@ -118,11 +118,9 @@ public class BaseController {
             if(!(workout.getResult().equals("H~h~H") || workout.getResult().equals(""))){
                 if(!workout.getExercise().getType().getCode().equals("Szöveges értékelés")){
                     data.addLabel(workout.getExercise().getName());
-                }
-                if(!workout.getExercise().getType().getCode().equals("Szöveges értékelés")){
                     results.add(workout.getResultPercent());
+                    avgs.add(workoutService.avgExercise(trainingPlan, workout.getExercise()));
                 }
-                avgs.add(workoutService.avgExercise(trainingPlan, workout.getExercise()));
             }
         }
         avgDataSet.setData(avgs.toArray());
