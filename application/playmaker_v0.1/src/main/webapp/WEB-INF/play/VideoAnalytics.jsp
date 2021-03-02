@@ -81,11 +81,13 @@
                                                             </div>
                                                             <div class="col-3">
                                                                 <div id="actionsSidebar" class="row highlight-sidebar">
-                                                                    <div class="col-12">
-                                                                        <button id="edit" class="btn btn-primary btn-soft w-100"><i class="ti-plus"></i> Új akció</button>
-                                                                        <hr>
-                                                                    </div>
-                                                                    <div id="actionsHolder" class="col-12" style="overflow-y: auto;"></div>
+                                                                    <c:if test="${sessionHandler.userHasPermission('VIDEO_ANALYTICS_EDIT')}">
+                                                                        <div class="col-12">
+                                                                            <button id="edit" class="btn btn-primary btn-soft w-100"><i class="ti-plus"></i> Új akció</button>
+                                                                            <hr>
+                                                                        </div>
+                                                                    </c:if>
+                                                                    <div id="actionsHolder" class="col-12" style="overflow-y: auto;height: inherit"></div>
                                                                 </div>
                                                                 <div id="recordActionSidebar" class="row highlight-sidebar highlight-sidebar-hidden">
                                                                     <div class="col-12">
@@ -137,7 +139,9 @@
                                                                 <span>Feltöltött videók</span>
                                                             </div>
                                                             <div class="col-6">
-                                                                <button style="float: right" class="btn btn-primary btn-soft" data-toggle="modal" data-target="#videoModal"><i class="ti-upload"></i> Feltöltés</button>
+                                                                <c:if test="${sessionHandler.userHasPermission('VIDEO_ANALYTICS_EDIT')}">
+                                                                    <button style="float: right" class="btn btn-primary btn-soft" data-toggle="modal" data-target="#videoModal"><i class="ti-upload"></i> Feltöltés</button>
+                                                                </c:if>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -147,6 +151,9 @@
                                                             <tr>
                                                                 <th>Videó címe</th>
                                                                 <th>Feltöltés dátuma</th>
+                                                                <c:if test="${sessionHandler.userHasPermission('VIDEO_ANALYTICS_EDIT')}">
+                                                                    <th>Státusz</th>
+                                                                </c:if>
                                                                 <th></th>
                                                             </tr>
                                                             </thead>
@@ -155,8 +162,24 @@
                                                                 <tr>
                                                                     <td>${video.name}</td>
                                                                     <td>${video.simpleCreationDateAsString}</td>
+                                                                    <c:if test="${sessionHandler.userHasPermission('VIDEO_ANALYTICS_EDIT')}">
+                                                                        <td>
+                                                                            <c:if test="${video.isPublic().equals('true')}">
+                                                                                <span class="badge badge-lg badge-success">Közzétéve</span>
+                                                                            </c:if>
+                                                                            <c:if test="${video.isPublic().equals('false')}">
+                                                                                <span class="badge badge-lg badge-info">Szerkesztés alatt</span>
+                                                                            </c:if>
+                                                                        </td>
+                                                                    </c:if>
                                                                     <td>
                                                                         <button class="btn btn-primary btn-soft" onclick="setupVideo(${video.id},'${video.fileName}', ${video.team.id})"><i class="ti-video-clapper"></i> Elemzés</button>
+                                                                        <c:if test="${sessionHandler.userHasPermission('VIDEO_ANALYTICS_EDIT')}">
+                                                                            <c:if test="${video.isPublic().equals('false')}">
+                                                                                <button type="button" class="btn btn-info btn-soft" onclick="publishVideo(${video.id})"><i class="ti-trash"></i> Közzététel</button>
+                                                                            </c:if>
+                                                                            <button type="button" class="btn btn-danger btn-soft" onclick="deleteVideo(${video.id})"><i class="ti-trash"></i> Törlés</button>
+                                                                        </c:if>
                                                                     </td>
                                                                 </tr>
                                                             </c:forEach>
@@ -218,6 +241,14 @@
     </div>
     <%@include file="../include/IE.jsp" %>
     <%@include file="../include/JavaScript.jsp" %>
+    <script>
+        let isEditMode = false;
+    </script>
+    <c:if test="${sessionHandler.userHasPermission('VIDEO_ANALYTICS_EDIT')}">
+        <script>
+            isEditMode = true;
+        </script>
+    </c:if>
     <script src="<c:url value="/assets/js/play/VideoAnalytics.js"/>"></script>
     <script src="<c:url value="/assets/vendor/konva/konva.js"/>"></script>
 </body>

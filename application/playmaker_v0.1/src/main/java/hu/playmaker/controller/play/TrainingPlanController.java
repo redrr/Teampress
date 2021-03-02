@@ -146,7 +146,7 @@ public class TrainingPlanController extends BaseController {
             Date parsedDate = null;
             try {
                 parsedDate = dateFormat.parse(form.getDate().replaceAll("\\s", "").replaceAll("-", "").replace('.', '/'));
-                pushEvents(parsedDate, lookupCodeService.find(form.getTeam()).getCode()+" edzése", organization, calendarService);
+                pushEvents(parsedDate, lookupCodeService.find(form.getTeam()).getCode()+" edzése", organization, lookupCodeService.find(form.getTeam()), calendarService);
             } catch (ParseException e) {
                 e.printStackTrace();
             }

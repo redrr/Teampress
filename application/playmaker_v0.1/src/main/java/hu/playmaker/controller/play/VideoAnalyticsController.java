@@ -65,7 +65,11 @@ public class VideoAnalyticsController extends BaseController {
             User currentUser = userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession());
             UserOrganization userOrganization = userOrganizationService.getOrgByUser(currentUser);
             view.addObject("teamTypes", lookupCodeService.findAllLookupByLgroup(LGroups.TEAM_TYPE.name()));
-            view.addObject("data", videoService.findAll());
+            if (hasPermission(Permissions.VIDEO_ANALYTICS_EDIT)) {
+                view.addObject("data", videoService.findAll());
+            } else {
+                view.addObject("data", videoService.findAllPublished());
+            }
             return view;
         }
         return new ModelAndView("403");
@@ -198,7 +202,7 @@ public class VideoAnalyticsController extends BaseController {
         return "redirect:/403";
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/del")
+    @RequestMapping(method = RequestMethod.POST, value = "/action/del")
     @ResponseBody
     public String deleteAction(@RequestParam String analyticsActionId) {
         if(hasPermission(Permissions.VIDEO_ANALYTICS)) {
@@ -212,6 +216,42 @@ public class VideoAnalyticsController extends BaseController {
                 return "";
             }
             return "Delete failed!";
+        }
+        return "redirect:/403";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/video/del")
+    @ResponseBody
+    public String delete(@RequestParam String id) {
+        if(hasPermission(Permissions.VIDEO_ANALYTICS)) {
+            if(!id.trim().equals("") && videoService.find(Integer.parseInt(id)) != null) {
+                try {
+                    Video video = videoService.find(Integer.parseInt(id));
+                    video.setDeleted(true);
+                    videoService.mergeFlush(video);
+                } catch (Exception e) {
+                    return "redirect:/500";
+                }
+            }
+            return "redirect:/videoanalytics";
+        }
+        return "redirect:/403";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/video/publish")
+    @ResponseBody
+    public String publish(@RequestParam String id) {
+        if(hasPermission(Permissions.VIDEO_ANALYTICS)) {
+            if(!id.trim().equals("") && videoService.find(Integer.parseInt(id)) != null) {
+                try {
+                    Video video = videoService.find(Integer.parseInt(id));
+                    video.setPublic(true);
+                    videoService.mergeFlush(video);
+                } catch (Exception e) {
+                    return "redirect:/500";
+                }
+            }
+            return "redirect:/videoanalytics";
         }
         return "redirect:/403";
     }

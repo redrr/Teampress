@@ -120,7 +120,7 @@ public class GameCreateController extends BaseController {
                         userNotificationService,
                         currentUser
                 );
-                pushEvents(customGame.getDate(), organization.getName()+" - "+customGame.getEnemy(), organization, calendarService);
+                pushEvents(customGame.getDate(), organization.getName()+" - "+customGame.getEnemy(), organization, team, calendarService);
             }
         }
         return show();

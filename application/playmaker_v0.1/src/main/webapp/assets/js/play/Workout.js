@@ -348,6 +348,7 @@ function setupTrainingModalForPlayer(id, date) {
         const trainingData = JSON.parse(jsonTrainingData);
         console.log(jsonTrainingData);
         modalBody(trainingData);
+       $('#trainingModalBody').height($('#trainingStat').height());
     });
 }
 

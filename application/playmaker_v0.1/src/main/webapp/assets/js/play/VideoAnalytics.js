@@ -331,6 +331,74 @@ function deleteAction(id, element, url) {
         }
     })
 }
+
+function deleteVideo(id) {
+    $.confirm({
+        title: 'Biztosan törlöd?',
+        content: '',
+        type: 'red',
+        theme: 'supervan',
+        animation: 'zoom',
+        animationBounce: 1.5,
+        typeAnimated: true,
+        buttons: {
+            delete: {
+                text: 'Törlés',
+                btnClass: 'btn-red',
+                action: function() {
+                    $.ajax({
+                        url: "/videoanalytics/video/del",
+                        type: "POST",
+                        data: {
+                            id: id,
+                        },
+                        success: function () {
+                            window.location = "/videoanalytics"
+                        },
+                    });
+                }
+            },
+            cancel: {
+                text: 'Mégse',
+                btnClass: 'btn-blue',
+            }
+        }
+    })
+}
+
+function publishVideo(id) {
+    $.confirm({
+        title: 'Biztosan közzéteszed?',
+        content: '',
+        type: 'red',
+        theme: 'supervan',
+        animation: 'zoom',
+        animationBounce: 1.5,
+        typeAnimated: true,
+        buttons: {
+            delete: {
+                text: 'Közzététel',
+                btnClass: 'btn-info',
+                action: function() {
+                    $.ajax({
+                        url: "/videoanalytics/video/publish",
+                        type: "POST",
+                        data: {
+                            id: id,
+                        },
+                        success: function () {
+                            window.location = "/videoanalytics"
+                        },
+                    });
+                }
+            },
+            cancel: {
+                text: 'Mégse',
+                btnClass: 'btn-blue',
+            }
+        }
+    })
+}
 //endregion
 
 //region[region] Helpers
@@ -378,10 +446,12 @@ function loadActionCards(array) {
             '       </div>\n' +
             '       <div class="col-6 pl-0">\n' +
             '           <div class="btn-group f-right" role="group">\n' +
-            '               <button type="button" class="btn btn-dark btn-mini" onclick="loadLayerForViewer('+jsonObject.id+','+false+','+false+')" data-toggle="tooltip" data-placement="top" title="Megtekintés"><i class="ti-eye"></i></button>\n' +
-            '               <button type="button" class="btn btn-dark btn-mini" onclick="loadLayerForViewer('+jsonObject.id+','+true+','+true+')" data-toggle="tooltip" data-placement="top" title="Szerkesztés"><i class="ti-pencil"></i></button>\n' +
-            '               <button type="button" class="btn btn-danger btn-mini" onclick="deleteAction('+jsonObject.id+','+randId+',\'/videoanalytics\')" data-toggle="tooltip" data-placement="top" title="Törlés"><i class="ti-trash"></i></button>\n' +
-            '           </div>' +
+            '               <button type="button" class="btn btn-dark btn-mini" onclick="loadLayerForViewer('+jsonObject.id+','+false+','+false+')" data-toggle="tooltip" data-placement="top" title="Megtekintés"><i class="ti-eye"></i></button>\n';
+        if (isEditMode) {
+         body +=             '               <button type="button" class="btn btn-dark btn-mini" onclick="loadLayerForViewer('+jsonObject.id+','+true+','+true+')" data-toggle="tooltip" data-placement="top" title="Szerkesztés"><i class="ti-pencil"></i></button>\n' +
+             '               <button type="button" class="btn btn-danger btn-mini" onclick="deleteAction('+jsonObject.id+','+randId+',\'/videoanalytics/action\')" data-toggle="tooltip" data-placement="top" title="Törlés"><i class="ti-trash"></i></button>\n';
+        }
+        body +='           </div>' +
             '       </div>\n' +
             '       <div class="col-12">\n' +
             '           <p class="text-left">'+jsonObject.name+'</p>\n' +
@@ -399,7 +469,11 @@ function loadActionCards(array) {
     });
     setTimeout(function (){
         let video = $('#video');
-        $('#actionsHolder').height(video.height() - 80);
+        if (isEditMode) {
+            $('#actionsHolder').height(video.height() - 80);
+        } else {
+            $('#actionsSidebar').height(video.height());
+        }
         height = video.height()
         width = video.width();
         initLayer('');

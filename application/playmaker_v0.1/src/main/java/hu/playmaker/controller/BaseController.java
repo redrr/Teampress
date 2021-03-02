@@ -4,10 +4,7 @@ import hu.playmaker.common.Permissions;
 import hu.playmaker.common.factory.chartjs.*;
 import hu.playmaker.common.factory.chartjs.common.enums.BorderCapStyle;
 import hu.playmaker.database.model.index.Calendar;
-import hu.playmaker.database.model.system.Organization;
-import hu.playmaker.database.model.system.User;
-import hu.playmaker.database.model.system.UserNotification;
-import hu.playmaker.database.model.system.UserOrganization;
+import hu.playmaker.database.model.system.*;
 import hu.playmaker.database.model.trainingplan.TrainingPlan;
 import hu.playmaker.database.model.workout.Workout;
 import hu.playmaker.database.service.index.CalendarService;
@@ -170,11 +167,12 @@ public class BaseController {
 
     //region [Region] Events
 
-    public void pushEvents(Date date, String name, Organization organization, CalendarService service){
+    public void pushEvents(Date date, String name, Organization organization, LookupCode team, CalendarService service){
         Calendar calendar = new Calendar();
         calendar.setEndDateTime(date);
         calendar.setStartDateTime(date);
         calendar.setEventName(name);
+        calendar.setTeam(team);
         calendar.setOrganization(organization);
         service.mergeFlush(calendar);
     }

@@ -149,7 +149,7 @@
                                                                                     <img src="/content/postImages/${post.key.imageUrl}" style="width: 100%; border-radius: 16px" alt="">
                                                                                 </c:if>
                                                                                 <c:if test="${post.key.imageUrl != null && post.key.imageUrl.endsWith('mp4')}">
-                                                                                    <video muted style="width: 100%; border-radius: 16px">
+                                                                                    <video controls muted style="width: 100%; border-radius: 16px">
                                                                                         <source src="/content/postImages/${post.key.imageUrl}" type="video/mp4">
                                                                                     </video>
                                                                                 </c:if>
@@ -199,11 +199,11 @@
                                                             <div class="col-12">
                                                                 <a href="/calendar" class="card overflow-hidden" style="max-width: 90%;border:none;background-color: #3B5998">
                                                                     <div class="card-body">
-                                                                        <h1 style="color: #fff;font-size: 65px;font-weight: 600;margin-left: 16px;margin-top: 0;margin-bottom: 16px">${nextTraining.trainingDate.split("-")[1].trim()}</h1>
+                                                                        <h1 style="color: #fff;font-size: 65px;font-weight: 600;margin-left: 16px;margin-top: 0;margin-bottom: 16px">${nextTraining.trainingPlan.trainingDate.split("-")[1].trim()}</h1>
                                                                         <img style="width: 100%" src="/content/baseImages/119097464_3315359685224384_3814610594506716376_n.png">
                                                                         <c:if test="${nextTraining != null}">
                                                                             <h3 style="color: #fff;margin-top: -130px;margin-bottom: 100px;margin-left: 16px">${nextTrainingDay}</h3>
-                                                                            <h3 style="color: #fff;margin-top: -100px;margin-bottom: 100px;margin-left: 16px">${nextTraining.trainingDate.split("-")[0].trim()}</h3>
+                                                                            <h3 style="color: #fff;margin-top: -100px;margin-bottom: 100px;margin-left: 16px">${nextTraining.trainingPlan.trainingDate.split("-")[0].trim()}</h3>
                                                                         </c:if>
                                                                         <c:if test="${nextTraining == null}">
                                                                             <h4 style="color: #fff;margin-left: 16px">Nincs edzés a közeljövőben.</h4>

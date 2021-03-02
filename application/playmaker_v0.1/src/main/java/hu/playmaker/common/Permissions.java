@@ -29,6 +29,7 @@ public enum Permissions {
     TRAINERS_STAT,
     TEAMS_STAT,
     VIDEO_ANALYTICS,
+    VIDEO_ANALYTICS_EDIT,
     EVENT_CREATE,
     HOME_WEATHER,
     VIDEO_CLOUD,

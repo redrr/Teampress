@@ -13,6 +13,10 @@ public class VideoService extends BaseService {
         return getEntityManager().createNamedQuery("Video.findAll").getResultList();
     }
 
+    public List<Video> findAllPublished(){
+        return getEntityManager().createNamedQuery("Video.findAllPublished").getResultList();
+    }
+
     public Video find(String name){
         return (Video) getEntityManager().createNamedQuery("Video.findByName").setParameter("pname",name).getResultList().get(0);
     }
