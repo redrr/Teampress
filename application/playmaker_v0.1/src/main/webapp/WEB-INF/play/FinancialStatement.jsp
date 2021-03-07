@@ -42,6 +42,19 @@
                                                 </div>
                                                 <div class="card-body">
                                                     <div class="row">
+                                                        <div class="col-12">
+                                                            <a class="btn btn-primary btn-icon" href="/financial/statement/${prevMonth}">
+                                                                <i class="ti-angle-left"></i>
+                                                            </a>
+                                                            <a class="btn btn-primary btn-icon" href="/financial/statement/${nextMonth}">
+                                                                <i class="ti-angle-right"></i>
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-12 text-center">
+                                                            <h3>${year} - ${month}</h3>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
                                                         <div class="col-6">
                                                             <div class="row">
                                                                 <div class="col-12 text-center">
@@ -51,10 +64,10 @@
                                                             <hr style="margin-top: 8px; margin-bottom: 8px">
                                                             <div class="row">
                                                                 <div class="col-4">
-                                                                    <b>Megnevezés</b>
+                                                                    <b>Csoport</b>
                                                                 </div>
                                                                 <div class="col-4">
-                                                                    <b>Csoport</b>
+                                                                    <b>Megnevezés</b>
                                                                 </div>
                                                                 <div class="col-4">
                                                                     <b>Érték</b>
@@ -64,8 +77,8 @@
                                                             <c:forEach var="data" items="${monthIncome}">
                                                                 <c:if test="${data.income.income}">
                                                                     <div class="row" style="margin-bottom: 16px;padding: 0 16px;">
-                                                                        <div class="col-4">${data.income.name}</div>
                                                                         <div class="col-4">${data.group.name}</div>
+                                                                        <div class="col-4">${data.income.name}</div>
                                                                         <div class="col-4 in-amount">${data.income.prize}</div>
                                                                     </div>
                                                                 </c:if>
@@ -80,10 +93,10 @@
                                                             <hr style="margin-top: 8px; margin-bottom: 8px">
                                                             <div class="row">
                                                                 <div class="col-4">
-                                                                    <b>Megnevezés</b>
+                                                                    <b>Csoport</b>
                                                                 </div>
                                                                 <div class="col-4">
-                                                                    <b>Csoport</b>
+                                                                    <b>Megnevezés</b>
                                                                 </div>
                                                                 <div class="col-4">
                                                                     <b>Érték</b>
@@ -93,8 +106,8 @@
                                                             <c:forEach var="data" items="${monthIncome}">
                                                                 <c:if test="${!data.income.income}">
                                                                     <div class="row" style="margin-bottom: 16px;padding: 0 16px;">
-                                                                        <div class="col-4">${data.income.name}</div>
                                                                         <div class="col-4">${data.group.name}</div>
+                                                                        <div class="col-4">${data.income.name}</div>
                                                                         <div class="col-4 ex-amount">${data.income.prize}</div>
                                                                     </div>
                                                                 </c:if>
@@ -153,21 +166,22 @@
                                                 </div>
                                                 <div class="modal-body">
                                                     <div class="row">
-                                                        <div class="col-6">
+                                                        <div class="col-2">
                                                             <b>Időponttól</b>
                                                         </div>
-                                                        <div class="col-6">
-                                                            <b>Időpontig</b>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-6">
+                                                        <div class="col-10">
                                                             <input id="date1" class="form-control"/>
                                                         </div>
-                                                        <div class="col-6">
+                                                    </div>
+                                                    <div class="row mt-2">
+                                                        <div class="col-2">
+                                                            <b>Időpontig</b>
+                                                        </div>
+                                                        <div class="col-10">
                                                             <input id="date2" class="form-control"/>
                                                         </div>
                                                     </div>
+
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button class="btn btn-primary btn-soft" type="button" onclick="exportData()"><i class="ti-download"></i> Letöltés</button>

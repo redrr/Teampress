@@ -28,10 +28,7 @@ import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Controller
 @RequestMapping("/financial/statement")
@@ -41,6 +38,9 @@ public class FinancialStatementController extends BaseController {
     private IncomeGroupConnectionService incomeGroupConnectionService;
     private UserOrganizationService userOrganizationService;
     private UserService userService;
+
+    private final static String[] MONTH_NAMES = {"Január", "Február", "Március", "Április", "Május", "Június", "Július", "Augusztus", "Szeptember", "Október", "November", "December"};
+    private final static String[] MONTH = {"01","02","03","04","05","06","07","08","09","10","11","12"};
 
     public FinancialStatementController(IncomeService incomeService, IncomeGroupConnectionService incomeGroupConnectionService, UserOrganizationService userOrganizationService, UserService userService) {
         this.incomeService = incomeService;
@@ -53,8 +53,27 @@ public class FinancialStatementController extends BaseController {
     public ModelAndView showStatement() {
         if(hasPermission(Permissions.LOGGED_IN)) {
             ModelAndView view = new ModelAndView("play/FinancialStatement");
-            Organization organization = userOrganizationService.getOrgByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession())).getOrganization();
-            view.addObject("monthIncome", getIncomes(organization));
+            LocalDate d = LocalDate.now();
+            view.addObject("monthIncome", getIncomes(d));
+            view.addObject("nextMonth", d.plusMonths(1));
+            view.addObject("prevMonth", d.minusMonths(1));
+            view.addObject("year", d.getYear());
+            view.addObject("month", MONTH_NAMES[d.getMonthValue()-1]);
+            return view;
+        }
+        return new ModelAndView("403");
+    }
+
+    @RequestMapping("/{date}")
+    public ModelAndView showStatement(@PathVariable String date) {
+        if(hasPermission(Permissions.LOGGED_IN)) {
+            ModelAndView view = new ModelAndView("play/FinancialStatement");
+            LocalDate d = LocalDate.parse(date);
+            view.addObject("monthIncome", getIncomes(d));
+            view.addObject("nextMonth", d.plusMonths(1));
+            view.addObject("prevMonth", d.minusMonths(1));
+            view.addObject("year", d.getYear());
+            view.addObject("month", MONTH_NAMES[d.getMonthValue()-1]);
             return view;
         }
         return new ModelAndView("403");
@@ -62,10 +81,8 @@ public class FinancialStatementController extends BaseController {
 
     @RequestMapping(value = "/yeardata", method = RequestMethod.POST)
     @ResponseBody
-    public String asd() {
+    public String yearChart() {
         Organization organization = userOrganizationService.getOrgByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession())).getOrganization();
-        String[] monthNames = {"Január", "Február", "Március", "Április", "Május", "Június", "Július", "Augusztus", "Szeptember", "Október", "November", "December"};
-        String[] month = {"01","02","03","04","05","06","07","08","09","10","11","12"};
         try {
             LocalDate now = LocalDate.now();
             String[] s = now.toString().split("-");
@@ -104,11 +121,11 @@ public class FinancialStatementController extends BaseController {
             List<Object> incomes = new ArrayList<>();
             List<Object> expanses = new ArrayList<>();
             for(int i = 0; i < now.getMonthValue()-1; i++) {
-                LocalDate from = LocalDate.parse(s[0]+"-"+month[i]+"-01");
+                LocalDate from = LocalDate.parse(s[0]+"-"+ MONTH[i]+"-01");
                 LocalDate to = from.plusMonths(1);
                 Date fromDate = new SimpleDateFormat("yyyy-MM-dd").parse(from.toString());
                 Date toDate = new SimpleDateFormat("yyyy-MM-dd").parse(to.toString());
-                data.addLabel(monthNames[i]);
+                data.addLabel(MONTH_NAMES[i]);
                 Object incomeValue = incomeService.getValueBetweenDates(organization, true, fromDate, toDate);
                 Object expanseValue = incomeService.getValueBetweenDates(organization, false, fromDate, toDate);
                 incomes.add(Objects.nonNull(incomeValue) ? Integer.parseInt(incomeValue+"") : 0);
@@ -126,11 +143,11 @@ public class FinancialStatementController extends BaseController {
         return "error";
     }
 
-    private List<IncomeGroupConnection> getIncomes(Organization organization) {
+    private List<IncomeGroupConnection> getIncomes(LocalDate date) {
+        Organization organization = userOrganizationService.getOrgByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession())).getOrganization();
         List<IncomeGroupConnection> result = new ArrayList<>();
         try {
-            LocalDate now = LocalDate.now();
-            String[] s = now.toString().split("-");
+            String[] s = date.toString().split("-");
             LocalDate from = LocalDate.parse(s[0]+"-"+s[1]+"-01");
             LocalDate to = from.plusMonths(1);
             Date fromDate = new SimpleDateFormat("yyyy-MM-dd").parse(from.toString());
@@ -158,7 +175,7 @@ public class FinancialStatementController extends BaseController {
                 for(Income income : incomes) {
                     String type = (income.isIncome()) ? "Bevétel" : "Kiadás";
                     String group = (incomeGroupConnectionService.exist(income)) ? incomeGroupConnectionService.find(income).getGroup().getName() : "";
-                    excel.addData(income.getName(), group, type, income.getPrize().toString(), income.getCreationDateAsString(), income.getCreatedBy());
+                    excel.addData(income.getName(), group, type, income.getPrize().toString(), income.getCreationDateAsString(), userService.findEnabledUserByUsername(income.getCreatedBy()).getName());
                 }
                 File data = excel.build();
                 response.setContentType("application/force-download");
