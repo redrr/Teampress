@@ -19,6 +19,10 @@ public class PaymentRequestService extends BaseService {
         return getEntityManager().createNamedQuery("PaymentRequest.findByCreator").setParameter("porg", organization).setParameter("pn", name).getResultList();
     }
 
+    public List<PaymentRequest> collectByUUID(){
+        return getEntityManager().createNamedQuery("PaymentRequest.collectByUUID").getResultList();
+    }
+
     public PaymentRequest find(Integer id) {
         return (PaymentRequest) getEntityManager().createNamedQuery("PaymentRequest.findById").setParameter("pid", id).getSingleResult();
     }

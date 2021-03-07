@@ -6,9 +6,15 @@ import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
 import hu.playmaker.common.Permissions;
 import hu.playmaker.controller.BaseController;
+import hu.playmaker.database.model.financial.Income;
+import hu.playmaker.database.model.financial.IncomeGroup;
+import hu.playmaker.database.model.financial.IncomeGroupConnection;
 import hu.playmaker.database.model.financial.PaymentRequest;
 import hu.playmaker.database.model.system.Organization;
 import hu.playmaker.database.model.system.User;
+import hu.playmaker.database.service.financial.IncomeGroupConnectionService;
+import hu.playmaker.database.service.financial.IncomeGroupService;
+import hu.playmaker.database.service.financial.IncomeService;
 import hu.playmaker.database.service.financial.PaymentRequestService;
 import hu.playmaker.database.service.system.UserOrganizationService;
 import hu.playmaker.database.service.system.UserService;
@@ -21,6 +27,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.PostConstruct;
+import java.util.Objects;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/payment")
@@ -45,6 +53,12 @@ public class PaymentController extends BaseController {
 
     @Autowired
     private PaymentRequestService paymentRequestService;
+
+    @Autowired
+    private IncomeService incomeService;
+
+    @Autowired
+    private IncomeGroupConnectionService connectionService;
 
     @RequestMapping("")
     public ModelAndView checkout() {
@@ -99,6 +113,22 @@ public class PaymentController extends BaseController {
             PaymentRequest request = paymentRequestService.find(Integer.valueOf(id));
             request.setCompleted(true);
             paymentRequestService.mergeFlush(request);
+            String uuid = UUID.randomUUID().toString();
+            Income income = new Income();
+            income.setAccept(true);
+            income.setIncome(true);
+            income.setName(request.getName());
+            income.setOrganization(request.getOrganization());
+            income.setPrize(request.getAmount());
+            income.setUuid(uuid);
+            incomeService.mergeFlush(income);
+            if (Objects.nonNull(request.getGroup())) {
+                IncomeGroupConnection connection = new IncomeGroupConnection();
+                connection.setIncome(incomeService.findByUUID(uuid));
+                connection.setGroup(request.getGroup());
+                connection.setOrganization(request.getOrganization());
+                connectionService.mergeFlush(connection);
+            }
             return "redirect:/payment/success";
         }
         return "redirect:/403";

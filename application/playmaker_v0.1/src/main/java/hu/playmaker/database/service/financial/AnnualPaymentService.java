@@ -12,11 +12,19 @@ import java.util.List;
 @Service
 public class AnnualPaymentService extends BaseService {
 
+    public boolean exist(Integer id) {
+        return getEntityManager().createNamedQuery("AnnualPayment.findById").setParameter("pid", id).getResultList().size() > 0;
+    }
+
+    public AnnualPayment find(Integer id) {
+        return (AnnualPayment) getEntityManager().createNamedQuery("AnnualPayment.findById").setParameter("pid", id).getSingleResult();
+    }
+
     public List<AnnualPayment> findByDay(Integer day) {
         return getEntityManager().createNamedQuery("AnnualPayment.findByDay").setParameter("pd", day).getResultList();
     }
 
-    public List<AnnualPayment> findByCreator(Organization organization, String name){
-        return getEntityManager().createNamedQuery("AnnualPayment.findByCreator").setParameter("porg", organization).setParameter("pn", name).getResultList();
+    public List<AnnualPayment> findAll(){
+        return (List<AnnualPayment>) getEntityManager().createNamedQuery("AnnualPayment.findAll").getResultList();
     }
 }

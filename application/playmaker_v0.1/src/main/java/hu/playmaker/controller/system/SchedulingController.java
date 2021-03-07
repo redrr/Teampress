@@ -72,7 +72,7 @@ public class SchedulingController {
         }
     }
 
-    //@Scheduled(cron = "5 0 * * *")
+    @Scheduled(cron = "0 0 1 * * ?")
     public void createAnnualPayments() {
         List<AnnualPayment> newPayments = annualPaymentService.findByDay(LocalDate.now().getDayOfMonth());
         for (AnnualPayment payment : newPayments) {
@@ -82,6 +82,7 @@ public class SchedulingController {
                     PaymentRequest paymentRequest = new PaymentRequest();
                     paymentRequest.setName(payment.getName());
                     paymentRequest.setAmount(payment.getAmount());
+                    paymentRequest.setGroup(payment.getGroup());
                     paymentRequest.setOrganization(payment.getOrganization());
                     paymentRequest.setUser(p);
                     paymentRequestService.mergeFlush(paymentRequest);

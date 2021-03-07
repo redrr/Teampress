@@ -18,6 +18,7 @@ import hu.playmaker.database.service.workout.AttendanceService;
 import hu.playmaker.form.IndexForm;
 import hu.playmaker.handler.SessionHandler;
 import org.apache.commons.collections4.map.LinkedMap;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
@@ -103,9 +104,6 @@ public class IndexController extends BaseController {
                 uOrg = userOrganizationService.getOrgByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession()));
                 view.addObject("temp", weatherController(uOrg.getOrganization()));
                 view.addObject("city", orgCountryService.find(uOrg.getOrganization()).get(0).getCity());
-            }
-            if(hasPermission(Permissions.POST_COMMENT_READ)) {
-                view.addObject("posts", readPosts());
             }
             return view;
         }
@@ -273,6 +271,32 @@ public class IndexController extends BaseController {
         return "";
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/home/getposts")
+    @ResponseBody
+    public String getPosts(@RequestParam Integer offset) {
+        if(hasPermission(Permissions.LOGGED_IN)) {
+            JSONArray array = new JSONArray();
+            User currentUser = userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession());
+            Organization organization = userOrganizationService.getOrgByUser(currentUser).getOrganization();
+            for(UserPost post : userPostService.findAllByOrgWithLimit(organization, offset)) {
+                JSONObject postJSON = post.getJSONObject();
+                JSONArray commentArray = new JSONArray();
+                for(UserPostComment comment : userPostCommentService.getCommentByPost(post)) {
+                    commentArray.put(comment.getJSONObject());
+                }
+                try {
+                    postJSON.put("comments", commentArray);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return "";
+                }
+                array.put(postJSON);
+            }
+            return array.toString();
+        }
+        return "";
+    }
+
     private Map<UserPost, Map<String, UserPostComment>> readPosts() {
         Map<UserPost, Map<String, UserPostComment>> result = new LinkedMap<>();
         User currentUser = userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession());
@@ -304,7 +328,7 @@ public class IndexController extends BaseController {
                     temp = Math.toIntExact(Math.round(Float.parseFloat(String.valueOf(main.get("temp"))) - 273.15));
                     country.setTemp(temp);
                     country.setTempUpdateAt(new Date(System.currentTimeMillis()));
-                    orgCountryService.mergeFlush(country);
+                    //orgCountryService.mergeFlush(country);
                     return temp;
                 } catch (JSONException e) {
                     e.printStackTrace();

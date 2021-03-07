@@ -29,6 +29,10 @@ public class IncomeService extends BaseService {
         return getEntityManager().createNamedQuery("Income.findById").setParameter("pid", id).getResultList();
     }
 
+    public Income findByUUID(String id){
+        return (Income) getEntityManager().createNamedQuery("Income.findByUUID").setParameter("pid", id).getSingleResult();
+    }
+
     public List<Income> findByOrg(Organization organization){
         return getEntityManager().createNamedQuery("Income.findByOrg").setParameter("porg", organization).getResultList();
     }

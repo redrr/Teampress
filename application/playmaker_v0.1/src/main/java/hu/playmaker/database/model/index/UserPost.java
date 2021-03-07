@@ -3,6 +3,7 @@ package hu.playmaker.database.model.index;
 import hu.playmaker.database.model.BaseModel;
 import hu.playmaker.database.model.system.Organization;
 import hu.playmaker.database.model.system.User;
+import org.json.JSONObject;
 
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
@@ -79,5 +80,20 @@ public class UserPost extends BaseModel {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public JSONObject getJSONObject() {
+        JSONObject json = new JSONObject();
+        try {
+            json.put("id", Objects.toString(getId(), ""));
+            json.put("profileImg", Objects.toString(getUser().getProfilImg(), ""));
+            json.put("name", Objects.toString(getUser().getName(), ""));
+            json.put("postDate", Objects.toString(getRealDate(), ""));
+            json.put("text", Objects.toString(getPost(), ""));
+            json.put("content", Objects.toString(getImageUrl(), ""));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return json;
     }
 }

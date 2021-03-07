@@ -17,6 +17,7 @@ import java.util.Objects;
 		@NamedQuery(name="Income.findAll", query="SELECT p FROM Income p WHERE p.deleted=false"),
 		@NamedQuery(name="Income.countAll", query="SELECT COUNT(p) FROM Income p WHERE p.deleted=false"),
 		@NamedQuery(name="Income.findById", query="SELECT p FROM Income p WHERE p.id = :pid AND p.deleted=false"),
+		@NamedQuery(name="Income.findByUUID", query="SELECT p FROM Income p WHERE p.uuid = :pid AND p.deleted=false"),
 		@NamedQuery(name="Income.findByOrg", query="SELECT p FROM Income p WHERE p.organization = :porg AND p.deleted=false"),
 		@NamedQuery(name="Income.findByOrgAndNotAcceptedYet", query="SELECT p FROM Income p WHERE p.organization = :porg AND p.accept IS NULL AND p.deleted=false"),
 		@NamedQuery(name="Income.findByOrgAndAccept", query="SELECT p FROM Income p WHERE p.organization = :porg AND p.accept = :pa AND p.deleted=false"),
@@ -31,6 +32,9 @@ public class Income extends BaseModel {
 	@JoinColumn(name="ORG_ID")
 	private Organization organization;
 
+	@Column(name="UUID", length=255)
+	private String uuid;
+
 	@Column(name="NAME", length=255)
 	private String name;
 
@@ -44,7 +48,7 @@ public class Income extends BaseModel {
 	private Integer prize;
 
 	@Column(name="DELETED", length=255)
-	private Boolean deleted;
+	private Boolean deleted = false;
 
 	public Income() {
 	}
@@ -103,5 +107,13 @@ public class Income extends BaseModel {
 
 	public void setDeleted(Boolean deleted) {
 		this.deleted = (Objects.isNull(deleted)) ? false : deleted;
+	}
+
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 }

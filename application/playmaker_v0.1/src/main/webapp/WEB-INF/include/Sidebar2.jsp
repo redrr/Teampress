@@ -91,29 +91,20 @@
                     </ul>
                 </li>
             </c:if>
-            <c:if test="${sessionHandler.userHasPermission('PLAYERS_STAT') || sessionHandler.userHasPermission('TRAINERS_STAT') ||
-            sessionHandler.userHasPermission('TEAMS_STAT') || sessionHandler.userHasPermission('CAREER_TABLE')}">
+            <c:if test="${sessionHandler.userHasPermission('MLSZ_STATISTICS')}">
                 <li class="pcoded-hasmenu ${(requestURI.contains('/statistics')) ? 'active' : ''}">
                     <a href="javascript:void(0)">
                         <span class="pcoded-micon"><i class="ti-stats-up"></i></span>
                         <span class="pcoded-mtext" data-i18n="nav.social.main">Statisztika</span>
                     </a>
                     <ul class="pcoded-submenu">
-                        <c:if test="${sessionHandler.userHasPermission('PLAYERS_STAT') || sessionHandler.userHasPermission('TRAINERS_STAT')}">
+                        <c:if test="${sessionHandler.userHasPermission('MLSZ_STATISTICS')}">
                             <li class="${requestURI.equals('/statistics/dashboard') ? 'active' : ''}">
                                 <a href="/statistics/dashboard">
                                     <span class="pcoded-micon"><i class="ti-pulse"></i></span>
                                     <span class="pcoded-mtext" data-i18n="nav.social.fb-wall">Dashboard</span>
                                 </a>
                             </li>
-                        </c:if>
-                        <c:if test="${sessionHandler.userHasPermission('PLAYERS_STAT') || sessionHandler.userHasPermission('TRAINERS_STAT')}">
-                            <!--<li class="${requestURI.equals('/statistics/query') ? 'active' : ''}">
-                                <a href="/statistics/query">
-                                    <span class="pcoded-micon"><i class="ti-pulse"></i></span>
-                                    <span class="pcoded-mtext" data-i18n="nav.social.fb-wall">Lekérdezés</span>
-                                </a>
-                            </li>-->
                         </c:if>
                         <c:if test="${sessionHandler.userHasPermission('CAREER_TABLE')}">
                             <li class="${requestURI.equals('/statistics/league') ? 'active' : ''}">
@@ -123,7 +114,7 @@
                                 </a>
                             </li>
                         </c:if>
-                        <c:if test="${sessionHandler.userHasPermission('TEAMS_STAT')}">
+                        <c:if test="${sessionHandler.userHasPermission('MLSZ_STATISTICS')}">
                             <li class="${requestURI.equals('/statistics/team') ? 'active' : ''}">
                                 <a href="/statistics/team">
                                     <span class="pcoded-micon"><i class="ti-pulse"></i></span>
@@ -138,7 +129,7 @@
                 <li class="${requestURI.equals('/payment') ? 'active' : ''}">
                     <a href="/payment">
                         <span class="pcoded-micon"><i class="ti-credit-card"></i></span>
-                        <span class="pcoded-mtext" data-i18n="nav.crm-contact.main">Befizetés</span>
+                        <span class="pcoded-mtext" data-i18n="nav.crm-contact.main">Számlák</span>
                     </a>
                 </li>
             </c:if>
@@ -150,10 +141,26 @@
                     </a>
                     <ul class="pcoded-submenu">
                         <c:if test="${sessionHandler.userHasPermission('COST_CREATE')}">
+                            <li class="${requestURI.equals('/financial/paymentrequest') ? 'active' : ''}">
+                                <a href="/financial/paymentrequest">
+                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                    <span class="pcoded-mtext" data-i18n="nav.social.fb-wall">Számlák</span>
+                                </a>
+                            </li>
+                        </c:if>
+                        <c:if test="${sessionHandler.userHasPermission('ANNUAL_COST_CREATE')}">
+                            <li class="${requestURI.equals('/financial/annual') ? 'active' : ''}">
+                                <a href="/financial/annual">
+                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                    <span class="pcoded-mtext" data-i18n="nav.social.fb-wall">Megújuló számlák</span>
+                                </a>
+                            </li>
+                        </c:if>
+                        <c:if test="${sessionHandler.userHasPermission('COST_CREATE')}">
                             <li class="${requestURI.equals('/financial/create') ? 'active' : ''}">
                                 <a href="/financial/create">
                                     <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                    <span class="pcoded-mtext" data-i18n="nav.social.fb-wall">Új Bevétel</span>
+                                    <span class="pcoded-mtext" data-i18n="nav.social.fb-wall">Bevételek</span>
                                 </a>
                             </li>
                         </c:if>
@@ -169,7 +176,7 @@
                             <li class="${requestURI.equals('/financial/group') ? 'active' : ''}">
                                 <a href="/financial/group">
                                     <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                    <span class="pcoded-mtext" data-i18n="nav.social.fb-wall">Új csoport</span>
+                                    <span class="pcoded-mtext" data-i18n="nav.social.fb-wall">Csoportok</span>
                                 </a>
                             </li>
                         </c:if>
@@ -177,7 +184,7 @@
                             <li class="${requestURI.equals('/financial/grouping') ? 'active' : ''}">
                                 <a href="/financial/grouping">
                                     <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                    <span class="pcoded-mtext" data-i18n="nav.social.fb-wall">Csoport kezelő</span>
+                                    <span class="pcoded-mtext" data-i18n="nav.social.fb-wall">Bevétel csoportosítás</span>
                                 </a>
                             </li>
                         </c:if>

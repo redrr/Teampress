@@ -26,7 +26,7 @@
                             <div class="main-body">
                                 <div class="page-wrapper">
                                     <div class="page-body">
-                                        <c:if test="${sessionHandler.userHasPermission('TEAMS_STAT')}">
+                                        <c:if test="${sessionHandler.userHasPermission('MLSZ_STATISTICS')}">
                                             <div class="row">
                                                 <div class="col-12">
                                                     <div class="card">

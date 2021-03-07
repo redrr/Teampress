@@ -33,8 +33,6 @@ public class MLSZParser {
         this.url = url;
     }
 
-
-
     public PlayerData getPlayerData() {
         playerData = new PlayerData();
         parsePlayerProfile(url);
@@ -253,7 +251,6 @@ public class MLSZParser {
             e.printStackTrace();
         }
     }
-
 
     private void parseRedCardsData(String url) {
         try {

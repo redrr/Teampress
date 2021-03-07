@@ -2,8 +2,10 @@ package hu.playmaker.database.model.index;
 
 import hu.playmaker.database.model.BaseModel;
 import hu.playmaker.database.model.system.User;
+import org.json.JSONObject;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name="USERPOSTCOMMENT", schema="teampress")
@@ -59,5 +61,17 @@ public class UserPostComment extends BaseModel {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public JSONObject getJSONObject() {
+        JSONObject json = new JSONObject();
+        try {
+            json.put("name", Objects.toString(getUser().getName(), ""));
+            json.put("profileImg", Objects.toString(getUser().getProfilImg(), ""));
+            json.put("text", Objects.toString(getComment(), ""));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return json;
     }
 }

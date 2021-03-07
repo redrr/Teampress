@@ -16,8 +16,9 @@ import java.util.Objects;
 @Entity
 @Table(name="ANNUAL_PAYMENT", schema="teampress")
 @NamedQueries({
+		@NamedQuery(name="AnnualPayment.findById", query="SELECT p FROM AnnualPayment p WHERE p.id = :pid"),
 		@NamedQuery(name="AnnualPayment.findByDay", query="SELECT p FROM AnnualPayment p WHERE p.day = :pd AND p.deleted=false"),
-		@NamedQuery(name="AnnualPayment.findByCreator", query="SELECT p FROM PaymentRequest p WHERE p.organization = :porg AND p.createdBy = :pn"),
+		@NamedQuery(name="AnnualPayment.findAll", query="SELECT p FROM AnnualPayment p WHERE p.deleted=false"),
 })
 @Cacheable(false)
 public class AnnualPayment extends BaseModel {
@@ -31,6 +32,10 @@ public class AnnualPayment extends BaseModel {
 	@JoinColumn(name="TEAM_ID")
 	private LookupCode team;
 
+	@ManyToOne
+	@JoinColumn(name="INCOME_GROUP_ID")
+	private IncomeGroup group;
+
 	@Column(name="NAME", length=255)
 	private String name;
 
@@ -41,7 +46,7 @@ public class AnnualPayment extends BaseModel {
 	private Integer day;
 
 	@Column(name="DELETED", length=255)
-	private Boolean deleted;
+	private Boolean deleted = false;
 
 	public AnnualPayment() {
 	}
@@ -92,5 +97,13 @@ public class AnnualPayment extends BaseModel {
 
 	public void setDay(Integer day) {
 		this.day = day;
+	}
+
+	public IncomeGroup getGroup() {
+		return group;
+	}
+
+	public void setGroup(IncomeGroup group) {
+		this.group = group;
 	}
 }

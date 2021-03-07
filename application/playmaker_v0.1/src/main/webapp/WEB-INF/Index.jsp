@@ -90,8 +90,7 @@
                                                         </div>
                                                     </div>
                                                 </c:if>
-                                                <c:if test="${sessionHandler.userHasPermission('POST_COMMENT_CREATE')}">
-                                                    <div class="row">
+                                                <div class="row">
                                                         <div class="col-12">
                                                             <div class="card bg-white">
                                                                 <f:form id="form" cssClass="form-wp1" name='f' htmlEscape="true" action='/dopost' method='POST' modelAttribute="createPost" enctype="multipart/form-data">
@@ -120,77 +119,14 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </c:if>
-                                                <c:if test="${sessionHandler.userHasPermission('POST_COMMENT_READ')}">
-                                                    <div class="row">
-                                                        <div class="col-12">
-                                                            <div>
-                                                                <c:forEach var="post" items="${posts}">
-                                                                    <div class="card">
-                                                                        <div class="card-header">
-                                                                            <div class="row">
-                                                                                <div class="col-1 media-left media-middle friend-box">
-                                                                                    <a>
-                                                                                        <img class="media-object img-circle m-r-20" src="/content/profileImages/${post.key.user.profilImg}" alt="">
-                                                                                    </a>
-                                                                                </div>
-                                                                                <div class="col-11 media-body">
-                                                                                    <div class="chat-header">${post.key.user.name}</div>
-                                                                                    <div class="f-13 text-muted">${post.key.getRealDate()}</div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="card-block">
-                                                                            <div class="timeline-details">
-                                                                                <c:if test="${post.key.post != null}">
-                                                                                    ${post.key.post}
-                                                                                </c:if>
-                                                                                <c:if test="${post.key.imageUrl != null && !post.key.imageUrl.endsWith('mp4')}">
-                                                                                    <img src="/content/postImages/${post.key.imageUrl}" style="width: 100%; border-radius: 16px" alt="">
-                                                                                </c:if>
-                                                                                <c:if test="${post.key.imageUrl != null && post.key.imageUrl.endsWith('mp4')}">
-                                                                                    <video controls muted style="width: 100%; border-radius: 16px">
-                                                                                        <source src="/content/postImages/${post.key.imageUrl}" type="video/mp4">
-                                                                                    </video>
-                                                                                </c:if>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="card-block user-box" style="padding-top: 0">
-                                                                            <c:if test="${post.value.size() > 0}">
-                                                                                <hr>
-                                                                            </c:if>
-                                                                            <c:forEach var="comment" items="${post.value}">
-                                                                                <div class="row" style="padding-top: 1.25rem; padding-right: 1rem">
-                                                                                    <div class="col-2 col-md-1" style="padding-right: 0">
-                                                                                        <img class="media-object img-circle m-r-20" src="/content/profileImages/${comment.value.user.profilImg}" alt="Generic placeholder image">
-                                                                                    </div>
-                                                                                    <div class="col-10 col-md-11" style="border-radius: 8px;background-color: #4b556614;padding: 16px;">
-                                                                                        <div class="chat-header">${comment.value.user.name}</div>
-                                                                                        <p class="text-muted" style="margin: 0">${comment.value.comment}</p>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </c:forEach>
-                                                                            <hr>
-                                                                            <div class="row">
-                                                                                <div class="col-1 m-auto">
-                                                                                    <img class="media-object img-circle m-r-20 comment-avatar" src="/content/profileImages/${post.key.user.profilImg}" alt="Generic placeholder image">
-                                                                                </div>
-                                                                                <div class="col-9 col-md-10 m-auto">
-                                                                                    <input id="text${post.key.id}" class="form-control msg-send"/>
-                                                                                </div>
-                                                                                <div class="col-2 col-md-1 m-auto">
-                                                                                    <button style="padding: 0;padding-top: 4px" class="btn btn-primary waves-effect waves-light btn-icon" onclick="$.post('/docomment', {userPostId: ${post.key.id}, comment: document.getElementById('text${post.key.id}').value }, function () { window.location='/home'; });">
-                                                                                        <i style="font-size: 25px;margin: 0" class="icofont icofont-paper-plane"></i>
-                                                                                    </button>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </c:forEach>
-                                                            </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div id="posts"></div>
+                                                        <div class="text-center">
+                                                            <button class="btn btn-soft btn-primary" onclick="nextFivePost()">Több</button>
                                                         </div>
                                                     </div>
-                                                </c:if>
+                                                </div>
                                             </div>
                                             <div class="col-3 d-flex">
                                                 <c:if test="${sessionHandler.userHasPermission('HOME_HEADER_BUTTONS') || sessionHandler.userHasPermission('HOME_WEATHER')}">

@@ -16,6 +16,7 @@ import java.util.Objects;
 @Table(name="PAYMENT_REQUEST", schema="teampress")
 @NamedQueries({
 		@NamedQuery(name="PaymentRequest.findById", query="SELECT p FROM PaymentRequest p WHERE p.id = :pid"),
+		@NamedQuery(name="PaymentRequest.collectByUUID", query="SELECT p FROM PaymentRequest p WHERE p.deleted = false AND p.completed = false GROUP BY p.uuid"),
 		@NamedQuery(name="PaymentRequest.findByOrgAndUser", query="SELECT p FROM PaymentRequest p WHERE p.organization = :porg AND p.user = :pu AND p.deleted=false"),
 		@NamedQuery(name="PaymentRequest.findByCreator", query="SELECT p FROM PaymentRequest p WHERE p.organization = :porg AND p.createdBy = :pn"),
 })
@@ -31,8 +32,15 @@ public class PaymentRequest extends BaseModel {
 	@JoinColumn(name="USER_ID")
 	private User user;
 
+	@ManyToOne
+	@JoinColumn(name="INCOME_GROUP_ID")
+	private IncomeGroup group;
+
 	@Column(name="NAME", length=255)
 	private String name;
+
+	@Column(name="UUID", length=255)
+	private String uuid;
 
 	@Column(name="COMPLETED", length=255)
 	private Boolean completed = false;
@@ -41,7 +49,7 @@ public class PaymentRequest extends BaseModel {
 	private Integer amount;
 
 	@Column(name="DELETED", length=255)
-	private Boolean deleted;
+	private Boolean deleted = false;
 
 	public PaymentRequest() {
 	}
@@ -92,5 +100,21 @@ public class PaymentRequest extends BaseModel {
 
 	public void setAmount(Integer amount) {
 		this.amount = amount;
+	}
+
+	public IncomeGroup getGroup() {
+		return group;
+	}
+
+	public void setGroup(IncomeGroup group) {
+		this.group = group;
+	}
+
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 }

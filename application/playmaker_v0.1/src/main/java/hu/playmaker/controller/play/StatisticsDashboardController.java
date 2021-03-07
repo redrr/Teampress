@@ -7,7 +7,6 @@ import hu.playmaker.controller.BaseController;
 import hu.playmaker.database.model.databank.*;
 import hu.playmaker.database.model.system.Organization;
 import hu.playmaker.database.model.system.User;
-import hu.playmaker.database.model.system.UserOrganization;
 import hu.playmaker.database.service.databank.*;
 import hu.playmaker.database.service.system.UserOrganizationService;
 import hu.playmaker.database.service.system.UserService;
@@ -118,7 +117,7 @@ public class StatisticsDashboardController extends BaseController {
     @RequestMapping(value = "/history", method = RequestMethod.POST)
     @ResponseBody
     private String history(@RequestParam("liga") String ligaIn) {
-        if (hasPermission(Permissions.PLAYERS_STAT)){
+        if (hasPermission(Permissions.MLSZ_STATISTICS)){
             Liga liga = ligaService.findByName(ligaIn.trim());
             int maxFord = tabellaService.getLastFordByLiga(liga);
             List<String> teams = tabellaService.getTeams(liga);
@@ -189,7 +188,7 @@ public class StatisticsDashboardController extends BaseController {
     @RequestMapping(value = "/league", method = RequestMethod.POST)
     @ResponseBody
     private String league(@RequestParam("liga") String ligaIn) {
-        if (hasPermission(Permissions.PLAYERS_STAT)){
+        if (hasPermission(Permissions.MLSZ_STATISTICS)){
             Liga liga = ligaService.findByName(ligaIn.trim());
             int maxFord = tabellaService.getLastFordByLiga(liga);
             User currentUser = userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession());

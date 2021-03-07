@@ -3,6 +3,7 @@ package hu.playmaker.common;
 public enum Permissions {
     LOGGED_IN,
 
+
     //region Playmaker
     DATA_UPLOAD,
     HOME_HEADER_BUTTONS,
@@ -21,13 +22,12 @@ public enum Permissions {
     PLANNER,
     PLANS_TABLE,
     COST_CREATE,
+    ANNUAL_COST_CREATE,
     COST_TABLE,
     COST_ACCEPT,
     GROUP_COSTS,
     STATEMENT,
-    PLAYERS_STAT,
-    TRAINERS_STAT,
-    TEAMS_STAT,
+    MLSZ_STATISTICS,
     VIDEO_ANALYTICS,
     VIDEO_ANALYTICS_EDIT,
     EVENT_CREATE,

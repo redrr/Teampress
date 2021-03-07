@@ -93,26 +93,18 @@
                 </ul>
             </li>
         </c:if>
-        <c:if test="${sessionHandler.userHasPermission('PLAYERS_STAT') || sessionHandler.userHasPermission('TRAINERS_STAT') || sessionHandler.userHasPermission('TEAMS_STAT')}">
+        <c:if test="${sessionHandler.userHasPermission('MLSZ_STATISTICS')}">
             <li class="c-sidebar-nav-dropdown">
                 <a class="c-sidebar-nav-dropdown-toggle ${requestURI.contains('stat') ? 'c-active' : ''}">
                     <i class="c-sidebar-nav-icon cil-chart-pie"></i>
                     Statisztikák
                 </a>
                 <ul class="c-sidebar-nav-dropdown-items">
-                    <c:if test="${sessionHandler.userHasPermission('PLAYERS_STAT')}">
+                    <c:if test="${sessionHandler.userHasPermission('MLSZ_STATISTICS')}">
                         <li class="c-sidebar-nav-item">
                             <a class="c-sidebar-nav-link" href="/playerstat">
                                 <i class="c-sidebar-nav-icon cil-user"></i>
                                 Játékos statisztikák
-                            </a>
-                        </li>
-                    </c:if>
-                    <c:if test="${sessionHandler.userHasPermission('TRAINERS_STAT')}">
-                        <li class="c-sidebar-nav-item">
-                            <a class="c-sidebar-nav-link" href="/trainerstat">
-                                <i class="c-sidebar-nav-icon cil-bullhorn"></i>
-                                Edzői statisztikák
                             </a>
                         </li>
                     </c:if>
