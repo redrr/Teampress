@@ -54,14 +54,14 @@ $(document).ready(function () {
                     datasets: [
                         {
                             label: 'Lőtt gólok',
-                            data: [goalChartDataConfig.lgoals],
+                            data: goalChartDataConfig.lgoals,
                             backgroundColor: [
                                 '#1abc9c'
                             ]
                         },
                         {
                             label: 'Kapott gólok',
-                            data: [goalChartDataConfig.kgoals],
+                            data: goalChartDataConfig.kgoals,
                             backgroundColor: [
                                 '#e74c3c'
                             ]
@@ -72,6 +72,14 @@ $(document).ready(function () {
                     animation: {
                         duration: 2500,
                         delay: 500
+                    },
+                    // All of my other bar chart option here
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero:true
+                            }
+                        }]
                     }
                 }
             };

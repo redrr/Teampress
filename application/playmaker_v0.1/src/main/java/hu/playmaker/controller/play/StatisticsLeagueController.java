@@ -80,7 +80,7 @@ public class StatisticsLeagueController extends BaseController {
     private HashMap<Integer, List<Tabella>> getTabellaByLiga(ArrayList<Liga> ligas) {
         HashMap<Integer, List<Tabella>> result = new HashMap<>();
         for(Liga liga : ligas) {
-            String klcUrl = "http://ada1bank.mlsz.hu/club?evad=54&szervezet=1&verseny=22535&fordulo=13&teamId=214928";
+            String klcUrl = "http://ada1bank.mlsz.hu/club?teamId=214928";
             List<Tabella> tabella = new MLSZParser(klcUrl).setLiga(liga).getTabellas();
             result.put(liga.getId(), tabella);
         }
@@ -90,7 +90,7 @@ public class StatisticsLeagueController extends BaseController {
     private HashMap<Integer, List<Sorsolas>> getSorsolasByLiga(ArrayList<Liga> ligas) {
         HashMap<Integer, List<Sorsolas>> result = new HashMap<>();
         for(Liga liga : ligas) {
-            String klcUrl = "http://ada1bank.mlsz.hu/club?evad=54&szervezet=1&verseny=22535&fordulo=13&teamId=214928";
+            String klcUrl = "http://ada1bank.mlsz.hu/club?teamId=214928";
             List<Sorsolas> sorsolas = new MLSZParser(klcUrl).setLiga(liga).getLotteries();
             result.put(liga.getId(), sorsolas);
         }
@@ -100,7 +100,7 @@ public class StatisticsLeagueController extends BaseController {
     private HashMap<Integer, List<Goals>> getGoalsByLiga(ArrayList<Liga> playerLigas) {
         HashMap<Integer, List<Goals>> result = new HashMap<>();
         for(Liga liga : playerLigas) {
-            String klcUrl = "http://ada1bank.mlsz.hu/club?evad=54&szervezet=1&verseny=22535&fordulo=13&teamId=214928";
+            String klcUrl = "http://ada1bank.mlsz.hu/club?teamId=214928";
             List<Goals> goals = new MLSZParser(klcUrl).setLiga(liga).getGoals();
             result.put(liga.getId(), goals);
         }
@@ -110,7 +110,7 @@ public class StatisticsLeagueController extends BaseController {
     private HashMap<Integer, List<YellowCard>> getYellowCardsByLiga(ArrayList<Liga> playerLigas) {
         HashMap<Integer, List<YellowCard>> result = new HashMap<>();
         for(Liga liga : playerLigas) {
-            String klcUrl = "http://ada1bank.mlsz.hu/club?evad=54&szervezet=1&verseny=22535&fordulo=13&teamId=214928";
+            String klcUrl = "http://ada1bank.mlsz.hu/club?teamId=214928";
             List<YellowCard> yellowCards = new MLSZParser(klcUrl).setLiga(liga).getYellowCards();
             result.put(liga.getId(), yellowCards);
         }

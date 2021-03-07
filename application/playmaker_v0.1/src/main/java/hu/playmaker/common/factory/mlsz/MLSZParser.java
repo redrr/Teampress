@@ -14,6 +14,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MLSZParser {
 
@@ -26,6 +27,9 @@ public class MLSZParser {
     private List<Goals> goals;
     private List<YellowCard> yellowCards;
     private List<RedCard> redCards;
+    private String[] maxMinPoints = new String[2];
+    private String[] lkGoals = new String[2];
+    private String[] ends = new String[3];
 
     private MLSZParser() {}
 
@@ -72,6 +76,21 @@ public class MLSZParser {
         redCards = new ArrayList<>();
         parseRedCardsData(url);
         return redCards;
+    }
+
+    public String[] getMaxMinPoints() {
+        parseMaxMinPoints(url);
+        return maxMinPoints;
+    }
+
+    public String[] getLkGoals() {
+        parseLKGoals(url);
+        return lkGoals;
+    }
+
+    public String[] getEnds() {
+        parseEnds(url);
+        return ends;
     }
 
     private void parsePlayerProfile(String url) {
@@ -268,6 +287,82 @@ public class MLSZParser {
                 redCards.add(redCard);
             }
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void parseMaxMinPoints(String url) {
+        try {
+            RestTemplate template = new RestTemplate();
+            URI uri = new URI(url.trim());
+            ResponseEntity<String> result = template.getForEntity(uri, String.class);
+            Document doc = Jsoup.parse(result.getBody());
+            Elements rows = doc.select("#tableContent > tr");
+            for (Element row : rows){
+                Elements columns = row.select("td");
+                ArrayList<String> rowData = new ArrayList<>();
+                for (Element column : columns) {
+                    String s = column.text();
+                    if (!s.equals(""))
+                        rowData.add(s);
+                }
+                if (rowData.get(1).equals("KECSKEMÉTI LC")) {
+                    maxMinPoints[0] = rowData.get(9);
+                    maxMinPoints[1] = Objects.toString(Integer.parseInt(rowData.get(2)) * 3 - Integer.parseInt(rowData.get(9)));
+                }
+            }
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void parseLKGoals(String url) {
+        try {
+            RestTemplate template = new RestTemplate();
+            URI uri = new URI(url.trim());
+            ResponseEntity<String> result = template.getForEntity(uri, String.class);
+            Document doc = Jsoup.parse(result.getBody());
+            Elements rows = doc.select("#tableContent > tr");
+            for (Element row : rows){
+                Elements columns = row.select("td");
+                ArrayList<String> rowData = new ArrayList<>();
+                for (Element column : columns) {
+                    String s = column.text();
+                    if (!s.equals(""))
+                        rowData.add(s);
+                }
+                if (rowData.get(1).equals("KECSKEMÉTI LC")) {
+                    lkGoals[0] = rowData.get(6);
+                    lkGoals[1] = rowData.get(7);
+                }
+            }
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void parseEnds(String url) {
+        try {
+            RestTemplate template = new RestTemplate();
+            URI uri = new URI(url.trim());
+            ResponseEntity<String> result = template.getForEntity(uri, String.class);
+            Document doc = Jsoup.parse(result.getBody());
+            Elements rows = doc.select("#tableContent > tr");
+            for (Element row : rows){
+                Elements columns = row.select("td");
+                ArrayList<String> rowData = new ArrayList<>();
+                for (Element column : columns) {
+                    String s = column.text();
+                    if (!s.equals(""))
+                        rowData.add(s);
+                }
+                if (rowData.get(1).equals("KECSKEMÉTI LC")) {
+                    ends[0] = rowData.get(3);
+                    ends[1] = rowData.get(4);
+                    ends[2] = rowData.get(5);
+                }
+            }
+        } catch (URISyntaxException e) {
             e.printStackTrace();
         }
     }

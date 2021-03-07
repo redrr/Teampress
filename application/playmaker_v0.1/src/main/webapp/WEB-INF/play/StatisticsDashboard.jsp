@@ -26,6 +26,38 @@
                         <div class="main-body">
                             <div class="page-wrapper">
                                 <div class="page-body">
+                                    <c:if test="${sessionHandler.userHasPermission('TEST')}">
+                                        <div class="row">
+                                            <div class="col-xl-3 col-lg-4 col-md-12 col-12">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <h1 class="text-center">${playerData.meccsek} meccs</h1>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3 col-lg-4 col-md-12 col-12">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <h1 class="text-center">${playerData.golok} gól</h1>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3 col-lg-4 col-md-12 col-12">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <h1 class="text-center">${playerData.sargaLap} sárgalap</h1>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3 col-lg-4 col-md-12 col-12">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <h1 class="text-center">${playerData.pirosLap} piroslap</h1>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </c:if>
                                     <c:if test="${sessionHandler.userHasPermission('MLSZ_STATISTICS')}">
                                         <div class="row">
                                             <div class="col-xl-4 col-lg-4 col-md-12 col-12">

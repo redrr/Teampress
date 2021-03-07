@@ -3,14 +3,18 @@ package hu.playmaker.controller.play;
 import hu.playmaker.common.Permissions;
 import hu.playmaker.common.factory.chartjs.*;
 import hu.playmaker.common.factory.chartjs.common.enums.BorderCapStyle;
+import hu.playmaker.common.factory.mlsz.MLSZParser;
 import hu.playmaker.controller.BaseController;
 import hu.playmaker.database.model.databank.*;
+import hu.playmaker.database.model.system.LookupCode;
 import hu.playmaker.database.model.system.Organization;
 import hu.playmaker.database.model.system.User;
+import hu.playmaker.database.model.system.UserOrganization;
 import hu.playmaker.database.service.databank.*;
 import hu.playmaker.database.service.system.UserOrganizationService;
 import hu.playmaker.database.service.system.UserService;
 import hu.playmaker.handler.SessionHandler;
+import org.apache.commons.collections4.map.LinkedMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
@@ -50,10 +54,13 @@ public class StatisticsDashboardController extends BaseController {
 
     @RequestMapping("")
     public ModelAndView show() {
-        if(hasPermission(Permissions.CAREER_TABLE)) {
+        if(hasPermission(Permissions.MLSZ_STATISTICS)) {
             User currentUser = userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession());
             Organization organization = userOrganizationService.getOrgByUser(currentUser).getOrganization();
             ModelAndView view = new ModelAndView("play/StatisticsDashboard");
+            if (hasPermission(Permissions.HOME_HEADER_BUTTONS)) {
+                view.addObject("playerData", getPlayerData());
+            }
             return view;
         }
         return new ModelAndView("403");
@@ -62,60 +69,44 @@ public class StatisticsDashboardController extends BaseController {
     @RequestMapping(value = "/points", method = RequestMethod.POST)
     @ResponseBody
     private String points(@RequestParam("liga") String ligaIn){
-        User currentUser = userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession());
-        Organization organization = userOrganizationService.getOrgByUser(currentUser).getOrganization();
-        Liga liga = ligaService.findByName(ligaIn.trim());
-        int maxPoints = Objects.nonNull(tabellaService.getMaxPoints(liga, organization.getName())) ? tabellaService.getMaxPoints(liga, organization.getName()): 0;
-        int missPoints = (Objects.nonNull(tabellaService.getLastFordByLiga(liga)) && Objects.nonNull(tabellaService.getMaxPoints(liga, organization.getName()))) ? tabellaService.getLastFordByLiga(liga) * 3 - tabellaService.getMaxPoints(liga, organization.getName()) : 0;
         JSONArray array = new JSONArray();
-        array.put(maxPoints);
-        array.put(missPoints);
+        MLSZParser parser = new MLSZParser("http://ada1bank.mlsz.hu/club?teamId=214928");
+        String[] points = parser.getMaxMinPoints();
+        array.put(points[0]);
+        array.put(points[1]);
         return array.toString();
     }
 
     @RequestMapping(value = "/goals", method = RequestMethod.POST)
     @ResponseBody
     private String goals(@RequestParam("liga") String ligaIn){
-        Liga liga = ligaService.findByName(ligaIn.trim());
-        User currentUser = userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession());
-        List<Tabella> teams = tabellaService.getTabellaByLiga(liga);
-        String currentName =userOrganizationService.getOrgByUser(currentUser).getOrganization().getName();
         JSONObject object = new JSONObject();
         try {
-            for (Tabella tabella : teams) {
-                if (tabella.getCsapat().equals(currentName)) {
-                    object.put("lgoals", tabella.getLottGolokSzama());
-                    object.put("kgoals", tabella.getKapottGolokSzama());
-                    return object.toString();
-                }
-            }
+            MLSZParser parser = new MLSZParser("http://ada1bank.mlsz.hu/club?teamId=214928");
+            String[] goals = parser.getLkGoals();
+            object.put("lgoals", new JSONArray().put(Integer.parseInt(goals[0])));
+            object.put("kgoals", new JSONArray().put(Integer.parseInt(goals[1])));
+            return object.toString();
         } catch (Exception e) {
             return "";
         }
-        return "";
     }
 
     @RequestMapping(value = "/games", method = RequestMethod.POST)
     @ResponseBody
     private String games(@RequestParam("liga") String ligaIn){
-        Liga liga = ligaService.findByName(ligaIn.trim());
-        User currentUser = userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession());
-        List<Tabella> teams = tabellaService.getTabellaByLiga(liga);
-        String currentName =userOrganizationService.getOrgByUser(currentUser).getOrganization().getName();
-        for (Tabella tabella : teams) {
-            if (tabella.getCsapat().equals(currentName)) {
-                JSONArray array = new JSONArray();
-                array.put(tabella.getGyozelemekSzama());
-                array.put(tabella.getDontetlenekSzama());
-                array.put(tabella.getVeresegekSzama());
-                return array.toString();
-            }
-        }
-        return "";
+        MLSZParser parser = new MLSZParser("http://ada1bank.mlsz.hu/club?teamId=214928");
+        String[] goals = parser.getEnds();
+        JSONArray array = new JSONArray();
+        array.put(goals[0]);
+        array.put(goals[1]);
+        array.put(goals[2]);
+        return array.toString();
     }
 
     @RequestMapping(value = "/history", method = RequestMethod.POST)
     @ResponseBody
+    @Deprecated
     private String history(@RequestParam("liga") String ligaIn) {
         if (hasPermission(Permissions.MLSZ_STATISTICS)){
             Liga liga = ligaService.findByName(ligaIn.trim());
@@ -187,6 +178,7 @@ public class StatisticsDashboardController extends BaseController {
 
     @RequestMapping(value = "/league", method = RequestMethod.POST)
     @ResponseBody
+    @Deprecated
     private String league(@RequestParam("liga") String ligaIn) {
         if (hasPermission(Permissions.MLSZ_STATISTICS)){
             Liga liga = ligaService.findByName(ligaIn.trim());
@@ -229,6 +221,9 @@ public class StatisticsDashboardController extends BaseController {
         return "";
     }
 
-
-
+    private PlayerData getPlayerData() {
+        User currentUser = userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession());
+        UserOrganization uOrg = userOrganizationService.getOrgByUser(currentUser);
+        return new MLSZParser(uOrg.getUser().getUrl()).getPlayerData();
+    }
 }
