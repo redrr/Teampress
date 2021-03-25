@@ -53,8 +53,9 @@ public class PaymentRequestController extends BaseController {
     public ModelAndView show() {
         if(hasPermission(Permissions.COST_CREATE)) {
             ModelAndView view = new ModelAndView("play/PaymentRequest", "modifyrequest", new AnnualPaymentForm());
+            Organization organization = userOrganizationService.getOrgByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession())).getOrganization();
             view.addObject("types", lookupCodeService.findAllLookupByLgroup(LGroups.TEAM_TYPE.name()));
-            view.addObject("group", incomeGroupService.findAll());
+            view.addObject("group", incomeGroupService.findAll(organization));
             view.addObject("datas", paymentRequestService.collectByUUID());
             return view;
         }

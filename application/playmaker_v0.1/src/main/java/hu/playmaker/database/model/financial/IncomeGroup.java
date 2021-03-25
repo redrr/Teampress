@@ -1,6 +1,7 @@
 package hu.playmaker.database.model.financial;
 
 import hu.playmaker.database.model.BaseModel;
+import hu.playmaker.database.model.system.Organization;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -13,14 +14,18 @@ import java.util.Objects;
 @Entity
 @Table(name="INCOMEGROUP", schema="teampress")
 @NamedQueries({
-		@NamedQuery(name="IncomeGroup.findAll", query="SELECT p FROM IncomeGroup p WHERE p.deleted=false"),
-		@NamedQuery(name="IncomeGroup.countAll", query="SELECT COUNT(p) FROM IncomeGroup p WHERE p.deleted=false"),
+		@NamedQuery(name="IncomeGroup.findAll", query="SELECT p FROM IncomeGroup p"),
+		@NamedQuery(name="IncomeGroup.findAllByOrg", query="SELECT p FROM IncomeGroup p WHERE p.deleted=false AND p.organization = :porg"),
 		@NamedQuery(name="IncomeGroup.findById", query="SELECT p FROM IncomeGroup p WHERE p.id = :pid AND p.deleted=false"),
-		@NamedQuery(name="IncomeGroup.findAllCreatedBy", query="SELECT p FROM IncomeGroup p WHERE p.createdBy = :pby AND p.deleted=false")
+		@NamedQuery(name="IncomeGroup.findAllCreatedBy", query="SELECT p FROM IncomeGroup p WHERE p.createdBy = :pby AND p.deleted=false AND p.organization = :porg")
 })
 @Cacheable(false)
 public class IncomeGroup extends BaseModel {
 	private static final long serialVersionUID = 1L;
+
+	@ManyToOne
+	@JoinColumn(name="ORG_ID", nullable=false)
+	private Organization organization;
 
 	@Column(name="NAME", length=255)
 	private String name;
@@ -56,5 +61,13 @@ public class IncomeGroup extends BaseModel {
 
 	public void setDeleted(Boolean deleted) {
 		this.deleted = (Objects.isNull(deleted)) ? false : deleted;
+	}
+
+	public Organization getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
 	}
 }

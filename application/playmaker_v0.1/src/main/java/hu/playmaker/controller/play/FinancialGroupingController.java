@@ -43,7 +43,7 @@ public class FinancialGroupingController extends BaseController {
             ModelAndView view = new ModelAndView("play/FinancialGrouping");
             String userName = SessionHandler.getUsernameFromCurrentSession();
             Organization organization = userOrganizationService.getOrgByUser(userService.findEnabledUserByUsername(userName)).getOrganization();
-            view.addObject("groups", incomeGroupService.findAllCreatedBy(userName));
+            view.addObject("groups", incomeGroupService.findAllCreatedBy(userName, organization));
             view.addObject("incomes", usedIncome(incomeService.findByOrgAndAccept(organization, true)));
             view.addObject("table", incomeGroupConnectionService.findAllCreatedBy(userName));
             return view;

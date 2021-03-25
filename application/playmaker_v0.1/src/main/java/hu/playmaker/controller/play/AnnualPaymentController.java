@@ -5,6 +5,7 @@ import hu.playmaker.common.Permissions;
 import hu.playmaker.controller.BaseController;
 import hu.playmaker.database.model.financial.AnnualPayment;
 import hu.playmaker.database.model.financial.IncomeGroup;
+import hu.playmaker.database.model.system.Organization;
 import hu.playmaker.database.model.trainingplan.Exercise;
 import hu.playmaker.database.service.financial.AnnualPaymentService;
 import hu.playmaker.database.service.financial.IncomeGroupService;
@@ -50,8 +51,9 @@ public class AnnualPaymentController extends BaseController {
     public ModelAndView show() {
         if(hasPermission(Permissions.ANNUAL_COST_CREATE)) {
             ModelAndView view = new ModelAndView("play/AnnualPayment", "modifyAnnual", new AnnualPaymentForm());
+            Organization organization = userOrganizationService.getOrgByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession())).getOrganization();
             view.addObject("types", lookupCodeService.findAllLookupByLgroup(LGroups.TEAM_TYPE.name()));
-            view.addObject("group", incomeGroupService.findAll());
+            view.addObject("group", incomeGroupService.findAll(organization));
             view.addObject("datas", annualPaymentService.findAll());
             return view;
         }

@@ -3,8 +3,11 @@ package hu.playmaker.controller.play;
 import hu.playmaker.common.Permissions;
 import hu.playmaker.controller.BaseController;
 import hu.playmaker.database.model.financial.IncomeGroup;
+import hu.playmaker.database.model.system.Organization;
 import hu.playmaker.database.service.financial.IncomeGroupConnectionService;
 import hu.playmaker.database.service.financial.IncomeGroupService;
+import hu.playmaker.database.service.system.UserOrganizationService;
+import hu.playmaker.database.service.system.UserService;
 import hu.playmaker.handler.SessionHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -16,17 +19,23 @@ public class FinancialGroupController extends BaseController {
 
     private IncomeGroupService incomeGroupService;
     private IncomeGroupConnectionService incomeGroupConnectionService;
+    private UserService userService;
+    private UserOrganizationService userOrganizationService;
 
-    public FinancialGroupController(IncomeGroupService incomeGroupService, IncomeGroupConnectionService incomeGroupConnectionService) {
+    public FinancialGroupController(IncomeGroupService incomeGroupService, IncomeGroupConnectionService incomeGroupConnectionService, UserService userService, UserOrganizationService userOrganizationService) {
         this.incomeGroupService = incomeGroupService;
         this.incomeGroupConnectionService = incomeGroupConnectionService;
+        this.userService = userService;
+        this.userOrganizationService = userOrganizationService;
     }
 
     @RequestMapping("")
     public ModelAndView showGroup() {
         if(hasPermission(Permissions.GROUP_COSTS)) {
             ModelAndView view = new ModelAndView("play/FinancialGroup");
-            view.addObject("table", incomeGroupService.findAllCreatedBy(SessionHandler.getUsernameFromCurrentSession()));
+            String username = SessionHandler.getUsernameFromCurrentSession();
+            Organization organization = userOrganizationService.getOrgByUser(userService.findEnabledUserByUsername(username)).getOrganization();
+            view.addObject("table", incomeGroupService.findAllCreatedBy(username, organization));
             return view;
         }
         return new ModelAndView("403");
