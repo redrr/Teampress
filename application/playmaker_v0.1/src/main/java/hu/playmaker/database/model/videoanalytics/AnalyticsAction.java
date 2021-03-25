@@ -1,6 +1,7 @@
 package hu.playmaker.database.model.videoanalytics;
 
 import hu.playmaker.database.model.BaseModel;
+import hu.playmaker.database.model.system.Organization;
 import hu.playmaker.database.model.system.User;
 import hu.playmaker.database.service.system.UserService;
 
@@ -13,11 +14,15 @@ import java.util.Objects;
 @Table(name="ANALYTICSACTION", schema="teampress")
 @NamedQueries({
         @NamedQuery(name="AnalyticsAction.findById", query="SELECT p FROM AnalyticsAction p WHERE p.id = :pid"),
-        @NamedQuery(name="AnalyticsAction.findByVideo", query="SELECT p FROM AnalyticsAction p WHERE p.sourceVideo =:pvideo"),
+        @NamedQuery(name="AnalyticsAction.findByVideo", query="SELECT p FROM AnalyticsAction p WHERE p.sourceVideo =:pvideo AND p.organization = :porg"),
 })
 @Cacheable(false)
 public class AnalyticsAction extends BaseModel {
     private static final long serialVersionUID = 1L;
+
+    @ManyToOne
+    @JoinColumn(name="ORG_ID", nullable=false)
+    private Organization organization;
 
     @ManyToOne
     @JoinColumn(name="VIDEO_ID")
@@ -87,5 +92,13 @@ public class AnalyticsAction extends BaseModel {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public Organization getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
     }
 }

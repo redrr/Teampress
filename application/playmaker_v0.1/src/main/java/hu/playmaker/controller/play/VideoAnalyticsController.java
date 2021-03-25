@@ -125,7 +125,8 @@ public class VideoAnalyticsController extends BaseController {
         if(hasPermission(Permissions.VIDEO_ANALYTICS)) {
             if(videoId.trim().equals(""))   return "[]";
             Video video = videoService.find(Integer.parseInt(videoId));
-            List<AnalyticsAction> analyticsActions = analyticsActionService.findBySourceVideo(video);
+            Organization organization = userOrganizationService.getOrgByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession())).getOrganization();
+            List<AnalyticsAction> analyticsActions = analyticsActionService.findBySourceVideo(video, organization);
             JSONArray array = new JSONArray();
             try {
                 List<AnalyticsAction> sorted = analyticsActions.stream()
@@ -183,7 +184,9 @@ public class VideoAnalyticsController extends BaseController {
             if(bluePrint.trim().equals("")) return "Analysis is missing!";
             try {
                 boolean isNewAction = id.trim().equals("") || !analyticsActionService.exist(Integer.parseInt(id));
+                Organization organization = userOrganizationService.getOrgByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession())).getOrganization();
                 AnalyticsAction action = isNewAction ? new AnalyticsAction() : analyticsActionService.find(Integer.parseInt(id));
+                action.setOrganization(organization);
                 action.setSourceVideo(video);
                 action.setName(name);
                 action.setPlayerIds(players);
