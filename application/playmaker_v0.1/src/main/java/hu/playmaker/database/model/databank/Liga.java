@@ -19,6 +19,7 @@ import javax.persistence.*;
 		@NamedQuery(name="Liga.findByOrgAnd", query="SELECT p FROM Liga p WHERE p.id = :pliga")
 })
 @Cacheable(false)
+@Deprecated
 public class Liga extends BaseModel {
 	private static final long serialVersionUID = 1L;
 

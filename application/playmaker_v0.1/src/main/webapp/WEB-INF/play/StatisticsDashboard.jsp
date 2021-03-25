@@ -90,26 +90,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-xl-6 col-lg-6 col-md-12 col-12">
-                                                <div class="card">
-                                                    <div class="card-header py-2">
-                                                        <h3>Forma mutató</h3>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <canvas id="4" height="200px"></canvas>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-6 col-lg-6 col-md-12 col-12">
-                                                <div class="card">
-                                                    <div class="card-header py-2">
-                                                        <h3>Bajnoki tabella</h3>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <canvas id="5" height="200px"></canvas>
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </div>
                                     </c:if>
                                 </div>

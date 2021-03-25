@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@Deprecated
 public class LigaService extends BaseService {
 
     public Liga find(int liga){

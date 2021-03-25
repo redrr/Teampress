@@ -2,14 +2,12 @@ package hu.playmaker.controller.play;
 
 import hu.playmaker.common.Permissions;
 import hu.playmaker.controller.BaseController;
-import hu.playmaker.database.model.databank.PlayerData;
 import hu.playmaker.database.model.gameplan.CustomGame;
 import hu.playmaker.database.model.gameplan.GamePlan;
 import hu.playmaker.database.model.system.LookupCode;
 import hu.playmaker.database.model.system.Organization;
 import hu.playmaker.database.model.system.User;
 import hu.playmaker.database.model.system.UserOrganization;
-import hu.playmaker.database.model.databank.Sorsolas;
 import hu.playmaker.database.model.trainingplan.TrainingPlan;
 import hu.playmaker.database.service.databank.LigaService;
 import hu.playmaker.database.service.gameplan.CustomGameService;
@@ -18,8 +16,6 @@ import hu.playmaker.database.service.system.LookupCodeService;
 import hu.playmaker.database.service.system.UserNotificationService;
 import hu.playmaker.database.service.system.UserOrganizationService;
 import hu.playmaker.database.service.system.UserService;
-import hu.playmaker.database.service.databank.PlayerDataService;
-import hu.playmaker.database.service.databank.SorsolasService;
 import hu.playmaker.database.service.trainingplan.TrainingPlanConnectionService;
 import hu.playmaker.database.service.workout.WorkoutService;
 import hu.playmaker.handler.SessionHandler;
@@ -42,22 +38,18 @@ public class GamePlanController extends BaseController {
     private UserOrganizationService userOrganizationService;
     private UserService userService;
     private LookupCodeService lookupCodeService;
-    private SorsolasService sorsolasService;
     private LigaService ligaService;
-    private PlayerDataService playerDataService;
     private GamePlanService gamePlanService;
     private WorkoutService workoutService;
     private CustomGameService customGameService;
     private UserNotificationService userNotificationService;
     private TrainingPlanConnectionService connectionService;
 
-    public GamePlanController(UserOrganizationService userOrganizationService, UserService userService, LookupCodeService lookupCodeService, SorsolasService sorsolasService, LigaService ligaService, PlayerDataService playerDataService, GamePlanService gamePlanService, WorkoutService workoutService, CustomGameService customGameService, UserNotificationService userNotificationService, TrainingPlanConnectionService connectionService) {
+    public GamePlanController(UserOrganizationService userOrganizationService, UserService userService, LookupCodeService lookupCodeService, LigaService ligaService, GamePlanService gamePlanService, WorkoutService workoutService, CustomGameService customGameService, UserNotificationService userNotificationService, TrainingPlanConnectionService connectionService) {
         this.userOrganizationService = userOrganizationService;
         this.userService = userService;
         this.lookupCodeService = lookupCodeService;
-        this.sorsolasService = sorsolasService;
         this.ligaService = ligaService;
-        this.playerDataService = playerDataService;
         this.gamePlanService = gamePlanService;
         this.workoutService = workoutService;
         this.customGameService = customGameService;
@@ -74,8 +66,7 @@ public class GamePlanController extends BaseController {
             ArrayList<UserOrganization> teamList = userOrganizationService.getOrgListByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession()));
             if(hasPermission(Permissions.PLANNER)){
                 view.addObject("teams", teamList);
-                view.addObject("sorsolas", getLigaGames());
-                view.addObject("custom", getCustomGames());
+                view.addObject("custom", getGames());
             }
             if(hasPermission(Permissions.PLANS_TABLE) || hasPermission(Permissions.PLANNER)){
                 view.addObject("table", getCreated(teamList));
@@ -86,21 +77,7 @@ public class GamePlanController extends BaseController {
         return new ModelAndView("403");
     }
 
-    private ArrayList<Sorsolas> getLigaGames() {
-        ArrayList<UserOrganization> userOrganizations = userOrganizationService.getOrgListByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession()));
-        ArrayList<Sorsolas> sorsolasList = new ArrayList<>();
-        for(UserOrganization userOrganization : userOrganizations){
-            List<Sorsolas> s = sorsolasService.getLigaAndTeam(userOrganization.getLiga(), userOrganization.getLiga().getKlubName());
-            for(Sorsolas sorsolas : s){
-                if(Objects.nonNull(sorsolas.getDatum()) && !gamePlanService.exist(sorsolas)){
-                    sorsolasList.add(sorsolas);
-                }
-            }
-        }
-        return sorsolasList;
-    }
-
-    private ArrayList<CustomGame> getCustomGames() {
+    private ArrayList<CustomGame> getGames() {
         ArrayList<CustomGame> result = new ArrayList<>();
         List<CustomGame> s = customGameService.findByCreated(SessionHandler.getUsernameFromCurrentSession());
         for(CustomGame customGame : s){
@@ -118,9 +95,6 @@ public class GamePlanController extends BaseController {
             LookupCode team = userOrganization.getType();
             List<GamePlan> plans = gamePlanService.findByOrg(organization);
             for (GamePlan gamePlan : plans) {
-                if(Objects.nonNull(gamePlan.getSorsolas()) && gamePlan.getSorsolas().getLiga().getTeam().equals(team.getCode())){
-                    result.add(gamePlan);
-                }
                 if(Objects.nonNull(gamePlan.getCustomGame()) && gamePlan.getCustomGame().getTeam().getCode().equals(team.getCode())){
                     result.add(gamePlan);
                 }
@@ -152,24 +126,18 @@ public class GamePlanController extends BaseController {
             StringBuilder y = new StringBuilder();
             for(int i = 0; i < teamList.size(); i++){
                 UserOrganization userOrganization = teamList.get(i);
-                PlayerData playerData = playerDataService.getPlayerDataByCode(userOrganization.getUser());
                 id.append(userOrganization.getUser().getId());
                 name.append(userOrganization.getUser().getName());
                 url.append(userOrganization.getUser().getProfilImg());
-                meccsek.append(playerData.getMeccsek());
-                golok.append(playerData.getGolok());
-                ongolok.append(playerData.getOnGolok());
-                sarga.append(playerData.getSargaLap());
-                piros.append(playerData.getPirosLap());
-                kezdo.append(playerData.getKezdo());
-                csere.append(playerData.getCsere());
-                kispad.append(playerData.getKispad());
-                if(type.equals("sors") && gamePlanService.exist(userOrganization.getUser(), sorsolasService.findById(Integer.parseInt(sors)))){
-                    GamePlan gamePlan = gamePlanService.find(userOrganization.getUser(), sorsolasService.findById(Integer.parseInt(sors))).get(0);
-                    attend.append(gamePlan.getAttendance());
-                    x.append(gamePlan.getxCordinate());
-                    y.append(gamePlan.getyCordinate());
-                } else if (type.equals("cust") && gamePlanService.exist(userOrganization.getUser(), customGameService.find(Integer.parseInt(sors)))) {
+                meccsek.append("NaN");
+                golok.append("NaN");
+                ongolok.append("NaN");
+                sarga.append("NaN");
+                piros.append("NaN");
+                kezdo.append("NaN");
+                csere.append("NaN");
+                kispad.append("NaN");
+                if (type.equals("cust") && gamePlanService.exist(userOrganization.getUser(), customGameService.find(Integer.parseInt(sors)))) {
                     GamePlan gamePlan = gamePlanService.find(userOrganization.getUser(), customGameService.find(Integer.parseInt(sors))).get(0);
                     attend.append(gamePlan.getAttendance());
                     x.append(Objects.isNull(gamePlan.getxCordinate()) ? "" : gamePlan.getxCordinate());
@@ -225,18 +193,9 @@ public class GamePlanController extends BaseController {
             Organization organization = userOrganizationService.getOrgByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession())).getOrganization();
             for(int i = 0; i < id.length; i++){
                 User user = userService.find(Integer.parseInt(id[i]));
-                Sorsolas sorsolas;
-                CustomGame customGame;
-                GamePlan gamePlan;
-                if(gameType.equals("sors")){
-                    sorsolas = sorsolasService.findById(Integer.parseInt(gameId));
-                    gamePlan = gamePlanService.exist(user, sorsolas) ? gamePlanService.find(user, sorsolas).get(0) : new GamePlan();
-                    gamePlan.setSorsolas(sorsolas);
-                } else {
-                    customGame = customGameService.find(Integer.parseInt(gameId));
-                    gamePlan = gamePlanService.exist(user, customGame) ? gamePlanService.find(user, customGame).get(0) : new GamePlan();
-                    gamePlan.setCustomGame(customGame);
-                }
+                CustomGame customGame = customGameService.find(Integer.parseInt(gameId));
+                GamePlan gamePlan = gamePlanService.exist(user, customGame) ? gamePlanService.find(user, customGame).get(0) : new GamePlan();
+                gamePlan.setCustomGame(customGame);
                 if(!(x[i].equals("") || y[i].equals("") || x[i].equals("del") || y[i].equals("del"))){
                     gamePlan.setxCordinate(Integer.parseInt(x[i]));
                     gamePlan.setyCordinate(Integer.parseInt(y[i]));

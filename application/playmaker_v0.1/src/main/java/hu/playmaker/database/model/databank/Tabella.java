@@ -4,78 +4,25 @@ import hu.playmaker.database.model.BaseModel;
 
 import javax.persistence.*;
 
+public class Tabella {
 
-@Entity
-@Table(name="LEAGUETABLE", schema="teampress")
-@NamedQueries({
-        @NamedQuery(name="Tabella.findAll", query="SELECT l FROM Tabella l"),
-        @NamedQuery(name="Tabella.countAll", query="SELECT COUNT(l) FROM Tabella l"),
-        @NamedQuery(name="Tabella.findById", query = "SELECT l FROM Tabella l WHERE l.id = :pid"),
-        @NamedQuery(name="Tabella.findByLiga", query = "SELECT l FROM Tabella l WHERE l.liga = :pliga AND l.fordulo=:pford"),
-        @NamedQuery(name="Tabella.findByMaxLiga", query = "SELECT DISTINCT MAX(l.fordulo) FROM Tabella l WHERE l.liga = :pliga"),
-        @NamedQuery(name="Tabella.findByMaxPoint", query = "SELECT DISTINCT MAX(l.pontszam) FROM Tabella l WHERE l.liga = :pliga AND l.csapat = :pteam"),
-        @NamedQuery(name="Tabella.findTeamsByLiga", query = "SELECT DISTINCT l.csapat FROM Tabella l WHERE l.liga = :pliga"),
-        @NamedQuery(name="Tabella.findByFord", query = "SELECT l FROM Tabella l WHERE l.csapat = :pcsapat"),
-        @NamedQuery(name="Tabella.findByLigaAndTeam", query = "SELECT l FROM Tabella l WHERE l.liga = :pliga AND l.csapat = :pcsapat AND l.fordulo=:pford"),
-        @NamedQuery(name="Tabella.findByLigaTeamAndFord", query = "SELECT l FROM Tabella l WHERE l.liga = :pliga AND l.csapat = :pcsapat AND l.fordulo=:pford")
-})
-public class Tabella extends BaseModel {
-
-    private static final long serialVersionUID = 1L;
-
-    @ManyToOne
-    @JoinColumn(name="LIGA_ID")
     private Liga liga;
-
-    @Column(name="FORDULO")
     private Integer fordulo;
-
-    @Column(name="HELYEZES")
     private Integer helyezes;
-
-    @Column(name="CSAPAT")
     private String csapat;
-
-    @Column(name="MECSEK_SZAMA")
     private Integer mecsekSzama;
-
-    @Column(name="GYOZELMEK_SZAMA")
     private Integer gyozelemekSzama;
-
-    @Column(name="DONTETLENEK_SZAMA")
     private Integer dontetlenekSzama;
-
-    @Column(name="VERESEGEK_SZAMA")
     private Integer veresegekSzama;
-
-    @Column(name="LOTT_GOLOK_SZAMA")
     private Integer lottGolokSzama;
-
-    @Column(name="KAPOTT_GOLOK_SZAMA")
     private Integer kapottGolokSzama;
-
-    @Column(name="GOLKULONBSEG")
     private Integer golkulonbseg;
-
-    @Column(name="PONTSZAM")
     private Integer pontszam;
-
-    @Column(name="ELLENFELEK_HELYEZESEK_ATLAGA")
     private String ellenfelekHelyezesenekAtlaga;
-
-    @Column(name="FROMA_1")
     private String forma1;
-
-    @Column(name="FROMA_2")
     private String forma2;
-
-    @Column(name="FORMA_3")
     private String forma3;
-
-    @Column(name="FORMA_4")
     private String forma4;
-
-    @Column(name="FORMA_5")
     private String forma5;
 
     public Tabella() {

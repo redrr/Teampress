@@ -1,15 +1,13 @@
 package hu.playmaker.controller.basic;
 
 import hu.playmaker.common.Permissions;
+import hu.playmaker.common.template.PlayerHeaderTmp;
+import hu.playmaker.common.template.SorsolasHeaderTmp;
 import hu.playmaker.controller.BaseController;
 import hu.playmaker.database.model.index.UserPost;
 import hu.playmaker.database.model.index.UserPostComment;
 import hu.playmaker.database.model.system.*;
-import hu.playmaker.database.model.trainingplan.TrainingPlan;
 import hu.playmaker.database.model.trainingplan.TrainingPlanConnection;
-import hu.playmaker.database.service.databank.PlayerDataService;
-import hu.playmaker.database.service.databank.SorsolasService;
-import hu.playmaker.database.service.databank.TabellaService;
 import hu.playmaker.database.service.index.UserPostCommentService;
 import hu.playmaker.database.service.index.UserPostService;
 import hu.playmaker.database.service.system.*;
@@ -22,12 +20,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -38,11 +34,8 @@ import java.util.*;
 @Controller
 public class IndexController extends BaseController {
 
-    private PlayerDataService playerDataService;
     private UserService userService;
     private UserOrganizationService userOrganizationService;
-    private TabellaService tabellaService;
-    private SorsolasService sorsolasService;
     private UserPostService userPostService;
     private UserPostCommentService userPostCommentService;
     private AttendanceService attendanceService;
@@ -53,12 +46,9 @@ public class IndexController extends BaseController {
     private OrgCountryService orgCountryService;
     private ParameterService parameterService;
 
-    public IndexController(PlayerDataService playerDataService, UserService userService, UserOrganizationService userOrganizationService, TabellaService tabellaService, SorsolasService sorsolasService, UserPostService userPostService, UserPostCommentService userPostCommentService, AttendanceService attendanceService, UserNotificationService notificationService, TrainerRatingService trainerRatingService, TrainerRatingResultService trainerRatingResultService, TrainingPlanService trainingPlanService, OrgCountryService orgCountryService, ParameterService parameterService) {
-        this.playerDataService = playerDataService;
+    public IndexController(UserService userService, UserOrganizationService userOrganizationService, UserPostService userPostService, UserPostCommentService userPostCommentService, AttendanceService attendanceService, UserNotificationService notificationService, TrainerRatingService trainerRatingService, TrainerRatingResultService trainerRatingResultService, TrainingPlanService trainingPlanService, OrgCountryService orgCountryService, ParameterService parameterService) {
         this.userService = userService;
         this.userOrganizationService = userOrganizationService;
-        this.tabellaService = tabellaService;
-        this.sorsolasService = sorsolasService;
         this.userPostService = userPostService;
         this.userPostCommentService = userPostCommentService;
         this.attendanceService = attendanceService;
@@ -94,11 +84,11 @@ public class IndexController extends BaseController {
                 uOrg = userOrganizationService.getOrgByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession()));
                 view.addObject("nextTraining", trainingPlanService.findNext(uOrg.getOrganization(), uOrg.getType()));
                 view.addObject("nextTrainingDay", getDay(trainingPlanService.findNext(uOrg.getOrganization(), uOrg.getType())));
-                view.addObject("playerHeader", playerDataService.getPlayerHeader(
+                view.addObject("playerHeader", getPlayerHeader(
                         userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession()),
                         attendanceService.findLastFiveTrainingJelenByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession()))));
-                view.addObject("teamHeader", playerDataService.getTeamHeader(uOrg.getOrganization(), tabellaService.getTabellaByTeamAndLiga(uOrg.getLiga(), uOrg.getOrganization().getName())));
-                view.addObject("sorsolasHeader", sorsolasService.getSorsolas(uOrg.getLiga(), uOrg.getOrganization().getName()));
+                view.addObject("teamHeader", getTeamHeader(uOrg.getOrganization()));
+                view.addObject("sorsolasHeader", getSorsolas());
             }
             if(hasPermission(Permissions.HOME_WEATHER)){
                 uOrg = userOrganizationService.getOrgByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession()));
@@ -118,6 +108,14 @@ public class IndexController extends BaseController {
             return days[calendar.get(Calendar.DAY_OF_WEEK)-1];
         }
         return "";
+    }
+
+    public SorsolasHeaderTmp getSorsolas(){
+        SorsolasHeaderTmp tmp = new SorsolasHeaderTmp();
+        tmp.setHazaiUrl("haza_img_url");
+        tmp.setEredmeny("game_date");
+        tmp.setVendegUrl("vend_img_url");
+        return tmp;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/dopost")
@@ -339,4 +337,43 @@ public class IndexController extends BaseController {
         }
         return 0;
     }
+
+    //region [Player Header]
+    public PlayerHeaderTmp getPlayerHeader(User user, String[] stat){
+        PlayerHeaderTmp tmp = new PlayerHeaderTmp();
+        tmp.setName(user.getName().split(" ")[0]+" "+ user.getName().split(" ")[1].charAt(0)+".");
+        tmp.setProfImg(user.getProfilImg());
+        tmp.setCssClass(setClassFromStat(stat));
+        tmp.setData(stat);
+        return tmp;
+    }
+
+    private String[] setClassFromStat(String[] stat) {
+        String[] re = new String[5];
+        for(int i = 0; i < stat.length; i++){
+            re[i] = (stat[i].equals("")) ? "" : cssStyle(stat[i]);
+        }
+        return re;
+    }
+
+    public PlayerHeaderTmp getTeamHeader(Organization org){
+        PlayerHeaderTmp tmp = new PlayerHeaderTmp();
+        tmp.setProfImg(org.getUrl());
+        tmp.setName(1 + ". helyezés");
+        tmp.setCssClass(new String[]{cssStyle("GY"), cssStyle("GY"), cssStyle("GY"), cssStyle("GY"), cssStyle("GY")});
+        tmp.setData(new String[]{"GY", "GY", "GY", "GY", "GY"});
+        return tmp;
+    }
+
+    private String cssStyle(String lvl) {
+        switch (lvl){
+            case "GY" : return "primary";
+            case "+" : return "primary";
+            case "D" : return "warning";
+            case "V" : return "danger";
+            case "-" : return "danger";
+            default: return "info";
+        }
+    }
+    //endregion
 }

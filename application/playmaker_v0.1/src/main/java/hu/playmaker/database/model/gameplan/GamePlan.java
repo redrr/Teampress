@@ -14,14 +14,9 @@ import javax.persistence.*;
         @NamedQuery(name="GamePlan.findAll", query="SELECT p FROM GamePlan p"),
         @NamedQuery(name="GamePlan.countAll", query="SELECT COUNT(p) FROM GamePlan p"),
         @NamedQuery(name="GamePlan.findById", query="SELECT p FROM GamePlan p WHERE p.id = :pid"),
-        @NamedQuery(name="GamePlan.findByUser", query="SELECT p.sorsolas FROM GamePlan p WHERE p.user=:puser"),
-        @NamedQuery(name="GamePlan.findByOrg", query="SELECT DISTINCT p.sorsolas FROM GamePlan p WHERE p.organization=:porg"),
-        @NamedQuery(name="GamePlan.findByOrgGroupedCustom", query="SELECT p FROM GamePlan p WHERE p.organization=:porg AND p.sorsolas IS NULL GROUP BY p.customGame"),
-        @NamedQuery(name="GamePlan.findByOrgGroupedSors", query="SELECT p FROM GamePlan p WHERE p.organization=:porg AND p.customGame IS NULL GROUP BY p.sorsolas"),
+        @NamedQuery(name="GamePlan.findByOrgGroupedCustom", query="SELECT p FROM GamePlan p WHERE p.organization=:porg GROUP BY p.customGame"),
         @NamedQuery(name="GamePlan.findByOrgGrouped", query="SELECT p FROM GamePlan p WHERE p.organization=:porg GROUP BY p.customGame"),
-        @NamedQuery(name="GamePlan.findByUserAndSors", query="SELECT p FROM GamePlan p WHERE p.user=:puser AND p.sorsolas=:psors"),
         @NamedQuery(name="GamePlan.findByUserAndCG", query="SELECT p FROM GamePlan p WHERE p.user=:puser AND p.customGame=:pcg"),
-        @NamedQuery(name="GamePlan.findBySors", query="SELECT p FROM GamePlan p WHERE p.sorsolas=:psors"),
         @NamedQuery(name="GamePlan.findByCG", query="SELECT p FROM GamePlan p WHERE p.customGame=:pcg")
 })
 @Cacheable(false)
@@ -35,10 +30,6 @@ public class GamePlan extends BaseModel {
     @ManyToOne
     @JoinColumn(name="USER_ID")
     private User user;
-
-    @ManyToOne
-    @JoinColumn(name="SORSOLAS_ID")
-    private Sorsolas sorsolas;
 
     @ManyToOne
     @JoinColumn(name="CUSTOM_GAME_ID")
@@ -70,14 +61,6 @@ public class GamePlan extends BaseModel {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public Sorsolas getSorsolas() {
-        return sorsolas;
-    }
-
-    public void setSorsolas(Sorsolas sorsolas) {
-        this.sorsolas = sorsolas;
     }
 
     public Integer getxCordinate() {

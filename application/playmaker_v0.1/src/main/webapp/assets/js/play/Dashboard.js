@@ -129,28 +129,4 @@ $(document).ready(function () {
             }, 0);
         }
     });
-    $.post("/statistics/dashboard/history", { liga: 'MEGYEI I.' },function (result, s) {
-        if(!(result === "")){
-            historyChartDataConfig = JSON.parse(result);
-            if(!(historyChartData===undefined)){
-                historyChartData.destroy();
-            }
-            setTimeout(function () {
-                historyChartData = new Chart($('#4'), historyChartDataConfig);
-            }, 0);
-        }
-    });
-    $.post("/statistics/dashboard/league", { liga: 'MEGYEI I.' },function (result, s) {
-        if(!(result === "")){
-            leagueChartDataConfig = JSON.parse(result);
-            console.log(result);
-            if(!(leagueChartData===undefined)){
-                leagueChartData.destroy();
-            }
-            setTimeout(function () {
-                leagueChartData = new Chart($('#5'), leagueChartDataConfig);
-            }, 0);
-        }
-    });
-
 });

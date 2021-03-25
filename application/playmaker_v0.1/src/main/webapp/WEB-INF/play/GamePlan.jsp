@@ -97,44 +97,7 @@
                                                 <div class="col-12">
                                                     <div class="card">
                                                         <div class="card-header">
-                                                            <h5>Liga meccsek</h5>
-                                                        </div>
-                                                        <div class="card-block">
-                                                            <table id="sorsolasTable" class="table table-striped table-bordered" style="width:100%; font-size: 14px">
-                                                                <thead>
-                                                                <tr>
-                                                                    <th data-priority="1">Dátum</th>
-                                                                    <th>Liga</th>
-                                                                    <th>Hazai</th>
-                                                                    <th>Ellenfél</th>
-                                                                    <th>Helyszín</th>
-                                                                    <th data-priority="2">Művelet</th>
-                                                                </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                <c:forEach var="data" items="${sorsolas}">
-                                                                    <tr>
-                                                                        <td>${data.getDateAs(false)}</td>
-                                                                        <td>${data.liga.liga}</td>
-                                                                        <td>${data.hazai}</td>
-                                                                        <td>${data.vendeg}</td>
-                                                                        <td>${data.hely}</td>
-                                                                        <td>
-                                                                            <button type="button" class="btn btn-primary btn-soft" onclick="$('#planner').show();loadEditorForTrainer(0,'${data.liga.id}', '${data.hazai}', '${data.vendeg}', '${data.id}', 'sors');"><i class="cil-search"></i> Kiválasztás</button>
-                                                                        </td>
-                                                                    </tr>
-                                                                </c:forEach>
-                                                                </tbody>
-                                                                <tfoot>
-                                                                </tfoot>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12">
-                                                    <div class="card">
-                                                        <div class="card-header">
-                                                            <h5>Egyéb mérkőzések</h5>
+                                                            <h5>Mérkőzések</h5>
                                                         </div>
                                                         <div class="card-block">
                                                             <table id="customTable" class="table table-striped table-bordered" style="width:100%; font-size: 14px">
@@ -171,7 +134,7 @@
                                                 <div class="col-12">
                                                 <div class="card">
                                                     <div class="card-header">
-                                                        <h5>Mérkőzés tervek</h5>
+                                                        <h5>Kész tervek</h5>
                                                     </div>
                                                     <div class="card-block">
                                                         <table id="completeTable" class="table table-striped table-bordered" style="width:100%; font-size: 14px">

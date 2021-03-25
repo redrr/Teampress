@@ -1,55 +1,33 @@
 package hu.playmaker.controller.play;
 
 import hu.playmaker.common.Permissions;
-import hu.playmaker.common.factory.chartjs.Color;
-import hu.playmaker.common.factory.chartjs.Data;
-import hu.playmaker.common.factory.chartjs.LineChartBuilder;
-import hu.playmaker.common.factory.chartjs.LineDataSet;
-import hu.playmaker.common.factory.chartjs.common.enums.BorderCapStyle;
-import hu.playmaker.common.factory.mlsz.MLSZ;
 import hu.playmaker.common.factory.mlsz.MLSZParser;
 import hu.playmaker.controller.BaseController;
 import hu.playmaker.database.model.databank.*;
 import hu.playmaker.database.model.system.Organization;
 import hu.playmaker.database.model.system.User;
 import hu.playmaker.database.model.system.UserOrganization;
-import hu.playmaker.database.service.databank.*;
 import hu.playmaker.database.service.system.UserOrganizationService;
 import hu.playmaker.database.service.system.UserService;
 import hu.playmaker.handler.SessionHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 @Controller
 @RequestMapping("/statistics/league")
 public class StatisticsLeagueController extends BaseController {
 
     private UserService userService;
-    private PlayerDataService playerDataService;
     private UserOrganizationService userOrganizationService;
-    private TabellaService tabellaService;
-    private SorsolasService sorsolasService;
-    private GoalsService goalsService;
-    private YellowCardService yellowCardService;
-    private RedCardService redCardService;
-    private LigaService ligaService;
 
-    public StatisticsLeagueController(UserService userService, PlayerDataService playerDataService, UserOrganizationService userOrganizationService, TabellaService tabellaService, SorsolasService sorsolasService, GoalsService goalsService, YellowCardService yellowCardService, RedCardService redCardService, LigaService ligaService) {
+    public StatisticsLeagueController(UserService userService, UserOrganizationService userOrganizationService) {
         this.userService = userService;
-        this.playerDataService = playerDataService;
         this.userOrganizationService = userOrganizationService;
-        this.tabellaService = tabellaService;
-        this.sorsolasService = sorsolasService;
-        this.goalsService = goalsService;
-        this.yellowCardService = yellowCardService;
-        this.redCardService = redCardService;
-        this.ligaService = ligaService;
     }
 
     @RequestMapping("")

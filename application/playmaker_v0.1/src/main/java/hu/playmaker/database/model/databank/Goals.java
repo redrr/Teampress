@@ -1,49 +1,15 @@
 package hu.playmaker.database.model.databank;
 
-import hu.playmaker.database.model.BaseModel;
 import hu.playmaker.database.model.system.Organization;
 
-import javax.persistence.*;
+public class Goals {
 
-
-/**
- * The persistent class for the PARAMETERS database table.
- * 
- */
-@Entity
-@Table(name="GOAL", schema="teampress")
-@NamedQueries({
-		@NamedQuery(name="Goals.findAll", query="SELECT p FROM Goals p"),
-		@NamedQuery(name="Goals.countAll", query="SELECT COUNT(p) FROM Goals p"),
-		@NamedQuery(name="Goals.findByOrg", query="SELECT p FROM Goals p WHERE p.organization = :porg AND p.liga=:pliga"),
-		@NamedQuery(name="Goals.findUni", query="SELECT p FROM Goals p WHERE p.organization = :porg AND p.liga=:pliga AND p.fordulo=:pford AND p.name=:pname"),
-		@NamedQuery(name="Goals.findForStat", query="SELECT p.name, max(p.goal) FROM Goals p WHERE p.organization = :porg AND p.liga=:pliga GROUP BY p.name")
-})
-@Cacheable(false)
-public class Goals extends BaseModel {
-	private static final long serialVersionUID = 1L;
-
-	@ManyToOne
-	@JoinColumn(name="ORG_ID")
 	private Organization organization;
-
-	@ManyToOne
-	@JoinColumn(name="LIGA_ID")
 	private Liga liga;
-
-	@Column(name="FORD", length=255)
 	private Integer fordulo;
-
-	@Column(name="HELYEZES", length=255)
 	private Integer hely;
-
-	@Column(name="NEV", length=255)
 	private String name;
-
-	@Column(name="FORD_GOAL", length=255)
 	private Integer goalInFord;
-
-	@Column(name="GOALS", length=255)
 	private Integer goal;
 
 	public Goals() {
