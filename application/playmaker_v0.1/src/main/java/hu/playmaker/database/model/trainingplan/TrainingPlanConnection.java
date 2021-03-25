@@ -10,14 +10,12 @@ import javax.persistence.*;
         @NamedQuery(name="TrainingPlanConnection.findAll", query="SELECT t FROM TrainingPlanConnection t"),
         @NamedQuery(name="TrainingPlanConnection.findById", query="SELECT t FROM TrainingPlanConnection t WHERE t.id = :pid"),
         @NamedQuery(name="TrainingPlanConnection.findByTraining", query="SELECT t FROM TrainingPlanConnection t WHERE t.trainingPlan = :pt ORDER BY t.sort ASC"),
-        @NamedQuery(name="TrainingPlanConnection.findByTrainingAndExercise", query="SELECT t FROM TrainingPlanConnection t WHERE t.trainingPlan = :pt AND t.exercise = :pe"),
         @NamedQuery(name="TrainingPlanConnection.findByTeam", query="SELECT t FROM TrainingPlanConnection t WHERE t.trainingPlan.team = :pteam AND t.trainingPlan.organization = :porg"),
         @NamedQuery(name="TrainingPlanConnection.findNextTraining", query="SELECT t FROM TrainingPlanConnection t WHERE t.trainingPlan.team = :pteam AND t.trainingPlan.organization = :porg AND t.trainingPlan.trainingDate > :pdate ORDER BY t.trainingPlan.trainingDate DESC"),
         @NamedQuery(name="TrainingPlanConnection.findByOrg", query="SELECT t FROM TrainingPlanConnection t WHERE t.trainingPlan.organization = :porg"),
         @NamedQuery(name="TrainingPlanConnection.findCount", query="SELECT count(t) FROM TrainingPlanConnection t WHERE t.createdBy = :pu AND t.trainingPlan.organization = :porg AND t.trainingPlan.trainingDate BETWEEN :pd1 AND :pd2"),
         @NamedQuery(name="TrainingPlanConnection.findMaxByOrg", query="SELECT t FROM TrainingPlanConnection t WHERE t.trainingPlan.organization = :porg ORDER BY t.creationDate ASC"),
-        @NamedQuery(name="TrainingPlanConnection.findMinByOrg", query="SELECT t FROM TrainingPlanConnection t WHERE t.trainingPlan.organization = :porg ORDER BY t.creationDate DESC"),
-        @NamedQuery(name="TrainingPlanConnection.findAllCreatedBy", query="SELECT t FROM TrainingPlanConnection t WHERE t.createdBy = :pusername")
+        @NamedQuery(name="TrainingPlanConnection.findMinByOrg", query="SELECT t FROM TrainingPlanConnection t WHERE t.trainingPlan.organization = :porg ORDER BY t.creationDate DESC")
 })
 public class TrainingPlanConnection extends BaseModel {
 
