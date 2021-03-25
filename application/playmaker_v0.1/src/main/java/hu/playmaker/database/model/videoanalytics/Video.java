@@ -12,15 +12,17 @@ import javax.persistence.*;
 @Entity
 @Table(name="VIDEO", schema="teampress")
 @NamedQueries({
-        @NamedQuery(name="Video.findAll", query="SELECT p FROM Video p where p.deleted = false"),
-        @NamedQuery(name="Video.findAllPublished", query="SELECT p FROM Video p where p.deleted = false and p.isPublic = true "),
-        @NamedQuery(name="Video.countAll", query="SELECT COUNT(p) FROM Video p"),
+        @NamedQuery(name="Video.findAll", query="SELECT p FROM Video p where p.deleted = false AND p.organization = :porg"),
+        @NamedQuery(name="Video.findAllPublished", query="SELECT p FROM Video p where p.deleted = false and p.isPublic = true AND p.organization = :porg"),
         @NamedQuery(name="Video.findById", query="SELECT p FROM Video p WHERE p.id = :pid"),
-        @NamedQuery(name="Video.findByName", query="SELECT p FROM Video p WHERE p.name=:pname"),
 })
 @Cacheable(false)
 public class Video extends BaseModel {
     private static final long serialVersionUID = 1L;
+
+    @ManyToOne
+    @JoinColumn(name="ORG_ID", nullable=false)
+    private Organization organization;
 
     @Column(name="FILENAME", length=255)
     private String fileName;
@@ -83,5 +85,13 @@ public class Video extends BaseModel {
 
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public Organization getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
     }
 }

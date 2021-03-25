@@ -1,5 +1,6 @@
 package hu.playmaker.database.service.videoanalytics;
 
+import hu.playmaker.database.model.system.Organization;
 import hu.playmaker.database.model.videoanalytics.Video;
 import hu.playmaker.database.service.BaseService;
 import org.springframework.stereotype.Service;
@@ -9,16 +10,12 @@ import java.util.List;
 @Service
 public class VideoService extends BaseService {
 
-    public List<Video> findAll(){
-        return getEntityManager().createNamedQuery("Video.findAll").getResultList();
+    public List<Video> findAll(Organization organization){
+        return getEntityManager().createNamedQuery("Video.findAll").setParameter("porg", organization).getResultList();
     }
 
-    public List<Video> findAllPublished(){
-        return getEntityManager().createNamedQuery("Video.findAllPublished").getResultList();
-    }
-
-    public Video find(String name){
-        return (Video) getEntityManager().createNamedQuery("Video.findByName").setParameter("pname",name).getResultList().get(0);
+    public List<Video> findAllPublished(Organization organization){
+        return getEntityManager().createNamedQuery("Video.findAllPublished").setParameter("porg", organization).getResultList();
     }
 
     public Video find(Integer id){

@@ -60,9 +60,9 @@ public class VideoAnalyticsController extends BaseController {
             UserOrganization userOrganization = userOrganizationService.getOrgByUser(currentUser);
             view.addObject("teamTypes", lookupCodeService.findAllLookupByLgroup(LGroups.TEAM_TYPE.name()));
             if (hasPermission(Permissions.VIDEO_ANALYTICS_EDIT)) {
-                view.addObject("data", videoService.findAll());
+                view.addObject("data", videoService.findAll(userOrganization.getOrganization()));
             } else {
-                view.addObject("data", videoService.findAllPublished());
+                view.addObject("data", videoService.findAllPublished(userOrganization.getOrganization()));
             }
             return view;
         }
@@ -73,6 +73,8 @@ public class VideoAnalyticsController extends BaseController {
     public String doSubmit(@Valid @ModelAttribute("video") VideoAnalyticsForm form) {
         if(hasPermission(Permissions.VIDEO_ANALYTICS)) {
             String uploadFolder = parameterService.findParameterByGroupAndCode("SYSTEM", "UPLOAD_FOLDER").getValue();
+            User currentUser = userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession());
+            UserOrganization userOrganization = userOrganizationService.getOrgByUser(currentUser);
             boolean isNameValid = !form.getName().trim().equals("");
             boolean isTeamValid = Objects.nonNull(form.getTeamId()) && lookupCodeService.exists(form.getTeamId());
             boolean isFileValid = !form.getVideo().isEmpty() && form.getVideo().getContentType().contains("mp4");
@@ -83,6 +85,7 @@ public class VideoAnalyticsController extends BaseController {
                     byte[] bytes = form.getVideo().getBytes();
                     Path path = Paths.get(uploadFolder+fileName);
                     Files.write(path, bytes);
+                    video.setOrganization(userOrganization.getOrganization());
                     video.setFileName(fileName);
                     video.setName(form.getName());
                     video.setTeam(lookupCodeService.find(form.getTeamId()));
