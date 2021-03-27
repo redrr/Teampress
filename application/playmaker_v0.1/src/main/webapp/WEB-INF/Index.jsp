@@ -30,7 +30,7 @@
                                     <div class="page-body">
                                         <div class="row animated fadeInUpBig">
                                             <div class="col-12 col-xl-9">
-                                                <c:if test="${sessionHandler.userHasPermission('HOME_HEADER_BUTTONS')}">
+                                                <c:if test="${sessionHandler.userHasPermission('HOME_HEADER_BUTTONS') && sessionHandler.userHasPermission('MLSZ_STATISTICS')}">
                                                     <div class="row">
                                                         <div class="col-12 col-xl-4">
                                                             <a href="/statistics/league" class="card overflow-hidden">
@@ -120,7 +120,7 @@
                                                         </div>
                                                     </div>
                                                 <div class="row">
-                                                    <div class="col-12">
+                                                    <div class="col-12 mb-5">
                                                         <div id="posts"></div>
                                                         <div class="text-center">
                                                             <button class="btn btn-soft btn-primary" onclick="nextFivePost()">Több</button>

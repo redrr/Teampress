@@ -72,13 +72,19 @@
                                                                         <div id="statBar" class="col-4">
                                                                             <div class="row">
                                                                                 <div class="col-4 text-center">
-                                                                                    <img style="max-width: 100%;height: 30px;" src="../../content/icons/map_icon.png">
+                                                                                    <c:if test="${sessionHandler.userHasPermission('MLSZ_STATISTICS')}">
+                                                                                        <img style="max-width: 100%;height: 30px;" src="../../content/icons/map_icon.png">
+                                                                                    </c:if>
                                                                                 </div>
                                                                                 <div class="col-4 text-center">
-                                                                                    <img style="max-width: 100%;height: 30px;" src='../../content/icons/shirt_icon.png'>
+                                                                                    <c:if test="${sessionHandler.userHasPermission('MLSZ_STATISTICS')}">
+                                                                                        <img style="max-width: 100%;height: 30px;" src='../../content/icons/shirt_icon.png'>
+                                                                                    </c:if>
                                                                                 </div>
                                                                                 <div class="col-4 text-center">
-                                                                                    <img style="max-width: 100%;height: 30px;" src='../../content/icons/ball_icon.png'>
+                                                                                    <c:if test="${sessionHandler.userHasPermission('MLSZ_STATISTICS')}">
+                                                                                        <img style="max-width: 100%;height: 30px;" src='../../content/icons/ball_icon.png'>
+                                                                                    </c:if>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -166,21 +172,6 @@
                                                                             </c:if>
                                                                         </td>
                                                                     </c:if>
-                                                                    <c:if test="${data.sorsolas != null}">
-                                                                        <td>${data.sorsolas.getDateAs(false)}</td>
-                                                                        <td>${data.sorsolas.liga.liga}</td>
-                                                                        <td>${data.sorsolas.hazai}</td>
-                                                                        <td>${data.sorsolas.vendeg}</td>
-                                                                        <td>${data.sorsolas.hely}</td>
-                                                                        <td>
-                                                                            <c:if test="${sessionHandler.userHasPermission('PLANNER')}">
-                                                                                <button type="button" class="btn btn-primary btn-soft" onclick="$('#planner').show();getPlayersByPlayer(0,'${data.sorsolas.liga.id}', '${data.sorsolas.hazai}', '${data.sorsolas.vendeg}', '${data.sorsolas.id}', 'sors', true);"><i class="ti-search"></i> Módosítás</button>
-                                                                            </c:if>
-                                                                            <c:if test="${!sessionHandler.userHasPermission('PLANNER')}">
-                                                                                <button type="button" class="btn btn-primary btn-soft" onclick="$('#planner').show();getPlayersByPlayer(0,'${data.sorsolas.liga.id}', '${data.sorsolas.hazai}', '${data.sorsolas.vendeg}', '${data.sorsolas.id}', 'sors', false);"><i class="ti-search"></i> Megnéz</button>
-                                                                            </c:if>
-                                                                        </td>
-                                                                    </c:if>
                                                                 </tr>
                                                             </c:forEach>
                                                             </tbody>
@@ -222,6 +213,7 @@
     </div>
     <%@include file="../include/IE.jsp" %>
     <%@include file="../include/JavaScript.jsp" %>
-    <script src="../../assets/js/play/GamePlan.js" ></script>
+    <%@include file="../include/JavaScript.jsp" %>
+    <%@include file="../../assets/js/play/GamePlanJS.jsp" %>
 </body>
 </html>

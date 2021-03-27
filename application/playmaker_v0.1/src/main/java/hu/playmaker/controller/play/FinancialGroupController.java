@@ -50,6 +50,8 @@ public class FinancialGroupController extends BaseController {
                 group = incomeGroupService.find(Integer.parseInt(id));
             } else {
                 group = new IncomeGroup();
+                Organization organization = userOrganizationService.getOrgByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession())).getOrganization();
+                group.setOrganization(organization);
                 group.setDeleted(false);
             }
             group.setName(name);
