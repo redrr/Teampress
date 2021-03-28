@@ -127,5 +127,8 @@
     </div>
     <%@include file="../include/IE.jsp" %>
     <%@include file="../include/JavaScript.jsp" %>
+    <script>
+        createDataTable($('#paymentTable'))
+    </script>
 </body>
 </html>

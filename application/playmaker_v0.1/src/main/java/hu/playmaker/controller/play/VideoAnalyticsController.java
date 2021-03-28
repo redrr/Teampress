@@ -36,12 +36,12 @@ import java.util.stream.Collectors;
 @RequestMapping("/videoanalytics")
 public class VideoAnalyticsController extends BaseController {
 
-    private UserService userService;
-    private UserOrganizationService userOrganizationService;
-    private ParameterService parameterService;
-    private VideoService videoService;
-    private AnalyticsActionService analyticsActionService;
-    private LookupCodeService lookupCodeService;
+    private final UserService userService;
+    private final UserOrganizationService userOrganizationService;
+    private final ParameterService parameterService;
+    private final VideoService videoService;
+    private final AnalyticsActionService analyticsActionService;
+    private final LookupCodeService lookupCodeService;
 
     public VideoAnalyticsController(UserService userService, UserOrganizationService userOrganizationService, ParameterService parameterService, VideoService videoService, AnalyticsActionService analyticsActionService, LookupCodeService lookupCodeService) {
         this.userService = userService;
@@ -57,12 +57,11 @@ public class VideoAnalyticsController extends BaseController {
         if(hasPermission(Permissions.VIDEO_ANALYTICS)) {
             ModelAndView view = new ModelAndView("play/VideoAnalytics", "video", new VideoAnalyticsForm());
             User currentUser = userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession());
-            UserOrganization userOrganization = userOrganizationService.getOrgByUser(currentUser);
             view.addObject("teamTypes", lookupCodeService.findAllLookupByLgroup(LGroups.TEAM_TYPE.name()));
             if (hasPermission(Permissions.VIDEO_ANALYTICS_EDIT)) {
-                view.addObject("data", videoService.findAll(userOrganization.getOrganization()));
+                view.addObject("data", videoService.findAll(userOrganizationService.getOrgListByUser(currentUser)));
             } else {
-                view.addObject("data", videoService.findAllPublished(userOrganization.getOrganization()));
+                view.addObject("data", videoService.findAllPublished(userOrganizationService.getOrgListByUser(currentUser)));
             }
             return view;
         }
@@ -77,7 +76,7 @@ public class VideoAnalyticsController extends BaseController {
             UserOrganization userOrganization = userOrganizationService.getOrgByUser(currentUser);
             boolean isNameValid = !form.getName().trim().equals("");
             boolean isTeamValid = Objects.nonNull(form.getTeamId()) && lookupCodeService.exists(form.getTeamId());
-            boolean isFileValid = !form.getVideo().isEmpty() && form.getVideo().getContentType().contains("mp4");
+            boolean isFileValid = !form.getVideo().isEmpty() && Objects.nonNull(form.getVideo().getContentType()) && form.getVideo().getContentType().contains("mp4");
             if(isNameValid && isTeamValid && isFileValid) {
                 Video video = new Video();
                 String fileName = UUID.randomUUID()+".mp4";

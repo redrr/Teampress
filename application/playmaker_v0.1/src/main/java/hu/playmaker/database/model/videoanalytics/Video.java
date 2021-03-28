@@ -12,8 +12,8 @@ import javax.persistence.*;
 @Entity
 @Table(name="VIDEO", schema="teampress")
 @NamedQueries({
-        @NamedQuery(name="Video.findAll", query="SELECT p FROM Video p where p.deleted = false AND p.organization = :porg"),
-        @NamedQuery(name="Video.findAllPublished", query="SELECT p FROM Video p where p.deleted = false and p.isPublic = true AND p.organization = :porg"),
+        @NamedQuery(name="Video.findAll", query="SELECT p FROM Video p where p.deleted = false AND p.organization = :porg AND p.team = :pteam"),
+        @NamedQuery(name="Video.findAllPublished", query="SELECT p FROM Video p where p.deleted = false and p.isPublic = true AND p.team = :pteam AND p.organization = :porg"),
         @NamedQuery(name="Video.findById", query="SELECT p FROM Video p WHERE p.id = :pid"),
 })
 @Cacheable(false)

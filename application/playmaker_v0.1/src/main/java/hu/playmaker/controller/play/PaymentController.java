@@ -27,23 +27,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 import java.util.UUID;
 
 @Controller
 @RequestMapping("/payment")
 public class PaymentController extends BaseController {
-
-    @Value("${STRIPE_PUBLIC_KEY}")
-    private String stripePublicKey;
-
-    @Value("${STRIPE_SECRET_KEY}")
-    String secretKey;
-
-    @PostConstruct
-    public void init() {
-        Stripe.apiKey = secretKey;
-    }
 
     @Autowired
     private UserService userService;
@@ -60,13 +50,25 @@ public class PaymentController extends BaseController {
     @Autowired
     private IncomeGroupConnectionService connectionService;
 
+    //@Value("${STRIPE_PUBLIC_KEY}")
+    private String stripePublicKey;
+
+    //@Value("${STRIPE_SECRET_KEY}")
+    String secretKey = "";
+
+    @PostConstruct
+    public void init() {
+        Stripe.apiKey = secretKey;
+    }
+
     @RequestMapping("")
     public ModelAndView checkout() {
         if(hasPermission(Permissions.HOME_HEADER_BUTTONS)) {
             ModelAndView view = new ModelAndView("play/Payments");
             User user = userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession());
             Organization organization = userOrganizationService.getOrgByUser(user).getOrganization();
-            view.addObject("stripePublicKey", stripePublicKey);
+            Stripe.apiKey = organization.getStripePrivateKey();
+            view.addObject("stripePublicKey", organization.getStripePublicKey());
             view.addObject("info", "");
             view.addObject("records", paymentRequestService.findByOrg(organization, user));
             return view;
@@ -76,15 +78,16 @@ public class PaymentController extends BaseController {
 
     @RequestMapping(value = "/pay", method = RequestMethod.POST)
     @ResponseBody
-    public String charge(@RequestParam("id") String id) throws StripeException, JSONException {
+    public String charge(@RequestParam("id") String id, HttpServletRequest httpServletRequest) throws StripeException, JSONException {
         if(hasPermission(Permissions.HOME_HEADER_BUTTONS)) {
             PaymentRequest request = paymentRequestService.find(Integer.valueOf(id));
+            String baseURL = httpServletRequest.getRequestURL().delete((httpServletRequest.getRequestURL().toString().length()-httpServletRequest.getRequestURI().length()), httpServletRequest.getRequestURL().toString().length()).toString();
             SessionCreateParams params =
                 SessionCreateParams.builder()
                     .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
                     .setMode(SessionCreateParams.Mode.PAYMENT)
-                    .setSuccessUrl("http://localhost:8080/payment/success/"+id)
-                    .setCancelUrl("http://localhost:8080/payment/cancel")
+                    .setSuccessUrl(baseURL + "/payment/success/" + id)
+                    .setCancelUrl(baseURL + "/payment/cancel")
                     .addLineItem(
                         SessionCreateParams.LineItem.builder()
                             .setQuantity(1L)

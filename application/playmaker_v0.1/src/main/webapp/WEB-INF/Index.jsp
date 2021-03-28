@@ -104,9 +104,9 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-1 col-2">
-                                                                            <div class="btn btn-default btn-icon image-upload" style="padding: 0;padding-top: 5px; margin-top: 4px;padding-left: 3px">
-                                                                                <label class="cr-pointer" for="file-input" style="margin: 0">
-                                                                                    <i style="font-size: 25px; margin: 0" class="icofont icofont-image text-muted"></i>
+                                                                            <div class="btn btn-inverse btn-icon image-upload" style="padding: 0;padding-top: 5px; margin-top: 4px;padding-left: 3px">
+                                                                                <label class="cr-pointer mt-1" for="file-input" style="margin: 0">
+                                                                                    <i style="font-size: 25px; margin: 0" class="icofont icofont-image"></i>
                                                                                 </label>
                                                                                 <f:input id="file-input" type="file" path="file"/>
                                                                             </div>

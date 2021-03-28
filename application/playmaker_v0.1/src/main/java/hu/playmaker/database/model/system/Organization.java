@@ -36,6 +36,12 @@ public class Organization extends BaseModel {
 	@Column(name = "DATABANK_URL")
 	private String url;
 
+	@Column(name = "PUBLIC_KEY")
+	private String stripePublicKey;
+
+	@Column(name = "PRIVATE_KEY")
+	private String stripePrivateKey;
+
 	//bi-directional many-to-one association to OrgCountry
 	@OneToMany(mappedBy="organization")
 	private Set<OrgCountry> orgCountries;
@@ -129,7 +135,23 @@ public class Organization extends BaseModel {
 		return null;
     }
 
-    @Override
+	public String getStripePublicKey() {
+		return stripePublicKey;
+	}
+
+	public void setStripePublicKey(String stripePublicKey) {
+		this.stripePublicKey = stripePublicKey;
+	}
+
+	public String getStripePrivateKey() {
+		return stripePrivateKey;
+	}
+
+	public void setStripePrivateKey(String stripePrivateKey) {
+		this.stripePrivateKey = stripePrivateKey;
+	}
+
+	@Override
 	public boolean equals(Object object) {
 		if (!(object instanceof Organization))
 			return false;

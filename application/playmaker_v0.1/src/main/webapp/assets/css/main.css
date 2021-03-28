@@ -223,3 +223,12 @@ ul#exerciseHolder {
     max-height: 200px!important;
     overflow-y: auto!important;
 }
+
+span.badge {
+    border-radius: 16px;
+    padding: 6px 14px;
+}
+
+.badge-success {
+    background-color: #1abc9c;
+}
