@@ -2,60 +2,71 @@
 <%@include file="../include/JSTL.jsp" %>
 <html>
     <head>
-        <%@include file="../include/Head.jsp" %>
+        <title>Teampress | Értesítések</title>
+        <%@include file="../include/Css.jsp" %>
     </head>
     <body>
-        <%@include file="../include/Sidebar.jsp" %>
-        <div class="c-wrapper c-fixed-components">
-            <%@include file="../include/Header.jsp" %>
-            <div class="c-body">
-                <main class="c-main">
-                    <div class="container-fluid">
-                        <div class="ui-view">
-                            <div class="fade-in">
-                                <c:if test="${sessionHandler.userHasPermission('ADMIN')}">
-                                    <div class="row">
-                                        <div class="card col-12">
-                                            <div class="card-header">
-                                                <h4 class="card-title">Értesítések</h4>
-                                            </div>
-                                            <div class="card-body">
-                                                <table id="table" class="table table-striped table-bordered" style="width:100%">
-                                                    <thead>
-                                                    <tr>
-                                                        <th>#</th>
-                                                        <th>Felhasználó</th>
-                                                        <th>Átirányítás</th>
-                                                        <th>Cím</th>
-                                                        <th>Leírás</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <c:forEach var="data" items="${datas}">
-                                                        <tr>
-                                                            <td>${data.id}</td>
-                                                            <td>${data.user.username}</td>
-                                                            <td>${data.location}</td>
-                                                            <td>${data.title}</td>
-                                                            <td>${data.description}</td>
-                                                        </tr>
-                                                    </c:forEach>
-                                                    </tbody>
-                                                    <tfoot>
-                                                    </tfoot>
-                                                </table>
-                                            </div>
+        <%@include file="../include/Loader.jsp" %>
+        <div id="pcoded" class="pcoded">
+            <div class="pcoded-overlay-box"></div>
+            <div class="pcoded-container navbar-wrapper">
+                <%@include file="../include/Header2.jsp" %>
+                <div class="pcoded-main-container">
+                    <div class="pcoded-wrapper">
+                        <%@include file="../include/Sidebar2.jsp" %>
+                        <div class="pcoded-content" style="overflow-y: scroll; top:4em">
+                            <div class="pcoded-inner-content">
+                                <div class="main-body">
+                                    <div class="page-wrapper">
+                                        <div class="page-body">
+                                            <c:if test="${sessionHandler.userHasPermission('ADMIN')}">
+                                                <div class="row animated fadeInUpBig">
+                                                    <div class="col-12">
+                                                        <div class="card">
+                                                            <div class="card-header">
+                                                                <h4 class="card-title">Értesítések</h4>
+                                                            </div>
+                                                            <div class="card-body">
+                                                                <table id="table" class="table table-striped table-bordered" style="width:100%">
+                                                                    <thead>
+                                                                    <tr>
+                                                                        <th>#</th>
+                                                                        <th>Felhasználó</th>
+                                                                        <th>Átirányítás</th>
+                                                                        <th>Cím</th>
+                                                                        <th>Leírás</th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    <c:forEach var="data" items="${datas}">
+                                                                        <tr>
+                                                                            <td>${data.id}</td>
+                                                                            <td>${data.user.name}</td>
+                                                                            <td>${data.location}</td>
+                                                                            <td>${data.title}</td>
+                                                                            <td>${data.description}</td>
+                                                                        </tr>
+                                                                    </c:forEach>
+                                                                    </tbody>
+                                                                    <tfoot>
+                                                                    </tfoot>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </c:if>
                                         </div>
                                     </div>
-                                </c:if>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </main>
+                </div>
             </div>
-            <%@include file="../include/Footer.jsp" %>
-            <%@include file="../include/Js.jsp" %>
-            <script src="<c:url value="/assets/js/admin/Notification.js"/>"></script>
         </div>
+        <%@include file="../include/IE.jsp" %>
+        <%@include file="../include/JavaScript.jsp" %>
+        <script src="<c:url value="/assets/js/admin/Notification.js"/>"></script>
     </body>
 </html>

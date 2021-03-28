@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/wk/workout")
+@RequestMapping("/train/workout")
 public class AWorkoutController extends BaseController {
 
     private WorkoutService workoutService;

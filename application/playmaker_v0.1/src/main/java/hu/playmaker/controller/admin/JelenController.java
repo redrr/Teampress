@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/wk/jelen")
+@RequestMapping("/train/jelen")
 public class JelenController extends BaseController {
 
     private AttendanceService attendanceService;
