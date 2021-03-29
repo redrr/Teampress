@@ -272,7 +272,7 @@ public class IndexController extends BaseController {
     @RequestMapping(method = RequestMethod.POST, value = "/home/getposts")
     @ResponseBody
     public String getPosts(@RequestParam Integer offset) {
-        if(hasPermission(Permissions.LOGGED_IN)) {
+        if(hasPermission(Permissions.LOGGED_IN) && !hasPermission(Permissions.ADMIN)) {
             JSONArray array = new JSONArray();
             User currentUser = userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession());
             Organization organization = userOrganizationService.getOrgByUser(currentUser).getOrganization();

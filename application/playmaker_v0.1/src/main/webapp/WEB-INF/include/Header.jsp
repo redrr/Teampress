@@ -1,53 +1,80 @@
 <!-- Header file that gets rendered on every page.-->
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<header class="c-header c-header-light c-header-fixed">
-    <button class="c-header-toggler c-class-toggler d-lg-none mfe-auto" type="button" data-target="#sidebar" data-class="c-sidebar-show">
-        <i class="c-icon c-icon-lg cil-menu"></i>
-    </button>
-    <button class="c-header-toggler c-class-toggler mfs-3 d-md-down-none" type="button" data-target="#sidebar" data-class="c-sidebar-lg-show" responsive="true">
-        <i class="c-icon c-icon-lg cil-menu"></i>
-    </button>
-    <ul class="c-header-nav ml-auto mr-4">
-        <c:if test="${not empty sessionHandler.getUsernameFromCurrentSession()}">
-            <li class="c-header-nav-item dropdown d-md-down-none mx-2 show">
-                <a class="c-header-nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
-                    <i class="c-icon c-icon-lg cil-bell"></i>
-                    <span id="notiCounter" class="badge badge-pill badge-danger"></span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg pt-0" style="min-width:400px">
-                    <div class="dropdown-header bg-light">
-                        <strong>Értesítések</strong>
-                    </div>
-                    <div id="notiList">
+<nav class="navbar header-navbar pcoded-header" header-theme="theme4" style="position: fixed;top: 0;z-index: 800">
+    <div class="navbar-wrapper">
+        <div class="navbar-logo">
+            <a class="mobile-menu" id="mobile-collapse" href="#!">
+                <i class="ti-menu"></i>
+            </a>
+            <a class="mobile-search morphsearch-search" href="#">
+                <i class="ti-search"></i>
+            </a>
+            <a href="/" style="height: 100%">
+                <img style="height: 100%" class="img-fluid" src="../../assets/vendor/assets/images/logo.png" alt="Theme-Logo" />
+            </a>
+            <a class="mobile-options">
+                <i class="ti-more"></i>
+            </a>
+        </div>
+        <div class="navbar-container container-fluid">
+            <div>
+                <ul class="nav-left">
+                    <li>
+                        <div class="sidebar_toggle"><a href="javascript:void(0)"><i class="ti-menu"></i></a></div>
+                    </li>
+                </ul>
+                <ul class="nav-right">
+                    <li class="header-notification">
+                        <a href="">
+                            <i class="ti-bell"></i>
+                            <b id="notiCounter" class="badge"></b>
+                        </a>
+                        <ul id="notiList" class="show-notification"></ul>
+                    </li>
+                    <li class="user-profile header-notification cr-pointer">
+                        <a>
+                            <img id="useravatar" class="img-circle" src="../assets/vendor/assets/images/user.png" alt="User-Profile-Image">
+                            <span id="profile-name">User</span>
+                            <i class="ti-angle-down"></i>
+                        </a>
+                        <ul class="show-notification profile-notification">
+                            <li>
+                                <a href="/profile">
+                                    <i class="ti-user"></i> Profile
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/logout">
+                                    <i class="ti-layout-sidebar-left"></i> Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+<style>
+    #notiList::-webkit-scrollbar, html::-webkit-scrollbar, ul#exerciseHolder::-webkit-scrollbar, #teamPlayers::-webkit-scrollbar, #actionsHolder::-webkit-scrollbar, #trainingModalBody::-webkit-scrollbar {
+        width: 12px!important;               /* width of the entire scrollbar */
+    }
 
-                    </div>
-                </div>
-            </li>
-            <li class="c-header-nav-item dropdown">
-                <a class="c-header-nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                    <div class="c-avatar">
-                        <img src="" class="c-avatar-img" alt="user avatar" id="useravatar" style="width: 35px;height: 35px;">
-                    </div>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right pt-0">
-                    <div class="dropdown-header bg-light py-2">
-                        <strong>Fiók</strong>
-                    </div>
-                    <a class="dropdown-item" href="/profile">
-                        <i class="c-icon mr-2 cil-cog"></i>
-                        <span>Profil</span>
-                    </a>
-                    <a class="dropdown-item" href="<c:url value="/logout"/>" data-toggle="modal" data-target="#logoutModal">
-                        <i class="c-icon mr-2 cil-power-standby"></i>
-                        <span>Kijelentkezés</span>
-                    </a>
-                </div>
-            </li>
-        </c:if>
-    </ul>
-</header>
+    #notiList::-webkit-scrollbar-track, html::-webkit-scrollbar-track, ul#exerciseHolder::-webkit-scrollbar-track, #teamPlayers::-webkit-scrollbar-track, #actionsHolder::-webkit-scrollbar-track, #trainingModalBody::-webkit-scrollbar-track {
+        background: rgba(0,0,0,.15)!important;        /* color of the tracking area */
+    }
+
+    #notiList::-webkit-scrollbar-thumb, html::-webkit-scrollbar-thumb, ul#exerciseHolder::-webkit-scrollbar-thumb, #teamPlayers::-webkit-scrollbar-thumb, #actionsHolder::-webkit-scrollbar-thumb, #trainingModalBody::-webkit-scrollbar-thumb {
+        background-color: #8D949E!important;    /* color of the scroll thumb */
+        border-radius: 20px!important; /* roundness of the scroll thumb */
+        transition: 3s!important;
+    }
+
+    #notiList::-webkit-scrollbar-thumb:hover, html::-webkit-scrollbar-thumb:hover, ul#exerciseHolder::-webkit-scrollbar-thumb:hover, #teamPlayers::-webkit-scrollbar-thumb:hover, #actionsHolder::-webkit-scrollbar-thumb:hover, #trainingModalBody::-webkit-scrollbar-thumb:hover {
+        background-color: #6c757d!important;    /* color of the scroll thumb */
+        transition: 3s!important;
+    }
+</style>
 <%@include file="TrainerRating.jsp" %>
-<%@include file="Logout.jsp" %>
 <noscript>
     <div id="wrapper">
         <div class="container">

@@ -21,12 +21,32 @@ function handleMenu() {
 }
 
 function createDataTable(table) {
-    table.DataTable({
+    let search = '<tr>';
+    $('#'+table+' thead th').each(function () {
+        search += '<th><input class="form-control" type="text"/></th>'
+    });
+    search += '</tr>'
+    $('#'+table+' tfoot').html(search);
+    $('#'+table+'').DataTable({
         ordering : true,
         searching : true,
         responsive : true,
         language: {
             url: 'https://cdn.datatables.net/plug-ins/1.10.24/i18n/Hungarian.json'
+        },
+        initComplete: function () {
+            // Apply the search
+            this.api().columns().every( function () {
+                var that = this;
+
+                $( 'input', this.footer() ).on( 'keyup change clear', function () {
+                    if ( that.search() !== this.value ) {
+                        that
+                            .search( this.value )
+                            .draw();
+                    }
+                } );
+            } );
         }
     });
 }

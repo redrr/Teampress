@@ -10,10 +10,10 @@
 <div id="pcoded" class="pcoded">
     <div class="pcoded-overlay-box"></div>
     <div class="pcoded-container navbar-wrapper">
-        <%@include file="../include/Header2.jsp" %>
+        <%@include file="../include/Header.jsp" %>
         <div class="pcoded-main-container">
             <div class="pcoded-wrapper">
-                <%@include file="../include/Sidebar2.jsp" %>
+                <%@include file="../include/Sidebar.jsp" %>
                 <div class="pcoded-content" style="overflow-y: scroll; top:4em">
                     <div class="pcoded-inner-content">
                         <div class="main-body">

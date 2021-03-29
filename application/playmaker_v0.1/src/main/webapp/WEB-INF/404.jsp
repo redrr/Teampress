@@ -9,7 +9,7 @@
 <%@include file="include/JSTL.jsp" %>
 <html>
 <head>
-    <%@include file="include/Head.jsp" %>
+    <%@include file="include/Css.jsp" %>
 </head>
 <body class="c-app flex-row align-items-center">
 
