@@ -1,7 +1,7 @@
 $(document).ready(function () {
     $().ready(function () {
-        createDataTable($('#requestTable'));
-        createDataTable($('#stateTable'));
+        createDataTable('requestTable');
+        createDataTable('stateTable');
     });
 });
 

@@ -31,8 +31,8 @@ $(document).ready(function() {
             clear: "ti-trash"
         }
     });
-    createDataTable($('#OwnerTrainingsTable'));
-    createDataTable($('#trainingsTable'));
+    createDataTable('OwnerTrainingsTable');
+    createDataTable('trainingsTable');
     createDataTablePlus($('#trainingPlanTable'), {ordering : true, searching : true, responsive : true, order: [[ 0, 'asc' ]]});
     const rangevalue = $('.rangevalue');
     const range = $('#range');

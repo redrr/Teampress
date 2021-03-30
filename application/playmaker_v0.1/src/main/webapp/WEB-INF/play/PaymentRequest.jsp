@@ -94,7 +94,7 @@
                                                                 <th>Tranzakciós csoport azonosító</th>
                                                                 <th>Név</th>
                                                                 <th>Érték</th>
-                                                                <th></th>
+                                                                <th search="disabled"></th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>
@@ -128,7 +128,7 @@
     <%@include file="../include/IE.jsp" %>
     <%@include file="../include/JavaScript.jsp" %>
     <script>
-        createDataTable($('#paymentTable'))
+        createDataTable('paymentTable')
     </script>
 </body>
 </html>

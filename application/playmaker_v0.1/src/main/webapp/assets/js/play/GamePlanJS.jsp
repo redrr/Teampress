@@ -8,9 +8,9 @@
         width = 550;
         height = 800;
         $('#planner').hide();
-        createDataTable($('#sorsolasTable'));
-        createDataTable($('#customTable'));
-        createDataTable($('#completeTable'));
+        createDataTable('sorsolasTable');
+        createDataTable('customTable');
+        createDataTable('completeTable');
     });
 
     //region setup Map

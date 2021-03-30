@@ -3,7 +3,7 @@ let sortable;
 
 $(document).ready(function () {
     $().ready(function () {
-        createDataTable($('#trainingPlanTable'));
+        createDataTable('trainingPlanTable');
         $('#date').datetimepicker({
             format: 'YYYY/MM/DD/HH:mm',
             locale: 'hu',

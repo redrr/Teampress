@@ -79,7 +79,7 @@
                                                                         <th>Csoport</th>
                                                                         <th>Kód</th>
                                                                         <th>Leírás</th>
-                                                                        <th></th>
+                                                                        <th search="disabled"></th>
                                                                     </tr>
                                                                     </thead>
                                                                     <tbody>

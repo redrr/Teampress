@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $().ready(function () {
-        createDataTable($('#exerciseTable'));
+        createDataTable('exerciseTable');
         handleEnter('form');
     });
 });

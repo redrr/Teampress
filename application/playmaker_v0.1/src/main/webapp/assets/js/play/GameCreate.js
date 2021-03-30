@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $().ready(function () {
-        createDataTable($('#table'));
+        createDataTable('table');
         $('#date').datetimepicker({
             format: 'YYYY/MM/DD/HH:mm',
             locale: 'hu',

@@ -102,7 +102,7 @@
                                                                 <th>Csoport</th>
                                                                 <th>Érték</th>
                                                                 <th>Nap</th>
-                                                                <th></th>
+                                                                <th search="disabled"></th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>

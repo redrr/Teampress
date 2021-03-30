@@ -71,7 +71,7 @@
                                                                 <th>Név</th>
                                                                 <th>Típus</th>
                                                                 <th>URL</th>
-                                                                <th></th>
+                                                                <th search="disabled"></th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>

@@ -115,7 +115,7 @@
                                                                 <th>Időpont</th>
                                                                 <th>Csapat</th>
                                                                 <c:if test="${sessionHandler.userHasPermission('TRAIN_CREATE')}">
-                                                                    <th></th>
+                                                                    <th search="disabled"></th>
                                                                 </c:if>
                                                             </tr>
                                                             </thead>

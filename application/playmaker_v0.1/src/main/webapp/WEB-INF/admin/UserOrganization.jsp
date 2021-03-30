@@ -103,7 +103,7 @@
                                                                 <th>Egyesület</th>
                                                                 <th>Csapat</th>
                                                                 <th>Liga</th>
-                                                                <th></th>
+                                                                <th search="disabled"></th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>

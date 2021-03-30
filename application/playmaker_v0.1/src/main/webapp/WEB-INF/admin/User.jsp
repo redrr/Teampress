@@ -116,7 +116,7 @@
                                                                 <th>Email cím</th>
                                                                 <th>Telefon szám</th>
                                                                 <th>Profil link</th>
-                                                                <th></th>
+                                                                <th search="disabled"></th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>

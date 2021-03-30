@@ -2,7 +2,7 @@ let stripe;
 
 $(document).ready(function () {
     $().ready(function () {
-        createDataTable($('#paymentTable'));
+        createDataTable('paymentTable');
         stripe = Stripe(stripeKey);
     });
 });

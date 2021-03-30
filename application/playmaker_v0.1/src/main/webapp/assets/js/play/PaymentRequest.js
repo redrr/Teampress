@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $().ready(function () {
-        createDataTable($('#paymentTable'));
+        createDataTable('paymentTable');
         handleEnter('form');
     });
 });

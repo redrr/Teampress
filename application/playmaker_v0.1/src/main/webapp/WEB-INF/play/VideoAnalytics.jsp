@@ -154,7 +154,7 @@
                                                                 <c:if test="${sessionHandler.userHasPermission('VIDEO_ANALYTICS_EDIT')}">
                                                                     <th>Státusz</th>
                                                                 </c:if>
-                                                                <th></th>
+                                                                <th search="disabled"></th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>

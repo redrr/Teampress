@@ -10,7 +10,7 @@ var actionsId = [];
 
 $(document).ready(function () {
     $().ready(function () {
-        createDataTable($('#table'));
+        createDataTable('table');
         const video = $('#video')[0];
         video.oncanplay = function() {
             video.width = $('#videoHolder').width();

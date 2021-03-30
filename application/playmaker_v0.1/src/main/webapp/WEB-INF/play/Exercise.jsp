@@ -84,7 +84,7 @@
                                                             <tr>
                                                                 <th>Név</th>
                                                                 <th>Típus</th>
-                                                                <th></th>
+                                                                <th search="disabled"></th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>

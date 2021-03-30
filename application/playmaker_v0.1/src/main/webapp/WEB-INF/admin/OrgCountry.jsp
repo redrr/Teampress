@@ -105,7 +105,7 @@
                                                                 <th>Város</th>
                                                                 <th>Utca</th>
                                                                 <th>Utca2</th>
-                                                                <th></th>
+                                                                <th search="disabled"></th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>

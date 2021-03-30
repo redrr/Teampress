@@ -20,14 +20,21 @@ function handleMenu() {
     }
 }
 
-function createDataTable(table) {
+function createDataTable(tableId) {
     let search = '<tr>';
-    $('#'+table+' thead th').each(function () {
-        search += '<th><input class="form-control" type="text"/></th>'
+    $('#'+tableId+' thead th').each(function () {
+        let searchAttr = $(this).attr('search');
+        if (searchAttr !== 'disabled') {
+            if (searchAttr === undefined) {
+                search += '<th><input class="form-control" type="text"/></th>';
+            } else  {
+                search += '<th><input class="form-control" type="'+searchAttr+'"/></th>';
+            }
+        }
     });
     search += '</tr>'
-    $('#'+table+' tfoot').html(search);
-    $('#'+table+'').DataTable({
+    $('#'+tableId+' tfoot').html(search);
+    $('#'+tableId+'').DataTable({
         ordering : true,
         searching : true,
         responsive : true,

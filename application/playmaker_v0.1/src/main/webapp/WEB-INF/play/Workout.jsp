@@ -75,7 +75,7 @@
                                                             <tr>
                                                                 <th>Időpont</th>
                                                                 <th>Csapat</th>
-                                                                <th></th>
+                                                                <th search="disabled"></th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>
@@ -112,7 +112,7 @@
                                                                 <th>Csapat</th>
                                                                 <th>Edző</th>
                                                                 <th>Státusz</th>
-                                                                <th></th>
+                                                                <th search="disabled"></th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>
@@ -158,8 +158,8 @@
                                                                 <th>Csapat</th>
                                                                 <th>Edző</th>
                                                                 <th>Státusz</th>
-                                                                <th>Játékos</th>
-                                                                <th></th>
+                                                                <th search="disabled">Játékos</th>
+                                                                <th search="disabled"></th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>

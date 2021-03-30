@@ -107,7 +107,7 @@
                                                                         <th>Attr3</th>
                                                                         <th>Attr4</th>
                                                                         <th>Attr5</th>
-                                                                        <th></th>
+                                                                        <th search="disabled"></th>
                                                                     </tr>
                                                                     </thead>
                                                                     <tbody>

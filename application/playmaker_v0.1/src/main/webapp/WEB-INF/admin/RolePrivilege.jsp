@@ -77,7 +77,7 @@
                                                                 <th>#</th>
                                                                 <th>Szerepkör</th>
                                                                 <th>Jogosultság</th>
-                                                                <th></th>
+                                                                <th search="disabled"></th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>

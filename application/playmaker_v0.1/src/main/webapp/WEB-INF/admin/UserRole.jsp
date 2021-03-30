@@ -77,7 +77,7 @@
                                                                 <th>#</th>
                                                                 <th>Felhasználó</th>
                                                                 <th>Szerepkör</th>
-                                                                <th></th>
+                                                                <th search="disabled"></th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>
