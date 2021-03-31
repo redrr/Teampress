@@ -21,6 +21,7 @@
                                     <div class="page-wrapper">
                                         <div class="page-body">
                                             <div class="row animated fadeInUpBig">
+                                                <!-- Normal layout-->
                                                 <c:if test="${!sessionHandler.userHasPermission('ADMIN')}">
                                                     <div class="col-12 col-xl-9">
                                                         <c:if test="${sessionHandler.userHasPermission('HOME_HEADER_BUTTONS') && sessionHandler.userHasPermission('MLSZ_STATISTICS')}">
@@ -155,6 +156,143 @@
                                                         </c:if>
                                                     </div>
                                                 </c:if>
+                                                <!-- Admin layout-->
+                                                <c:if test="${sessionHandler.userHasPermission('ADMIN')}">
+                                                    <div class="col-lg-12 col-xl-6 mx-auto">
+                                                        <div class="card">
+                                                            <div class="card-body">
+                                                                <!-- Nav tabs -->
+                                                                <ul class="nav nav-tabs md-tabs" role="tablist">
+                                                                    <li class="nav-item w-50">
+                                                                        <a class="nav-link active" data-toggle="tab" href="#club" role="tab">Egyesületi adatok</a>
+                                                                        <div class="slide w-50"></div>
+                                                                    </li>
+                                                                    <li class="nav-item w-50">
+                                                                        <a class="nav-link" data-toggle="tab" href="#user" role="tab">Felhasználó importálás</a>
+                                                                        <div class="slide w-50"></div>
+                                                                    </li>
+                                                                </ul>
+                                                                <!-- Tab panes -->
+                                                                <div class="tab-content card-block">
+                                                                    <div class="tab-pane active" id="club" role="tabpanel">
+                                                                        <div class="form-horizontal">
+                                                                            <div class="row">
+                                                                                <div class="col-12">
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-12 col-md-4 col-form-label" for="teamType">Sportág</label>
+                                                                                        <div class="col-12 col-md-8 col-form-label">
+                                                                                            <select id="teamType" class="form-control">
+                                                                                                <option value="football">Labdarugás</option>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-12 col-md-4 col-form-label" for="shortName">Rövid név</label>
+                                                                                        <div class="col-12 col-md-8 col-form-label">
+                                                                                            <input id="shortName" type="text" class="form-control"/>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-12 col-md-4 col-form-label" for="longName">Teljes név</label>
+                                                                                        <div class="col-12 col-md-8 col-form-label">
+                                                                                            <input id="longName" type="text" class="form-control"/>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-12 col-md-4 col-form-label" for="country">Ország</label>
+                                                                                        <div class="col-12 col-md-8 col-form-label">
+                                                                                            <input id="country" type="text" class="form-control"/>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-12 col-md-4 col-form-label" for="city">Város</label>
+                                                                                        <div class="col-12 col-md-8 col-form-label">
+                                                                                            <input id="city" type="text" class="form-control"/>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-12 col-md-4 col-form-label" for="postCode">Irányító szám</label>
+                                                                                        <div class="col-12 col-md-8 col-form-label">
+                                                                                            <input id="postCode" type="text" class="form-control"/>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-12 col-md-4 col-form-label" for="street1">Utca 1</label>
+                                                                                        <div class="col-12 col-md-8 col-form-label">
+                                                                                            <input id="street1" type="text" class="form-control"/>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-12 col-md-4 col-form-label" for="street2">Utca 2</label>
+                                                                                        <div class="col-12 col-md-8 col-form-label">
+                                                                                            <input id="street2" type="text" class="form-control"/>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-12 col-md-4 col-form-label" for="publicKey">Stripe publikus kulcs</label>
+                                                                                        <div class="col-12 col-md-8 col-form-label">
+                                                                                            <input id="publicKey" type="text" class="form-control"/>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-12 col-md-4 col-form-label" for="privateKey">Stripe privát kulcs</label>
+                                                                                        <div class="col-12 col-md-8 col-form-label">
+                                                                                            <input id="privateKey" type="text" class="form-control"/>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <button class="btn btn-primary btn-soft" onclick="saveClub()" >Mentés</button>
+                                                                                    <a class="btn btn-secondary btn-soft" href="/">Mégse</a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="tab-pane" id="user" role="tabpanel">
+                                                                        <f:form id="form" class="form-horizontal" name='f' htmlEscape="true" action='/import/team' method='POST' modelAttribute="data" enctype="multipart/form-data">
+                                                                            <div class="form-group row">
+                                                                                <label class="col-md-4 col-form-label" for="org-input">Egyesület</label>
+                                                                                <div class="col-md-8 col-form-label">
+                                                                                    <f:select id="org-input" type="text" path="organizationId" name="team-input" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
+                                                                                        <c:forEach var="org" items="${organizations}">
+                                                                                            <f:option value="${org.id}">${org.name}</f:option>
+                                                                                        </c:forEach>
+                                                                                    </f:select>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group row">
+                                                                                <label class="col-md-4 col-form-label" for="team-input">Csapat</label>
+                                                                                <div class="col-md-8 col-form-label">
+                                                                                    <f:select id="team-input" type="text" path="teamId" name="team-input" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
+                                                                                        <c:forEach var="team" items="${teams}">
+                                                                                            <f:option value="${team.id}">${team.code}</f:option>
+                                                                                        </c:forEach>
+                                                                                    </f:select>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group row">
+                                                                                <label class="col-md-4 col-form-label" for="team-input">Felhasználók típusa</label>
+                                                                                <div class="col-md-8 col-form-label">
+                                                                                    <f:select id="team-input" type="text" path="role" name="team-input" cssClass="selectpicker show-tick" data-size="5" data-live-search="true">
+                                                                                        <c:forEach var="role" items="${roles}">
+                                                                                            <f:option value="${role.name()}">${role.name()}</f:option>
+                                                                                        </c:forEach>
+                                                                                    </f:select>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group row">
+                                                                                <label class="col-md-4 col-form-label" for="file-input">Excel feltöltése</label>
+                                                                                <div class="col-md-8 col-form-label">
+                                                                                    <f:input id="file-input" type="file" path="data" name="file-input"/>
+                                                                                </div>
+                                                                            </div>
+                                                                            <button class="btn btn-primary btn-soft" type="submit" >Mentés</button>
+                                                                            <a class="btn btn-secondary btn-soft" href="/">Mégse</a>
+                                                                        </f:form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </c:if>
                                             </div>
                                         </div>
                                     </div>
@@ -167,5 +305,35 @@
         </div>
         <%@include file="include/IE.jsp" %>
         <%@include file="include/JavaScript.jsp" %>
+        <script>
+            function saveClub() {
+                let teamType = $('#teamType').val();
+                let shortName = $('#shortName').val();
+                let longName = $('#longName').val();
+                let country = $('#country').val();
+                let city = $('#city').val();
+                let postCode = $('#postCode').val();
+                let street1 = $('#street1').val();
+                let street2 = $('#street2').val();
+                let publicKey = $('#publicKey').val();
+                let privateKey = $('#privateKey').val();
+                $.post("/import/club",
+                    {
+                        teamType        :   teamType,
+                        shortName       :   shortName,
+                        longName        :   longName,
+                        country         :   country,
+                        city            :   city,
+                        postCode        :   postCode,
+                        street1         :   street1,
+                        street2         :   street2,
+                        publicKey       :   publicKey,
+                        privateKey      :   privateKey
+                    },function (resp) {
+
+                    }
+                )
+            }
+        </script>
     </body>
 </html>

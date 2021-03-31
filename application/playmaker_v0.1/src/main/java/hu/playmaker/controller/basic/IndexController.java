@@ -1,6 +1,8 @@
 package hu.playmaker.controller.basic;
 
+import hu.playmaker.common.LGroups;
 import hu.playmaker.common.Permissions;
+import hu.playmaker.common.Roles;
 import hu.playmaker.common.template.PlayerHeaderTmp;
 import hu.playmaker.common.template.SorsolasHeaderTmp;
 import hu.playmaker.controller.BaseController;
@@ -13,6 +15,7 @@ import hu.playmaker.database.service.index.UserPostService;
 import hu.playmaker.database.service.system.*;
 import hu.playmaker.database.service.trainingplan.TrainingPlanService;
 import hu.playmaker.database.service.workout.AttendanceService;
+import hu.playmaker.form.DataImportForm;
 import hu.playmaker.form.IndexForm;
 import hu.playmaker.handler.SessionHandler;
 import org.apache.commons.collections4.map.LinkedMap;
@@ -45,8 +48,10 @@ public class IndexController extends BaseController {
     private TrainingPlanService trainingPlanService;
     private OrgCountryService orgCountryService;
     private ParameterService parameterService;
+    private OrganizationService organizationService;
+    private LookupCodeService lookupCodeService;
 
-    public IndexController(UserService userService, UserOrganizationService userOrganizationService, UserPostService userPostService, UserPostCommentService userPostCommentService, AttendanceService attendanceService, UserNotificationService notificationService, TrainerRatingService trainerRatingService, TrainerRatingResultService trainerRatingResultService, TrainingPlanService trainingPlanService, OrgCountryService orgCountryService, ParameterService parameterService) {
+    public IndexController(UserService userService, UserOrganizationService userOrganizationService, UserPostService userPostService, UserPostCommentService userPostCommentService, AttendanceService attendanceService, UserNotificationService notificationService, TrainerRatingService trainerRatingService, TrainerRatingResultService trainerRatingResultService, TrainingPlanService trainingPlanService, OrgCountryService orgCountryService, ParameterService parameterService, OrganizationService organizationService, LookupCodeService lookupCodeService) {
         this.userService = userService;
         this.userOrganizationService = userOrganizationService;
         this.userPostService = userPostService;
@@ -58,6 +63,8 @@ public class IndexController extends BaseController {
         this.trainingPlanService = trainingPlanService;
         this.orgCountryService = orgCountryService;
         this.parameterService = parameterService;
+        this.organizationService = organizationService;
+        this.lookupCodeService = lookupCodeService;
     }
 
     @RequestMapping("/redirect")
@@ -75,6 +82,13 @@ public class IndexController extends BaseController {
         if(hasPermission(Permissions.LOGGED_IN)) {
             ModelAndView view;
             UserOrganization uOrg;
+            if (hasPermission(Permissions.ADMIN)) {
+                view = new ModelAndView("Index", "data", new DataImportForm());
+                view.addObject("organizations", organizationService.findAll());
+                view.addObject("teams", lookupCodeService.findAllLookupByLgroup(LGroups.TEAM_TYPE.name()));
+                view.addObject("roles", Roles.values());
+                return view;
+            }
             if(hasPermission(Permissions.POST_COMMENT_CREATE)) {
                 view = new ModelAndView("Index", "createPost", new IndexForm());
             } else {

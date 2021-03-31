@@ -49,16 +49,16 @@ public class User extends BaseModel {
 	private String url;
 
 	@Column(name="DELETED", nullable=false)
-	private boolean deleted;
+	private boolean deleted = false;
 
 	@Column(name="ENABLED", nullable=false)
-	private boolean enabled;
+	private boolean enabled = true;
 
 	@Column(name="PLAYER", nullable=false)
-	private boolean player;
+	private boolean player = false;
 
 	@Column(name="TRAINER", nullable=false)
-	private boolean trainer;
+	private boolean trainer = false;
 
 	@Column(name="PASSWORD", nullable=false, length=255)
 	private String password;

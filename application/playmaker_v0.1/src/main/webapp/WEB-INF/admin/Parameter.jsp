@@ -79,7 +79,7 @@
                                                                     <f:hidden path="id" id="id"/>
                                                                     <div class="form-group row">
                                                                         <div class="dt-btn-flex">
-                                                                            <input id="submit" class="btn btn-success btn-soft" name="save" type="submit" value="Mentés"/>
+                                                                            <input id="submit" class="btn btn-primary btn-soft btn-soft" name="save" type="submit" value="Mentés"/>
                                                                             <button type="button" id="clear-form-btn" class="btn btn-light btn-soft" onclick="window.location = '/sys/param'">
                                                                                 Mégse
                                                                             </button>
