@@ -10,6 +10,6 @@
 <%@taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="f" uri="http://www.springframework.org/tags/form" %>
-<jsp:useBean id="sessionHandler" class="hu.playmaker.handler.SessionHandler" scope="session"/>
+<jsp:useBean id="sessionHandler" class="com.teampress.handler.SessionHandler" scope="session"/>
 <c:set value="true" var="sidebar"/>
 <!DOCTYPE html>
