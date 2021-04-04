@@ -29,7 +29,6 @@ function get(id){
             $('#name').val(u.n);
             $('#email').val(u.em);
             $('#phone').val(u.ph);
-            $('#url').val(u.url);
             $('#player').attr('checked', u.p);
             $('#enabled').attr('checked', u.e);
             $('#deleted').attr('checked', u.d);

@@ -1,10 +1,8 @@
 package com.teampress.database.service.gameplan;
 
-import com.teampress.database.model.databank.Sorsolas;
 import com.teampress.database.model.gameplan.CustomGame;
 import com.teampress.database.model.system.LookupCode;
 import com.teampress.database.model.system.Organization;
-import com.teampress.database.model.system.User;
 import com.teampress.database.service.BaseService;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +14,6 @@ public class CustomGameService extends BaseService {
 
     public List<CustomGame> findAll(){
         return getEntityManager().createNamedQuery("CustomGame.findAll").getResultList();
-    }
-
-    public List<CustomGame> find(User user, Sorsolas sorsolas){
-        return getEntityManager().createNamedQuery("CustomGame.findByOrgAndTeam").setParameter("pteam", sorsolas).setParameter("porg",user).getResultList();
     }
 
     public boolean exist(LookupCode team, Date date){

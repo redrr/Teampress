@@ -39,12 +39,6 @@
                                                                     <f:input id="type" type="text" required=""  path="type" cssErrorClass="form-control" cssClass="form-control"/>
                                                                 </div>
                                                             </div>
-                                                            <div class="form-group row">
-                                                                <label for="url" class="col-sm-4 col-form-label">Link</label>
-                                                                <div class="col-sm-8 label-static">
-                                                                    <f:input id="url" type="text" required="" path="url" cssErrorClass="form-control" cssClass="form-control"/>
-                                                                </div>
-                                                            </div>
                                                             <f:hidden path="version" id="version"/>
                                                             <f:hidden path="id" id="id"/>
                                                             <div class="form-group row">
@@ -70,7 +64,6 @@
                                                             <tr>
                                                                 <th>Név</th>
                                                                 <th>Típus</th>
-                                                                <th>URL</th>
                                                                 <th search="disabled"></th>
                                                             </tr>
                                                             </thead>
@@ -79,7 +72,6 @@
                                                                 <tr>
                                                                     <td>${data.name}</td>
                                                                     <td>${data.type}</td>
-                                                                    <td>${data.url}</td>
                                                                     <td>
                                                                         <button type="button" class="btn btn-info" onclick="get(${data.id})"><i class="cil-description"></i> Módosítás</button>
                                                                         <button type="button" class="btn btn-danger" onclick="del(${data.id})"><i class="cil-trash"></i> Törlés</button>

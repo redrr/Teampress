@@ -4,7 +4,6 @@ import com.teampress.common.enums.LGroups;
 import com.teampress.common.enums.Permissions;
 import com.teampress.controller.BaseController;
 import com.teampress.database.model.system.UserOrganization;
-import com.teampress.database.service.databank.LigaService;
 import com.teampress.database.service.system.LookupCodeService;
 import com.teampress.database.service.system.OrganizationService;
 import com.teampress.database.service.system.UserOrganizationService;
@@ -28,14 +27,12 @@ public class UserOrganizationController extends BaseController {
     private OrganizationService organizationService;
     private LookupCodeService lookupCodeService;
     private UserOrganizationService userOrganizationService;
-    private LigaService ligaService;
 
-    public UserOrganizationController(UserService userService, OrganizationService organizationService, LookupCodeService lookupCodeService, UserOrganizationService userOrganizationService, LigaService ligaService) {
+    public UserOrganizationController(UserService userService, OrganizationService organizationService, LookupCodeService lookupCodeService, UserOrganizationService userOrganizationService) {
         this.userService = userService;
         this.organizationService = organizationService;
         this.lookupCodeService = lookupCodeService;
         this.userOrganizationService = userOrganizationService;
-        this.ligaService = ligaService;
     }
 
     @RequestMapping()
@@ -45,7 +42,6 @@ public class UserOrganizationController extends BaseController {
             view.addObject("teams", lookupCodeService.findAllLookupByLgroup(LGroups.TEAM_TYPE.name()));
             view.addObject("orgs", organizationService.findAll());
             view.addObject("users", userService.findAll());
-            view.addObject("ligas", ligaService.findAll());
             view.addObject("datas",userOrganizationService.findAll());
             return view;
         }
@@ -57,7 +53,6 @@ public class UserOrganizationController extends BaseController {
         if(hasPermission(Permissions.ADMIN)){
             UserOrganization u = Objects.nonNull(form.getId()) ? userOrganizationService.find(form.getId()) : new UserOrganization();
             u.setOrganization(organizationService.find(form.getOrganization()));
-            u.setLiga(ligaService.find(form.getLiga()));
             u.setType(lookupCodeService.find(form.getType()));
             u.setUser(userService.find(form.getUser()));
             userOrganizationService.mergeFlush(u);
@@ -76,7 +71,6 @@ public class UserOrganizationController extends BaseController {
                 json.put("user", u.getUser().getId());
                 json.put("org", u.getOrganization().getId());
                 json.put("type", u.getType().getId());
-                json.put("liga", u.getLiga().getId());
             } catch (Exception e){
                 e.printStackTrace();
             }

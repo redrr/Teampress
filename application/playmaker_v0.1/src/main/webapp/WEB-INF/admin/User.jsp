@@ -58,12 +58,6 @@
                                                                 </div>
                                                             </div>
                                                             <div class="form-group row">
-                                                                <label for="url" class="col-sm-4 col-form-label">Profil link</label>
-                                                                <div class="col-sm-8 label-static">
-                                                                    <f:input id="url" type="text" required="" path="url" cssErrorClass="form-control" cssClass="form-control"/>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group row">
                                                                 <label class="col-md-3 col-form-label">Játékos</label>
                                                                 <div class="col-md-9 col-form-label">
                                                                     <div class="form-check checkbox">
@@ -115,7 +109,6 @@
                                                                 <th>Név</th>
                                                                 <th>Email cím</th>
                                                                 <th>Telefon szám</th>
-                                                                <th>Profil link</th>
                                                                 <th search="disabled"></th>
                                                             </tr>
                                                             </thead>
@@ -127,7 +120,6 @@
                                                                     <td>${data.name}</td>
                                                                     <td>${data.email}</td>
                                                                     <td>${data.phoneNumber}</td>
-                                                                    <td>${data.url}</td>
                                                                     <td>
                                                                         <button type="button" class="btn btn-info" onclick="get(${data.id})"><i class="cil-description"></i> Módosítás</button>
                                                                         <button type="button" class="btn btn-danger" onclick="del(${data.id})"><i class="cil-trash"></i> Törlés</button>

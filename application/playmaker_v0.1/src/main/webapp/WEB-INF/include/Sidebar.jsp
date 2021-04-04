@@ -274,12 +274,6 @@
                                 <span class="pcoded-mtext" data-i18n="nav.social.fb-wall">Egyesületi adatok</span>
                             </a>
                         </li>
-                        <li class="${requestURI.equals('/org/league') ? 'active' : ''}">
-                            <a href="/org/league">
-                                <span class="pcoded-micon"><i class="ti-map"></i></span>
-                                <span class="pcoded-mtext" data-i18n="nav.social.fb-wall">Ligák</span>
-                            </a>
-                        </li>
                         <li class="${requestURI.equals('/org/userorg') ? 'active' : ''}">
                             <a href="/org/userorg">
                                 <span class="pcoded-micon"><i class="ti-map"></i></span>

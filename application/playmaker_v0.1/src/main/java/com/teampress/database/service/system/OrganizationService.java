@@ -18,10 +18,6 @@ public class OrganizationService extends BaseService {
         return getEntityManager().createNamedQuery("Organization.findAll").getResultList();
     }
 
-    public Organization findByURL(String url){
-        return (Organization) getEntityManager().createNamedQuery("Organization.findByURL").setParameter("purl", url).getResultList().get(0);
-    }
-
     public Organization findOrganizationByName(String name){
         List result = getEntityManager().createNamedQuery("Organization.findByName").setParameter("pname", name).getResultList();
         return result.isEmpty()?null:(Organization) result.get(0);

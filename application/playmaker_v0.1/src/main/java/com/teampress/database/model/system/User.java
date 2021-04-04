@@ -19,7 +19,6 @@ import java.util.Set;
 		@NamedQuery(name="User.findAllPlayer", query="SELECT u FROM User u WHERE u.enabled=true and u.player=true"),
 		@NamedQuery(name="User.countAll", query="SELECT COUNT(u) FROM User u"),
 		@NamedQuery(name="User.findById", query="SELECT u FROM User u WHERE u.id = :pid"),
-		@NamedQuery(name="User.findByURL", query="SELECT u FROM User u WHERE u.url = :purl"),
 		@NamedQuery(name="User.existsByUserName", query="SELECT u FROM User u WHERE u.username = :pusername"),
 		@NamedQuery(name="User.findEnabledUserByName", query="SELECT u FROM User u WHERE u.username = :pusername AND u.enabled = true AND u.deleted = false"),
 		@NamedQuery(name="User.findEnabledUserByMail", query="SELECT u FROM User u WHERE u.email = :pmail AND u.enabled = true AND u.deleted = false"),
@@ -43,9 +42,6 @@ public class User extends BaseModel {
 
 	@Column(name = "PHONE_NUMBER", length = 255)
 	private String phoneNumber;
-
-	@Column(name = "DATABANK_URL", length = 255)
-	private String url;
 
 	@Column(name="DELETED", nullable=false)
 	private boolean deleted = false;
@@ -140,14 +136,6 @@ public class User extends BaseModel {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
 	public boolean isPlayer() {
 		return player;
 	}
@@ -175,7 +163,6 @@ public class User extends BaseModel {
 			o.put("profilImg", profilImg);
 			o.put("email", email);
 			o.put("phoneNumber", phoneNumber);
-			o.put("url", url);
 			o.put("deleted", deleted);
 			o.put("enabled", enabled);
 			o.put("player", player);

@@ -17,11 +17,6 @@ public class UserService extends BaseService {
         return getEntityManager().createNamedQuery("User.findAllPlayer").getResultList();
     }
 
-    public User findUserByURL(String url){
-        List result = getEntityManager().createNamedQuery("User.findByURL").setParameter("purl", url).getResultList();
-        return result.size() == 1 ? (User) result.get(0) : null;
-    }
-
     public User findEnabledUserByUsername(String username) {
         List result = getEntityManager().createNamedQuery("User.findEnabledUserByName").setParameter("pusername", username).getResultList();
         return result.size() == 1 ? (User) result.get(0) : null;

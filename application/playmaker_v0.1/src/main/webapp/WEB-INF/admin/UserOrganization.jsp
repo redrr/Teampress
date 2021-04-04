@@ -63,18 +63,6 @@
                                                                     </f:select>
                                                                 </div>
                                                             </div>
-                                                            <div class="form-group row bmd-form-group">
-                                                                <label for="liga" class="col-sm-4 col-form-label">Liga</label>
-                                                                <div class="col-sm-8 label-static">
-                                                                    <f:select path="liga" required="true" id="liga">
-                                                                        <c:forEach items="${ligas}" var="type">
-                                                                            <option value="${type.id}">
-                                                                                    ${type.liga}
-                                                                            </option>
-                                                                        </c:forEach>
-                                                                    </f:select>
-                                                                </div>
-                                                            </div>
                                                             <f:hidden path="version" id="version"/>
                                                             <f:hidden path="id" id="id"/>
                                                             <div class="form-group row">
@@ -102,7 +90,6 @@
                                                                 <th>Felhasználó</th>
                                                                 <th>Egyesület</th>
                                                                 <th>Csapat</th>
-                                                                <th>Liga</th>
                                                                 <th search="disabled"></th>
                                                             </tr>
                                                             </thead>
@@ -113,7 +100,6 @@
                                                                     <td>${data.user.username}</td>
                                                                     <td>${data.organization.name}</td>
                                                                     <td>${data.type.code}</td>
-                                                                    <td>${data.liga.liga}</td>
                                                                     <td>
                                                                         <button type="button" class="btn btn-info btn-soft" onclick="get(${data.id})"><i class="cil-description"></i> Módosítás</button>
                                                                         <button type="button" class="btn btn-danger btn-soft" onclick="del(${data.id})"><i class="cil-trash"></i> Törlés</button>

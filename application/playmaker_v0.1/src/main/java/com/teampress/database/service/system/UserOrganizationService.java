@@ -1,6 +1,5 @@
 package com.teampress.database.service.system;
 
-import com.teampress.database.model.databank.Liga;
 import com.teampress.database.model.system.LookupCode;
 import com.teampress.database.model.system.Organization;
 import com.teampress.database.model.system.User;
@@ -49,10 +48,6 @@ public class UserOrganizationService extends BaseService {
             }
         }
         return result;
-    }
-
-    public ArrayList<UserOrganization> getOrgListByLiga(Organization org, Liga liga){
-        return (ArrayList<UserOrganization>) getEntityManager().createNamedQuery("UserOrganization.findByOrgAndLiga").setParameter("pliga", liga).setParameter("porg", org).getResultList();
     }
 
     public ArrayList<UserOrganization> getOrgListByTeam(Organization org, LookupCode team){

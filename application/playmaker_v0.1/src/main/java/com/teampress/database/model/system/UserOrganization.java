@@ -1,7 +1,6 @@
 package com.teampress.database.model.system;
 
 import com.teampress.database.model.BaseModel;
-import com.teampress.database.model.databank.Liga;
 
 import javax.persistence.*;
 
@@ -20,7 +19,6 @@ import javax.persistence.*;
 		@NamedQuery(name="UserOrganization.findByOrganization", query="SELECT u FROM UserOrganization u WHERE u.organization = :porg"),
 		@NamedQuery(name="UserOrganization.findByOrganizationAndTeam", query="SELECT u FROM UserOrganization u WHERE u.organization = :porg AND u.type = :ptype"),
 		@NamedQuery(name="UserOrganization.findByOrgAndUser", query="SELECT u FROM UserOrganization u WHERE u.organization = :porg AND u.user = :pu"),
-		@NamedQuery(name="UserOrganization.findByOrgAndLiga", query="SELECT u FROM UserOrganization u WHERE u.organization = :porg AND u.liga = :pliga"),
 		@NamedQuery(name="UserOrganization.findByOrgAndTeam", query="SELECT u FROM UserOrganization u WHERE u.organization = :porg AND u.type = :pteam")
 })
 @Cacheable(false)
@@ -41,11 +39,6 @@ public class UserOrganization extends BaseModel {
 	@ManyToOne
 	@JoinColumn(name="TEAM_ID", nullable=false)
 	private LookupCode type;
-
-	//bi-directional many-to-one association to User
-	@ManyToOne
-	@JoinColumn(name="LIGA_ID", nullable=false)
-	private Liga liga;
 
 	public UserOrganization() {
 	}
@@ -74,14 +67,6 @@ public class UserOrganization extends BaseModel {
 
 	public void setType(LookupCode type) {
 		this.type = type;
-	}
-
-	public Liga getLiga() {
-		return liga;
-	}
-
-	public void setLiga(Liga liga) {
-		this.liga = liga;
 	}
 
 	//endregion

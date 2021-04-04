@@ -24,66 +24,6 @@
                                                 <!-- Normal layout-->
                                                 <c:if test="${!sessionHandler.userHasPermission('ADMIN')}">
                                                     <div class="col-12 col-xl-9">
-                                                        <c:if test="${sessionHandler.userHasPermission('HOME_HEADER_BUTTONS') && sessionHandler.userHasPermission('MLSZ_STATISTICS')}">
-                                                            <div class="row">
-                                                                <div class="col-12 col-xl-4">
-                                                                    <a href="/statistics/league" class="card overflow-hidden">
-                                                                        <div class="card-body p-0 d-flex align-items-center" style="height: 100px">
-                                                                            <div class="row p-0 d-flex align-items-center">
-                                                                                <div class="col-5" style="padding-right: 0">
-                                                                                    <img class="mfe-3" style="width: 100%" src="${teamHeader.profImg}">
-                                                                                </div>
-                                                                                <div class="col-7" style="padding-left: 0">
-                                                                                    <div class="text-value-lg text-center">${teamHeader.name}</div>
-                                                                                    <div class="text-center">
-                                                                                        <c:forEach var="item" begin="0" end="4">
-                                                                                            <span class="badge badge-${teamHeader.cssClass[item]}">${teamHeader.data[item]}</span>
-                                                                                        </c:forEach>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </a>
-                                                                </div>
-                                                                <div class="col-12 col-xl-4">
-                                                                    <a href="/training/workout" class="card overflow-hidden">
-                                                                        <div class="card-body p-0 d-flex align-items-center" style="height: 100px">
-                                                                            <div class="row p-0 d-flex align-items-center" style="width: 100%">
-                                                                                <div class="col-6" style="padding-right: 0">
-                                                                                    <img class="img-circle" style="width: 100%;max-width: 100px;max-height: 80px;margin-left: 10px;width: 80px;height: 80px;" src="/content/profileImages/${playerHeader.profImg}">
-                                                                                </div>
-                                                                                <div class="col-6" style="padding-left: 0">
-                                                                                    <div class="text-value-lg text-center">${playerHeader.name}</div>
-                                                                                    <div class="text-center">
-                                                                                        <c:forEach var="item" begin="0" end="4">
-                                                                                            <span class="badge badge-${playerHeader.cssClass[item]}">${playerHeader.data[item]}</span>
-                                                                                        </c:forEach>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </a>
-                                                                </div>
-                                                                <div class="col-12 col-xl-4">
-                                                                    <a href="/gameplan" class="card overflow-hidden">
-                                                                        <div class="card-body p-0 d-flex align-items-center" style="height: 100px">
-                                                                            <div class="row p-0 d-flex align-items-center">
-                                                                                <div class="col-4" style="padding-right: 0">
-                                                                                    <img class="mfe-3" style="width: 100%;max-width: 100px;border-radius: 8px" src="${sorsolasHeader.hazaiUrl}">
-                                                                                </div>
-                                                                                <div class="col-4" style="padding-right: 0; padding-left: 0">
-                                                                                    <div class="text-value-lg text-center">${sorsolasHeader.eredmeny}</div>
-                                                                                    <div div class="text-muted  text-center text-uppercase font-weight-bold small">VS.</div>
-                                                                                </div>
-                                                                                <div class="col-4" style="padding-left: 0">
-                                                                                    <img class="mfe-3" style="width: 100%;max-width: 100px;border-radius: 8px" src="${sorsolasHeader.vendegUrl}">
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </c:if>
                                                         <div class="row">
                                                                 <div class="col-12">
                                                                     <div class="card bg-white">

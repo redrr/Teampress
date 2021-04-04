@@ -11,7 +11,7 @@ function del(id){
             id: id
         },
         function (result) {
-
+            window.location = '/org/userorg';
         });
 }
 
@@ -27,6 +27,5 @@ function get(id){
             $('#user').val(u.user).trigger('change');
             $('#organiaztion').val(u.org).trigger('change');
             $('#type').val(u.type).trigger('change');
-            $('#liga').val(u.liga).trigger('change');
         });
 }

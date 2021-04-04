@@ -11,7 +11,7 @@ function del(id){
             id: id
         },
         function (result) {
-
+            window.location = '/org/organization'
         });
 }
 
@@ -26,6 +26,5 @@ function get(id){
             $('#id').val(o.id);
             $('#name').val(o.name);
             $('#type').val(o.type);
-            $('#url').val(o.url);
         });
 }

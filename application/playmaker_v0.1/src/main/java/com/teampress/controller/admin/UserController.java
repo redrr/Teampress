@@ -44,7 +44,6 @@ public class UserController extends BaseController {
             u.setPassword(form.getPassword());
             u.setEmail(form.getEmail());
             u.setPhoneNumber(form.getPhone());
-            u.setUrl(form.getUrl());
             u.setPlayer(form.isPlayer());
             u.setEnabled(form.isEnabled());
             u.setDeleted(form.isDeleted());
@@ -65,7 +64,6 @@ public class UserController extends BaseController {
                 json.put("n", u.getName());
                 json.put("em", u.getEmail());
                 json.put("ph", u.getPhoneNumber());
-                json.put("url", u.getUrl());
                 json.put("p", u.isPlayer());
                 json.put("e", u.isEnabled());
                 json.put("d", u.isDeleted());

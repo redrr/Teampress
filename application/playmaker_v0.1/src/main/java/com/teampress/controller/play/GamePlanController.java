@@ -9,7 +9,6 @@ import com.teampress.database.model.system.Organization;
 import com.teampress.database.model.system.User;
 import com.teampress.database.model.system.UserOrganization;
 import com.teampress.database.model.trainingplan.TrainingPlan;
-import com.teampress.database.service.databank.LigaService;
 import com.teampress.database.service.gameplan.CustomGameService;
 import com.teampress.database.service.gameplan.GamePlanService;
 import com.teampress.database.service.system.LookupCodeService;
@@ -38,18 +37,16 @@ public class GamePlanController extends BaseController {
     private UserOrganizationService userOrganizationService;
     private UserService userService;
     private LookupCodeService lookupCodeService;
-    private LigaService ligaService;
     private GamePlanService gamePlanService;
     private WorkoutService workoutService;
     private CustomGameService customGameService;
     private UserNotificationService userNotificationService;
     private TrainingPlanConnectionService connectionService;
 
-    public GamePlanController(UserOrganizationService userOrganizationService, UserService userService, LookupCodeService lookupCodeService, LigaService ligaService, GamePlanService gamePlanService, WorkoutService workoutService, CustomGameService customGameService, UserNotificationService userNotificationService, TrainingPlanConnectionService connectionService) {
+    public GamePlanController(UserOrganizationService userOrganizationService, UserService userService, LookupCodeService lookupCodeService, GamePlanService gamePlanService, WorkoutService workoutService, CustomGameService customGameService, UserNotificationService userNotificationService, TrainingPlanConnectionService connectionService) {
         this.userOrganizationService = userOrganizationService;
         this.userService = userService;
         this.lookupCodeService = lookupCodeService;
-        this.ligaService = ligaService;
         this.gamePlanService = gamePlanService;
         this.workoutService = workoutService;
         this.customGameService = customGameService;
@@ -108,7 +105,7 @@ public class GamePlanController extends BaseController {
     public String getPlayers(@RequestParam("dd") String data, @RequestParam("teamId") String teamId, @RequestParam("sors") String sors, @RequestParam("type") String type){
         JSONObject json = new JSONObject();
         if(hasPermission(Permissions.PLANNER) || hasPermission(Permissions.PLANS_TABLE)){
-            String team = (data.equals("0")) ? ligaService.find(Integer.parseInt(teamId)).getTeam() : teamId;
+            String team = teamId;
             ArrayList<UserOrganization> teamList = userOrganizationService.getUsersByOrgIfPlayer(userOrganizationService.getOrgByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession())).getOrganization(), lookupCodeService.getByCodeAndLgroup(team, "TEAM_TYPE"));
             StringBuilder id = new StringBuilder();
             StringBuilder name = new StringBuilder();

@@ -1,8 +1,6 @@
 package com.teampress.controller.basic;
 
 import com.teampress.common.enums.*;
-import com.teampress.common.template.PlayerHeaderTmp;
-import com.teampress.common.template.SorsolasHeaderTmp;
 import com.teampress.controller.BaseController;
 import com.teampress.database.model.index.UserPost;
 import com.teampress.database.model.index.UserPostComment;
@@ -98,11 +96,6 @@ public class IndexController extends BaseController {
                 uOrg = userOrganizationService.getOrgByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession()));
                 view.addObject("nextTraining", trainingPlanService.findNext(uOrg.getOrganization(), uOrg.getType()));
                 view.addObject("nextTrainingDay", getDay(trainingPlanService.findNext(uOrg.getOrganization(), uOrg.getType())));
-                view.addObject("playerHeader", getPlayerHeader(
-                        userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession()),
-                        attendanceService.findLastFiveTrainingJelenByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession()))));
-                view.addObject("teamHeader", getTeamHeader(uOrg.getOrganization()));
-                view.addObject("sorsolasHeader", getSorsolas());
             }
             if(hasPermission(Permissions.HOME_WEATHER)){
                 uOrg = userOrganizationService.getOrgByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession()));
@@ -124,13 +117,7 @@ public class IndexController extends BaseController {
         return "";
     }
 
-    public SorsolasHeaderTmp getSorsolas(){
-        SorsolasHeaderTmp tmp = new SorsolasHeaderTmp();
-        tmp.setHazaiUrl("haza_img_url");
-        tmp.setEredmeny("game_date");
-        tmp.setVendegUrl("vend_img_url");
-        return tmp;
-    }
+
 
     @RequestMapping(method = RequestMethod.POST, value = "/dopost")
     public String doPost(@Valid @ModelAttribute("createPost") IndexForm form) {
@@ -352,42 +339,5 @@ public class IndexController extends BaseController {
         return 0;
     }
 
-    //region [Player Header]
-    public PlayerHeaderTmp getPlayerHeader(User user, String[] stat){
-        PlayerHeaderTmp tmp = new PlayerHeaderTmp();
-        tmp.setName(user.getName().split(" ")[0]+" "+ user.getName().split(" ")[1].charAt(0)+".");
-        tmp.setProfImg(user.getProfilImg());
-        tmp.setCssClass(setClassFromStat(stat));
-        tmp.setData(stat);
-        return tmp;
-    }
 
-    private String[] setClassFromStat(String[] stat) {
-        String[] re = new String[5];
-        for(int i = 0; i < stat.length; i++){
-            re[i] = (stat[i].equals("")) ? "" : cssStyle(stat[i]);
-        }
-        return re;
-    }
-
-    public PlayerHeaderTmp getTeamHeader(Organization org){
-        PlayerHeaderTmp tmp = new PlayerHeaderTmp();
-        tmp.setProfImg(org.getUrl());
-        tmp.setName(1 + ". helyezés");
-        tmp.setCssClass(new String[]{cssStyle("GY"), cssStyle("GY"), cssStyle("GY"), cssStyle("GY"), cssStyle("GY")});
-        tmp.setData(new String[]{"GY", "GY", "GY", "GY", "GY"});
-        return tmp;
-    }
-
-    private String cssStyle(String lvl) {
-        switch (lvl){
-            case "GY" : return "primary";
-            case "+" : return "primary";
-            case "D" : return "warning";
-            case "V" : return "danger";
-            case "-" : return "danger";
-            default: return "info";
-        }
-    }
-    //endregion
 }

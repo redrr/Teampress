@@ -41,7 +41,6 @@ public class OrganizationController extends BaseController {
             Organization o = Objects.nonNull(form.getId()) ? organizationService.find(form.getId()) : new Organization();
             o.setName(form.getName());
             o.setType(form.getType());
-            o.setUrl(form.getUrl());
             organizationService.mergeFlush(o);
         }
         return "redirect:/org/organization";
@@ -57,7 +56,6 @@ public class OrganizationController extends BaseController {
                 json.put("id", o.getId());
                 json.put("name", o.getName());
                 json.put("type", o.getType());
-                json.put("url", o.getUrl());
             } catch (Exception e){
                 e.printStackTrace();
             }

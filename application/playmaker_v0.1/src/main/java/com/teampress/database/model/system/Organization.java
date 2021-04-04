@@ -19,7 +19,6 @@ import java.util.Set;
 		@NamedQuery(name="Organization.countAll", query = "SELECT COUNT(o) FROM Organization o"),
 		@NamedQuery(name="Organization.findById", query = "SELECT o FROM Organization o where o.id = :pid"),
 		@NamedQuery(name="Organization.findByName", query = "SELECT o FROM Organization o WHERE o.name = :pname"),
-		@NamedQuery(name="Organization.findByURL", query="SELECT o FROM Organization o WHERE o.url = :purl"),
 		@NamedQuery(name="Organization.findAllFilteredByOrganization", query= "SELECT o FROM Organization o WHERE o IN :porgs"),
 })
 @Cacheable(false)
@@ -32,9 +31,6 @@ public class Organization extends BaseModel {
 
 	@Column(name = "TYPE")
 	private String type;
-
-	@Column(name = "DATABANK_URL")
-	private String url;
 
 	@Column(name = "PUBLIC_KEY")
 	private String stripePublicKey;
@@ -64,14 +60,6 @@ public class Organization extends BaseModel {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
 	}
 
 	public Set<OrgCountry> getOrgCountries() {
