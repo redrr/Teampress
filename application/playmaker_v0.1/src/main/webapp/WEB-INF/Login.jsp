@@ -17,15 +17,6 @@
         <!-- Container-fluid starts -->
         <div class="container-fluid">
             <div class="row">
-                <c:if test="${!error.equals('')}">
-                    <div class="errors">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="alert alert-danger">${error}</div>
-                            </div>
-                        </div>
-                    </div>
-                </c:if>
                 <div class="col-sm-12">
                     <!-- Authentication card start -->
                     <div class="login-card card-block auth-body animated fadeInDownBig">
