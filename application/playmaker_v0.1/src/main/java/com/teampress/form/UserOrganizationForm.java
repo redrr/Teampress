@@ -5,7 +5,6 @@ public class UserOrganizationForm extends BaseForm {
     public Integer organization;
     public Integer user;
     public Integer type;
-    public Integer liga;
 
     public Integer getOrganization() {
         return organization;
@@ -29,13 +28,5 @@ public class UserOrganizationForm extends BaseForm {
 
     public void setType(Integer type) {
         this.type = type;
-    }
-
-    public Integer getLiga() {
-        return liga;
-    }
-
-    public void setLiga(Integer liga) {
-        this.liga = liga;
     }
 }

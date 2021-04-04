@@ -2,7 +2,7 @@ package com.teampress.form;
 
 public class OrganizationForm extends BaseForm {
 
-    private String name, type, url;
+    private String name, type;
 
     public String getName() {
         return name;
@@ -10,14 +10,6 @@ public class OrganizationForm extends BaseForm {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 
     public String getType() {

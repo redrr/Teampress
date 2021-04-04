@@ -11,7 +11,6 @@ public class UserForm extends BaseForm {
     public String email;
     public String phone;
     public MultipartFile profileImg;
-    public String url;
     public boolean deleted;
     public boolean enabled;
     public boolean player;
@@ -62,14 +61,6 @@ public class UserForm extends BaseForm {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 
     public MultipartFile getProfileImg() {
