@@ -1,5 +1,6 @@
 package hu.playmaker.database.service.system;
 
+import hu.playmaker.common.enums.Parameters;
 import hu.playmaker.database.model.system.Parameter;
 import hu.playmaker.database.service.BaseService;
 import org.springframework.stereotype.Service;
@@ -18,10 +19,10 @@ public class ParameterService extends BaseService {
         return getEntityManager().createNamedQuery("Parameter.findAll").getResultList();
     }
 
-    public Parameter findParameterByGroupAndCode(String group, String code){
+    public Parameter findParameterByGroupAndCode(Parameters group, Parameters code){
         List result = getEntityManager().createNamedQuery("Parameter.findByGroupAndCode")
-                .setParameter("pgroup", group)
-                .setParameter("pcode", code)
+                .setParameter("pgroup", group.name())
+                .setParameter("pcode", code.name())
                 .getResultList();
         return result.isEmpty()?null:(Parameter)result.get(0);
     }
@@ -30,7 +31,7 @@ public class ParameterService extends BaseService {
         return getEntityManager().createNamedQuery("Parameter.findByGroup").setParameter("pgroup", group).getResultList();
     }
 
-    public boolean existsByGroupAndCode(String group, String code){
+    public boolean existsByGroupAndCode(Parameters group, Parameters code){
         return Objects.nonNull(findParameterByGroupAndCode(group, code));
     }
 }

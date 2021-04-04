@@ -225,7 +225,7 @@
                 <!-- Rendszer -->
                 <li class="pcoded-hasmenu ${requestURI.contains('/sys') ? 'active' : ''}">
                     <a href="javascript:void(0)">
-                        <span class="pcoded-micon"><i class="ti-cup"></i></span>
+                        <span class="pcoded-micon"><i class="ti-settings"></i></span>
                         <span class="pcoded-mtext" data-i18n="nav.social.main">Rendszer</span>
                     </a>
                     <ul class="pcoded-submenu">
@@ -258,7 +258,7 @@
                 <!-- Egyesületek-->
                 <li class="pcoded-hasmenu ${requestURI.contains('/org') ? 'active' : ''}">
                     <a href="javascript:void(0)">
-                        <span class="pcoded-micon"><i class="ti-cup"></i></span>
+                        <span class="pcoded-micon"><i class="ti-crown"></i></span>
                         <span class="pcoded-mtext" data-i18n="nav.social.main">Egyesület</span>
                     </a>
                     <ul class="pcoded-submenu">
@@ -291,7 +291,7 @@
                 <!-- Jogosultságok -->
                 <li class="pcoded-hasmenu ${requestURI.contains('/priv') ? 'active' : ''}">
                     <a href="javascript:void(0)">
-                        <span class="pcoded-micon"><i class="ti-cup"></i></span>
+                        <span class="pcoded-micon"><i class="ti-unlock"></i></span>
                         <span class="pcoded-mtext" data-i18n="nav.social.main">Jogosultság</span>
                     </a>
                     <ul class="pcoded-submenu">
@@ -312,7 +312,7 @@
                 <!-- Felhasználók-->
                 <li class="pcoded-hasmenu ${requestURI.contains('/usr') ? 'active' : ''}">
                     <a href="javascript:void(0)">
-                        <span class="pcoded-micon"><i class="ti-cup"></i></span>
+                        <span class="pcoded-micon"><i class="ti-user"></i></span>
                         <span class="pcoded-mtext" data-i18n="nav.social.main">Felhasználók</span>
                     </a>
                     <ul class="pcoded-submenu">
@@ -333,7 +333,7 @@
                 <!-- Events -->
                 <li class="pcoded-hasmenu ${requestURI.contains('/event') ? 'active' : ''}">
                     <a href="javascript:void(0)">
-                        <span class="pcoded-micon"><i class="ti-cup"></i></span>
+                        <span class="pcoded-micon"><i class="ti-calendar"></i></span>
                         <span class="pcoded-mtext" data-i18n="nav.social.main">Események</span>
                     </a>
                     <ul class="pcoded-submenu">
@@ -360,7 +360,7 @@
                 <!-- Edzés -->
                 <li class="pcoded-hasmenu ${requestURI.contains('/train') ? 'active' : ''}">
                     <a href="javascript:void(0)">
-                        <span class="pcoded-micon"><i class="ti-cup"></i></span>
+                        <span class="pcoded-micon"><i class="ti-basketball"></i></span>
                         <span class="pcoded-mtext" data-i18n="nav.social.main">Edzés</span>
                     </a>
                     <ul class="pcoded-submenu">
@@ -414,7 +414,7 @@
                 <!-- Pénzügyek -->
                 <li class="pcoded-hasmenu ${requestURI.contains('/fin') ? 'active' : ''}">
                     <a href="javascript:void(0)">
-                        <span class="pcoded-micon"><i class="ti-cup"></i></span>
+                        <span class="pcoded-micon"><i class="ti-wallet"></i></span>
                         <span class="pcoded-mtext" data-i18n="nav.social.fb-wall">Pénzügyek</span>
                     </a>
                     <ul class="pcoded-submenu">

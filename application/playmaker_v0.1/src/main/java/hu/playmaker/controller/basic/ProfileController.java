@@ -1,6 +1,6 @@
 package hu.playmaker.controller.basic;
 
-import hu.playmaker.common.Permissions;
+import hu.playmaker.common.enums.Permissions;
 import hu.playmaker.controller.BaseController;
 import hu.playmaker.database.model.system.User;
 import hu.playmaker.database.service.system.ParameterService;
@@ -9,19 +9,19 @@ import hu.playmaker.form.UserForm;
 import hu.playmaker.handler.SessionHandler;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
+
+import static hu.playmaker.common.enums.Parameters.PROFILE_IMG;
+import static hu.playmaker.common.enums.Parameters.SYSTEM;
 
 @Controller
 @RequestMapping("/profile")
@@ -48,7 +48,7 @@ public class ProfileController extends BaseController {
     @RequestMapping(method = RequestMethod.POST)
     public String doSubmit(@Valid @ModelAttribute("modifyProfile") UserForm form) {
         if(hasPermission(Permissions.LOGGED_IN)){
-            String uploadFolder = parameterService.findParameterByGroupAndCode("SYSTEM", "PROFILE_IMG").getValue();
+            String uploadFolder = parameterService.findParameterByGroupAndCode(SYSTEM, PROFILE_IMG).getValue();
             if(Objects.nonNull(form.getId())) {
                 User profil = userService.find(form.getId());
                 profil.setName(form.getName());

@@ -1,20 +1,15 @@
 package hu.playmaker.controller.play;
 
-import hu.playmaker.common.Permissions;
-import hu.playmaker.common.factory.chartjs.*;
-import hu.playmaker.common.factory.chartjs.common.enums.BorderCapStyle;
+import hu.playmaker.common.enums.Permissions;
 import hu.playmaker.common.factory.mlsz.MLSZParser;
 import hu.playmaker.controller.BaseController;
 import hu.playmaker.database.model.databank.*;
-import hu.playmaker.database.model.system.LookupCode;
 import hu.playmaker.database.model.system.Organization;
 import hu.playmaker.database.model.system.User;
 import hu.playmaker.database.model.system.UserOrganization;
-import hu.playmaker.database.service.databank.*;
 import hu.playmaker.database.service.system.UserOrganizationService;
 import hu.playmaker.database.service.system.UserService;
 import hu.playmaker.handler.SessionHandler;
-import org.apache.commons.collections4.map.LinkedMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
@@ -23,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.*;
 
 @Controller
 @RequestMapping("/statistics/dashboard")

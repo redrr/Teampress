@@ -1,7 +1,7 @@
 package hu.playmaker.controller.admin;
 
-import hu.playmaker.common.LGroups;
-import hu.playmaker.common.Permissions;
+import hu.playmaker.common.enums.LGroups;
+import hu.playmaker.common.enums.Permissions;
 import hu.playmaker.controller.BaseController;
 import hu.playmaker.database.model.system.UserOrganization;
 import hu.playmaker.database.service.databank.LigaService;
@@ -9,7 +9,6 @@ import hu.playmaker.database.service.system.LookupCodeService;
 import hu.playmaker.database.service.system.OrganizationService;
 import hu.playmaker.database.service.system.UserOrganizationService;
 import hu.playmaker.database.service.system.UserService;
-import hu.playmaker.form.BaseForm;
 import hu.playmaker.form.UserOrganizationForm;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;

@@ -1,6 +1,6 @@
 package hu.playmaker.controller;
 
-import hu.playmaker.common.Permissions;
+import hu.playmaker.common.enums.Permissions;
 import hu.playmaker.common.factory.chartjs.*;
 import hu.playmaker.common.factory.chartjs.common.enums.BorderCapStyle;
 import hu.playmaker.database.model.index.Calendar;

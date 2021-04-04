@@ -1,8 +1,9 @@
 package hu.playmaker.controller.basic;
 
-import hu.playmaker.common.LGroups;
-import hu.playmaker.common.Permissions;
-import hu.playmaker.common.Roles;
+import hu.playmaker.common.enums.Currencies;
+import hu.playmaker.common.enums.LGroups;
+import hu.playmaker.common.enums.Permissions;
+import hu.playmaker.common.enums.Roles;
 import hu.playmaker.common.template.PlayerHeaderTmp;
 import hu.playmaker.common.template.SorsolasHeaderTmp;
 import hu.playmaker.controller.BaseController;
@@ -33,6 +34,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.*;
+
+import static hu.playmaker.common.enums.Parameters.POST_IMG;
+import static hu.playmaker.common.enums.Parameters.SYSTEM;
 
 @Controller
 public class IndexController extends BaseController {
@@ -87,6 +91,8 @@ public class IndexController extends BaseController {
                 view.addObject("organizations", organizationService.findAll());
                 view.addObject("teams", lookupCodeService.findAllLookupByLgroup(LGroups.TEAM_TYPE.name()));
                 view.addObject("roles", Roles.values());
+                view.addObject("currencies", Currencies.values());
+                view.addObject("error","");
                 return view;
             }
             if(hasPermission(Permissions.POST_COMMENT_CREATE)) {
@@ -135,7 +141,7 @@ public class IndexController extends BaseController {
     @RequestMapping(method = RequestMethod.POST, value = "/dopost")
     public String doPost(@Valid @ModelAttribute("createPost") IndexForm form) {
         if(hasPermission(Permissions.POST_COMMENT_CREATE) && (Objects.nonNull(form.getFile()) || !form.getPostText().trim().equals(""))){
-            String uploadFolder = parameterService.findParameterByGroupAndCode("SYSTEM", "POST_IMG").getValue();
+            String uploadFolder = parameterService.findParameterByGroupAndCode(SYSTEM, POST_IMG).getValue();
             UserPost post = new UserPost();
             User user = userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession());
             post.setUser(user);

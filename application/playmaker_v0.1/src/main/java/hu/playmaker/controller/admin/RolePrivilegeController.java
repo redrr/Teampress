@@ -1,12 +1,11 @@
 package hu.playmaker.controller.admin;
 
-import hu.playmaker.common.Permissions;
+import hu.playmaker.common.enums.Permissions;
 import hu.playmaker.controller.BaseController;
 import hu.playmaker.database.model.system.RolePrivilege;
 import hu.playmaker.database.service.system.PrivilegeService;
 import hu.playmaker.database.service.system.RolePrivilegeService;
 import hu.playmaker.database.service.system.RoleService;
-import hu.playmaker.form.BaseForm;
 import hu.playmaker.form.RolePrivilegeForm;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;

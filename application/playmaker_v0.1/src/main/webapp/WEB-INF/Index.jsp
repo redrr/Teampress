@@ -158,6 +158,15 @@
                                                 </c:if>
                                                 <!-- Admin layout-->
                                                 <c:if test="${sessionHandler.userHasPermission('ADMIN')}">
+                                                    <c:if test="${!error.equals('')}">
+                                                        <div class="errors">
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <div class="alert alert-danger">${error}</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </c:if>
                                                     <div class="col-lg-12 col-xl-6 mx-auto">
                                                         <div class="card">
                                                             <div class="card-body">
@@ -226,6 +235,16 @@
                                                                                         <label class="col-12 col-md-4 col-form-label" for="street2">Utca 2</label>
                                                                                         <div class="col-12 col-md-8 col-form-label">
                                                                                             <input id="street2" type="text" class="form-control"/>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-12 col-md-4 col-form-label" for="currency">Pénznem</label>
+                                                                                        <div class="col-12 col-md-8 col-form-label">
+                                                                                            <select id="currency" class="form-control">
+                                                                                                <c:forEach var="cur" items="${currencies}">
+                                                                                                    <option value="${cur}">${cur}</option>
+                                                                                                </c:forEach>
+                                                                                            </select>
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="form-group row">
@@ -317,6 +336,7 @@
                 let street2 = $('#street2').val();
                 let publicKey = $('#publicKey').val();
                 let privateKey = $('#privateKey').val();
+                let currency = $('#currency').val();
                 $.post("/import/club",
                     {
                         teamType        :   teamType,
@@ -328,9 +348,10 @@
                         street1         :   street1,
                         street2         :   street2,
                         publicKey       :   publicKey,
-                        privateKey      :   privateKey
+                        privateKey      :   privateKey,
+                        currency        :   currency
                     },function (resp) {
-
+                        window.location = '/';
                     }
                 )
             }

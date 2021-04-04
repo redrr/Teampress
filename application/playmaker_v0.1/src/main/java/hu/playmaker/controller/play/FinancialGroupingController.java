@@ -1,6 +1,6 @@
 package hu.playmaker.controller.play;
 
-import hu.playmaker.common.Permissions;
+import hu.playmaker.common.enums.Permissions;
 import hu.playmaker.controller.BaseController;
 import hu.playmaker.database.model.financial.Income;
 import hu.playmaker.database.model.financial.IncomeGroupConnection;

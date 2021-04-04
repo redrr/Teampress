@@ -1,14 +1,12 @@
 package hu.playmaker.controller.play;
 
-import hu.playmaker.common.LGroups;
-import hu.playmaker.common.Permissions;
+import hu.playmaker.common.enums.LGroups;
+import hu.playmaker.common.enums.Permissions;
 import hu.playmaker.controller.BaseController;
-import hu.playmaker.database.model.financial.AnnualPayment;
 import hu.playmaker.database.model.financial.PaymentRequest;
 import hu.playmaker.database.model.system.Organization;
 import hu.playmaker.database.model.system.User;
 import hu.playmaker.database.model.system.UserOrganization;
-import hu.playmaker.database.service.financial.AnnualPaymentService;
 import hu.playmaker.database.service.financial.IncomeGroupService;
 import hu.playmaker.database.service.financial.PaymentRequestService;
 import hu.playmaker.database.service.system.LookupCodeService;
@@ -25,7 +23,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 

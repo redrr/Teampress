@@ -1,7 +1,7 @@
 package hu.playmaker.controller.play;
 
-import hu.playmaker.common.LGroups;
-import hu.playmaker.common.Permissions;
+import hu.playmaker.common.enums.LGroups;
+import hu.playmaker.common.enums.Permissions;
 import hu.playmaker.controller.BaseController;
 import hu.playmaker.database.model.trainingplan.Exercise;
 import hu.playmaker.database.service.trainingplan.ExerciseService;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import javax.servlet.http.HttpServletRequest;
+
 import javax.validation.Valid;
 import java.util.Objects;
 

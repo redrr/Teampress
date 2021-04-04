@@ -1,10 +1,9 @@
 package hu.playmaker.controller.admin;
 
-import hu.playmaker.common.Permissions;
+import hu.playmaker.common.enums.Permissions;
 import hu.playmaker.controller.BaseController;
 import hu.playmaker.database.model.system.User;
 import hu.playmaker.database.service.system.UserService;
-import hu.playmaker.form.BaseForm;
 import hu.playmaker.form.UserForm;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;

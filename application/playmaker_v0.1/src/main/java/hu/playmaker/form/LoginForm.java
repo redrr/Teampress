@@ -3,16 +3,16 @@ package hu.playmaker.form;
 
 public class LoginForm {
 
-    private String username;
+    private String mail;
     private String password;
     private String _csrf;
 
-    public String getUsername() {
-        return username;
+    public String getMail() {
+        return mail;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
     public String getPassword() {

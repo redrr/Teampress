@@ -27,6 +27,11 @@ public class UserService extends BaseService {
         return result.size() == 1 ? (User) result.get(0) : null;
     }
 
+    public User findUserByEmail(String mail) {
+        List result = getEntityManager().createNamedQuery("User.findEnabledUserByMail").setParameter("pmail", mail).getResultList();
+        return result.size() == 1 ? (User) result.get(0) : null;
+    }
+
     public User find(Integer id) {
         List result = getEntityManager().createNamedQuery("User.findById").setParameter("pid", id).getResultList();
         return result.size() == 1 ? (User) result.get(0) : null;

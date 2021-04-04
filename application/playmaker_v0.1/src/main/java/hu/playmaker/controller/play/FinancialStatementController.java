@@ -1,6 +1,6 @@
 package hu.playmaker.controller.play;
 
-import hu.playmaker.common.Permissions;
+import hu.playmaker.common.enums.Permissions;
 import hu.playmaker.common.factory.chartjs.Color;
 import hu.playmaker.common.factory.chartjs.Data;
 import hu.playmaker.common.factory.chartjs.LineChartBuilder;

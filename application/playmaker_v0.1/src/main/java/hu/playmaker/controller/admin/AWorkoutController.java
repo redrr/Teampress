@@ -1,6 +1,6 @@
 package hu.playmaker.controller.admin;
 
-import hu.playmaker.common.Permissions;
+import hu.playmaker.common.enums.Permissions;
 import hu.playmaker.controller.BaseController;
 import hu.playmaker.database.service.workout.WorkoutService;
 import org.springframework.stereotype.Controller;

@@ -1,33 +1,22 @@
 package hu.playmaker.controller.play;
 
-import hu.playmaker.common.LGroups;
-import hu.playmaker.common.Permissions;
+import hu.playmaker.common.enums.LGroups;
+import hu.playmaker.common.enums.Permissions;
 import hu.playmaker.controller.BaseController;
 import hu.playmaker.database.model.index.Calendar;
 import hu.playmaker.database.model.system.LookupCode;
-import hu.playmaker.database.model.system.Organization;
 import hu.playmaker.database.model.system.User;
 import hu.playmaker.database.model.system.UserOrganization;
-import hu.playmaker.database.model.trainingplan.Exercise;
 import hu.playmaker.database.service.index.CalendarService;
 import hu.playmaker.database.service.system.LookupCodeService;
 import hu.playmaker.database.service.system.UserOrganizationService;
 import hu.playmaker.database.service.system.UserService;
-import hu.playmaker.form.ExerciseForm;
-import hu.playmaker.form.validator.ExerciseFormValidator;
 import hu.playmaker.handler.SessionHandler;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
-import static java.util.Objects.isNull;
 
 @Controller
 @RequestMapping("/calendar")

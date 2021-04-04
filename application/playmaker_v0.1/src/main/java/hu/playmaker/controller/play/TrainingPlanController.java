@@ -1,7 +1,7 @@
 package hu.playmaker.controller.play;
 
-import hu.playmaker.common.Permissions;
-import hu.playmaker.common.Roles;
+import hu.playmaker.common.enums.Permissions;
+import hu.playmaker.common.enums.Roles;
 import hu.playmaker.controller.BaseController;
 import hu.playmaker.database.model.system.Organization;
 import hu.playmaker.database.model.system.User;
@@ -26,11 +26,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;

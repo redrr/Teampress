@@ -1,7 +1,7 @@
 package hu.playmaker.controller.play;
 
-import hu.playmaker.common.LGroups;
-import hu.playmaker.common.Permissions;
+import hu.playmaker.common.enums.LGroups;
+import hu.playmaker.common.enums.Permissions;
 import hu.playmaker.controller.BaseController;
 import hu.playmaker.database.model.system.Organization;
 import hu.playmaker.database.model.system.User;
@@ -31,6 +31,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import static hu.playmaker.common.enums.Parameters.*;
 
 @Controller
 @RequestMapping("/videoanalytics")
@@ -71,7 +73,7 @@ public class VideoAnalyticsController extends BaseController {
     @RequestMapping(method = RequestMethod.POST)
     public String doSubmit(@Valid @ModelAttribute("video") VideoAnalyticsForm form) {
         if(hasPermission(Permissions.VIDEO_ANALYTICS)) {
-            String uploadFolder = parameterService.findParameterByGroupAndCode("SYSTEM", "UPLOAD_FOLDER").getValue();
+            String uploadFolder = parameterService.findParameterByGroupAndCode(SYSTEM, UPLOAD_FOLDER).getValue();
             User currentUser = userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession());
             UserOrganization userOrganization = userOrganizationService.getOrgByUser(currentUser);
             boolean isNameValid = !form.getName().trim().equals("");

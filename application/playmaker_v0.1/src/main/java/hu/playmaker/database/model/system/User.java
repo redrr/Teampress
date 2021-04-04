@@ -24,6 +24,7 @@ import java.util.Set;
 		@NamedQuery(name="User.findByURL", query="SELECT u FROM User u WHERE u.url = :purl"),
 		@NamedQuery(name="User.existsByUserName", query="SELECT u FROM User u WHERE u.username = :pusername"),
 		@NamedQuery(name="User.findEnabledUserByName", query="SELECT u FROM User u WHERE u.username = :pusername AND u.enabled = true AND u.deleted = false"),
+		@NamedQuery(name="User.findEnabledUserByMail", query="SELECT u FROM User u WHERE u.email = :pmail AND u.enabled = true AND u.deleted = false"),
 		@NamedQuery(name="User.getRolePermissions", query="SELECT rp.privilege FROM User u LEFT JOIN u.userRoles ur LEFT JOIN ur.role r LEFT JOIN r.rolePrivileges rp WHERE u.id = :puserid AND u.enabled = true AND u.deleted = false"),
 })
 @Cacheable(false)
@@ -37,7 +38,7 @@ public class User extends BaseModel {
 	private String name;
 
 	@Column(name = "PROFIL_IMG", nullable = false, length=255)
-	private String profilImg = "/content/profileImages/userphoto.png";
+	private String profilImg = "userphoto.png";
 
 	@Column(name="EMAIL", length=255)
 	private String email;

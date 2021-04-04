@@ -1,21 +1,30 @@
 package hu.playmaker.controller.admin;
 
-import hu.playmaker.common.Permissions;
-import hu.playmaker.common.Roles;
+import hu.playmaker.common.enums.Permissions;
+import hu.playmaker.common.enums.Roles;
+import hu.playmaker.common.template.MailTemplates;
 import hu.playmaker.controller.BaseController;
+import hu.playmaker.controller.basic.IndexController;
 import hu.playmaker.database.model.system.*;
 import hu.playmaker.database.service.system.*;
 import hu.playmaker.form.DataImportForm;
+import hu.playmaker.handler.EmailSender;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Objects;
 import java.util.UUID;
+
+import static hu.playmaker.common.enums.Parameters.DOMAIN;
+import static hu.playmaker.common.enums.Parameters.SYSTEM;
 
 @Controller
 @RequestMapping("/import")
@@ -28,8 +37,11 @@ public class ImportController extends BaseController {
     private final UserRoleService userRoleService;
     private final UserOrganizationService userOrganizationService;
     private final OrgCountryService orgCountryService;
+    private final JavaMailSender emailSender;
+    private final IndexController indexController;
+    private final ParameterService parameterService;
 
-    public ImportController(OrganizationService organizationService, LookupCodeService lookupCodeService, RoleService roleService, UserService userService, UserRoleService userRoleService, UserOrganizationService userOrganizationService, OrgCountryService orgCountryService) {
+    public ImportController(OrganizationService organizationService, LookupCodeService lookupCodeService, RoleService roleService, UserService userService, UserRoleService userRoleService, UserOrganizationService userOrganizationService, OrgCountryService orgCountryService, JavaMailSender emailSender, IndexController indexController, ParameterService parameterService) {
         this.organizationService = organizationService;
         this.lookupCodeService = lookupCodeService;
         this.roleService = roleService;
@@ -37,41 +49,54 @@ public class ImportController extends BaseController {
         this.userRoleService = userRoleService;
         this.userOrganizationService = userOrganizationService;
         this.orgCountryService = orgCountryService;
+        this.emailSender = emailSender;
+        this.indexController = indexController;
+        this.parameterService = parameterService;
     }
 
     @RequestMapping(value = "/team")
-    public String addTeamData(@Valid @ModelAttribute("data") DataImportForm form){
+    public ModelAndView addTeamData(@Valid @ModelAttribute("data") DataImportForm form){
+        ModelAndView view = new ModelAndView("403");
         if(hasPermission(Permissions.ADMIN)){
             Organization organization = organizationService.find(form.getOrganizationId());
             LookupCode team = lookupCodeService.find(form.getTeamId());
             Role role = roleService.findRoleByName(form.getRole());
+            view = indexController.showIndex();
             if (!form.getData().isEmpty()) {
                 try {
                     HSSFWorkbook workbook = new HSSFWorkbook(form.getData().getInputStream());
                     HSSFSheet sheet = workbook.getSheetAt(0);
                     for(Row row: sheet) {
                         if (row.getPhysicalNumberOfCells() == 2) {
-                            //create user
-                            User userPOJO = new User();
-                            String uuid = UUID.randomUUID().toString();
-                            userPOJO.setUsername(uuid);
-                            userPOJO.setName(row.getCell(0).getStringCellValue());
-                            userPOJO.setPassword(uuid);
-                            userPOJO.setEmail(row.getCell(1).getStringCellValue());
-                            userPOJO.setPlayer(Roles.PLAYER.name().equals(form.getRole()));
-                            userPOJO.setTrainer(Roles.TRAINER.name().equals(form.getRole()));
-                            User user = userService.mergeFlush(userPOJO);
-                            //create user - role connection
-                            UserRole userRolePOJO = new UserRole();
-                            userRolePOJO.setRole(role);
-                            userRolePOJO.setUser(user);
-                            userRoleService.mergeFlush(userRolePOJO);
-                            //create user - sportclub connection
-                            UserOrganization userOrganizationPOJO = new UserOrganization();
-                            userOrganizationPOJO.setOrganization(organization);
-                            userOrganizationPOJO.setType(team);
-                            userOrganizationPOJO.setUser(user);
-                            userOrganizationService.mergeFlush(userOrganizationPOJO);
+                            User validUser = userService.findUserByEmail(row.getCell(1).getStringCellValue());
+                            if (Objects.nonNull(validUser)) {
+                                view.addObject("error", view.getModel().get("error")+"<br>A(z) "+(row.getRowNum()+1)+" sorban található emailcímmel már szerepel felhasználó("+validUser.getName()+") a rendszerben.");
+                            } else {
+                                //create user
+                                User userPOJO = new User();
+                                String uuid = UUID.randomUUID().toString();
+                                userPOJO.setUsername(uuid);
+                                userPOJO.setName(row.getCell(0).getStringCellValue());
+                                userPOJO.setPassword(uuid);
+                                userPOJO.setEmail(row.getCell(1).getStringCellValue());
+                                userPOJO.setPlayer(Roles.PLAYER.name().equals(form.getRole()));
+                                userPOJO.setTrainer(Roles.TRAINER.name().equals(form.getRole()));
+                                User user = userService.mergeFlush(userPOJO);
+                                //create user - role connection
+                                UserRole userRolePOJO = new UserRole();
+                                userRolePOJO.setRole(role);
+                                userRolePOJO.setUser(user);
+                                userRoleService.mergeFlush(userRolePOJO);
+                                //create user - sportclub connection
+                                UserOrganization userOrganizationPOJO = new UserOrganization();
+                                userOrganizationPOJO.setOrganization(organization);
+                                userOrganizationPOJO.setType(team);
+                                userOrganizationPOJO.setUser(user);
+                                userOrganizationService.mergeFlush(userOrganizationPOJO);
+                                //Send Registration
+                                //new EmailSender(this.emailSender).sendHtmlMessage(user.getEmail(), "Regisztráció véglegesítés", "Kedves "+user.getName()+"!<br><br>Kérjük az alábbi link segítségével add meg a jelszavad és ezáltal véglegesítsd a regisztrációd: <a href=\"http://localhost:8080/newpassword/"+ user.getUsername() +"\" target=\"_blank\">Jelszó megadása</a>");
+                                new EmailSender(this.emailSender).sendHtmlMessage(user.getEmail(), "Regisztráció véglegesítés", MailTemplates.welcome(parameterService.findParameterByGroupAndCode(SYSTEM, DOMAIN).getValue()+"/newpassword/"+ user.getUsername()));
+                            }
                         }
                     }
                 } catch (Exception e) {
@@ -79,16 +104,17 @@ public class ImportController extends BaseController {
                 }
             }
         }
-        return "redirect:/home";
+        return view;
     }
 
     @RequestMapping(value = "/club")
-    public String addClub(@RequestParam String teamType, @RequestParam String shortName, @RequestParam String longName, @RequestParam String country, @RequestParam String city, @RequestParam String postCode, @RequestParam String street1, @RequestParam String street2, @RequestParam String publicKey, @RequestParam String privateKey) {
+    public void addClub(@RequestParam String teamType, @RequestParam String shortName, @RequestParam String longName, @RequestParam String country, @RequestParam String city, @RequestParam String postCode, @RequestParam String street1, @RequestParam String street2, @RequestParam String publicKey, @RequestParam String privateKey, @RequestParam String currency) {
         Organization organizationPOJO = new Organization();
         organizationPOJO.setType(teamType);
         organizationPOJO.setName(shortName);
         organizationPOJO.setStripePrivateKey(privateKey);
-        organizationPOJO.setStripePublicKey(privateKey);
+        organizationPOJO.setStripePublicKey(publicKey);
+        organizationPOJO.setCurrency(currency);
         Organization organization = organizationService.mergeFlush(organizationPOJO);
         OrgCountry orgCountryPOJO = new OrgCountry();
         orgCountryPOJO.setCity(city);
@@ -99,6 +125,5 @@ public class ImportController extends BaseController {
         orgCountryPOJO.setStreet2(street2);
         orgCountryPOJO.setOrganization(organization);
         orgCountryService.mergeFlush(orgCountryPOJO);
-        return "";
     }
 }

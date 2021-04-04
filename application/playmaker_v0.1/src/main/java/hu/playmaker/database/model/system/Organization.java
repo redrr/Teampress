@@ -42,6 +42,9 @@ public class Organization extends BaseModel {
 	@Column(name = "PRIVATE_KEY")
 	private String stripePrivateKey;
 
+	@Column(name = "CURRENCY")
+	private String currency;
+
 	//bi-directional many-to-one association to OrgCountry
 	@OneToMany(mappedBy="organization")
 	private Set<OrgCountry> orgCountries;
@@ -149,6 +152,14 @@ public class Organization extends BaseModel {
 
 	public void setStripePrivateKey(String stripePrivateKey) {
 		this.stripePrivateKey = stripePrivateKey;
+	}
+
+	public String getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(String currency) {
+		this.currency = currency;
 	}
 
 	@Override

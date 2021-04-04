@@ -1,21 +1,16 @@
 package hu.playmaker.controller.play;
 
-import hu.playmaker.common.LGroups;
-import hu.playmaker.common.Permissions;
+import hu.playmaker.common.enums.LGroups;
+import hu.playmaker.common.enums.Permissions;
 import hu.playmaker.controller.BaseController;
 import hu.playmaker.database.model.financial.AnnualPayment;
-import hu.playmaker.database.model.financial.IncomeGroup;
 import hu.playmaker.database.model.system.Organization;
-import hu.playmaker.database.model.trainingplan.Exercise;
 import hu.playmaker.database.service.financial.AnnualPaymentService;
 import hu.playmaker.database.service.financial.IncomeGroupService;
 import hu.playmaker.database.service.system.LookupCodeService;
 import hu.playmaker.database.service.system.UserOrganizationService;
 import hu.playmaker.database.service.system.UserService;
-import hu.playmaker.database.service.trainingplan.ExerciseService;
 import hu.playmaker.form.AnnualPaymentForm;
-import hu.playmaker.form.ExerciseForm;
-import hu.playmaker.form.validator.ExerciseFormValidator;
 import hu.playmaker.handler.SessionHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;

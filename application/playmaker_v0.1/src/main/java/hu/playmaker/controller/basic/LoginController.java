@@ -52,7 +52,7 @@ public class LoginController {
             return "/login";
         }
         request.getSession().invalidate();
-        User user = userService.findEnabledUserByUsername(login.getUsername());
+        User user = userService.findUserByEmail(login.getMail());
         if(!isNull(user) && BCrypt.checkpw(login.getPassword(), user.getPassword())) {
             try{
                 request.getSession().setAttribute("username", user.getUsername());

@@ -17,6 +17,15 @@
         <!-- Container-fluid starts -->
         <div class="container-fluid">
             <div class="row">
+                <c:if test="${!error.equals('')}">
+                    <div class="errors">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="alert alert-danger">${error}</div>
+                            </div>
+                        </div>
+                    </div>
+                </c:if>
                 <div class="col-sm-12">
                     <!-- Authentication card start -->
                     <div class="login-card card-block auth-body animated fadeInDownBig">
@@ -28,7 +37,7 @@
                                     </div>
                                 </div>
                                 <div class="input-group">
-                                    <f:input id="username" type='text' path='username' cssClass="form-control" placeholder="Felhasználónév"/>
+                                    <f:input id="username" type='text' path='mail' cssClass="form-control" placeholder="E-mail cím"/>
                                     <span class="md-line"></span>
                                 </div>
                                 <div class="input-group">
@@ -36,6 +45,9 @@
                                     <span class="md-line"></span>
                                 </div>
                                 <div class="row m-t-30">
+                                    <div class="col-12">
+                                        <a class="btn link-primary" data-toggle="modal" data-target="#add-exercise-modal">Új jelszó kérése</a>
+                                    </div>
                                     <div class="col-md-12">
                                         <button id="submit" type="submit" class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20 btn-soft">Bejelentkezés</button>
                                     </div>
@@ -52,6 +64,30 @@
         </div>
         <!-- end of container-fluid -->
     </section>
+    <div class="modal fade" id="add-exercise-modal" tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Új jelszó</h4>
+                    <button class="btn btn-icon" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i style="margin: 0" class="ti-close"></i></span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label for="fusername" class="col-3 col-lg-2 col-form-label">Email cím</label>
+                        <div class="col-9 col-lg-10">
+                            <div class="input-group bmd-form-group">
+                                <input type="text" class="form-control" id="fusername"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btn-soft" onclick="window.location='/forgetpassword/'+$('#fusername').val()">Küldés</button>
+                    <button type="button" id="close" class="btn btn-default btn-soft" data-dismiss="modal">Mégse</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Warning Section Starts -->
     <!-- Older IE warning message -->
     <!--[if lt IE 9]>
