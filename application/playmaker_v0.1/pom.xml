@@ -21,7 +21,7 @@
 		<profile>
 			<id>dev</id>
 			<properties>
-				<datasource.url>jdbc:mysql://localhost:3308/tempress_dev1</datasource.url>
+				<datasource.url>jdbc:mysql://localhost:3308/teampress_dev1</datasource.url>
 				<datasource.username>ear</datasource.username>
 				<datasource.password>ear123</datasource.password>
 				<teampress.port>8080</teampress.port>
