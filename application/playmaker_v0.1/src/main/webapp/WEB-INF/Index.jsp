@@ -70,7 +70,7 @@
                                                                         <a href="/calendar" class="card overflow-hidden" style="max-width: 90%;border:none;background-color: #3B5998">
                                                                             <div class="card-body">
                                                                                 <h1 style="color: #fff;font-size: 65px;font-weight: 600;margin-left: 16px;margin-top: 0;margin-bottom: 16px">${nextTraining.trainingPlan.trainingDate.split("-")[1].trim()}</h1>
-                                                                                <img style="width: 100%" src="/content/baseImages/119097464_3315359685224384_3814610594506716376_n.png">
+                                                                                <img style="width: 100%" src="/content/baseImages/training_icon.png">
                                                                                 <c:if test="${nextTraining != null}">
                                                                                     <h3 style="color: #fff;margin-top: -130px;margin-bottom: 100px;margin-left: 16px">${nextTrainingDay}</h3>
                                                                                     <h3 style="color: #fff;margin-top: -100px;margin-bottom: 100px;margin-left: 16px">${nextTraining.trainingPlan.trainingDate.split("-")[0].trim()}</h3>

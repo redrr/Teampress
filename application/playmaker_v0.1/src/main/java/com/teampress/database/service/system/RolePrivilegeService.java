@@ -6,6 +6,7 @@ import com.teampress.database.model.system.RolePrivilege;
 import com.teampress.database.service.BaseService;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,8 +21,8 @@ public class RolePrivilegeService extends BaseService {
         return getEntityManager().createNamedQuery("RolePrivilege.findAll").getResultList();
     }
 
-    public List<RolePrivilege> findAllByRoleId(int roleId){
-        return (List<RolePrivilege>) getEntityManager().createNamedQuery("RolePrivilege.findAllByRoleId").setParameter("proleid", roleId).getResultList();
+    public List<RolePrivilege> findAllByRole(Collection<Role> roles){
+        return (List<RolePrivilege>) getEntityManager().createNamedQuery("RolePrivilege.findAllByRoles").setParameter("proles", roles).getResultList();
     }
 
     public RolePrivilege findRolePrivilegeByRoleIdAndPrivilegeId(int roleId, int privilegeId) {

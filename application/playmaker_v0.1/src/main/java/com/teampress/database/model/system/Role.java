@@ -30,9 +30,6 @@ public class Role extends BaseModel {
 	@Column(name="DESCRIPTION", length=200)
 	private String description;
 
-	@Column(name="DELETABLE")
-	private boolean deletable;
-
 	//bi-directional many-to-one association to RolePrivilege
 	@OneToMany(mappedBy="role")
 	private Set<RolePrivilege> rolePrivileges;
@@ -74,7 +71,6 @@ public class Role extends BaseModel {
 	public RolePrivilege addRolePrivilege(RolePrivilege rolePrivilege) {
 		getRolePrivileges().add(rolePrivilege);
 		rolePrivilege.setRole(this);
-
 		return rolePrivilege;
 	}
 
@@ -104,16 +100,7 @@ public class Role extends BaseModel {
 	public UserRole removeUserRole(UserRole userRole) {
 		getUserRoles().remove(userRole);
 		userRole.setRole(null);
-
 		return userRole;
-	}
-
-	public boolean isDeletable() {
-		return deletable;
-	}
-
-	public void setDeletable(boolean deletable) {
-		this.deletable = deletable;
 	}
 
 	//endregion

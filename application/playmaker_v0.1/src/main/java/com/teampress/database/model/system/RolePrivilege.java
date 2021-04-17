@@ -15,7 +15,7 @@ import javax.persistence.*;
 		@NamedQuery(name="RolePrivilege.findAll", query="SELECT rp FROM RolePrivilege rp"),
 		@NamedQuery(name="RolePrivilege.countAll", query = "SELECT COUNT(rp) FROM RolePrivilege rp"),
 		@NamedQuery(name="RolePrivilege.findById", query="SELECT rp FROM RolePrivilege rp WHERE rp.id = :pid"),
-		@NamedQuery(name="RolePrivilege.findAllByRoleId", query="SELECT rp FROM RolePrivilege rp WHERE  rp.role.id = :proleid"),
+		@NamedQuery(name="RolePrivilege.findAllByRoles", query="SELECT rp FROM RolePrivilege rp WHERE  rp.role in :proles"),
 		@NamedQuery(name="RolePrivilege.findByRoleIdAndPrivilegeId", query = "SELECT rp FROM RolePrivilege rp WHERE rp.role.id = :proleid AND rp.privilege.id = :pprivilegeid"),
 })
 @Cacheable(false)

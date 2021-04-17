@@ -16,8 +16,8 @@ public class UserRoleService extends BaseService {
         return (List<UserRole>) getEntityManager().createNamedQuery("UserRole.findAll").getResultList();
     }
 
-    public List<UserRole> findAllByUserId(int userid){
-        return (List<UserRole>) getEntityManager().createNamedQuery("UserRole.findAllByUserId").setParameter("puid", userid).getResultList();
+    public List<Role> findAllRoleByUser(User user){
+        return (List<Role>) getEntityManager().createNamedQuery("UserRole.findAllByUser").setParameter("pu", user).getResultList();
     }
 
     public UserRole findUserRoleByUserIdAndRoleId(int userid, int roleid) {

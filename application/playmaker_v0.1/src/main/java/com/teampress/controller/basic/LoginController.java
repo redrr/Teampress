@@ -1,5 +1,6 @@
 package com.teampress.controller.basic;
 
+import com.teampress.database.model.system.Role;
 import com.teampress.database.model.system.RolePrivilege;
 import com.teampress.database.model.system.User;
 import com.teampress.database.service.system.RolePrivilegeService;
@@ -57,7 +58,7 @@ public class LoginController {
                 request.getSession().setAttribute("username", user.getUsername());
                 ArrayList<String> permissions = new ArrayList<>();
                 ArrayList<String> roles = new ArrayList<>();
-                for(RolePrivilege rp : rolePrivilegeService.findAllByRoleId(userRoleService.findAllByUserId(user.getId()).get(0).getRole().getId())) {
+                for(RolePrivilege rp : rolePrivilegeService.findAllByRole(userRoleService.findAllRoleByUser(user))) {
                     permissions.add(rp.getPrivilege().getName());
                     roles.add(rp.getRole().getName());
                 }
