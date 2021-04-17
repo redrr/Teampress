@@ -82,8 +82,10 @@ public class OrgCountryController extends BaseController {
     public String del(@RequestParam("id") String id) {
         if(hasPermission(Permissions.ADMIN)){
             OrgCountry o = orgCountryService.find(Integer.parseInt(id));
-            orgCountryService.delete(o);
-            orgCountryService.flush();
+            if (Objects.nonNull(o)) {
+                orgCountryService.delete(o);
+                orgCountryService.flush();
+            }
         }
         return "redirect:/org/orgcountry";
     }

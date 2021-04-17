@@ -68,8 +68,10 @@ public class RoleController extends BaseController {
     public String del(@RequestParam("id") String id) {
         if(hasPermission(Permissions.ADMIN)){
             Role r = roleService.find(Integer.parseInt(id));
-            roleService.delete(r);
-            roleService.flush();
+            if (Objects.nonNull(r)) {
+                roleService.delete(r);
+                roleService.flush();
+            }
         }
         return "redirect:/priv/role";
     }

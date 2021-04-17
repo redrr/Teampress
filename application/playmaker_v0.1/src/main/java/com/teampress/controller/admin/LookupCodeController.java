@@ -72,8 +72,10 @@ public class LookupCodeController extends BaseController {
     public String del(@RequestParam("id") String id) {
         if(hasPermission(Permissions.ADMIN)) {
             LookupCode l = lookupCodeService.find(Integer.parseInt(id));
-            lookupCodeService.delete(l);
-            lookupCodeService.flush();
+            if (Objects.nonNull(l)) {
+                lookupCodeService.delete(l);
+                lookupCodeService.flush();
+            }
         }
         return "redirect:/sys/lookup";
     }

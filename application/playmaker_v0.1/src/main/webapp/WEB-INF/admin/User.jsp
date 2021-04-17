@@ -86,7 +86,7 @@
                                                             <div class="form-group row">
                                                                 <div class="dt-btn-flex">
                                                                     <input id="submit" class="btn btn-primary btn-soft" name="save" type="submit" value="Mentés"/>
-                                                                    <button type="button" id="clear-form-btn" class="btn btn-light" onclick="window.location = '/usr/user'">
+                                                                    <button type="button" id="clear-form-btn" class="btn btn-light btn-soft" onclick="window.location = '/usr/user'">
                                                                         Mégse
                                                                     </button>
                                                                 </div>
@@ -121,8 +121,8 @@
                                                                     <td>${data.email}</td>
                                                                     <td>${data.phoneNumber}</td>
                                                                     <td>
-                                                                        <button type="button" class="btn btn-info" onclick="get(${data.id})"><i class="cil-description"></i> Módosítás</button>
-                                                                        <button type="button" class="btn btn-danger" onclick="del(${data.id})"><i class="cil-trash"></i> Törlés</button>
+                                                                        <button type="button" class="btn btn-info btn-soft" onclick="get(${data.id})"><i class="cil-description"></i> Módosítás</button>
+                                                                        <button type="button" class="btn btn-danger btn-soft" onclick="del(${data.id})"><i class="cil-trash"></i> Törlés</button>
                                                                     </td>
                                                                 </tr>
                                                             </c:forEach>

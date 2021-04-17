@@ -80,8 +80,10 @@ public class ParameterController extends BaseController {
     public String del(@RequestParam("id") String id) {
         if(hasPermission(Permissions.ADMIN)){
             Parameter p = parameterService.find(Integer.parseInt(id));
-            parameterService.delete(p);
-            parameterService.flush();
+            if (Objects.nonNull(p)) {
+                parameterService.delete(p);
+                parameterService.flush();
+            }
         }
         return "redirect:/sys/param";
     }

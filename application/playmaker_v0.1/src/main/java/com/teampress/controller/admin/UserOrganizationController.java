@@ -83,8 +83,10 @@ public class UserOrganizationController extends BaseController {
     public String del(@RequestParam("id") String id) {
         if(hasPermission(Permissions.ADMIN)){
             UserOrganization u = userOrganizationService.find(Integer.parseInt(id));
-            userOrganizationService.delete(u);
-            userOrganizationService.flush();
+            if (Objects.nonNull(u)) {
+                userOrganizationService.delete(u);
+                userOrganizationService.flush();
+            }
         }
         return "redirect:/org/userorg";
     }

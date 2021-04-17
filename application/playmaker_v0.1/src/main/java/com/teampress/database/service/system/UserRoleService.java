@@ -33,8 +33,7 @@ public class UserRoleService extends BaseService {
     }
 
     public UserRole find(Integer id){
-        List result = getEntityManager().createNamedQuery("UserRole.findById").setParameter("pid", id).getResultList();
-        return result.isEmpty() ? null : (UserRole)result.get(0);
+        return (UserRole) getEntityManager().createNamedQuery("UserRole.findById").setParameter("pid", id).getSingleResult();
     }
 
     public boolean existsByUserAndRole(User user, Role role) {

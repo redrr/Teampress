@@ -68,8 +68,10 @@ public class OrganizationController extends BaseController {
     public String del(@RequestParam("id") String id) {
         if(hasPermission(Permissions.ADMIN)){
             Organization o = organizationService.find(Integer.parseInt(id));
-            organizationService.delete(o);
-            organizationService.flush();
+            if (Objects.nonNull(o)) {
+                organizationService.delete(o);
+                organizationService.flush();
+            }
         }
         return "redirect:/org/organization";
     }

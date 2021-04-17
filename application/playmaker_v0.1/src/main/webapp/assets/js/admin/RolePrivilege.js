@@ -11,7 +11,7 @@ function del(id){
             id: id
         },
         function (result) {
-
+            window.location = '/priv/rolepriv';
         });
 }
 

@@ -79,8 +79,10 @@ public class UserController extends BaseController {
     public String del(@RequestParam("id") String id) {
         if(hasPermission(Permissions.ADMIN)){
             User u = userService.find(Integer.parseInt(id));
-            userService.delete(u);
-            userService.flush();
+            if (Objects.nonNull(u)) {
+                userService.delete(u);
+                userService.flush();
+            }
         }
         return "redirect:/usr/user";
     }

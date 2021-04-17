@@ -92,7 +92,6 @@ public class ImportController extends BaseController {
                                 userOrganizationPOJO.setUser(user);
                                 userOrganizationService.mergeFlush(userOrganizationPOJO);
                                 //Send Registration
-                                //new EmailSender(this.emailSender).sendHtmlMessage(user.getEmail(), "Regisztráció véglegesítés", "Kedves "+user.getName()+"!<br><br>Kérjük az alábbi link segítségével add meg a jelszavad és ezáltal véglegesítsd a regisztrációd: <a href=\"http://localhost:8080/newpassword/"+ user.getUsername() +"\" target=\"_blank\">Jelszó megadása</a>");
                                 new EmailSender(this.emailSender).sendHtmlMessage(user.getEmail(), "Regisztráció véglegesítés", MailTemplates.welcome(parameterService.findParameterByGroupAndCode(Parameters.SYSTEM, Parameters.DOMAIN).getValue()+"/newpassword/"+ user.getUsername()));
                             }
                         }
