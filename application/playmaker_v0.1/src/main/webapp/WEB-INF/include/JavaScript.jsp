@@ -65,4 +65,4 @@
 <script src="../../assets/vendor/assets/pages/toolbar/jquery.toolbar.min.js"></script>
 
 <script src="../../assets/js/Header.js"></script>
-<script src="../../assets/js/Index.js"></script>
+<%@include file="../../assets/js/IndexJS.jsp"%>
