@@ -20,7 +20,7 @@ import static java.util.Objects.isNull;
         @NamedQuery(name="UserPost.findByUser", query="SELECT u FROM UserPost u WHERE u.user = :pu"),
         @NamedQuery(name="UserPost.findByOrgAndUser", query="SELECT u FROM UserPost u WHERE u.organization = :porg AND u.user = :pu"),
         @NamedQuery(name="UserPost.findByOrg", query="SELECT u FROM UserPost u WHERE u.organization = :porg"),
-        @NamedQuery(name="UserPost.findByOrgOrdered", query="SELECT u FROM UserPost u WHERE u.organization = :porg ORDER BY u.id DESC")
+        @NamedQuery(name="UserPost.findByOrgOrdered", query="SELECT u FROM UserPost u WHERE u.organization = :porg AND u.deleted = false ORDER BY u.id DESC")
 })
 @Cacheable(false)
 public class UserPost extends BaseModel {
@@ -41,6 +41,9 @@ public class UserPost extends BaseModel {
 
     @Column(name="POST", length=255)
     private String post;
+
+    @Column(name = "DELETED", length = 1)
+    private Boolean deleted = false;
 
     public UserPost() {
     }
@@ -69,17 +72,25 @@ public class UserPost extends BaseModel {
         this.post = post;
     }
 
-    public String getRealDate(){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        return (isNull(getCreationDate())) ? "" : dateFormat.format(getCreationDate());
-    }
-
     public String getImageUrl() {
         return imageUrl;
     }
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public String getRealDate(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        return (isNull(getCreationDate())) ? "" : dateFormat.format(getCreationDate());
     }
 
     public JSONObject getJSONObject() {

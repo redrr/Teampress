@@ -15,7 +15,7 @@ import java.util.Objects;
         @NamedQuery(name="UserPostComment.findById", query="SELECT u FROM UserPostComment u WHERE u.id = :pid"),
         @NamedQuery(name="UserPostComment.findByUser", query="SELECT u FROM UserPostComment u WHERE u.user = :pu"),
         @NamedQuery(name="UserPostComment.findByOrgAndUser", query="SELECT u FROM UserPostComment u WHERE u.userPost = :porg AND u.user = :pu"),
-        @NamedQuery(name="UserPostComment.findByOrg", query="SELECT u FROM UserPostComment u WHERE u.userPost = :porg"),
+        @NamedQuery(name="UserPostComment.findByOrg", query="SELECT u FROM UserPostComment u WHERE u.userPost = :porg AND u.deleted = false"),
         @NamedQuery(name="UserPostComment.findByOrgOrdered", query="SELECT u FROM UserPostComment u WHERE u.userPost = :porg ORDER BY u.creationDate ASC")
 })
 @Cacheable(false)
@@ -35,6 +35,9 @@ public class UserPostComment extends BaseModel {
 
     @Column(name="COMMENT", length=255)
     private String comment;
+
+    @Column(name = "DELETED", length = 1)
+    private Boolean deleted = false;
 
     public UserPostComment() {
     }
@@ -63,9 +66,18 @@ public class UserPostComment extends BaseModel {
         this.comment = comment;
     }
 
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+
     public JSONObject getJSONObject() {
         JSONObject json = new JSONObject();
         try {
+            json.put("id", Objects.toString(getId(), ""));
             json.put("name", Objects.toString(getUser().getName(), ""));
             json.put("profileImg", Objects.toString(getUser().getProfilImg(), ""));
             json.put("text", Objects.toString(getComment(), ""));

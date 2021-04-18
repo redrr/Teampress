@@ -117,7 +117,34 @@ public class IndexController extends BaseController {
         return "";
     }
 
-
+    private int weatherController(Organization organization) {
+        List<OrgCountry> countries = orgCountryService.find(organization);
+        LocalDate date = LocalDate.now();
+        for(OrgCountry country : countries) {
+            Date updateDate = country.getTempUpdateAt();
+            if(true) {
+                String url = "https://api.openweathermap.org/data/2.5/weather?q=Kecskemét&appid=a6de016d16c4c3eea60314cd92f3fcad";
+                RestTemplate restTemplate = new RestTemplate();
+                String jsonString = restTemplate.getForObject(url, String.class);
+                JSONObject jsonObject = null;
+                int temp = 0;
+                try {
+                    jsonObject = new JSONObject(jsonString);
+                    JSONObject main = new JSONObject(String.valueOf(jsonObject.get("main")));
+                    temp = Math.toIntExact(Math.round(Float.parseFloat(String.valueOf(main.get("temp"))) - 273.15));
+                    country.setTemp(temp);
+                    country.setTempUpdateAt(new Date(System.currentTimeMillis()));
+                    //orgCountryService.mergeFlush(country);
+                    return temp;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                return country.getTemp();
+            }
+        }
+        return 0;
+    }
 
     @RequestMapping(method = RequestMethod.POST, value = "/dopost")
     public String doPost(@Valid @ModelAttribute("createPost") IndexForm form) {
@@ -158,6 +185,7 @@ public class IndexController extends BaseController {
         return "redirect:/";
     }
 
+    //Notifications
     @RequestMapping(method = RequestMethod.POST, value = "/getnoti")
     @ResponseBody
     public String getTrainingFormData(){
@@ -202,6 +230,7 @@ public class IndexController extends BaseController {
         return "";
     }
 
+    //Trainer rating
     @RequestMapping(method = RequestMethod.POST, value = "/getratings")
     @ResponseBody
     public String rating(){
@@ -253,6 +282,7 @@ public class IndexController extends BaseController {
         return null;
     }
 
+    //Profile img
     @RequestMapping(method = RequestMethod.POST, value = "/home/getimg")
     @ResponseBody
     public String getImg(){
@@ -270,6 +300,7 @@ public class IndexController extends BaseController {
         return "";
     }
 
+    //Post & comment
     @RequestMapping(method = RequestMethod.POST, value = "/home/getposts")
     @ResponseBody
     public String getPosts(@RequestParam Integer offset) {
@@ -296,48 +327,23 @@ public class IndexController extends BaseController {
         return "";
     }
 
-    private Map<UserPost, Map<String, UserPostComment>> readPosts() {
-        Map<UserPost, Map<String, UserPostComment>> result = new LinkedMap<>();
-        User currentUser = userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession());
-        Organization organization = userOrganizationService.getOrgByUser(currentUser).getOrganization();
-        for(UserPost post : userPostService.findAllByOrg(organization)) {
-            Map<String, UserPostComment> comments = new TreeMap<>();
-            for(UserPostComment comment : userPostCommentService.getCommentByPost(post)) {
-                comments.put(comment.getId().toString(), comment);
-            }
-            result.put(post, comments);
+    @RequestMapping(method = RequestMethod.POST, value = "/home/deletepost")
+    @ResponseBody
+    public void deletePost(@RequestParam Integer id) {
+        if (hasPermission(Permissions.DELETE_POST_COMMENT) && Objects.nonNull(id)) {
+            UserPost post = userPostService.find(id);
+            post.setDeleted(true);
+            userPostService.mergeFlush(post);
         }
-        return result;
     }
 
-    private int weatherController(Organization organization) {
-        List<OrgCountry> countries = orgCountryService.find(organization);
-        LocalDate date = LocalDate.now();
-        for(OrgCountry country : countries) {
-            Date updateDate = country.getTempUpdateAt();
-            if(true) {
-                String url = "https://api.openweathermap.org/data/2.5/weather?q=Kecskemét&appid=a6de016d16c4c3eea60314cd92f3fcad";
-                RestTemplate restTemplate = new RestTemplate();
-                String jsonString = restTemplate.getForObject(url, String.class);
-                JSONObject jsonObject = null;
-                int temp = 0;
-                try {
-                    jsonObject = new JSONObject(jsonString);
-                    JSONObject main = new JSONObject(String.valueOf(jsonObject.get("main")));
-                    temp = Math.toIntExact(Math.round(Float.parseFloat(String.valueOf(main.get("temp"))) - 273.15));
-                    country.setTemp(temp);
-                    country.setTempUpdateAt(new Date(System.currentTimeMillis()));
-                    //orgCountryService.mergeFlush(country);
-                    return temp;
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                return country.getTemp();
-            }
+    @RequestMapping(method = RequestMethod.POST, value = "/home/deletecomment")
+    @ResponseBody
+    public void deleteComment(@RequestParam Integer id) {
+        if (hasPermission(Permissions.DELETE_POST_COMMENT) && Objects.nonNull(id)) {
+            UserPostComment comment = userPostCommentService.find(id);
+            comment.setDeleted(true);
+            userPostCommentService.mergeFlush(comment);
         }
-        return 0;
     }
-
-
 }

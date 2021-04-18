@@ -27,4 +27,8 @@ public class UserPostCommentService extends BaseService {
     public List<UserPostComment> getCommentByPost(UserPost userPost){
         return getEntityManager().createNamedQuery("UserPostComment.findByOrg").setParameter("porg", userPost).getResultList();
     }
+
+    public UserPostComment find(Integer id) {
+        return (UserPostComment) getEntityManager().createNamedQuery("UserPostComment.findById").setParameter("pid", id).getSingleResult();
+    }
 }

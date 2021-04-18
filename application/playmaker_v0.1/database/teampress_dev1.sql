@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1:3308
--- Létrehozás ideje: 2021. Ápr 18. 06:22
+-- Létrehozás ideje: 2021. Ápr 18. 15:12
 -- Kiszolgáló verziója: 8.0.18
 -- PHP verzió: 7.3.12
 
@@ -476,7 +476,7 @@ CREATE TABLE IF NOT EXISTS `permission` (
   `LAST_UPDATED_BY` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_hungarian_ci DEFAULT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `idx_priv_name_uq` (`NAME`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 --
 -- A tábla adatainak kiíratása `permission`
@@ -512,7 +512,8 @@ INSERT INTO `permission` (`ID`, `NAME`, `DESCRIPTION`, `VERSION`, `DELETABLE`, `
 (27, 'VIDEO_ANALYTICS_EDIT', NULL, 1, 0, NULL, '2021-03-02 17:57:51', NULL, NULL),
 (28, 'ANNUAL_COST_CREATE', NULL, 1, 0, NULL, '2021-03-04 10:31:55', NULL, NULL),
 (29, 'MY_TEAM', NULL, 1, 0, NULL, '2021-04-18 05:20:57', NULL, NULL),
-(30, 'MY_CLUB', NULL, 1, 0, NULL, '2021-04-18 05:20:57', NULL, NULL);
+(30, 'MY_CLUB', NULL, 1, 0, NULL, '2021-04-18 05:20:57', NULL, NULL),
+(31, 'DELETE_POST_COMMENT', NULL, 1, 0, NULL, '2021-04-18 15:09:38', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -564,7 +565,7 @@ CREATE TABLE IF NOT EXISTS `rolepermission` (
   UNIQUE KEY `idx_role_priv_uq` (`ROLE_ID`,`PRIVILEGE_ID`),
   KEY `fk_role_priv_priv_id` (`PRIVILEGE_ID`),
   KEY `fk_role_role_id` (`ROLE_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 --
 -- A tábla adatainak kiíratása `rolepermission`
@@ -617,7 +618,9 @@ INSERT INTO `rolepermission` (`ID`, `ROLE_ID`, `PRIVILEGE_ID`, `VERSION`, `CREAT
 (44, 4, 28, 1, NULL, '2021-03-04 10:32:40', NULL, NULL),
 (45, 3, 16, 1, NULL, '2021-03-04 10:33:26', NULL, NULL),
 (46, 3, 29, 0, 'Admin', '2021-04-18 05:22:15', NULL, NULL),
-(47, 4, 30, 0, 'Admin', '2021-04-18 05:22:25', NULL, NULL);
+(47, 4, 30, 0, 'Admin', '2021-04-18 05:22:25', NULL, NULL),
+(48, 3, 31, 0, 'Admin', '2021-04-18 15:10:00', NULL, NULL),
+(49, 4, 31, 0, 'Admin', '2021-04-18 15:10:08', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -833,6 +836,7 @@ CREATE TABLE IF NOT EXISTS `userpost` (
   `TEAM_ID` int(11) DEFAULT NULL,
   `POST` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_hungarian_ci DEFAULT NULL,
   `IMAGE_URL` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_hungarian_ci DEFAULT NULL,
+  `DELETED` tinyint(1) NOT NULL DEFAULT '0',
   `VERSION` int(11) DEFAULT '1',
   `CREATED_BY` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_hungarian_ci DEFAULT NULL,
   `CREATION_DATE` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
@@ -855,6 +859,7 @@ CREATE TABLE IF NOT EXISTS `userpostcomment` (
   `USER_ID` int(11) NOT NULL,
   `POST_ID` int(11) NOT NULL,
   `COMMENT` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_hungarian_ci DEFAULT NULL,
+  `DELETED` tinyint(1) NOT NULL DEFAULT '0',
   `VERSION` int(11) DEFAULT '1',
   `CREATED_BY` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_hungarian_ci DEFAULT NULL,
   `CREATION_DATE` timestamp NULL DEFAULT CURRENT_TIMESTAMP,

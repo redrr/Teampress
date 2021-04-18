@@ -36,6 +36,7 @@ public enum Permissions {
     OWNER,
     MY_CLUB,
     MY_TEAM,
+    DELETE_POST_COMMENT,
     //endregion
 
     //region Admin

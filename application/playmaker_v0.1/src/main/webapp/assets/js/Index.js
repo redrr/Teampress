@@ -32,9 +32,12 @@ function addPost(json) {
         '                   <img class="media-object img-circle m-r-20" src="/content/profileImages/'+json.profileImg+'" alt="">\n' +
         '               </a>\n' +
         '           </div>\n' +
-        '           <div class="col-11 media-body">\n' +
+        '           <div class="col-9 media-body">\n' +
         '               <div class="chat-header">'+json.name+'</div>\n' +
         '               <div class="f-13 text-muted">'+json.postDate+'</div>\n' +
+        '           </div>\n' +
+        '           <div class="col-2 media-right">' +
+        '               <button class="btn-delete btn btn-mini float-right btn-danger" onclick="deletePost('+json.id+')">x</button>'+
         '           </div>\n' +
         '       </div>\n' +
         '   </div>\n' +
@@ -67,7 +70,12 @@ function addPost(json) {
                 '       <img class="media-object img-circle m-r-20" src="/content/profileImages/'+comment.profileImg+'" alt="Generic placeholder image">\n' +
                 '   </div>\n' +
                 '   <div class="col-10 col-md-11" style="border-radius: 8px;background-color: #4b556614;padding: 16px;">\n' +
-                '       <div class="chat-header">'+comment.name+'</div>\n' +
+                '       <div class="row">' +
+                '           <div class="col-10 chat-header">'+comment.name+'</div>\n' +
+                '           <div class="col-2">' +
+                '               <button class="btn-delete btn btn-danger btn-mini float-right" onclick="deleteComment('+comment.id+')">x</button>' +
+                '           </div>\n' +
+                '       </div>\n' +
                 '       <p class="text-muted" style="margin: 0">'+comment.text+'</p>\n' +
                 '   </div>\n' +
                 '</div>\n';
@@ -94,6 +102,39 @@ function addPost(json) {
     $('#btn'+json.id+'').on('click', function () {comment(json.id)});
 }
 
+function deletePost(id) {
+    $.confirm({
+        title: 'Biztosan törlöd?',
+        content: '',
+        type: 'red',
+        theme: 'supervan',
+        animation: 'zoom',
+        animationBounce: 1.5,
+        typeAnimated: true,
+        buttons: {
+            delete: {
+                text: 'Törlés',
+                btnClass: 'btn-red',
+                action: function() {
+                    $.post(
+                        "/home/deletepost",
+                        {
+                            id  :   id
+                        },
+                        function () {
+                            window.location = '/';
+                        }
+                    );
+                }
+            },
+            cancel: {
+                text: 'Mégse',
+                btnClass: 'btn-blue',
+            }
+        }
+    })
+}
+
 function comment(id) {
     $.post(
         '/docomment',
@@ -105,4 +146,37 @@ function comment(id) {
             window.location = "/home";
         }
     );
+}
+
+function deleteComment(id) {
+    $.confirm({
+        title: 'Biztosan törlöd?',
+        content: '',
+        type: 'red',
+        theme: 'supervan',
+        animation: 'zoom',
+        animationBounce: 1.5,
+        typeAnimated: true,
+        buttons: {
+            delete: {
+                text: 'Törlés',
+                btnClass: 'btn-red',
+                action: function() {
+                    $.post(
+                        "/home/deletecomment",
+                        {
+                            id  :   id
+                        },
+                        function () {
+                            window.location = '/';
+                        }
+                    );
+                }
+            },
+            cancel: {
+                text: 'Mégse',
+                btnClass: 'btn-blue',
+            }
+        }
+    })
 }
