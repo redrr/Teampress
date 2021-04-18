@@ -232,3 +232,15 @@ span.badge {
 .badge-success {
     background-color: #1abc9c;
 }
+
+.dataTables_filter {
+    display: none!important;
+}
+
+div.dt-buttons {
+    float: right!important;
+}
+
+button.dt-button, div.dt-button, a.dt-button, button.dt-button:focus:not(.disabled), div.dt-button:focus:not(.disabled), a.dt-button:focus:not(.disabled), button.dt-button:active:not(.disabled), button.dt-button.active:not(.disabled), div.dt-button:active:not(.disabled), div.dt-button.active:not(.disabled), a.dt-button:active:not(.disabled), a.dt-button.active:not(.disabled) {
+    border-radius: 8px!important;
+}

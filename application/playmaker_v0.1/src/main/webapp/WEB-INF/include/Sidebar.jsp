@@ -18,6 +18,14 @@
 
             <!-- Normal users -->
             <c:if test="${!sessionHandler.userHasPermission('ADMIN')}">
+                <c:if test="${sessionHandler.userHasPermission('MY_CLUB') || sessionHandler.userHasPermission('MY_TEAM')}">
+                    <li class="${requestURI.equals('/dashboard') ? 'active' : ''}">
+                        <a href="/dashboard">
+                            <span class="pcoded-micon"><i class="ti-panel"></i></span>
+                            <span class="pcoded-mtext" data-i18n="nav.crm-contact.main">Irányítópult</span>
+                        </a>
+                    </li>
+                </c:if>
                 <c:if test="${sessionHandler.userHasPermission('TRAIN_TABLE') || sessionHandler.userHasPermission('EXERCISE_TABLE')}">
                     <li class="pcoded-hasmenu ${(requestURI.contains('/training')) ? 'active' : ''}">
                         <a href="javascript:void(0)">
@@ -92,14 +100,6 @@
                                 </li>
                             </c:if>
                         </ul>
-                    </li>
-                </c:if>
-                <c:if test="${sessionHandler.userHasPermission('MY_CLUB') || sessionHandler.userHasPermission('MY_TEAM')}">
-                    <li class="${requestURI.equals('/dashboard') ? 'active' : ''}">
-                        <a href="/dashboard">
-                            <span class="pcoded-micon"><i class="ti-panel"></i></span>
-                            <span class="pcoded-mtext" data-i18n="nav.crm-contact.main">Irányítópult</span>
-                        </a>
                     </li>
                 </c:if>
                 <c:if test="${sessionHandler.userHasPermission('HOME_HEADER_BUTTONS')}">

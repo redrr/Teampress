@@ -32,7 +32,7 @@
                                                                 <th data-priority="1">Név</th>
                                                                 <th>Csapat</th>
                                                                 <th>Email cím</th>
-                                                                <th data-priority="1">Műveletek</th>
+                                                                <th data-priority="2" search="disabled">Műveletek</th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>
@@ -84,7 +84,7 @@
                                                                     <th data-priority="1">Név</th>
                                                                     <th>Csapat</th>
                                                                     <th>Email cím</th>
-                                                                    <th data-priority="1">Műveletek</th>
+                                                                    <th data-priority="2" search="disabled">Műveletek</th>
                                                                 </tr>
                                                                 </thead>
                                                                 <tbody>

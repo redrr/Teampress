@@ -30,30 +30,36 @@ function createDataTable(tableId) {
             } else  {
                 search += '<th><input class="form-control" type="'+searchAttr+'"/></th>';
             }
+        } else {
+            search += '<th></th>';
         }
     });
     search += '</tr>'
     $('#'+tableId+' tfoot').html(search);
     $('#'+tableId+'').DataTable({
-        ordering : true,
-        searching : true,
-        responsive : true,
+        ordering    :   true,
+        searching   :   true,
+        responsive  :   true,
+        colReorder  :   true,
         language: {
             url: 'https://cdn.datatables.net/plug-ins/1.10.24/i18n/Hungarian.json'
         },
+        dom: 'Blrtip',
+        buttons: [
+            'copyHtml5',
+            'excelHtml5',
+            'csvHtml5',
+            'pdfHtml5'
+        ],
         initComplete: function () {
             // Apply the search
-            this.api().columns().every( function () {
-                var that = this;
-
-                $( 'input', this.footer() ).on( 'keyup change clear', function () {
-                    if ( that.search() !== this.value ) {
-                        that
-                            .search( this.value )
-                            .draw();
-                    }
-                } );
-            } );
+            this.api().columns().every(function () {
+                let that = this;
+                let input = $("input", this.footer());
+                input.on('change', function (ev) {
+                    that.columns(that[0]).search(this.value).draw();
+                });
+            });
         }
     });
 }
