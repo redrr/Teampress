@@ -1,11 +1,14 @@
 package com.teampress.controller.play;
 
+import com.teampress.common.enums.LGroups;
 import com.teampress.common.enums.Permissions;
 import com.teampress.common.template.DashboardUser;
 import com.teampress.controller.BaseController;
+import com.teampress.database.model.system.LookupCode;
 import com.teampress.database.model.system.Organization;
 import com.teampress.database.model.system.User;
 import com.teampress.database.model.system.UserOrganization;
+import com.teampress.database.service.system.LookupCodeService;
 import com.teampress.database.service.system.UserOrganizationService;
 import com.teampress.database.service.system.UserService;
 import com.teampress.handler.SessionHandler;
@@ -28,10 +31,12 @@ public class DashboardController extends BaseController {
 
     private UserService userService;
     private UserOrganizationService userOrganizationService;
+    private LookupCodeService lookupCodeService;
 
-    public DashboardController(UserService userService, UserOrganizationService userOrganizationService) {
+    public DashboardController(UserService userService, UserOrganizationService userOrganizationService, LookupCodeService lookupCodeService) {
         this.userService = userService;
         this.userOrganizationService = userOrganizationService;
+        this.lookupCodeService = lookupCodeService;
     }
 
     @RequestMapping()
@@ -41,6 +46,7 @@ public class DashboardController extends BaseController {
             User currentUser = userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession());
             Organization organization = userOrganizationService.getOrgByUser(currentUser).getOrganization();
             view.addObject("players", getAllPlayer(organization));
+            view.addObject("allTeam", lookupCodeService.getLookupsForLGroup(LGroups.TEAM_TYPE.name()));
             if (hasPermission(Permissions.MY_CLUB)) {
                 view.addObject("trainers", getAllTrainer(organization));
             }
@@ -90,10 +96,67 @@ public class DashboardController extends BaseController {
     public void manageUser(@RequestParam String username, @RequestParam Boolean status) {
         if (hasPermission(Permissions.MY_CLUB) || hasPermission(Permissions.MY_TEAM)) {
             if (Objects.nonNull(username) && Objects.nonNull(status)) {
-                User user = userService.findEnabledUserByUsername(username);
+                User user = userService.findByUsername(username);
                 user.setEnabled(status);
                 userService.mergeFlush(user);
             }
+        }
+    }
+
+    @RequestMapping(value = "/changeteam", method = RequestMethod.POST)
+    @ResponseBody
+    public void changeTeam(@RequestParam String username, @RequestParam String oldType, @RequestParam String newType) {
+        if (hasPermission(Permissions.MY_CLUB) || hasPermission(Permissions.MY_TEAM)) {
+            if (Objects.nonNull(username) && Objects.nonNull(oldType) && Objects.nonNull(newType)) {
+                User currentUser = userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession());
+                Organization organization = userOrganizationService.getOrgByUser(currentUser).getOrganization();
+                LookupCode team = lookupCodeService.getByCodeAndLgroup(oldType, LGroups.TEAM_TYPE.name());
+                List<UserOrganization> userOrganizations = userOrganizationService.findByOrgAndTeamAndUser(organization, team, userService.findEnabledUserByUsername(username));
+                if (userOrganizations.size() == 1) {
+                    LookupCode newTeam = lookupCodeService.getByCodeAndLgroup(newType, LGroups.TEAM_TYPE.name());
+                    UserOrganization userOrganization = userOrganizations.get(0);
+                    userOrganization.setType(newTeam);
+                    userOrganizationService.mergeFlush(userOrganization);
+                }
+            }
+        }
+    }
+
+    @RequestMapping(value = "/modifyteam", method = RequestMethod.POST)
+    @ResponseBody
+    public void modifyTeam(@RequestParam String username, @RequestParam String type, @RequestParam Boolean mod) {
+        try {
+            if (hasPermission(Permissions.MY_CLUB) || hasPermission(Permissions.MY_TEAM)) {
+                if (Objects.nonNull(username) && Objects.nonNull(type) && Objects.nonNull(mod)) {
+                    Boolean isAdd = mod;
+                    User currentUser = userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession());
+                    Organization currentOrganization = userOrganizationService.getOrgByUser(currentUser).getOrganization();
+                    LookupCode paramTeam = lookupCodeService.getByCodeAndLgroup(type, LGroups.TEAM_TYPE.name());
+                    if (isAdd) {
+                        //Új csapathoz hozzáadás
+                        UserOrganization newUserOrganization = new UserOrganization();
+                        newUserOrganization.setOrganization(currentOrganization);
+                        newUserOrganization.setType(paramTeam);
+                        newUserOrganization.setUser(userService.findByUsername(username));
+                        userOrganizationService.mergeFlush(newUserOrganization);
+                    } else {
+                        User paramUser = userService.findByUsername(username);
+                        List<UserOrganization> userOrganizations = userOrganizationService.findByOrgAndTeamAndUser(currentOrganization, paramTeam, paramUser);
+                        if (userOrganizations.size() == 1) {
+                            //Törlés a csapatból
+                            if (userOrganizationService.getOrgListByUser(currentUser).size() == 1) {
+                                //Ha már nem lenne csapatban, akkor letíltjuk
+                                paramUser.setEnabled(false);
+                                userService.mergeFlush(paramUser);
+                            }
+                            userOrganizationService.delete(userOrganizations.get(0));
+                            userOrganizationService.flush();
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

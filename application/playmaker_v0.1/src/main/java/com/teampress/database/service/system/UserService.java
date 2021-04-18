@@ -47,4 +47,9 @@ public class UserService extends BaseService {
         }
         return false;
     }
+
+    public User findByUsername(String username) {
+        List<User> result = getEntityManager().createNamedQuery("User.existsByUserName").setParameter("pusername", username).getResultList();
+        return result.isEmpty() ? null : result.get(0);
+    }
 }
