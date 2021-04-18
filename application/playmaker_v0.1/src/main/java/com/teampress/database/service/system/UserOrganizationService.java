@@ -53,4 +53,7 @@ public class UserOrganizationService extends BaseService {
     public ArrayList<UserOrganization> getOrgListByTeam(Organization org, LookupCode team){
         return (ArrayList<UserOrganization>) getEntityManager().createNamedQuery("UserOrganization.findByOrgAndTeam").setParameter("pteam", team).setParameter("porg", org).getResultList();
     }
+    public ArrayList<UserOrganization> findByOrgAndTeamAndUser(Organization org, LookupCode team, User user){
+        return (ArrayList<UserOrganization>) getEntityManager().createNamedQuery("UserOrganization.findByOrgAndTeamAndUser").setParameter("porg", org).setParameter("pteam", team).setParameter("pu", user).getResultList();
+    }
 }

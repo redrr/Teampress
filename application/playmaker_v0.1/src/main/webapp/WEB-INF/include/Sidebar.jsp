@@ -94,38 +94,12 @@
                         </ul>
                     </li>
                 </c:if>
-                <c:if test="${sessionHandler.userHasPermission('MLSZ_STATISTICS')}">
-                    <li class="pcoded-hasmenu ${(requestURI.contains('/statistics')) ? 'active' : ''}">
-                        <a href="javascript:void(0)">
-                            <span class="pcoded-micon"><i class="ti-stats-up"></i></span>
-                            <span class="pcoded-mtext" data-i18n="nav.social.main">Statisztika</span>
+                <c:if test="${sessionHandler.userHasPermission('MY_CLUB') || sessionHandler.userHasPermission('MY_TEAM')}">
+                    <li class="${requestURI.equals('/dashboard') ? 'active' : ''}">
+                        <a href="/dashboard">
+                            <span class="pcoded-micon"><i class="ti-panel"></i></span>
+                            <span class="pcoded-mtext" data-i18n="nav.crm-contact.main">Irányítópult</span>
                         </a>
-                        <ul class="pcoded-submenu">
-                            <c:if test="${sessionHandler.userHasPermission('MLSZ_STATISTICS')}">
-                                <li class="${requestURI.equals('/statistics/dashboard') ? 'active' : ''}">
-                                    <a href="/statistics/dashboard">
-                                        <span class="pcoded-micon"><i class="ti-pulse"></i></span>
-                                        <span class="pcoded-mtext" data-i18n="nav.social.fb-wall">Dashboard</span>
-                                    </a>
-                                </li>
-                            </c:if>
-                            <c:if test="${sessionHandler.userHasPermission('CAREER_TABLE')}">
-                                <li class="${requestURI.equals('/statistics/league') ? 'active' : ''}">
-                                    <a href="/statistics/league">
-                                        <span class="pcoded-micon"><i class="ti-pulse"></i></span>
-                                        <span class="pcoded-mtext" data-i18n="nav.social.fb-wall">Liga</span>
-                                    </a>
-                                </li>
-                            </c:if>
-                            <c:if test="${sessionHandler.userHasPermission('MLSZ_STATISTICS')}">
-                                <li class="${requestURI.equals('/statistics/team') ? 'active' : ''}">
-                                    <a href="/statistics/team">
-                                        <span class="pcoded-micon"><i class="ti-pulse"></i></span>
-                                        <span class="pcoded-mtext" data-i18n="nav.social.fb-wall">Csapat</span>
-                                    </a>
-                                </li>
-                            </c:if>
-                        </ul>
                     </li>
                 </c:if>
                 <c:if test="${sessionHandler.userHasPermission('HOME_HEADER_BUTTONS')}">

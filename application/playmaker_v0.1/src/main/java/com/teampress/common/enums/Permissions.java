@@ -34,6 +34,8 @@ public enum Permissions {
     HOME_WEATHER,
     VIDEO_CLOUD,
     OWNER,
+    MY_CLUB,
+    MY_TEAM,
     //endregion
 
     //region Admin

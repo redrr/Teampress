@@ -54,7 +54,7 @@ public class FinancialStatementController extends BaseController {
 
     @RequestMapping("")
     public ModelAndView showStatement() {
-        if(hasPermission(Permissions.LOGGED_IN)) {
+        if(hasPermission(Permissions.STATEMENT)) {
             ModelAndView view = new ModelAndView("play/FinancialStatement");
             LocalDate d = LocalDate.now();
             view.addObject("monthIncome", getIncomes(d));
@@ -69,7 +69,7 @@ public class FinancialStatementController extends BaseController {
 
     @RequestMapping("/{date}")
     public ModelAndView showStatement(@PathVariable String date) {
-        if(hasPermission(Permissions.LOGGED_IN)) {
+        if(hasPermission(Permissions.STATEMENT)) {
             ModelAndView view = new ModelAndView("play/FinancialStatement");
             LocalDate d = LocalDate.parse(date);
             view.addObject("monthIncome", getIncomes(d));
@@ -165,7 +165,7 @@ public class FinancialStatementController extends BaseController {
     @RequestMapping(value = "/export/{id1}/{id2}")
     @ResponseBody
     public String exportStatement(HttpServletResponse response, @PathVariable String id1, @PathVariable String id2) throws IOException, ParseException {
-        if(hasPermission(Permissions.LOGGED_IN)) {
+        if(hasPermission(Permissions.STATEMENT)) {
             Organization organization = userOrganizationService.getOrgByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession())).getOrganization();
             Date fromDate = new SimpleDateFormat("yyyy-MM-dd").parse(id1);
             Date toDate = new SimpleDateFormat("yyyy-MM-dd").parse(id2);

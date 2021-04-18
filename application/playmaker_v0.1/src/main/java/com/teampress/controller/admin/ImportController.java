@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -66,9 +67,9 @@ public class ImportController extends BaseController {
                     HSSFSheet sheet = workbook.getSheetAt(0);
                     for(Row row: sheet) {
                         if (row.getPhysicalNumberOfCells() == 2) {
-                            User validUser = userService.findUserByEmail(row.getCell(1).getStringCellValue());
-                            if (Objects.nonNull(validUser)) {
-                                view.addObject("error", view.getModel().get("error")+"<br>A(z) "+(row.getRowNum()+1)+" sorban található emailcímmel már szerepel felhasználó("+validUser.getName()+") a rendszerben.");
+                            User user = userService.findUserByEmail(row.getCell(1).getStringCellValue());
+                            if (Objects.nonNull(user)) {
+                                view.addObject("error", view.getModel().get("error")+"<br>A(z) "+(row.getRowNum()+1)+" sorban található emailcímmel már szerepel felhasználó("+user.getName()+") a rendszerben.");
                             } else {
                                 //create user
                                 User userPOJO = new User();
@@ -79,20 +80,23 @@ public class ImportController extends BaseController {
                                 userPOJO.setEmail(row.getCell(1).getStringCellValue());
                                 userPOJO.setPlayer(Roles.PLAYER.name().equals(form.getRole()));
                                 userPOJO.setTrainer(Roles.TRAINER.name().equals(form.getRole()));
-                                User user = userService.mergeFlush(userPOJO);
+                                user = userService.mergeFlush(userPOJO);
                                 //create user - role connection
                                 UserRole userRolePOJO = new UserRole();
                                 userRolePOJO.setRole(role);
                                 userRolePOJO.setUser(user);
                                 userRoleService.mergeFlush(userRolePOJO);
+                                //Send Registration
+                                new EmailSender(this.emailSender).sendHtmlMessage(user.getEmail(), "Regisztráció véglegesítés", MailTemplates.welcome(parameterService.findParameterByGroupAndCode(Parameters.SYSTEM, Parameters.DOMAIN).getValue()+"/newpassword/"+ user.getUsername()));
+                            }
+                            List<UserOrganization> userOrganizations = userOrganizationService.findByOrgAndTeamAndUser(organization, team, user);
+                            if (userOrganizations.isEmpty()) {
                                 //create user - sportclub connection
                                 UserOrganization userOrganizationPOJO = new UserOrganization();
                                 userOrganizationPOJO.setOrganization(organization);
                                 userOrganizationPOJO.setType(team);
                                 userOrganizationPOJO.setUser(user);
                                 userOrganizationService.mergeFlush(userOrganizationPOJO);
-                                //Send Registration
-                                new EmailSender(this.emailSender).sendHtmlMessage(user.getEmail(), "Regisztráció véglegesítés", MailTemplates.welcome(parameterService.findParameterByGroupAndCode(Parameters.SYSTEM, Parameters.DOMAIN).getValue()+"/newpassword/"+ user.getUsername()));
                             }
                         }
                     }

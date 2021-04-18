@@ -10,16 +10,16 @@
     <div id="pcoded" class="pcoded">
         <div class="pcoded-overlay-box"></div>
         <div class="pcoded-container navbar-wrapper">
-            <%@include file="../include/Header2.jsp" %>
+            <%@include file="../include/Header.jsp" %>
             <div class="pcoded-main-container">
                 <div class="pcoded-wrapper">
-                    <%@include file="../include/Sidebar2.jsp" %>
+                    <%@include file="../include/Sidebar.jsp" %>
                     <div class="pcoded-content" style="overflow-y: scroll; top:4em">
                         <div class="pcoded-inner-content">
                             <div class="main-body">
                                 <div class="page-wrapper">
                                     <div class="page-body">
-                                        <c:if test="${sessionHandler.userHasPermission('ADMIN')}">
+                                        <c:if test="${sessionHandler.userHasPermission('')}">
                                             <div class="row animated fadeInUpBig">
                                                 <div class="col-xl-6 col-lg-8 col-md-12 col-12">
 
