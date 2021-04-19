@@ -19,10 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -44,49 +41,49 @@ public class DashboardController extends BaseController {
         if (hasPermission(Permissions.MY_CLUB) || hasPermission(Permissions.MY_TEAM)) {
             ModelAndView view = new ModelAndView("play/Dashboard");
             User currentUser = userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession());
-            Organization organization = userOrganizationService.getOrgByUser(currentUser).getOrganization();
-            view.addObject("players", getAllPlayer(organization));
+            ArrayList<UserOrganization> userOrganizations = userOrganizationService.getOrgListByUser(currentUser);
+            view.addObject("players", getAllPlayer(userOrganizations));
             view.addObject("allTeam", lookupCodeService.getLookupsForLGroup(LGroups.TEAM_TYPE.name()));
             if (hasPermission(Permissions.MY_CLUB)) {
-                view.addObject("trainers", getAllTrainer(organization));
+                view.addObject("trainers", getAllTrainer(userOrganizations));
             }
             return view;
         }
         return new ModelAndView("403");
     }
 
-    private List<DashboardUser> getAllTrainer(Organization organization) {
-        HashSet<User> trainers = new HashSet<>();
+    private List<DashboardUser> getAllTrainer(ArrayList<UserOrganization> userOrganizations) {
         List<DashboardUser> users = new ArrayList<>();
-        for (UserOrganization userOrganization : userOrganizationService.getOrgListByOrg(organization)) {
-            if (userOrganization.getUser().isTrainer()) {
-                trainers.add(userOrganization.getUser());
+        if (!userOrganizations.isEmpty()) {
+            Organization organization = userOrganizations.get(0).getOrganization();
+            List<LookupCode> teams = userOrganizations.stream().map(UserOrganization::getType).collect(Collectors.toList());
+            for (User user : userOrganizationService.findUsersByOrgAndTeams(organization, teams)) {
+                if (user.isTrainer()) {
+                    DashboardUser dashboardUser = new DashboardUser();
+                    dashboardUser.setOrganization(organization);
+                    dashboardUser.setUser(user);
+                    dashboardUser.setTeams(userOrganizationService.getOrgListByUser(user).stream().map(UserOrganization::getType).collect(Collectors.toList()));
+                    users.add(dashboardUser);
+                }
             }
-        }
-        for (User user : trainers) {
-            DashboardUser dashboardUser = new DashboardUser();
-            dashboardUser.setOrganization(organization);
-            dashboardUser.setUser(user);
-            dashboardUser.setTeams(userOrganizationService.getOrgListByUser(user).stream().map(UserOrganization::getType).collect(Collectors.toList()));
-            users.add(dashboardUser);
         }
         return users;
     }
 
-    private List<DashboardUser> getAllPlayer(Organization organization) {
-        HashSet<User> trainers = new HashSet<>();
+    private List<DashboardUser> getAllPlayer(ArrayList<UserOrganization> userOrganizations) {
         List<DashboardUser> users = new ArrayList<>();
-        for (UserOrganization userOrganization : userOrganizationService.getOrgListByOrg(organization)) {
-            if (userOrganization.getUser().isPlayer()) {
-                trainers.add(userOrganization.getUser());
+        if (!userOrganizations.isEmpty()) {
+            Organization organization = userOrganizations.get(0).getOrganization();
+            List<LookupCode> teams = userOrganizations.stream().map(UserOrganization::getType).collect(Collectors.toList());
+            for (User user : userOrganizationService.findUsersByOrgAndTeams(organization, teams)) {
+                if (user.isPlayer()) {
+                    DashboardUser dashboardUser = new DashboardUser();
+                    dashboardUser.setOrganization(organization);
+                    dashboardUser.setUser(user);
+                    dashboardUser.setTeams(userOrganizationService.getOrgListByUser(user).stream().map(UserOrganization::getType).collect(Collectors.toList()));
+                    users.add(dashboardUser);
+                }
             }
-        }
-        for (User user : trainers) {
-            DashboardUser dashboardUser = new DashboardUser();
-            dashboardUser.setOrganization(organization);
-            dashboardUser.setUser(user);
-            dashboardUser.setTeams(userOrganizationService.getOrgListByUser(user).stream().map(UserOrganization::getType).collect(Collectors.toList()));
-            users.add(dashboardUser);
         }
         return users;
     }

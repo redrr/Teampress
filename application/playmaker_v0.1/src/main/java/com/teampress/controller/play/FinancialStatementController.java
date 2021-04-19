@@ -123,7 +123,7 @@ public class FinancialStatementController extends BaseController {
             expanseDataSet.setPointHoverBackgroundColor(expanseColor);
             List<Object> incomes = new ArrayList<>();
             List<Object> expanses = new ArrayList<>();
-            for(int i = 0; i < now.getMonthValue()-1; i++) {
+            for(int i = 0; i < now.getMonthValue(); i++) {
                 LocalDate from = LocalDate.parse(s[0]+"-"+ MONTH[i]+"-01");
                 LocalDate to = from.plusMonths(1);
                 Date fromDate = new SimpleDateFormat("yyyy-MM-dd").parse(from.toString());

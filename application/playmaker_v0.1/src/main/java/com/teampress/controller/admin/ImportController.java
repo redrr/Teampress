@@ -66,7 +66,7 @@ public class ImportController extends BaseController {
                     HSSFWorkbook workbook = new HSSFWorkbook(form.getData().getInputStream());
                     HSSFSheet sheet = workbook.getSheetAt(0);
                     for(Row row: sheet) {
-                        if (row.getPhysicalNumberOfCells() == 2) {
+                        if (row.getPhysicalNumberOfCells() == 2 && !"".equals(row.getCell(0).getStringCellValue().trim()) && !"".equals(row.getCell(1).getStringCellValue().trim())) {
                             User user = userService.findUserByEmail(row.getCell(1).getStringCellValue());
                             if (Objects.nonNull(user)) {
                                 view.addObject("error", view.getModel().get("error")+"<br>A(z) "+(row.getRowNum()+1)+" sorban található emailcímmel már szerepel felhasználó("+user.getName()+") a rendszerben.");

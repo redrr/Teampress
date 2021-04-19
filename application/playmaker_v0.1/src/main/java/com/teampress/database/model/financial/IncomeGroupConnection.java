@@ -19,7 +19,7 @@ import javax.persistence.*;
 		@NamedQuery(name="IncomeGroupConnection.findByGroup", query="SELECT p FROM IncomeGroupConnection p WHERE p.group = :pgroup"),
 		@NamedQuery(name="IncomeGroupConnection.findByIncome", query="SELECT p FROM IncomeGroupConnection p WHERE p.income = :pincome"),
 		@NamedQuery(name="IncomeGroupConnection.findAllCreatedBy", query="SELECT p FROM IncomeGroupConnection p WHERE p.createdBy = :pby"),
-		@NamedQuery(name="IncomeGroupConnection.findByOrg", query="SELECT p FROM IncomeGroupConnection p WHERE p.organization = :porg AND p.creationDate >= :pd1 AND p.creationDate < :pd2")
+		@NamedQuery(name="IncomeGroupConnection.findByOrg", query="SELECT p FROM IncomeGroupConnection p WHERE p.organization = :porg AND p.income.creationDate >= :pd1 AND p.income.creationDate < :pd2")
 })
 @Cacheable(false)
 public class IncomeGroupConnection extends BaseModel {
