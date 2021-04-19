@@ -29,8 +29,8 @@ public class GamePlanService extends BaseService {
         return getEntityManager().createNamedQuery("GamePlan.findByUserAndCG").setParameter("pcg", customGame).setParameter("puser",user).getResultList();
     }
 
-    public List<GamePlan> findByOrg(Organization organization){
-        List<GamePlan> result = new ArrayList<>();
+    public List<CustomGame> findByOrg(Organization organization){
+        List<CustomGame> result = new ArrayList<>();
         result.addAll(getEntityManager().createNamedQuery("GamePlan.findByOrgGroupedCustom").setParameter("porg", organization).getResultList());
         return result;
     }

@@ -157,18 +157,18 @@
                                                             <tbody>
                                                             <c:forEach var="data" items="${table}">
                                                                 <tr>
-                                                                    <c:if test="${data.customGame != null}">
-                                                                        <td>${data.customGame.getDateAs(false)}</td>
-                                                                        <td>${data.customGame.team.code}</td>
-                                                                        <td>${data.customGame.organization.name}</td>
-                                                                        <td>${data.customGame.enemy}</td>
-                                                                        <td>${data.customGame.place}</td>
+                                                                    <c:if test="${data != null}">
+                                                                        <td>${data.getDateAs(false)}</td>
+                                                                        <td>${data.team.code}</td>
+                                                                        <td>${data.organization.name}</td>
+                                                                        <td>${data.enemy}</td>
+                                                                        <td>${data.place}</td>
                                                                         <td>
                                                                             <c:if test="${sessionHandler.userHasPermission('PLANNER')}">
-                                                                                <button type="button" class="btn btn-primary btn-soft" onclick="$('#planner').show();getPlayersByPlayer(1,'${data.customGame.team.code}', '${data.customGame.organization.name}', '${data.customGame.enemy}', '${data.customGame.id}', 'cust', true);"><i class="ti-search"></i> Módosítás</button>
+                                                                                <button type="button" class="btn btn-primary btn-soft" onclick="$('#planner').show();getPlayersByPlayer(1,'${data.team.code}', '${data.organization.name}', '${data.enemy}', '${data.id}', 'cust', true);"><i class="ti-search"></i> Módosítás</button>
                                                                             </c:if>
                                                                             <c:if test="${!sessionHandler.userHasPermission('PLANNER')}">
-                                                                                <button type="button" class="btn btn-primary btn-soft" onclick="$('#planner').show();getPlayersByPlayer(1,'${data.customGame.team.code}', '${data.customGame.organization.name}', '${data.customGame.enemy}', '${data.customGame.id}', 'cust', false);"><i class="ti-search"></i> Megnéz</button>
+                                                                                <button type="button" class="btn btn-primary btn-soft" onclick="$('#planner').show();getPlayersByPlayer(1,'${data.team.code}', '${data.organization.name}', '${data.enemy}', '${data.id}', 'cust', false);"><i class="ti-search"></i> Megnéz</button>
                                                                             </c:if>
                                                                         </td>
                                                                     </c:if>

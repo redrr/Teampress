@@ -85,14 +85,14 @@ public class GamePlanController extends BaseController {
         return result;
     }
 
-    private List<GamePlan> getCreated(List<UserOrganization> userOrganizations) {
-        List<GamePlan> result = new ArrayList<>();
+    private List<CustomGame> getCreated(List<UserOrganization> userOrganizations) {
+        List<CustomGame> result = new ArrayList<>();
         for(UserOrganization userOrganization : userOrganizations) {
             Organization organization = userOrganization.getOrganization();
             LookupCode team = userOrganization.getType();
-            List<GamePlan> plans = gamePlanService.findByOrg(organization);
-            for (GamePlan gamePlan : plans) {
-                if(Objects.nonNull(gamePlan.getCustomGame()) && gamePlan.getCustomGame().getTeam().getCode().equals(team.getCode())){
+            List<CustomGame> plans = gamePlanService.findByOrg(organization);
+            for (CustomGame gamePlan : plans) {
+                if(gamePlan.getTeam().getCode().equals(team.getCode())){
                     result.add(gamePlan);
                 }
             }

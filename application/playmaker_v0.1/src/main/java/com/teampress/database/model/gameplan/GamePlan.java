@@ -12,7 +12,7 @@ import javax.persistence.*;
         @NamedQuery(name="GamePlan.findAll", query="SELECT p FROM GamePlan p"),
         @NamedQuery(name="GamePlan.countAll", query="SELECT COUNT(p) FROM GamePlan p"),
         @NamedQuery(name="GamePlan.findById", query="SELECT p FROM GamePlan p WHERE p.id = :pid"),
-        @NamedQuery(name="GamePlan.findByOrgGroupedCustom", query="SELECT p FROM GamePlan p WHERE p.organization=:porg GROUP BY p.customGame"),
+        @NamedQuery(name="GamePlan.findByOrgGroupedCustom", query="SELECT p.customGame FROM GamePlan p WHERE p.organization=:porg GROUP BY p.customGame"),
         @NamedQuery(name="GamePlan.findByOrgGrouped", query="SELECT p FROM GamePlan p WHERE p.organization=:porg GROUP BY p.customGame"),
         @NamedQuery(name="GamePlan.findByUserAndCG", query="SELECT p FROM GamePlan p WHERE p.user=:puser AND p.customGame=:pcg"),
         @NamedQuery(name="GamePlan.findByCG", query="SELECT p FROM GamePlan p WHERE p.customGame=:pcg")
