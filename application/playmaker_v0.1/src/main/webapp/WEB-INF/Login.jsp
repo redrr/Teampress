@@ -17,13 +17,46 @@
         <!-- Container-fluid starts -->
         <div class="container-fluid">
             <div class="row">
-                <div class="col-sm-12">
+                <div class="col-12 col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="text-left text-dark">
+                                <b>Vezető teszt felhasználó:</b><br>
+                                e-mail: vezeto@teampress.hu<br>
+                                jelszó: Teampress
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="text-left text-dark">
+                                <b>Edző teszt felhasználó:</b><br>
+                                e-mail: edzo@teampress.hu<br>
+                                jelszó: Teampress
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="text-left text-dark">
+                                <b>Sportoló teszt felhasználó:</b><br>
+                                e-mail: sportolo@teampress.hu<br>
+                                jelszó: Teampress
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 mx-auto">
                     <!-- Authentication card start -->
                     <div class="login-card card-block auth-body animated fadeInDownBig">
                         <f:form cssClass="md-float-material" name='f' htmlEscape="true" action='/login' method='POST' modelAttribute="login">
                             <div class="auth-box">
                                 <div class="row m-b-20">
-                                    <div class="col-md-12">
+                                    <div class="col-12">
                                         <h3 class="text-left txt-primary">Bejelentkezés</h3>
                                     </div>
                                 </div>
@@ -36,9 +69,9 @@
                                     <span class="md-line"></span>
                                 </div>
                                 <div class="row m-t-30">
-                                    <div class="col-12">
+                                    <!--<div class="col-12">
                                         <a class="btn link-primary" data-toggle="modal" data-target="#add-exercise-modal">Új jelszó kérése</a>
-                                    </div>
+                                    </div>-->
                                     <div class="col-md-12">
                                         <button id="submit" type="submit" class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20 btn-soft">Bejelentkezés</button>
                                     </div>
