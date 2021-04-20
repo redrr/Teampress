@@ -13,10 +13,10 @@
     <%@include file="include/Css.jsp" %>
 </head>
 <body class="fix-menu">
-    <section class="login p-fixed d-flex text-center bg-primary common-img-bg">
+    <section class="login p-fixed d-flex text-center bg-primary common-img-bg" style="background-size: cover!important;background: url(../assets/vendor/assets/images/bg.jpg) no-repeat center center fixed!important;">
         <!-- Container-fluid starts -->
         <div class="container-fluid">
-            <div class="row">
+            <div class="d-none d-lg-flex row">
                 <div class="col-12 col-md-4">
                     <div class="card">
                         <div class="card-body">
@@ -85,6 +85,15 @@
                 <!-- end of col-sm-12 -->
             </div>
             <!-- end of row -->
+            <div class="d-flex d-lg-none row">
+                <div class="col-6 mx-auto">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="text-dark">Sajnáljuk a telefonos verzió még fejlesztés alatt áll.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- end of container-fluid -->
     </section>
