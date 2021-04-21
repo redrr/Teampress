@@ -3,7 +3,9 @@ package com.teampress.database.service.index;
 import com.teampress.database.model.index.Calendar;
 import com.teampress.database.model.system.LookupCode;
 import com.teampress.database.model.system.Organization;
+import com.teampress.database.repository.index.CalendarRepository;
 import com.teampress.database.service.BaseService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,14 +13,17 @@ import java.util.List;
 @Service
 public class CalendarService extends BaseService {
 
+    @Autowired
+    private CalendarRepository repository;
+
     public List<Calendar> findAll(){
-        return getEntityManager().createNamedQuery("Calendar.findAll").getResultList();
+        return repository.findAll();
     }
 
     public String getEventsAsJSON(Organization org, LookupCode team){
-        List result = getEntityManager().createNamedQuery("Calendar.findByOrgAndTeam").setParameter("porg",org).setParameter("pteam", team).getResultList();
+        List result = repository.findAllByOrganizationAndTeam(org, team);
         String events = "";
-        for (int i = 0; i<result.size(); i++) {
+        for (int i = 0; i < result.size(); i++) {
             Calendar c = (Calendar) result.get(i);
             events += "    {\n" +
                     "      \"title\": \""+c.getEventName()+"\",\n" +
@@ -33,7 +38,7 @@ public class CalendarService extends BaseService {
     }
 
     public String getEventsAsJSON(Organization org){
-        List result = getEntityManager().createNamedQuery("Calendar.findByOrg").setParameter("porg",org).getResultList();
+        List result = repository.findAllByOrganizationAndTeamIsNull(org);
         String events = "";
         for (int i = 0; i<result.size(); i++) {
             Calendar c = (Calendar) result.get(i);
@@ -50,6 +55,6 @@ public class CalendarService extends BaseService {
     }
 
     public Calendar findByUUID(String uuid) {
-        return (Calendar) getEntityManager().createNamedQuery("Calendar.findByUuid").setParameter("puuid", uuid).getSingleResult();
+        return repository.findByUuid(uuid);
     }
 }

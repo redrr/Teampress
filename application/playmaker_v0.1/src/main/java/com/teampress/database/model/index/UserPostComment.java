@@ -12,13 +12,6 @@ import java.util.Objects;
 
 @Entity
 @Table(name="USERPOSTCOMMENT", schema="teampress")
-@NamedQueries({
-        @NamedQuery(name="UserPostComment.findAll", query="SELECT u FROM UserPostComment u"),
-        @NamedQuery(name="UserPostComment.findById", query="SELECT u FROM UserPostComment u WHERE u.id = :pid"),
-        @NamedQuery(name="UserPostComment.findByUser", query="SELECT u FROM UserPostComment u WHERE u.user = :pu"),
-        @NamedQuery(name="UserPostComment.findByOrgAndUser", query="SELECT u FROM UserPostComment u WHERE u.userPost = :porg AND u.user = :pu"),
-        @NamedQuery(name="UserPostComment.findByOrg", query="SELECT u FROM UserPostComment u WHERE u.userPost = :porg AND u.deleted = false"),
-})
 @Cacheable(false)
 @NoArgsConstructor
 @Getter

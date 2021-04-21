@@ -19,12 +19,6 @@ import java.util.Date;
  */
 @Entity
 @Table(name="CALENDAR", schema="teampress")
-@NamedQueries({
-        @NamedQuery(name="Calendar.findAll", query="SELECT c FROM Calendar c"),
-        @NamedQuery(name="Calendar.findByOrgAndTeam", query="SELECT c FROM Calendar c WHERE c.organization = :porg AND c.team = :pteam"),
-        @NamedQuery(name="Calendar.findByOrg", query="SELECT c FROM Calendar c WHERE c.organization = :porg AND c.team IS NULL "),
-        @NamedQuery(name="Calendar.findByUuid", query="SELECT c FROM Calendar c WHERE c.uuid = :puuid"),
-})
 @Cacheable(false)
 @NoArgsConstructor
 @Getter

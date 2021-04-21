@@ -18,10 +18,6 @@ import static java.util.Objects.isNull;
 @Entity
 @Table(name="USERPOST", schema="teampress")
 @NamedQueries({
-        @NamedQuery(name="UserPost.findAll", query="SELECT u FROM UserPost u"),
-        @NamedQuery(name="UserPost.findById", query="SELECT u FROM UserPost u WHERE u.id = :pid"),
-        @NamedQuery(name="UserPost.findByUser", query="SELECT u FROM UserPost u WHERE u.user = :pu"),
-        @NamedQuery(name="UserPost.findByOrgAndUser", query="SELECT u FROM UserPost u WHERE u.organization = :porg AND u.user = :pu"),
         @NamedQuery(name="UserPost.findByOrgOrdered", query="SELECT u FROM UserPost u WHERE u.organization = :porg AND u.deleted = false ORDER BY u.id DESC")
 })
 @Cacheable(false)
