@@ -1,6 +1,9 @@
 package com.teampress.database.model.system;
 
 import com.teampress.database.model.BaseModel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -16,12 +19,13 @@ import java.util.Set;
 @Table(name="CLUB", schema="teampress")
 @NamedQueries({
 		@NamedQuery(name="Organization.findAll", query="SELECT o FROM Organization o"),
-		@NamedQuery(name="Organization.countAll", query = "SELECT COUNT(o) FROM Organization o"),
 		@NamedQuery(name="Organization.findById", query = "SELECT o FROM Organization o where o.id = :pid"),
-		@NamedQuery(name="Organization.findByName", query = "SELECT o FROM Organization o WHERE o.name = :pname"),
-		@NamedQuery(name="Organization.findAllFilteredByOrganization", query= "SELECT o FROM Organization o WHERE o IN :porgs"),
+		@NamedQuery(name="Organization.findByName", query = "SELECT o FROM Organization o WHERE o.name = :pname")
 })
 @Cacheable(false)
+@NoArgsConstructor
+@Getter
+@Setter
 public class Organization extends BaseModel {
 
 	private static final long serialVersionUID = 1L;
@@ -40,124 +44,4 @@ public class Organization extends BaseModel {
 
 	@Column(name = "CURRENCY")
 	private String currency;
-
-	//bi-directional many-to-one association to OrgCountry
-	@OneToMany(mappedBy="organization")
-	private Set<OrgCountry> orgCountries;
-
-	//bi-directional many-to-one association to UserOrganization
-	@OneToMany(mappedBy="organization")
-	private Set<UserOrganization> userOrganizations;
-
-	public Organization() {
-	}
-
-	//region [Region] Getters & Setters
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Set<OrgCountry> getOrgCountries() {
-		if (Objects.isNull(orgCountries)) orgCountries = new HashSet<>();
-		return this.orgCountries;
-	}
-
-	public void setOrgCountries(Set<OrgCountry> orgCountries) {
-		this.orgCountries = orgCountries;
-	}
-
-	public OrgCountry addOrgCountry(OrgCountry orgCountry) {
-		getOrgCountries().add(orgCountry);
-		orgCountry.setOrganization(this);
-
-		return orgCountry;
-	}
-
-	public OrgCountry removeOrgCountry(OrgCountry orgCountry) {
-		getOrgCountries().remove(orgCountry);
-		orgCountry.setOrganization(null);
-
-		return orgCountry;
-	}
-
-	public Set<UserOrganization> getUserOrganizations() {
-		if (Objects.isNull(userOrganizations)) userOrganizations = new HashSet<>();
-		return this.userOrganizations;
-	}
-
-	public void setUserOrganizations(Set<UserOrganization> userOrganizations) {
-		this.userOrganizations = userOrganizations;
-	}
-
-	public UserOrganization addUserOrganization(UserOrganization userOrganization) {
-		getUserOrganizations().add(userOrganization);
-		userOrganization.setOrganization(this);
-
-		return userOrganization;
-	}
-
-	public UserOrganization removeUserOrganization(UserOrganization userOrganization) {
-		getUserOrganizations().remove(userOrganization);
-		userOrganization.setOrganization(null);
-
-		return userOrganization;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	//endregion
-
-    public OrgCountry getPrimaryOrgCountry() {
-		for (OrgCountry c : orgCountries) {
-			if (c.getPrimary())
-				return c;
-		}
-		return null;
-    }
-
-	public String getStripePublicKey() {
-		return stripePublicKey;
-	}
-
-	public void setStripePublicKey(String stripePublicKey) {
-		this.stripePublicKey = stripePublicKey;
-	}
-
-	public String getStripePrivateKey() {
-		return stripePrivateKey;
-	}
-
-	public void setStripePrivateKey(String stripePrivateKey) {
-		this.stripePrivateKey = stripePrivateKey;
-	}
-
-	public String getCurrency() {
-		return currency;
-	}
-
-	public void setCurrency(String currency) {
-		this.currency = currency;
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (!(object instanceof Organization))
-			return false;
-		else {
-			Organization orgObject = ((Organization) object);
-			return Objects.equals(this.getId(), orgObject.getId()) &&
-					Objects.equals(this.name, orgObject.getName());
-		}
-	}
 }

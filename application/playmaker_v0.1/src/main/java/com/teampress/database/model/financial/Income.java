@@ -2,6 +2,9 @@ package com.teampress.database.model.financial;
 
 import com.teampress.database.model.BaseModel;
 import com.teampress.database.model.system.Organization;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -15,7 +18,6 @@ import java.util.Objects;
 @Table(name="INCOME", schema="teampress")
 @NamedQueries({
 		@NamedQuery(name="Income.findAll", query="SELECT p FROM Income p WHERE p.deleted=false"),
-		@NamedQuery(name="Income.countAll", query="SELECT COUNT(p) FROM Income p WHERE p.deleted=false"),
 		@NamedQuery(name="Income.findById", query="SELECT p FROM Income p WHERE p.id = :pid AND p.deleted=false"),
 		@NamedQuery(name="Income.findByUUID", query="SELECT p FROM Income p WHERE p.uuid = :pid AND p.deleted=false"),
 		@NamedQuery(name="Income.findByOrg", query="SELECT p FROM Income p WHERE p.organization = :porg AND p.deleted=false"),
@@ -25,6 +27,9 @@ import java.util.Objects;
 		@NamedQuery(name="Income.sumPrizeByDate", query="SELECT sum(p.prize) FROM Income p WHERE p.organization = :porg AND p.income = :pincome AND p.accept = true AND p.deleted=false AND p.creationDate BETWEEN :pd1 AND :pd2")
 })
 @Cacheable(false)
+@NoArgsConstructor
+@Getter
+@Setter
 public class Income extends BaseModel {
 	private static final long serialVersionUID = 1L;
 
@@ -49,71 +54,4 @@ public class Income extends BaseModel {
 
 	@Column(name="DELETED", length=255)
 	private Boolean deleted = false;
-
-	public Income() {
-	}
-
-	public Organization getOrganization() {
-		return organization;
-	}
-
-	public void setOrganization(Organization organization) {
-		this.organization = organization;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public boolean isIncome() {
-		return income;
-	}
-
-	public void setIncome(boolean income) {
-		this.income = income;
-	}
-
-	public Integer getPrize() {
-		return prize;
-	}
-
-	public void setPrize(Integer prize) {
-		this.prize = prize;
-	}
-
-	public boolean isAccept() {
-		return accept;
-	}
-
-	public void setAccept(boolean accept) {
-		this.accept = accept;
-	}
-
-	public Boolean getAccept() {
-		return accept;
-	}
-
-	public void setAccept(Boolean accept) {
-		this.accept = accept;
-	}
-
-	public Boolean getDeleted() {
-		return deleted;
-	}
-
-	public void setDeleted(Boolean deleted) {
-		this.deleted = (Objects.isNull(deleted)) ? false : deleted;
-	}
-
-	public String getUuid() {
-		return uuid;
-	}
-
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
-	}
 }

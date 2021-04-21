@@ -1,6 +1,9 @@
 package com.teampress.database.model.system;
 
 import com.teampress.database.model.BaseModel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -13,12 +16,14 @@ import javax.persistence.*;
 @Table(name="LOOKUPCODE", schema="teampress")
 @NamedQueries({
 		@NamedQuery(name="LookupCode.findAll", query="SELECT l FROM LookupCode l"),
-		@NamedQuery(name="LookupCode.countAll", query="SELECT COUNT(l) FROM LookupCode l"),
 		@NamedQuery(name="LookupCode.findById", query="SELECT l FROM LookupCode l where l.id = :pid"),
 		@NamedQuery(name="LookupCode.findAllByLgroup", query = "SELECT l FROM LookupCode l WHERE l.lgroup = :plgroup"),
 		@NamedQuery(name="LookupCode.findByCodeAndLgroup", query = "SELECT l FROM LookupCode l WHERE l.code = :pcode AND l.lgroup = :plgroup")
 })
 @Cacheable(false)
+@NoArgsConstructor
+@Getter
+@Setter
 public class LookupCode extends BaseModel {
 	private static final long serialVersionUID = 1L;
 
@@ -33,42 +38,4 @@ public class LookupCode extends BaseModel {
 
 	@Column(name="DESCRIPTION", length=255)
 	private String description;
-
-	public LookupCode() {
-	}
-
-	//region [Region] Get Setters
-
-	public String getCode() {
-		return this.code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
-	public String getDescription() {
-		return this.description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getLgroup() {
-		return this.lgroup;
-	}
-
-	public void setLgroup(String lgroup) {
-		this.lgroup = lgroup;
-	}
-
-	public String getName() {
-		return this.name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-    //endregion
 }

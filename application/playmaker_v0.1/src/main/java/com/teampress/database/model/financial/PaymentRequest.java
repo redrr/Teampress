@@ -3,6 +3,9 @@ package com.teampress.database.model.financial;
 import com.teampress.database.model.BaseModel;
 import com.teampress.database.model.system.Organization;
 import com.teampress.database.model.system.User;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -21,6 +24,9 @@ import java.util.Objects;
 		@NamedQuery(name="PaymentRequest.findByCreator", query="SELECT p FROM PaymentRequest p WHERE p.organization = :porg AND p.createdBy = :pn"),
 })
 @Cacheable(false)
+@NoArgsConstructor
+@Setter
+@Getter
 public class PaymentRequest extends BaseModel {
 	private static final long serialVersionUID = 1L;
 
@@ -50,71 +56,4 @@ public class PaymentRequest extends BaseModel {
 
 	@Column(name="DELETED", length=255)
 	private Boolean deleted = false;
-
-	public PaymentRequest() {
-	}
-
-	public Organization getOrganization() {
-		return organization;
-	}
-
-	public void setOrganization(Organization organization) {
-		this.organization = organization;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Boolean getDeleted() {
-		return deleted;
-	}
-
-	public void setDeleted(Boolean deleted) {
-		this.deleted = (Objects.isNull(deleted)) ? false : deleted;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public Boolean getCompleted() {
-		return completed;
-	}
-
-	public void setCompleted(Boolean completed) {
-		this.completed = completed;
-	}
-
-	public Integer getAmount() {
-		return amount;
-	}
-
-	public void setAmount(Integer amount) {
-		this.amount = amount;
-	}
-
-	public IncomeGroup getGroup() {
-		return group;
-	}
-
-	public void setGroup(IncomeGroup group) {
-		this.group = group;
-	}
-
-	public String getUuid() {
-		return uuid;
-	}
-
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
-	}
 }

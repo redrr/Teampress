@@ -1,6 +1,9 @@
 package com.teampress.database.model.system;
 
 import com.teampress.database.model.BaseModel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -13,7 +16,6 @@ import javax.persistence.*;
 @Table(name="USERCLUB", schema="teampress")
 @NamedQueries({
 		@NamedQuery(name="UserOrganization.findAll", query="SELECT u FROM UserOrganization u"),
-		@NamedQuery(name="UserOrganization.countAll", query="SELECT COUNT(u) FROM UserOrganization u"),
 		@NamedQuery(name="UserOrganization.findById", query="SELECT u FROM UserOrganization u WHERE u.id = :pid"),
 		@NamedQuery(name="UserOrganization.findByUser", query="SELECT u FROM UserOrganization u WHERE u.user = :pu"),
 		@NamedQuery(name="UserOrganization.findByOrganization", query="SELECT u FROM UserOrganization u WHERE u.organization = :porg"),
@@ -24,6 +26,9 @@ import javax.persistence.*;
 		@NamedQuery(name="UserOrganization.findByOrgAndTeamAndUser", query="SELECT u FROM UserOrganization u WHERE u.organization = :porg AND u.type = :pteam AND u.user = :pu")
 })
 @Cacheable(false)
+@NoArgsConstructor
+@Getter
+@Setter
 public class UserOrganization extends BaseModel {
 	private static final long serialVersionUID = 1L;
 
@@ -41,35 +46,4 @@ public class UserOrganization extends BaseModel {
 	@ManyToOne
 	@JoinColumn(name="TEAM_ID", nullable=false)
 	private LookupCode type;
-
-	public UserOrganization() {
-	}
-
-	//region [Region] Get Setters
-
-	public Organization getOrganization() {
-		return this.organization;
-	}
-
-	public void setOrganization(Organization organization) {
-		this.organization = organization;
-	}
-
-	public User getUser() {
-		return this.user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public LookupCode getType() {
-		return type;
-	}
-
-	public void setType(LookupCode type) {
-		this.type = type;
-	}
-
-	//endregion
 }

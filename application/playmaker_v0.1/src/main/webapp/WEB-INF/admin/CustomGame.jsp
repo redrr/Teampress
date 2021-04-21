@@ -46,7 +46,7 @@
                                                                     <td>${data.team.code}</td>
                                                                     <td>${data.enemy}</td>
                                                                     <td>${data.place}</td>
-                                                                    <td>${data.getDateAs(false)}</td>
+                                                                    <td>${data.formattedDate(false)}</td>
                                                                 </tr>
                                                             </c:forEach>
                                                             </tbody>

@@ -1,6 +1,9 @@
 package com.teampress.database.model.system;
 
 import com.teampress.database.model.BaseModel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.json.JSONObject;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -17,14 +20,15 @@ import java.util.Set;
 @NamedQueries({
 		@NamedQuery(name="User.findAll", query="SELECT u FROM User u"),
 		@NamedQuery(name="User.findAllPlayer", query="SELECT u FROM User u WHERE u.enabled=true and u.player=true"),
-		@NamedQuery(name="User.countAll", query="SELECT COUNT(u) FROM User u"),
 		@NamedQuery(name="User.findById", query="SELECT u FROM User u WHERE u.id = :pid"),
 		@NamedQuery(name="User.existsByUserName", query="SELECT u FROM User u WHERE u.username = :pusername"),
 		@NamedQuery(name="User.findEnabledUserByName", query="SELECT u FROM User u WHERE u.username = :pusername AND u.enabled = true AND u.deleted = false"),
 		@NamedQuery(name="User.findEnabledUserByMail", query="SELECT u FROM User u WHERE u.email = :pmail AND u.enabled = true AND u.deleted = false"),
-		@NamedQuery(name="User.getRolePermissions", query="SELECT rp.privilege FROM User u LEFT JOIN u.userRoles ur LEFT JOIN ur.role r LEFT JOIN r.rolePrivileges rp WHERE u.id = :puserid AND u.enabled = true AND u.deleted = false"),
 })
 @Cacheable(false)
+@NoArgsConstructor
+@Getter
+@Setter
 public class User extends BaseModel {
 	private static final long serialVersionUID = 1L;
 
@@ -58,101 +62,9 @@ public class User extends BaseModel {
 	@Column(name="PASSWORD", nullable=false, length=255)
 	private String password;
 
-	//bi-directional many-to-one association to UserOrganization
-	@OneToMany(mappedBy="user")
-	private Set<UserOrganization> userOrganizations;
-
-	//bi-directional many-to-one association to UserRole
-	@OneToMany(mappedBy="user")
-	private Set<UserRole> userRoles;
-
-	public User() {
-	}
-
-	//region [Region] Get Setters
-
-
-	public String getProfilImg() {
-		return profilImg;
-	}
-
-	public void setProfilImg(String profilImg) {
-		this.profilImg = profilImg;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public boolean isDeleted() {
-		return deleted;
-	}
-
-	public void setDeleted(boolean deleted) {
-		this.deleted = deleted;
-	}
-
-	public boolean isEnabled() {
-		return enabled;
-	}
-
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
-
-	public String getEmail() {
-		return this.email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPassword() {
-		return this.password;
-	}
-
-	public void setPassword(String password) {
+	public void setEncodedPassword(String password) {
 		this.password = new BCryptPasswordEncoder().encode(password);
 	}
-
-	public String getUsername() {
-		return this.username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
-
-	public boolean isPlayer() {
-		return player;
-	}
-
-	public void setPlayer(boolean player) {
-		this.player = player;
-	}
-
-	public boolean isTrainer() {
-		return trainer;
-	}
-
-	public void setTrainer(boolean trainer) {
-		this.trainer = trainer;
-	}
-
-	//endregion
 
 	public JSONObject getAsJSON(){
 		JSONObject o = new JSONObject();

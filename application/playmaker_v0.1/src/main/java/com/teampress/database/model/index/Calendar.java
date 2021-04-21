@@ -4,6 +4,9 @@ import com.google.gson.annotations.Expose;
 import com.teampress.database.model.BaseModel;
 import com.teampress.database.model.system.LookupCode;
 import com.teampress.database.model.system.Organization;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.text.ParseException;
@@ -18,12 +21,14 @@ import java.util.Date;
 @Table(name="CALENDAR", schema="teampress")
 @NamedQueries({
         @NamedQuery(name="Calendar.findAll", query="SELECT c FROM Calendar c"),
-        @NamedQuery(name="Calendar.countAll", query="SELECT COUNT(c) FROM Calendar c"),
         @NamedQuery(name="Calendar.findByOrgAndTeam", query="SELECT c FROM Calendar c WHERE c.organization = :porg AND c.team = :pteam"),
         @NamedQuery(name="Calendar.findByOrg", query="SELECT c FROM Calendar c WHERE c.organization = :porg AND c.team IS NULL "),
         @NamedQuery(name="Calendar.findByUuid", query="SELECT c FROM Calendar c WHERE c.uuid = :puuid"),
 })
 @Cacheable(false)
+@NoArgsConstructor
+@Getter
+@Setter
 public class Calendar extends BaseModel {
 
     private static final long serialVersionUID = 1L;
@@ -58,18 +63,7 @@ public class Calendar extends BaseModel {
     @Column(name="END_DATE_TIME", length=255)
     private Date endDateTime;
 
-    public Calendar() {
-    }
-
-    public String getEventName() {
-        return eventName;
-    }
-
-    public void setEventName(String eventName) {
-        this.eventName = eventName;
-    }
-
-    public String getStartDateTime() {
+    public String getFormattedStartDate() {
         SimpleDateFormat dateFormat0 = new SimpleDateFormat("yyyy-MM-dd");
         String parsedDate0 = dateFormat0.format(this.startDateTime);
         SimpleDateFormat dateFormat1 = new SimpleDateFormat("HH:mm");
@@ -77,18 +71,16 @@ public class Calendar extends BaseModel {
         return parsedDate0+"T"+parsedDate1;
     }
 
-    public void setStartDateTime(String startDateTime) {
+    public void setFormattedStartDate(String startDateTime) {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            Date parsedDate = dateFormat.parse(startDateTime);
-            this.startDateTime = parsedDate;
+            this.startDateTime = dateFormat.parse(startDateTime);
         } catch (ParseException e) {
             e.printStackTrace();
         }
     }
 
-    //2019-09-05T09:00:00
-    public String getEndDateTime() {
+    public String getFormattedEndDate() {
         SimpleDateFormat dateFormat0 = new SimpleDateFormat("yyyy-MM-dd");
         String parsedDate0 = dateFormat0.format(this.endDateTime);
         SimpleDateFormat dateFormat1 = new SimpleDateFormat("HH:mm");
@@ -96,53 +88,12 @@ public class Calendar extends BaseModel {
         return parsedDate0+"T"+parsedDate1;
     }
 
-    public void setEndDateTime(String endDateTime) {
+    public void setFormattedEndDate(String endDateTime) {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            Date parsedDate = dateFormat.parse(endDateTime);
-            this.endDateTime = parsedDate;
+            this.endDateTime = dateFormat.parse(endDateTime);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-    }
-
-    public Organization getOrganization() {
-        return organization;
-    }
-
-    public void setOrganization(Organization organization) {
-        this.organization = organization;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public void setStartDateTime(Date startDateTime) {
-        this.startDateTime = startDateTime;
-    }
-
-    public void setEndDateTime(Date endDateTime) {
-        this.endDateTime = endDateTime;
-    }
-
-    public LookupCode getTeam() {
-        return team;
-    }
-
-    public void setTeam(LookupCode team) {
-        this.team = team;
-    }
-
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
     }
 }

@@ -247,7 +247,7 @@ public class VideoAnalyticsController extends BaseController {
             if(!id.trim().equals("") && videoService.find(Integer.parseInt(id)) != null) {
                 try {
                     Video video = videoService.find(Integer.parseInt(id));
-                    video.setPublic(true);
+                    video.setIsPublic(true);
                     videoService.mergeFlush(video);
                 } catch (Exception e) {
                     return "redirect:/500";

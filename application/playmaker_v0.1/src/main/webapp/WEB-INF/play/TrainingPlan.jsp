@@ -122,7 +122,7 @@
                                                             <tbody>
                                                             <c:forEach var="data" items="${datas}">
                                                                 <tr>
-                                                                    <td>${data.trainingDate}</td>
+                                                                    <td>${data.formattedTrainingDate}</td>
                                                                     <td>${data.team.code}</td>
                                                                     <c:if test="${sessionHandler.userHasPermission('TRAIN_CREATE')}">
                                                                         <td>

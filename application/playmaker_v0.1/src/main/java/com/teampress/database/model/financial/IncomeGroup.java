@@ -2,6 +2,9 @@ package com.teampress.database.model.financial;
 
 import com.teampress.database.model.BaseModel;
 import com.teampress.database.model.system.Organization;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -20,6 +23,9 @@ import java.util.Objects;
 		@NamedQuery(name="IncomeGroup.findAllCreatedBy", query="SELECT p FROM IncomeGroup p WHERE p.createdBy = :pby AND p.deleted=false AND p.organization = :porg")
 })
 @Cacheable(false)
+@NoArgsConstructor
+@Getter
+@Setter
 public class IncomeGroup extends BaseModel {
 	private static final long serialVersionUID = 1L;
 
@@ -35,39 +41,4 @@ public class IncomeGroup extends BaseModel {
 
 	@Column(name="DELETED", length=255)
 	private Boolean deleted;
-
-	public IncomeGroup() {
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public Boolean getDeleted() {
-		return deleted;
-	}
-
-	public void setDeleted(Boolean deleted) {
-		this.deleted = (Objects.isNull(deleted)) ? false : deleted;
-	}
-
-	public Organization getOrganization() {
-		return organization;
-	}
-
-	public void setOrganization(Organization organization) {
-		this.organization = organization;
-	}
 }

@@ -1,6 +1,9 @@
 package com.teampress.database.model.system;
 
 import com.teampress.database.model.BaseModel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -13,12 +16,14 @@ import javax.persistence.*;
 @Table(name="PARAMETER", schema="teampress")
 @NamedQueries({
 		@NamedQuery(name="Parameter.findAll", query="SELECT p FROM Parameter p"),
-		@NamedQuery(name="Parameter.countAll", query="SELECT COUNT(p) FROM Parameter p"),
 		@NamedQuery(name="Parameter.findById", query="SELECT p FROM Parameter p WHERE p.id = :pid"),
 		@NamedQuery(name="Parameter.findByGroupAndCode", query="SELECT p FROM Parameter p WHERE p.group = :pgroup AND p.code = :pcode"),
 		@NamedQuery(name="Parameter.findByGroup", query="SELECT p FROM Parameter p WHERE p.group = :pgroup"),
 })
 @Cacheable(false)
+@NoArgsConstructor
+@Getter
+@Setter
 public class Parameter extends BaseModel {
 	private static final long serialVersionUID = 1L;
 
@@ -48,83 +53,4 @@ public class Parameter extends BaseModel {
 
 	@Column
 	private boolean deletable;
-
-	public Parameter() {
-	}
-
-	//region [Region] Get Setters
-
-	public String getAttr1() {
-		return this.attr1;
-	}
-
-	public void setAttr1(String attr1) {
-		this.attr1 = attr1;
-	}
-
-	public String getAttr2() {
-		return this.attr2;
-	}
-
-	public void setAttr2(String attr2) {
-		this.attr2 = attr2;
-	}
-
-	public String getAttr3() {
-		return this.attr3;
-	}
-
-	public void setAttr3(String attr3) {
-		this.attr3 = attr3;
-	}
-
-	public String getAttr4() {
-		return this.attr4;
-	}
-
-	public void setAttr4(String attr4) {
-		this.attr4 = attr4;
-	}
-
-	public String getAttr5() {
-		return this.attr5;
-	}
-
-	public void setAttr5(String attr5) {
-		this.attr5 = attr5;
-	}
-
-	public String getCode() {
-		return this.code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
-	public String getGroup() {
-		return this.group;
-	}
-
-	public void setGroup(String group) {
-		this.group = group;
-	}
-
-	public String getValue() {
-		return this.value;
-	}
-
-	public void setValue(String value) {
-		this.value = value;
-	}
-
-	public boolean isDeletable() {
-		return deletable;
-	}
-
-	public void setDeletable(boolean deletable) {
-		this.deletable = deletable;
-	}
-
-	//endregion
 }

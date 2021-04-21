@@ -3,6 +3,9 @@ package com.teampress.database.model.gameplan;
 import com.teampress.database.model.BaseModel;
 import com.teampress.database.model.system.LookupCode;
 import com.teampress.database.model.system.Organization;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.text.ParseException;
@@ -15,14 +18,15 @@ import static java.util.Objects.isNull;
 @Table(name="CUSTOMGAME", schema="teampress")
 @NamedQueries({
         @NamedQuery(name="CustomGame.findAll", query="SELECT p FROM CustomGame p"),
-        @NamedQuery(name="CustomGame.countAll", query="SELECT COUNT(p) FROM CustomGame p"),
         @NamedQuery(name="CustomGame.findById", query="SELECT p FROM CustomGame p WHERE p.id = :pid"),
         @NamedQuery(name="CustomGame.findByOrg", query="SELECT p FROM CustomGame p WHERE p.organization=:porg"),
-        @NamedQuery(name="CustomGame.findByOrgAndTeam", query="SELECT p FROM CustomGame p WHERE p.team=:pteam AND p.organization=:porg"),
         @NamedQuery(name="CustomGame.findByTeamAndDate", query="SELECT p FROM CustomGame p WHERE p.team=:pteam AND p.date=:pdate"),
         @NamedQuery(name="CustomGame.findByCreated", query="SELECT p FROM CustomGame p WHERE p.createdBy=:pby AND p.deleted=false")
 })
 @Cacheable(false)
+@NoArgsConstructor
+@Getter
+@Setter
 public class CustomGame extends BaseModel {
     private static final long serialVersionUID = 1L;
 
@@ -49,51 +53,12 @@ public class CustomGame extends BaseModel {
     @Column(name="DELETED", length=255)
     private Boolean deleted;
 
-    public CustomGame() {
-    }
-
-    public Organization getOrganization() {
-        return organization;
-    }
-
-    public void setOrganization(Organization organization) {
-        this.organization = organization;
-    }
-
-    public LookupCode getTeam() {
-        return team;
-    }
-
-    public void setTeam(LookupCode team) {
-        this.team = team;
-    }
-
-    public String getEnemy() {
-        return enemy;
-    }
-
-    public void setEnemy(String enemy) {
-        this.enemy = enemy;
-    }
-
-    public String getPlace() {
-        return place;
-    }
-
-    public void setPlace(String place) {
-        this.place = place;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public String getDateAs(boolean flag){
+    public String getFormattedDate(boolean flag){
         SimpleDateFormat dateFormat = new SimpleDateFormat(flag ? "yyyy/MM/dd/HH:mm" : "yyyy-MM-dd HH:mm");
         return (isNull(getDate())) ? "" : dateFormat.format(getDate());
     }
 
-    public void setDate(String date) {
+    public void setFormattedDate(String date) {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd/HH:mm");
             Date parsedDate = dateFormat.parse(date);
@@ -101,21 +66,5 @@ public class CustomGame extends BaseModel {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-    }
-
-    public Boolean getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
-    }
-
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
     }
 }

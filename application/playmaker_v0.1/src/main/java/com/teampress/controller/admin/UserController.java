@@ -41,7 +41,7 @@ public class UserController extends BaseController {
             User u = Objects.nonNull(form.getId()) ? userService.find(form.getId()) : new User();
             u.setUsername(form.getUsername());
             u.setName(form.getName());
-            u.setPassword(form.getPassword());
+            u.setEncodedPassword(form.getPassword());
             u.setEmail(form.getEmail());
             u.setPhoneNumber(form.getPhone());
             u.setPlayer(form.isPlayer());

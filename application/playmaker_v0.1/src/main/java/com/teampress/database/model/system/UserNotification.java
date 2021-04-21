@@ -1,6 +1,9 @@
 package com.teampress.database.model.system;
 
 import com.teampress.database.model.BaseModel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -13,6 +16,9 @@ import javax.persistence.*;
         @NamedQuery(name="UserNotification.findByUser", query="SELECT u FROM UserNotification u WHERE u.user = :pu AND u.seen=false ORDER BY u.id DESC")
 })
 @Cacheable(false)
+@NoArgsConstructor
+@Getter
+@Setter
 public class UserNotification extends BaseModel {
     private static final long serialVersionUID = 1L;
 
@@ -35,55 +41,4 @@ public class UserNotification extends BaseModel {
 
     @Column(name="UUID", length=255)
     private String uuid;
-
-    public UserNotification() {
-    }
-
-    public boolean isSeen() {
-        return seen;
-    }
-
-    public void setSeen(boolean seen) {
-        this.seen = seen;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
 }

@@ -3,6 +3,9 @@ package com.teampress.database.model.financial;
 import com.teampress.database.model.BaseModel;
 import com.teampress.database.model.system.LookupCode;
 import com.teampress.database.model.system.Organization;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -20,6 +23,9 @@ import java.util.Objects;
 		@NamedQuery(name="AnnualPayment.findAll", query="SELECT p FROM AnnualPayment p WHERE p.deleted=false"),
 })
 @Cacheable(false)
+@NoArgsConstructor
+@Getter
+@Setter
 public class AnnualPayment extends BaseModel {
 	private static final long serialVersionUID = 1L;
 
@@ -46,63 +52,4 @@ public class AnnualPayment extends BaseModel {
 
 	@Column(name="DELETED", length=255)
 	private Boolean deleted = false;
-
-	public AnnualPayment() {
-	}
-
-	public Organization getOrganization() {
-		return organization;
-	}
-
-	public void setOrganization(Organization organization) {
-		this.organization = organization;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Boolean getDeleted() {
-		return deleted;
-	}
-
-	public void setDeleted(Boolean deleted) {
-		this.deleted = (Objects.isNull(deleted)) ? false : deleted;
-	}
-
-	public Integer getAmount() {
-		return amount;
-	}
-
-	public void setAmount(Integer amount) {
-		this.amount = amount;
-	}
-
-	public LookupCode getTeam() {
-		return team;
-	}
-
-	public void setTeam(LookupCode team) {
-		this.team = team;
-	}
-
-	public Integer getDay() {
-		return day;
-	}
-
-	public void setDay(Integer day) {
-		this.day = day;
-	}
-
-	public IncomeGroup getGroup() {
-		return group;
-	}
-
-	public void setGroup(IncomeGroup group) {
-		this.group = group;
-	}
 }

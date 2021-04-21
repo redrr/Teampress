@@ -137,8 +137,8 @@ public class GamePlanController extends BaseController {
                 if (type.equals("cust") && gamePlanService.exist(userOrganization.getUser(), customGameService.find(Integer.parseInt(sors)))) {
                     GamePlan gamePlan = gamePlanService.find(userOrganization.getUser(), customGameService.find(Integer.parseInt(sors))).get(0);
                     attend.append(gamePlan.getAttendance());
-                    x.append(Objects.isNull(gamePlan.getxCordinate()) ? "" : gamePlan.getxCordinate());
-                    y.append(Objects.isNull(gamePlan.getyCordinate()) ? "" : gamePlan.getyCordinate());
+                    x.append(Objects.isNull(gamePlan.getXCordinate()) ? "" : gamePlan.getXCordinate());
+                    y.append(Objects.isNull(gamePlan.getYCordinate()) ? "" : gamePlan.getYCordinate());
                 }
                 if(i != teamList.size()-1){
                     id.append(";");
@@ -194,8 +194,8 @@ public class GamePlanController extends BaseController {
                 GamePlan gamePlan = gamePlanService.exist(user, customGame) ? gamePlanService.find(user, customGame).get(0) : new GamePlan();
                 gamePlan.setCustomGame(customGame);
                 if(!(x[i].equals("") || y[i].equals("") || x[i].equals("del") || y[i].equals("del"))){
-                    gamePlan.setxCordinate(Integer.parseInt(x[i]));
-                    gamePlan.setyCordinate(Integer.parseInt(y[i]));
+                    gamePlan.setXCordinate(Integer.parseInt(x[i]));
+                    gamePlan.setYCordinate(Integer.parseInt(y[i]));
                 }
                 gamePlan.setAttendance(Integer.parseInt(attendance[i]));
                 gamePlan.setUser(user);

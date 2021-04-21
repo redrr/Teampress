@@ -2,6 +2,9 @@ package com.teampress.database.model.financial;
 
 import com.teampress.database.model.BaseModel;
 import com.teampress.database.model.system.Organization;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -14,7 +17,6 @@ import javax.persistence.*;
 @Table(name="INCOMEGROUPCONNECTION", schema="teampress")
 @NamedQueries({
 		@NamedQuery(name="IncomeGroupConnection.findAll", query="SELECT p FROM IncomeGroupConnection p"),
-		@NamedQuery(name="IncomeGroupConnection.countAll", query="SELECT COUNT(p) FROM IncomeGroupConnection p"),
 		@NamedQuery(name="IncomeGroupConnection.findById", query="SELECT p FROM IncomeGroupConnection p WHERE p.id = :pid"),
 		@NamedQuery(name="IncomeGroupConnection.findByGroup", query="SELECT p FROM IncomeGroupConnection p WHERE p.group = :pgroup"),
 		@NamedQuery(name="IncomeGroupConnection.findByIncome", query="SELECT p FROM IncomeGroupConnection p WHERE p.income = :pincome"),
@@ -22,6 +24,9 @@ import javax.persistence.*;
 		@NamedQuery(name="IncomeGroupConnection.findByOrg", query="SELECT p FROM IncomeGroupConnection p WHERE p.organization = :porg AND p.income.creationDate >= :pd1 AND p.income.creationDate < :pd2")
 })
 @Cacheable(false)
+@NoArgsConstructor
+@Getter
+@Setter
 public class IncomeGroupConnection extends BaseModel {
 	private static final long serialVersionUID = 1L;
 
@@ -36,31 +41,4 @@ public class IncomeGroupConnection extends BaseModel {
 	@ManyToOne
 	@JoinColumn(name="GROUP_ID")
 	private IncomeGroup group;
-
-	public IncomeGroupConnection() {
-	}
-
-	public Organization getOrganization() {
-		return organization;
-	}
-
-	public void setOrganization(Organization organization) {
-		this.organization = organization;
-	}
-
-	public Income getIncome() {
-		return income;
-	}
-
-	public void setIncome(Income income) {
-		this.income = income;
-	}
-
-	public IncomeGroup getGroup() {
-		return group;
-	}
-
-	public void setGroup(IncomeGroup group) {
-		this.group = group;
-	}
 }

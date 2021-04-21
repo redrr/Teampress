@@ -82,7 +82,7 @@
                                                             <tbody>
                                                             <c:forEach var="data" items="${trainingsForJSP}">
                                                                 <tr>
-                                                                    <td>${data.trainingDate}</td>
+                                                                    <td>${data.formattedTrainingDate}</td>
                                                                     <td>${data.team.code}</td>
                                                                     <td class="start-progress" title="${data.id}">
                                                                         <button class="btn btn-primary btn-soft" type="button" onclick="getTrainingConsole(${data.id}, ${data.team.id}, '${data.team.code}')"><i class="ti-pencil-alt"></i>  Értékelés</button>
@@ -119,12 +119,12 @@
                                                             <tbody>
                                                             <c:forEach var="data" items="${trainings}">
                                                                 <tr>
-                                                                    <td>${data.trainingDate}</td>
+                                                                    <td>${data.formattedTrainingDate}</td>
                                                                     <td>${data.team.code}</td>
                                                                     <td>${data.createdBy}</td>
                                                                     <td class="status" title="${data.id}"></td>
                                                                     <td>
-                                                                        <button class="btn btn-primary btn-soft" type="button" data-toggle="modal" data-target="#trainingModal" onclick="setupTrainingModalForPlayer(${data.id}, '${data.trainingDate}')"><i class="ti-search"></i> Megnéz</button>
+                                                                        <button class="btn btn-primary btn-soft" type="button" data-toggle="modal" data-target="#trainingModal" onclick="setupTrainingModalForPlayer(${data.id}, '${data.formattedTrainingDate}')"><i class="ti-search"></i> Megnéz</button>
                                                                     </td>
                                                                 </tr>
                                                             </c:forEach>
@@ -166,7 +166,7 @@
                                                             <tbody>
                                                             <c:forEach var="data" items="${trainings}">
                                                                 <tr>
-                                                                    <td>${data.trainingDate}</td>
+                                                                    <td>${data.formattedTrainingDate}</td>
                                                                     <td>${data.team.code}</td>
                                                                     <td>${data.createdBy}</td>
                                                                     <td class="status" title="${data.id}"></td>
@@ -176,7 +176,7 @@
                                                                         </div>
                                                                     </td>
                                                                     <td>
-                                                                        <button class="btn btn-primary btn-soft" type="button" data-toggle="modal" data-target="#trainingModal" onclick="setupTrainingModal(${data.id}, '${data.trainingDate}', $('#${data.id}'))"><i class="ti-search"></i> Megnéz</button>
+                                                                        <button class="btn btn-primary btn-soft" type="button" data-toggle="modal" data-target="#trainingModal" onclick="setupTrainingModal(${data.id}, '${data.formattedTrainingDate}', $('#${data.id}'))"><i class="ti-search"></i> Megnéz</button>
                                                                     </td>
                                                                 </tr>
                                                             </c:forEach>

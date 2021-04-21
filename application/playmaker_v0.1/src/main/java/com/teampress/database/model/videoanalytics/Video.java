@@ -3,6 +3,9 @@ package com.teampress.database.model.videoanalytics;
 import com.teampress.database.model.BaseModel;
 import com.teampress.database.model.system.LookupCode;
 import com.teampress.database.model.system.Organization;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -14,6 +17,9 @@ import javax.persistence.*;
         @NamedQuery(name="Video.findById", query="SELECT p FROM Video p WHERE p.id = :pid"),
 })
 @Cacheable(false)
+@NoArgsConstructor
+@Getter
+@Setter
 public class Video extends BaseModel {
     private static final long serialVersionUID = 1L;
 
@@ -36,59 +42,4 @@ public class Video extends BaseModel {
 
     @Column(name="DELETED")
     private Boolean deleted = false;
-
-    public Video() {
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public LookupCode getTeam() {
-        return team;
-    }
-
-    public void setTeam(LookupCode team) {
-        this.team = team;
-    }
-
-    public Boolean getPublic() {
-        return isPublic;
-    }
-
-    public String isPublic() {
-        return isPublic+"";
-    }
-
-    public void setPublic(Boolean aPublic) {
-        isPublic = aPublic;
-    }
-
-    public Boolean getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
-    }
-
-    public Organization getOrganization() {
-        return organization;
-    }
-
-    public void setOrganization(Organization organization) {
-        this.organization = organization;
-    }
 }

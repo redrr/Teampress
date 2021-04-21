@@ -2,6 +2,9 @@ package com.teampress.database.model.videoanalytics;
 
 import com.teampress.database.model.BaseModel;
 import com.teampress.database.model.system.Organization;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -12,6 +15,9 @@ import javax.persistence.*;
         @NamedQuery(name="AnalyticsAction.findByVideo", query="SELECT p FROM AnalyticsAction p WHERE p.sourceVideo =:pvideo AND p.organization = :porg"),
 })
 @Cacheable(false)
+@NoArgsConstructor
+@Getter
+@Setter
 public class AnalyticsAction extends BaseModel {
     private static final long serialVersionUID = 1L;
 
@@ -37,63 +43,4 @@ public class AnalyticsAction extends BaseModel {
 
     @Column(name="JSON", length=255)
     private String bluePrint;
-
-    public AnalyticsAction() {
-    }
-
-    public Video getSourceVideo() {
-        return sourceVideo;
-    }
-
-    public void setSourceVideo(Video sourceVideo) {
-        this.sourceVideo = sourceVideo;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public String getBluePrint() {
-        return bluePrint;
-    }
-
-    public void setBluePrint(String bluePrint) {
-        this.bluePrint = bluePrint;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPlayerIds() {
-        return playerIds;
-    }
-
-    public void setPlayerIds(String playerIds) {
-        this.playerIds = playerIds;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public Organization getOrganization() {
-        return organization;
-    }
-
-    public void setOrganization(Organization organization) {
-        this.organization = organization;
-    }
 }

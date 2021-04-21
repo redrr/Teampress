@@ -1,6 +1,9 @@
 package com.teampress.database.model.system;
 
 import com.teampress.database.model.BaseModel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -8,12 +11,14 @@ import javax.persistence.*;
 @Table(name="TRAINERRATING", schema="teampress")
 @NamedQueries({
         @NamedQuery(name="TrainerRating.findAll", query="SELECT u FROM TrainerRating u"),
-        @NamedQuery(name="TrainerRating.countAll", query="SELECT COUNT(u) FROM TrainerRating u"),
         @NamedQuery(name="TrainerRating.findById", query="SELECT u FROM TrainerRating u WHERE u.id = :pid"),
         @NamedQuery(name="TrainerRating.findByNull", query="SELECT u FROM TrainerRating u WHERE u.organization = :porg AND u.done IS NULL"),
         @NamedQuery(name="TrainerRating.findByUser", query="SELECT u FROM TrainerRating u WHERE u.user = :pu AND u.done IS NULL ORDER BY u.id DESC")
 })
 @Cacheable(false)
+@NoArgsConstructor
+@Getter
+@Setter
 public class TrainerRating extends BaseModel {
     private static final long serialVersionUID = 1L;
 
@@ -34,39 +39,4 @@ public class TrainerRating extends BaseModel {
 
     @Column(name="DONE", length=255)
     private Boolean done;
-
-    public TrainerRating() {
-    }
-
-    public Organization getOrganization() {
-        return organization;
-    }
-
-    public void setOrganization(Organization organization) {
-        this.organization = organization;
-    }
-
-    public LookupCode getTeam() {
-        return team;
-    }
-
-    public void setTeam(LookupCode team) {
-        this.team = team;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public boolean isDone() {
-        return done;
-    }
-
-    public void setDone(boolean done) {
-        this.done = done;
-    }
 }

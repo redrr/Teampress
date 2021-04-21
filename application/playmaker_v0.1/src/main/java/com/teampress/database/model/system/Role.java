@@ -1,6 +1,9 @@
 package com.teampress.database.model.system;
 
 import com.teampress.database.model.BaseModel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -16,11 +19,13 @@ import java.util.Set;
 @Table(name="ROLE", schema="teampress")
 @NamedQueries({
 		@NamedQuery(name="Role.findAll", query="SELECT r FROM Role r"),
-		@NamedQuery(name="Role.countAll", query = "SELECT COUNT(r) FROM Role r"),
 		@NamedQuery(name="Role.findById", query = "SELECT r FROM Role r WHERE r.id = :pid"),
 		@NamedQuery(name="Role.findByName", query="SELECT r FROM Role r WHERE r.name = :pname")
 })
 @Cacheable(false)
+@NoArgsConstructor
+@Getter
+@Setter
 public class Role extends BaseModel {
 	private static final long serialVersionUID = 1L;
 
@@ -29,79 +34,4 @@ public class Role extends BaseModel {
 
 	@Column(name="DESCRIPTION", length=200)
 	private String description;
-
-	//bi-directional many-to-one association to RolePrivilege
-	@OneToMany(mappedBy="role")
-	private Set<RolePrivilege> rolePrivileges;
-
-	//bi-directional many-to-one association to UserRole
-	@OneToMany(mappedBy="role")
-	private Set<UserRole> userRoles;
-
-	public Role() {
-	}
-
-	//region [Region] Get Setters
-
-	public String getDescription() {
-		return this.description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getName() {
-		return this.name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Set<RolePrivilege> getRolePrivileges() {
-		if (Objects.isNull(rolePrivileges)) rolePrivileges = new HashSet<>();
-		return this.rolePrivileges;
-	}
-
-	public void setRolePrivileges(Set<RolePrivilege> rolePrivileges) {
-		this.rolePrivileges = rolePrivileges;
-	}
-
-	public RolePrivilege addRolePrivilege(RolePrivilege rolePrivilege) {
-		getRolePrivileges().add(rolePrivilege);
-		rolePrivilege.setRole(this);
-		return rolePrivilege;
-	}
-
-	public RolePrivilege removeRolePrivilege(RolePrivilege rolePrivilege) {
-		getRolePrivileges().remove(rolePrivilege);
-		rolePrivilege.setRole(null);
-
-		return rolePrivilege;
-	}
-
-	public Set<UserRole> getUserRoles() {
-		if (Objects.isNull(userRoles)) userRoles = new HashSet<>();
-		return this.userRoles;
-	}
-
-	public void setUserRoles(Set<UserRole> userRoles) {
-		this.userRoles = userRoles;
-	}
-
-	public UserRole addUserRole(UserRole userRole) {
-		getUserRoles().add(userRole);
-		userRole.setRole(this);
-
-		return userRole;
-	}
-
-	public UserRole removeUserRole(UserRole userRole) {
-		getUserRoles().remove(userRole);
-		userRole.setRole(null);
-		return userRole;
-	}
-
-	//endregion
 }

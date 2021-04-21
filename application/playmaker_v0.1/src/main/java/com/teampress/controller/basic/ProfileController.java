@@ -53,7 +53,7 @@ public class ProfileController extends BaseController {
                 User profil = userService.find(form.getId());
                 profil.setName(form.getName());
                 if(form.getPassword().equals(form.getRepassword()) && !form.getPassword().equals("") && !BCrypt.checkpw(form.getPassword(), profil.getPassword())){
-                    profil.setPassword(form.getPassword());
+                    profil.setEncodedPassword(form.getPassword());
                 }
                 if(!form.getEmail().trim().equals("")) {
                     profil.setEmail(form.getEmail());

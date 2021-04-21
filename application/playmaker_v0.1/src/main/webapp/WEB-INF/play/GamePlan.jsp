@@ -119,7 +119,7 @@
                                                                 <tbody>
                                                                 <c:forEach var="data" items="${custom}">
                                                                     <tr>
-                                                                        <td>${data.getDateAs(false)}</td>
+                                                                        <td>${data.getFormattedDate(false)}</td>
                                                                         <td>${data.team.code}</td>
                                                                         <td>${data.enemy}</td>
                                                                         <td>${data.place}</td>
@@ -158,7 +158,7 @@
                                                             <c:forEach var="data" items="${table}">
                                                                 <tr>
                                                                     <c:if test="${data != null}">
-                                                                        <td>${data.getDateAs(false)}</td>
+                                                                        <td>${data.getFormattedDate(false)}</td>
                                                                         <td>${data.team.code}</td>
                                                                         <td>${data.organization.name}</td>
                                                                         <td>${data.enemy}</td>

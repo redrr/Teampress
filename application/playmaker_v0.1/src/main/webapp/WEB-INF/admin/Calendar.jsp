@@ -43,8 +43,8 @@
                                                                     <td>${data.id}</td>
                                                                     <td>${data.organization.name}</td>
                                                                     <td>${data.eventName}</td>
-                                                                    <td>${data.startDateTime}</td>
-                                                                    <td>${data.endDateTime}</td>
+                                                                    <td>${data.formattedStartDate}</td>
+                                                                    <td>${data.formattedEndDate}</td>
                                                                 </tr>
                                                             </c:forEach>
                                                             </tbody>

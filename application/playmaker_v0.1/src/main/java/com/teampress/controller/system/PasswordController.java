@@ -53,7 +53,7 @@ public class PasswordController {
     public String changePassword(@Valid @ModelAttribute("change") PasswordForm form) {
         User user = userService.findEnabledUserByUsername(form.getUsername());
         if (Objects.nonNull(user) && Objects.nonNull(form.getPassword1()) && Objects.nonNull(form.getPassword2()) && form.getPassword1().equals(form.getPassword2())) {
-            user.setPassword(form.getPassword1());
+            user.setEncodedPassword(form.getPassword1());
             userService.mergeFlush(user);
             return "redirect:/";
         }
@@ -64,7 +64,7 @@ public class PasswordController {
     public String changePassword(@PathVariable String mail) {
         User user = userService.findUserByEmail(mail);
         if (Objects.nonNull(user)) {
-            user.setPassword(user.getUsername());
+            user.setEncodedPassword(user.getUsername());
             userService.mergeFlush(user);
             try {
                 //new EmailSender(mailSender).sendHtmlMessage(mail, "Jelszó módosítás", "Kedves "+user.getName()+"!<br><br>Az alábbi linken keresztül módosíthatja jelszavát: <a href=\"http://localhost:8080/newpassword/"+user.getUsername() +"\" target=\"_blank\">Új jelszó</a>");

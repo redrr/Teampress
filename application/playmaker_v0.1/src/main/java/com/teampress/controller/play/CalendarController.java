@@ -52,8 +52,8 @@ public class CalendarController extends BaseController {
         if(hasPermission(Permissions.EVENT_CREATE) && !date.trim().equals("") && !name.trim().equals("") && !type.trim().equals("")) {
             UserOrganization userOrganization = userOrganizationService.getOrgByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession()));
             Calendar event = new Calendar();
-            event.setEndDateTime(date.replace("/", "-"));
-            event.setStartDateTime(date.replace("/", "-"));
+            event.setFormattedEndDate(date.replace("/", "-"));
+            event.setFormattedStartDate(date.replace("/", "-"));
             event.setEventName(name);
             event.setOrganization(userOrganization.getOrganization());
             if(!type.equals("0")) {

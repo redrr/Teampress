@@ -1,6 +1,9 @@
 package com.teampress.database.model.system;
 
 import com.teampress.database.model.BaseModel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -13,12 +16,14 @@ import javax.persistence.*;
 @Table(name="ROLEPERMISSION", schema="teampress")
 @NamedQueries({
 		@NamedQuery(name="RolePrivilege.findAll", query="SELECT rp FROM RolePrivilege rp"),
-		@NamedQuery(name="RolePrivilege.countAll", query = "SELECT COUNT(rp) FROM RolePrivilege rp"),
 		@NamedQuery(name="RolePrivilege.findById", query="SELECT rp FROM RolePrivilege rp WHERE rp.id = :pid"),
 		@NamedQuery(name="RolePrivilege.findAllByRoles", query="SELECT rp FROM RolePrivilege rp WHERE  rp.role in :proles"),
 		@NamedQuery(name="RolePrivilege.findByRoleIdAndPrivilegeId", query = "SELECT rp FROM RolePrivilege rp WHERE rp.role.id = :proleid AND rp.privilege.id = :pprivilegeid"),
 })
 @Cacheable(false)
+@NoArgsConstructor
+@Getter
+@Setter
 public class RolePrivilege extends BaseModel {
 	private static final long serialVersionUID = 1L;
 
@@ -31,27 +36,4 @@ public class RolePrivilege extends BaseModel {
 	@ManyToOne
 	@JoinColumn(name="ROLE_ID", nullable=false)
 	private Role role;
-
-	public RolePrivilege() {
-	}
-
-	//region [Region] Get Setters
-
-	public Privilege getPrivilege() {
-		return this.privilege;
-	}
-
-	public void setPrivilege(Privilege privilege) {
-		this.privilege = privilege;
-	}
-
-	public Role getRole() {
-		return this.role;
-	}
-
-	public void setRole(Role role) {
-		this.role = role;
-	}
-
-	//endregion
 }

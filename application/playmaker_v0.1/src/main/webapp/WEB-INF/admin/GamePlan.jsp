@@ -44,7 +44,7 @@
                                                                     <td>${data.id}</td>
                                                                     <td>${data.organization.name}</td>
                                                                     <td>${data.user.name}</td>
-                                                                    <td>${data.customGame.getDateAs(false)} : ${data.customGame.team.code} - ${data.customGame.enemy}</td>
+                                                                    <td>${data.customGame.formattedDate(false)} : ${data.customGame.team.code} - ${data.customGame.enemy}</td>
                                                                     <td>${data.xCordinate}</td>
                                                                     <td>${data.yCordinate}</td>
                                                                 </tr>

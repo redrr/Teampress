@@ -7,7 +7,6 @@ import com.teampress.database.model.index.Calendar;
 import com.teampress.database.model.system.LookupCode;
 import com.teampress.database.model.system.Organization;
 import com.teampress.database.model.system.User;
-import com.teampress.database.model.system.UserNotification;
 import com.teampress.database.service.gameplan.CustomGameService;
 import com.teampress.database.service.gameplan.GamePlanService;
 import com.teampress.database.service.index.CalendarService;
@@ -102,7 +101,7 @@ public class GameCreateController extends BaseController {
                 String uuid = UUID.randomUUID().toString();
                 CustomGame customGame = (isNull(form.getId())) ? new CustomGame() : customGameService.find(form.getId());
                 customGame.setUuid(uuid);
-                customGame.setDate(form.getDate());
+                customGame.setFormattedDate(form.getDate());
                 customGame.setOrganization(organization);
                 customGame.setEnemy(form.getEnemy());
                 customGame.setPlace(form.getPlace());
@@ -158,7 +157,7 @@ public class GameCreateController extends BaseController {
                     JSONObject json = new JSONObject();
                     try {
                         json.put("id", customGame.getId());
-                        json.put("date", customGame.getDateAs(true));
+                        json.put("date", customGame.getFormattedDate(true));
                         json.put("teamId", customGame.getTeam().getId());
                         json.put("enemy", customGame.getEnemy());
                         json.put("place", customGame.getPlace());

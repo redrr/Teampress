@@ -14,7 +14,6 @@ import com.teampress.database.service.workout.AttendanceService;
 import com.teampress.form.DataImportForm;
 import com.teampress.form.IndexForm;
 import com.teampress.handler.SessionHandler;
-import org.apache.commons.collections4.map.LinkedMap;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -111,7 +110,7 @@ public class IndexController extends BaseController {
         if(Objects.nonNull(trainingPlan)){
             String[] days = {"Vasárnap", "Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat"};
             Calendar calendar = Calendar.getInstance();
-            calendar.setTime(trainingPlan.getTrainingPlan().getRealTrainingDate());
+            calendar.setTime(trainingPlan.getTrainingPlan().getTrainingDate());
             return days[calendar.get(Calendar.DAY_OF_WEEK)-1];
         }
         return "";

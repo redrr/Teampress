@@ -41,7 +41,7 @@
                                                             <c:forEach var="data" items="${datas}">
                                                                 <tr>
                                                                     <td>${data.id}</td>
-                                                                    <td>${data.trainingPlan.organization.name} - ${data.trainingPlan.trainingDate} - ${data.trainingPlan.team.code}</td>
+                                                                    <td>${data.trainingPlan.organization.name} - ${data.trainingPlan.formattedTrainingDate} - ${data.trainingPlan.team.code}</td>
                                                                     <td>${data.user.name}</td>
                                                                     <td>${data.exercise.name}</td>
                                                                     <td>${data.result}</td>

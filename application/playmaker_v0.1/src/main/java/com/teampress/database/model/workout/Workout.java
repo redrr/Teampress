@@ -6,6 +6,9 @@ import com.teampress.database.model.system.Organization;
 import com.teampress.database.model.system.User;
 import com.teampress.database.model.trainingplan.Exercise;
 import com.teampress.database.model.trainingplan.TrainingPlan;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -18,8 +21,6 @@ import javax.persistence.*;
 @Table(name="WORKOUT", schema="teampress")
 @NamedQueries({
 		@NamedQuery(name="Workout.findAll", query="SELECT u FROM Workout u"),
-		@NamedQuery(name="Workout.countAll", query="SELECT COUNT(u) FROM Workout u"),
-		@NamedQuery(name="Workout.findById", query="SELECT u FROM Workout u WHERE u.id = :pid"),
 		@NamedQuery(name="Workout.findSum", query="SELECT sum(u.resultPercent) FROM Workout u WHERE u.resultPercent IS NOT NULL AND u.user = :puser AND u.creationDate BETWEEN :pd1 AND :pd2"),
 		@NamedQuery(name="Workout.findCount", query="SELECT count(u) FROM Workout u WHERE u.resultPercent IS NOT NULL AND u.user = :puser AND u.creationDate BETWEEN :pd1 AND :pd2"),
 		@NamedQuery(name="Workout.findSumByTrainer", query="SELECT count(u) FROM Workout u WHERE u.creationDate BETWEEN :pd1 AND :pd2"),
@@ -33,6 +34,9 @@ import javax.persistence.*;
 		@NamedQuery(name="Workout.findByTraining", query="SELECT u FROM Workout u WHERE u.trainingPlan = :ptraining")
 })
 @Cacheable(false)
+@NoArgsConstructor
+@Getter
+@Setter
 public class Workout extends BaseModel {
 	private static final long serialVersionUID = 1L;
 
@@ -66,69 +70,4 @@ public class Workout extends BaseModel {
 
 	@Column(name="PERCENT")
 	private Integer resultPercent;
-
-	public Workout() {
-	}
-
-	//region [Region] Get Setters
-
-
-	public Organization getOrganization() {
-		return organization;
-	}
-
-	public void setOrganization(Organization organization) {
-		this.organization = organization;
-	}
-
-	public LookupCode getTeam() {
-		return team;
-	}
-
-	public void setTeam(LookupCode team) {
-		this.team = team;
-	}
-
-	public TrainingPlan getTrainingPlan() {
-		return trainingPlan;
-	}
-
-	public void setTrainingPlan(TrainingPlan trainingPlan) {
-		this.trainingPlan = trainingPlan;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public Exercise getExercise() {
-		return exercise;
-	}
-
-	public void setExercise(Exercise exercise) {
-		this.exercise = exercise;
-	}
-
-	public String getResult() {
-		return result;
-	}
-
-	public void setResult(String result) {
-		this.result = result;
-	}
-
-	public Integer getResultPercent() {
-		return resultPercent;
-	}
-
-	public void setResultPercent(Integer resultPercent) {
-		this.resultPercent = resultPercent;
-	}
-
-	//endregion
-
 }

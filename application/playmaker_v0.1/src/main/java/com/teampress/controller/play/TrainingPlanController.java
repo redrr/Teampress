@@ -6,7 +6,6 @@ import com.teampress.controller.BaseController;
 import com.teampress.database.model.index.Calendar;
 import com.teampress.database.model.system.Organization;
 import com.teampress.database.model.system.User;
-import com.teampress.database.model.system.UserNotification;
 import com.teampress.database.model.trainingplan.Exercise;
 import com.teampress.database.model.trainingplan.TrainingPlan;
 import com.teampress.database.model.trainingplan.TrainingPlanConnection;
@@ -105,8 +104,8 @@ public class TrainingPlanController extends BaseController {
             trainingPlan.setUuid(uuid);
             trainingPlan.setOrganization(organization);
             trainingPlan.setTeam(lookupCodeService.find(form.getTeam()));
-            trainingPlan.setTrainingDate(form.getDate().replaceAll("\\s", "").replaceAll("-", "").replace('.', '/'));
-            List<TrainingPlan> plans = trainingPlanService.findAll(trainingPlan.getOrganization(), trainingPlan.getTeam(), trainingPlan.getRealTrainingDate());
+            trainingPlan.setFormattedTrainingDate(form.getDate().replaceAll("\\s", "").replaceAll("-", "").replace('.', '/'));
+            List<TrainingPlan> plans = trainingPlanService.findAll(trainingPlan.getOrganization(), trainingPlan.getTeam(), trainingPlan.getTrainingDate());
             if (isNull(form.id) && plans.size() != 0) {
                 ModelAndView errorView = show();
                 errorView.getModel().replace("error", "Már létezik erre az időpontra edzés");
@@ -117,7 +116,7 @@ public class TrainingPlanController extends BaseController {
             //Add Training plan data {id(connection),id(exercise);}
             if (Objects.nonNull(form.getData()) && !"".equals(form.getData())) {
                 String[] exercises = form.getData().split(";");
-                TrainingPlan plan = trainingPlanService.find(trainingPlan.getOrganization(), trainingPlan.getTeam(), trainingPlan.getRealTrainingDate());
+                TrainingPlan plan = trainingPlanService.find(trainingPlan.getOrganization(), trainingPlan.getTeam(), trainingPlan.getTrainingDate());
                 if (exercises.length > 0) {
                     for (TrainingPlanConnection connection : connectionService.findByTraining(plan)) {
                         connectionService.delete(connection);
@@ -208,7 +207,7 @@ public class TrainingPlanController extends BaseController {
                 JSONArray exercises = new JSONArray();
                 JSONArray times = new JSONArray();
                 try{
-                    json.put("date", trainingPlan.getTrainingDate());
+                    json.put("date", trainingPlan.getFormattedTrainingDate());
                     json.put("team", trainingPlan.getTeam().getId());
                     for (TrainingPlanConnection planConnection : connectionService.findByTraining(trainingPlan)) {
                         exercises.put(

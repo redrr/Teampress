@@ -22,8 +22,8 @@ public class CalendarService extends BaseService {
             Calendar c = (Calendar) result.get(i);
             events += "    {\n" +
                     "      \"title\": \""+c.getEventName()+"\",\n" +
-                    "      \"start\": \""+ c.getStartDateTime() +"\",\n" +
-                    "      \"end\": \""+ c.getEndDateTime() +"\"\n" +
+                    "      \"start\": \""+ c.getFormattedStartDate() +"\",\n" +
+                    "      \"end\": \""+ c.getFormattedEndDate() +"\"\n" +
                     "    }";
             if(i+1<result.size()){
                 events += ",\n";
@@ -39,8 +39,8 @@ public class CalendarService extends BaseService {
             Calendar c = (Calendar) result.get(i);
             events += "    {\n" +
                     "      \"title\": \""+c.getEventName()+"\",\n" +
-                    "      \"start\": \""+ c.getStartDateTime() +"\",\n" +
-                    "      \"end\": \""+ c.getEndDateTime() +"\"\n" +
+                    "      \"start\": \""+ c.getFormattedStartDate() +"\",\n" +
+                    "      \"end\": \""+ c.getFormattedEndDate() +"\"\n" +
                     "    }";
             if(i+1<result.size()){
                 events += ",\n";

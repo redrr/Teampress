@@ -164,10 +164,10 @@
                                                                     <td>${video.simpleCreationDateAsString}</td>
                                                                     <c:if test="${sessionHandler.userHasPermission('VIDEO_ANALYTICS_EDIT')}">
                                                                         <td>
-                                                                            <c:if test="${video.isPublic().equals('true')}">
+                                                                            <c:if test="${video.isPublic.equals(true)}">
                                                                                 <span class="badge badge-lg badge-success">Közzétéve</span>
                                                                             </c:if>
-                                                                            <c:if test="${video.isPublic().equals('false')}">
+                                                                            <c:if test="${video.isPublic.equals(false)}">
                                                                                 <span class="badge badge-lg badge-info">Szerkesztés alatt</span>
                                                                             </c:if>
                                                                         </td>
@@ -175,7 +175,7 @@
                                                                     <td>
                                                                         <button class="btn btn-primary btn-soft" onclick="setupVideo(${video.id},'${video.fileName}', ${video.team.id})"><i class="ti-video-clapper"></i> Elemzés</button>
                                                                         <c:if test="${sessionHandler.userHasPermission('VIDEO_ANALYTICS_EDIT')}">
-                                                                            <c:if test="${video.isPublic().equals('false')}">
+                                                                            <c:if test="${video.isPublic.equals(false)}">
                                                                                 <button type="button" class="btn btn-info btn-soft" onclick="publishVideo(${video.id})"><i class="ti-trash"></i> Közzététel</button>
                                                                             </c:if>
                                                                             <button type="button" class="btn btn-danger btn-soft" onclick="deleteVideo(${video.id})"><i class="ti-trash"></i> Törlés</button>

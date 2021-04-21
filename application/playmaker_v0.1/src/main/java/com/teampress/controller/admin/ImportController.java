@@ -76,7 +76,7 @@ public class ImportController extends BaseController {
                                 String uuid = UUID.randomUUID().toString();
                                 userPOJO.setUsername(uuid);
                                 userPOJO.setName(row.getCell(0).getStringCellValue());
-                                userPOJO.setPassword(uuid);
+                                userPOJO.setEncodedPassword(uuid);
                                 userPOJO.setEmail(row.getCell(1).getStringCellValue());
                                 userPOJO.setPlayer(Roles.PLAYER.name().equals(form.getRole()));
                                 userPOJO.setTrainer(Roles.TRAINER.name().equals(form.getRole()));

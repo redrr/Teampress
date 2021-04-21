@@ -42,7 +42,7 @@
                                                                     <td>${data.id}</td>
                                                                     <td>${data.trainingPlan.organization.name}</td>
                                                                     <td>${data.trainingPlan.team.code}</td>
-                                                                    <td>${data.trainingPlan.trainingDate}</td>
+                                                                    <td>${data.trainingPlan.formattedTrainingDate}</td>
                                                                 </tr>
                                                             </c:forEach>
                                                             </tbody>
