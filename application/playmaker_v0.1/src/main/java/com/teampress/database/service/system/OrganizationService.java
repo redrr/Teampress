@@ -1,7 +1,10 @@
 package com.teampress.database.service.system;
 
 import com.teampress.database.model.system.Organization;
+import com.teampress.database.repository.system.OrganizationRepository;
 import com.teampress.database.service.BaseService;
+import jdk.nashorn.internal.objects.annotations.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,20 +13,22 @@ import java.util.Objects;
 @Service
 public class OrganizationService extends BaseService {
 
+    @Autowired
+    private OrganizationRepository repository;
+
     public Organization find(Integer id){
-        return (Organization) getEntityManager().createNamedQuery("Organization.findById").setParameter("pid", id).getResultList().get(0);
+        return repository.findById(id);
     }
 
     public List<Organization> findAll(){
-        return getEntityManager().createNamedQuery("Organization.findAll").getResultList();
+        return repository.findAll();
     }
 
     public Organization findOrganizationByName(String name){
-        List result = getEntityManager().createNamedQuery("Organization.findByName").setParameter("pname", name).getResultList();
-        return result.isEmpty()?null:(Organization) result.get(0);
+        return repository.findByName(name);
     }
 
     public boolean existsByName(String name){
-        return Objects.nonNull(findOrganizationByName(name));
+        return repository.existsByName(name);
     }
 }

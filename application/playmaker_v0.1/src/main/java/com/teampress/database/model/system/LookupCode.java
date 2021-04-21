@@ -14,12 +14,6 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="LOOKUPCODE", schema="teampress")
-@NamedQueries({
-		@NamedQuery(name="LookupCode.findAll", query="SELECT l FROM LookupCode l"),
-		@NamedQuery(name="LookupCode.findById", query="SELECT l FROM LookupCode l where l.id = :pid"),
-		@NamedQuery(name="LookupCode.findAllByLgroup", query = "SELECT l FROM LookupCode l WHERE l.lgroup = :plgroup"),
-		@NamedQuery(name="LookupCode.findByCodeAndLgroup", query = "SELECT l FROM LookupCode l WHERE l.code = :pcode AND l.lgroup = :plgroup")
-})
 @Cacheable(false)
 @NoArgsConstructor
 @Getter

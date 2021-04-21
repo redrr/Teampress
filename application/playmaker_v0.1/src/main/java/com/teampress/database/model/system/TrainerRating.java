@@ -9,12 +9,6 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="TRAINERRATING", schema="teampress")
-@NamedQueries({
-        @NamedQuery(name="TrainerRating.findAll", query="SELECT u FROM TrainerRating u"),
-        @NamedQuery(name="TrainerRating.findById", query="SELECT u FROM TrainerRating u WHERE u.id = :pid"),
-        @NamedQuery(name="TrainerRating.findByNull", query="SELECT u FROM TrainerRating u WHERE u.organization = :porg AND u.done IS NULL"),
-        @NamedQuery(name="TrainerRating.findByUser", query="SELECT u FROM TrainerRating u WHERE u.user = :pu AND u.done IS NULL ORDER BY u.id DESC")
-})
 @Cacheable(false)
 @NoArgsConstructor
 @Getter

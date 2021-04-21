@@ -2,7 +2,9 @@ package com.teampress.database.service.system;
 
 import com.teampress.common.enums.Parameters;
 import com.teampress.database.model.system.Parameter;
+import com.teampress.database.repository.system.ParameterRepository;
 import com.teampress.database.service.BaseService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,27 +13,26 @@ import java.util.Objects;
 @Service
 public class ParameterService extends BaseService {
 
+    @Autowired
+    private ParameterRepository repository;
+
     public Parameter find(Integer id){
-        return (Parameter) getEntityManager().createNamedQuery("Parameter.findById").setParameter("pid", id).getResultList().get(0);
+        return repository.findById(id);
     }
 
     public List<Parameter> findAll(){
-        return getEntityManager().createNamedQuery("Parameter.findAll").getResultList();
+        return repository.findAll();
     }
 
     public Parameter findParameterByGroupAndCode(Parameters group, Parameters code){
-        List result = getEntityManager().createNamedQuery("Parameter.findByGroupAndCode")
-                .setParameter("pgroup", group.name())
-                .setParameter("pcode", code.name())
-                .getResultList();
-        return result.isEmpty()?null:(Parameter)result.get(0);
+        return repository.findByGroupAndCode(group.name(), code.name());
     }
 
     public List<Parameter> findParameterByGroup(String group){
-        return getEntityManager().createNamedQuery("Parameter.findByGroup").setParameter("pgroup", group).getResultList();
+        return repository.findAllByGroup(group);
     }
 
     public boolean existsByGroupAndCode(Parameters group, Parameters code){
-        return Objects.nonNull(findParameterByGroupAndCode(group, code));
+        return repository.existsByGroupAndCode(group.name(), code.name());
     }
 }

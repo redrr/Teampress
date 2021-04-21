@@ -17,11 +17,6 @@ import java.util.Set;
  */
 @Entity
 @Table(name="ROLE", schema="teampress")
-@NamedQueries({
-		@NamedQuery(name="Role.findAll", query="SELECT r FROM Role r"),
-		@NamedQuery(name="Role.findById", query = "SELECT r FROM Role r WHERE r.id = :pid"),
-		@NamedQuery(name="Role.findByName", query="SELECT r FROM Role r WHERE r.name = :pname")
-})
 @Cacheable(false)
 @NoArgsConstructor
 @Getter

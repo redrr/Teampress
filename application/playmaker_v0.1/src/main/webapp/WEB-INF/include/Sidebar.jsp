@@ -203,12 +203,6 @@
                         <span class="pcoded-mtext" data-i18n="nav.social.main">Rendszer</span>
                     </a>
                     <ul class="pcoded-submenu">
-                        <li class="${requestURI.equals('/sys/log') ? 'active' : ''}">
-                            <a href="/sys/log">
-                                <span class="pcoded-micon"><i class="ti-map"></i></span>
-                                <span class="pcoded-mtext" data-i18n="nav.social.fb-wall">Logok</span>
-                            </a>
-                        </li>
                         <li class="${requestURI.equals('/sys/lookup') ? 'active' : ''}">
                             <a href="/sys/lookup">
                                 <span class="pcoded-micon"><i class="ti-map"></i></span>

@@ -14,12 +14,6 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="PARAMETER", schema="teampress")
-@NamedQueries({
-		@NamedQuery(name="Parameter.findAll", query="SELECT p FROM Parameter p"),
-		@NamedQuery(name="Parameter.findById", query="SELECT p FROM Parameter p WHERE p.id = :pid"),
-		@NamedQuery(name="Parameter.findByGroupAndCode", query="SELECT p FROM Parameter p WHERE p.group = :pgroup AND p.code = :pcode"),
-		@NamedQuery(name="Parameter.findByGroup", query="SELECT p FROM Parameter p WHERE p.group = :pgroup"),
-})
 @Cacheable(false)
 @NoArgsConstructor
 @Getter

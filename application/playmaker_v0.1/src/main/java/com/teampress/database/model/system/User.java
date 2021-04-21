@@ -7,8 +7,10 @@ import lombok.Setter;
 import org.json.JSONObject;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import javax.persistence.*;
-import java.util.Set;
+import javax.persistence.Cacheable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 
 /**
@@ -17,14 +19,6 @@ import java.util.Set;
  */
 @Entity
 @Table(name="USER", schema="teampress")
-@NamedQueries({
-		@NamedQuery(name="User.findAll", query="SELECT u FROM User u"),
-		@NamedQuery(name="User.findAllPlayer", query="SELECT u FROM User u WHERE u.enabled=true and u.player=true"),
-		@NamedQuery(name="User.findById", query="SELECT u FROM User u WHERE u.id = :pid"),
-		@NamedQuery(name="User.existsByUserName", query="SELECT u FROM User u WHERE u.username = :pusername"),
-		@NamedQuery(name="User.findEnabledUserByName", query="SELECT u FROM User u WHERE u.username = :pusername AND u.enabled = true AND u.deleted = false"),
-		@NamedQuery(name="User.findEnabledUserByMail", query="SELECT u FROM User u WHERE u.email = :pmail AND u.enabled = true AND u.deleted = false"),
-})
 @Cacheable(false)
 @NoArgsConstructor
 @Getter

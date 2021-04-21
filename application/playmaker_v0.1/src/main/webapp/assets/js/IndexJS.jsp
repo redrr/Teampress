@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <script>
 <c:if test="${!sessionHandler.userHasPermission('ADMIN') && sessionHandler.userHasPermission('LOGGED_IN')}">
     let queryOffset = 0;

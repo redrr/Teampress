@@ -17,11 +17,6 @@ import java.util.Set;
  */
 @Entity
 @Table(name="PERMISSION", schema="teampress")
-@NamedQueries({
-		@NamedQuery(name="Privilege.findAll", query="SELECT p FROM Privilege p"),
-		@NamedQuery(name="Privilege.findById", query="SELECT priv FROM Privilege priv WHERE priv.id = :pid"),
-		@NamedQuery(name="Privilege.findByName", query="SELECT priv FROM Privilege priv WHERE priv.name = :pname")
-})
 @Cacheable(false)
 @NoArgsConstructor
 @Getter

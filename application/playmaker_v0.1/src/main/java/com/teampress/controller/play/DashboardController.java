@@ -43,7 +43,7 @@ public class DashboardController extends BaseController {
             User currentUser = userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession());
             ArrayList<UserOrganization> userOrganizations = userOrganizationService.getOrgListByUser(currentUser);
             view.addObject("players", getAllPlayer(userOrganizations));
-            view.addObject("allTeam", lookupCodeService.getLookupsForLGroup(LGroups.TEAM_TYPE.name()));
+            view.addObject("allTeam", lookupCodeService.findAllLookupByLgroup(LGroups.TEAM_TYPE.name()));
             if (hasPermission(Permissions.MY_CLUB)) {
                 view.addObject("trainers", getAllTrainer(userOrganizations));
             }

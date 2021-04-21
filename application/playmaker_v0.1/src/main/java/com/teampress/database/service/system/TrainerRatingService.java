@@ -3,7 +3,9 @@ package com.teampress.database.service.system;
 import com.teampress.database.model.system.Organization;
 import com.teampress.database.model.system.TrainerRating;
 import com.teampress.database.model.system.User;
+import com.teampress.database.repository.system.TrainerRatingRepository;
 import com.teampress.database.service.BaseService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,27 +13,30 @@ import java.util.List;
 @Service
 public class TrainerRatingService extends BaseService {
 
+    @Autowired
+    private TrainerRatingRepository repository;
+
     public List<TrainerRating> findAll() {
-        return getEntityManager().createNamedQuery("TrainerRating.findAll").getResultList();
+        return repository.findAll();
     }
 
     public List<TrainerRating> findByNull(Organization organization) {
-        return getEntityManager().createNamedQuery("TrainerRating.findByNull").setParameter("porg", organization).getResultList();
+        return repository.findAllByDoneIsNullAndOrganization(organization);
     }
 
     public boolean exist(Integer id) {
-        return getEntityManager().createNamedQuery("TrainerRating.findById").setParameter("pid", id).getResultList().size() > 0;
+        return repository.existsById(id);
     }
 
     public TrainerRating find(Integer id) {
-        return (TrainerRating)getEntityManager().createNamedQuery("TrainerRating.findById").setParameter("pid", id).getResultList().get(0);
+        return repository.findById(id);
     }
 
     public boolean existByUser(User user) {
-        return getEntityManager().createNamedQuery("TrainerRating.findByUser").setParameter("pu", user).getResultList().size() > 0;
+        return repository.existsByUserAndDoneIsNull(user);
     }
 
     public TrainerRating findByUser(User user) {
-        return (TrainerRating)getEntityManager().createNamedQuery("TrainerRating.findByUser").setParameter("pu", user).getResultList().get(0);
+        return repository.findByDoneIsNullAndUserOrderByIdDesc(user);
     }
 }

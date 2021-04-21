@@ -14,12 +14,6 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="USERROLE", schema="teampress")
-@NamedQueries({
-		@NamedQuery(name="UserRole.findAll", query="SELECT ur FROM UserRole ur"),
-		@NamedQuery(name="UserRole.findAllByUser", query = "SELECT u.role FROM UserRole u WHERE u.user = :pu"),
-		@NamedQuery(name="UserRole.findByUserIdAndRoleId", query = "SELECT u FROM UserRole u WHERE u.user.id = :puid AND u.role.id = :prid"),
-		@NamedQuery(name="UserRole.findById", query="SELECT ur FROM UserRole ur WHERE ur.id = :pid"),
-})
 @Cacheable(false)
 @NoArgsConstructor
 @Getter

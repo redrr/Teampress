@@ -4,7 +4,9 @@ import com.teampress.database.model.system.LookupCode;
 import com.teampress.database.model.system.Organization;
 import com.teampress.database.model.system.User;
 import com.teampress.database.model.system.UserOrganization;
+import com.teampress.database.repository.system.UserOrganizationRepository;
 import com.teampress.database.service.BaseService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,51 +16,42 @@ import java.util.Objects;
 @Service
 public class UserOrganizationService extends BaseService {
 
+    @Autowired
+    private UserOrganizationRepository repository;
+
     public List<UserOrganization> findAll(){
-        List<UserOrganization> result = getEntityManager().createNamedQuery("UserOrganization.findAll").getResultList();
-        return Objects.nonNull(result) ? result : new ArrayList<>();
+        return repository.findAll();
     }
 
     public UserOrganization find(Integer id){
-        return (UserOrganization) getEntityManager().createNamedQuery("UserOrganization.findById").setParameter("pid", id).getResultList().get(0);
-    }
-
-    public boolean existsByOrgAndUser(int org, int user) {
-        return getEntityManager().createNamedQuery("UserOrganization.findByOrgAndUser").setParameter("porg", org).setParameter("pu", user).getResultList().size() > 0;
+        return repository.findById(id);
     }
 
     public UserOrganization getOrgByUser(User user){
-        return (UserOrganization) getEntityManager().createNamedQuery("UserOrganization.findByUser").setParameter("pu", user).getResultList().get(0);
+        return repository.getFirstByUser(user);
     }
 
     public ArrayList<UserOrganization> getOrgListByUser(User user){
-        return (ArrayList<UserOrganization>) getEntityManager().createNamedQuery("UserOrganization.findByUser").setParameter("pu", user).getResultList();
+        return new ArrayList<>(repository.findAllByUser(user));
     }
 
     public ArrayList<UserOrganization> getOrgListByOrg(Organization organization){
-        return (ArrayList<UserOrganization>) getEntityManager().createNamedQuery("UserOrganization.findByOrganization").setParameter("porg", organization).getResultList();
+        return new ArrayList<>(repository.findAllByOrganization(organization));
     }
 
     public ArrayList<UserOrganization> getUsersByOrgIfPlayer(Organization organization, LookupCode team){
-        ArrayList<UserOrganization> arr = (ArrayList<UserOrganization>) getEntityManager().createNamedQuery("UserOrganization.findByOrganizationAndTeam").setParameter("porg", organization).setParameter("ptype", team).getResultList();
-        ArrayList<UserOrganization> result = new ArrayList<>();
-        for(UserOrganization userOrganization : arr){
-            if(userOrganization.getUser().isPlayer()){
-                result.add(userOrganization);
-            }
-        }
-        return result;
+        return new ArrayList<>(repository.findAllPlayerByOrganizationAndTeam(organization, team));
     }
 
     public ArrayList<UserOrganization> getOrgListByTeam(Organization org, LookupCode team){
-        return (ArrayList<UserOrganization>) getEntityManager().createNamedQuery("UserOrganization.findByOrgAndTeam").setParameter("pteam", team).setParameter("porg", org).getResultList();
+        return new ArrayList<>(repository.findAllByOrganizationAndType(org, team));
     }
 
     public ArrayList<UserOrganization> findByOrgAndTeamAndUser(Organization org, LookupCode team, User user){
-        return (ArrayList<UserOrganization>) getEntityManager().createNamedQuery("UserOrganization.findByOrgAndTeamAndUser").setParameter("porg", org).setParameter("pteam", team).setParameter("pu", user).getResultList();
+        return new ArrayList<>(repository.findAllByOrganizationAndTypeAndUser(org, team, user));
     }
 
     public List<User> findUsersByOrgAndTeams(Organization organization, List<LookupCode> teams) {
-        return (List<User>) getEntityManager().createNamedQuery("UserOrganization.findUsersByOrgAndTeams").setParameter("porg", organization).setParameter("pteams", teams).getResultList();
+        return repository.findAllUserByOrganizationAndTeamIn(organization, teams);
     }
 }

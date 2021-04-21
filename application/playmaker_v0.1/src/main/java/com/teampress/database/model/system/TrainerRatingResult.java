@@ -10,13 +10,6 @@ import java.util.Date;
 
 @Entity
 @Table(name="TRAINERRATINGRESULT", schema="teampress")
-@NamedQueries({
-        @NamedQuery(name="TrainerRatingResult.findAll", query="SELECT u FROM TrainerRatingResult u"),
-        @NamedQuery(name="TrainerRatingResult.findById", query="SELECT u FROM TrainerRatingResult u WHERE u.id = :pid"),
-        @NamedQuery(name="TrainerRatingResult.findMaxByOrg", query="SELECT u FROM TrainerRatingResult u WHERE u.organization = :porg ORDER BY u.creationDate ASC"),
-        @NamedQuery(name="TrainerRatingResult.findMinByOrg", query="SELECT u FROM TrainerRatingResult u WHERE u.organization = :porg ORDER BY u.creationDate DESC"),
-        @NamedQuery(name="TrainerRatingResult.findAvgByTrainer", query="SELECT avg (u.result) FROM TrainerRatingResult u WHERE u.organization = :porg AND u.trainer = :pu AND u.ratingDate BETWEEN :pd1 AND :pd2"),
-})
 @Cacheable(false)
 @NoArgsConstructor
 @Getter

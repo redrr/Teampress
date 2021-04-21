@@ -2,7 +2,9 @@ package com.teampress.database.service.system;
 
 import com.teampress.database.model.system.User;
 import com.teampress.database.model.system.UserNotification;
+import com.teampress.database.repository.system.UserNotificationRepository;
 import com.teampress.database.service.BaseService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,23 +12,26 @@ import java.util.List;
 @Service
 public class UserNotificationService extends BaseService {
 
+    @Autowired
+    private UserNotificationRepository repository;
+
     public List<UserNotification> findAll() {
-        return getEntityManager().createNamedQuery("UserNotification.findAll").getResultList();
+        return repository.findAll();
     }
 
     public List<UserNotification> findAllByUser(User user){
-        return (List<UserNotification>) getEntityManager().createNamedQuery("UserNotification.findByUser").setParameter("pu", user).getResultList();
+        return repository.findAllByUserAndSeenOrderByCreationDateDesc(user, false);
     }
 
     public boolean exist(Integer id) {
-        return getEntityManager().createNamedQuery("UserNotification.findById").setParameter("pid", id).getResultList().size() > 0;
+        return repository.existsById(id);
     }
 
     public UserNotification find(Integer id) {
-        return (UserNotification)getEntityManager().createNamedQuery("UserNotification.findById").setParameter("pid", id).getResultList().get(0);
+        return repository.findById(id);
     }
 
     public List<UserNotification> findAllByUUID(String uuid) {
-        return (List<UserNotification>)getEntityManager().createNamedQuery("UserNotification.findByUUID").setParameter("puuid", uuid).getResultList();
+        return repository.findAllByUuid(uuid);
     }
 }

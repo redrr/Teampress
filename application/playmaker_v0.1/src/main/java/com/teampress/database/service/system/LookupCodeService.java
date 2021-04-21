@@ -1,7 +1,10 @@
 package com.teampress.database.service.system;
 
 import com.teampress.database.model.system.LookupCode;
+import com.teampress.database.repository.system.LookupCodeRepository;
 import com.teampress.database.service.BaseService;
+import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -12,48 +15,42 @@ import java.util.Objects;
 @Service
 public class LookupCodeService extends BaseService {
 
+    @Autowired
+    private LookupCodeRepository repository;
+
     public List<LookupCode> findAll(){
-        return getEntityManager().createNamedQuery("LookupCode.findAll").getResultList();
+        return repository.findAll();
     }
 
     public LookupCode getByCodeAndLgroup(String code, String lgroup){
-        List result = getEntityManager().createNamedQuery("LookupCode.findByCodeAndLgroup")
-                .setParameter("plgroup", lgroup)
-                .setParameter("pcode", code)
-                .getResultList();
-        return !result.isEmpty() ? (LookupCode) result.get(0) : null;
+        return repository.findByLgroupAndCode(lgroup, code);
     }
-
 
     public LookupCode findLookupCodeByLgroupAndCode(String lgroup, String code){
         return getByCodeAndLgroup(code.toUpperCase(), lgroup.toUpperCase());
     }
 
     public LookupCode find(Integer id){
-        return (LookupCode) getEntityManager().createNamedQuery("LookupCode.findById").setParameter("pid", id).getSingleResult();
+        return repository.findById(id);
     }
 
     public boolean exists(Integer id) {
-        return !getEntityManager().createNamedQuery("LookupCode.findById").setParameter("pid", id).getResultList().isEmpty();
+        return repository.existsById(id);
     }
 
     public boolean existsByLgroupAndCode(String lgroup, String code){
-        return Objects.nonNull(getByCodeAndLgroup(code, lgroup));
+        return repository.existsByLgroupAndCode(lgroup, code);
     }
 
     public List<LookupCode> findAllLookupByLgroup(String lgroup){
-        return getEntityManager().createNamedQuery("LookupCode.findAllByLgroup").setParameter("plgroup", lgroup).getResultList();
+        return repository.findAllByLgroup(lgroup);
     }
 
     public HashMap<Integer, String> getLookupCodeForEnum(String lgroup){
         HashMap<Integer, String> result = new HashMap<>();
-        for (LookupCode s : (List<LookupCode>)findAllLookupByLgroup(lgroup)){
+        for (LookupCode s : findAllLookupByLgroup(lgroup)){
             result.put(s.getId(), s.getCode());
         }
         return result;
-    }
-
-    public Collection<LookupCode> getLookupsForLGroup(String lgroup) {
-        return getEntityManager().createNamedQuery("LookupCode.findAllByLgroup").setParameter("plgroup", lgroup).getResultList();
     }
 }

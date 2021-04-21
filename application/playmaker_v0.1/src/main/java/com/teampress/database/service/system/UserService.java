@@ -1,7 +1,9 @@
 package com.teampress.database.service.system;
 
 import com.teampress.database.model.system.User;
+import com.teampress.database.repository.system.UserRepository;
 import com.teampress.database.service.BaseService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,47 +11,30 @@ import java.util.List;
 @Service
 public class UserService extends BaseService {
 
+    @Autowired
+    private UserRepository repository;
+
     public List<User> findAll(){
-        return getEntityManager().createNamedQuery("User.findAll").getResultList();
+        return repository.findAll();
     }
 
     public List<User> findAllPlayer(){
-        return getEntityManager().createNamedQuery("User.findAllPlayer").getResultList();
+        return repository.findAllByEnabledAndPlayer(true, true);
     }
 
     public User findEnabledUserByUsername(String username) {
-        List result = getEntityManager().createNamedQuery("User.findEnabledUserByName").setParameter("pusername", username).getResultList();
-        return result.size() == 1 ? (User) result.get(0) : null;
+        return repository.findByUsernameAndEnabledAndDeleted(username, true, false);
     }
 
     public User findUserByEmail(String mail) {
-        List result = getEntityManager().createNamedQuery("User.findEnabledUserByMail").setParameter("pmail", mail).getResultList();
-        return result.size() == 1 ? (User) result.get(0) : null;
+        return repository.findByEmailAndEnabledAndDeleted(mail, true, false);
     }
 
     public User find(Integer id) {
-        List result = getEntityManager().createNamedQuery("User.findById").setParameter("pid", id).getResultList();
-        return result.size() == 1 ? (User) result.get(0) : null;
-    }
-
-    public boolean existsByUsername(String username) {
-        return getEntityManager().createNamedQuery("User.findEnabledUserByName").setParameter("pusername", username).getResultList().size() > 0;
-    }
-
-    public boolean existsByUsernameAndAllDeleted(String username) {
-        List<User> result = getEntityManager().createNamedQuery("User.existsByUserName").setParameter("pusername", username).getResultList();
-        if(result.size() > 0){
-            int deleted = 0;
-            for(User u : result){
-                if (u.isDeleted()) deleted++;
-            }
-            if (deleted == result.size()) return true;
-        }
-        return false;
+        return repository.findById(id);
     }
 
     public User findByUsername(String username) {
-        List<User> result = getEntityManager().createNamedQuery("User.existsByUserName").setParameter("pusername", username).getResultList();
-        return result.isEmpty() ? null : result.get(0);
+        return repository.findByUsername(username);
     }
 }

@@ -99,7 +99,7 @@ public class IndexController extends BaseController {
             if(hasPermission(Permissions.HOME_WEATHER)){
                 uOrg = userOrganizationService.getOrgByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession()));
                 view.addObject("temp", weatherController(uOrg.getOrganization()));
-                view.addObject("city", orgCountryService.find(uOrg.getOrganization()).get(0).getCity());
+                view.addObject("city", orgCountryService.find(uOrg.getOrganization()).getCity());
             }
             return view;
         }
@@ -117,30 +117,28 @@ public class IndexController extends BaseController {
     }
 
     private int weatherController(Organization organization) {
-        List<OrgCountry> countries = orgCountryService.find(organization);
         LocalDate date = LocalDate.now();
-        for(OrgCountry country : countries) {
-            Date updateDate = country.getTempUpdateAt();
-            if(true) {
-                String url = "https://api.openweathermap.org/data/2.5/weather?q=Kecskemét&appid=a6de016d16c4c3eea60314cd92f3fcad";
-                RestTemplate restTemplate = new RestTemplate();
-                String jsonString = restTemplate.getForObject(url, String.class);
-                JSONObject jsonObject = null;
-                int temp = 0;
-                try {
-                    jsonObject = new JSONObject(jsonString);
-                    JSONObject main = new JSONObject(String.valueOf(jsonObject.get("main")));
-                    temp = Math.toIntExact(Math.round(Float.parseFloat(String.valueOf(main.get("temp"))) - 273.15));
-                    country.setTemp(temp);
-                    country.setTempUpdateAt(new Date(System.currentTimeMillis()));
-                    //orgCountryService.mergeFlush(country);
-                    return temp;
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                return country.getTemp();
+        OrgCountry country = orgCountryService.find(organization);
+        Date updateDate = country.getTempUpdateAt();
+        if(true) {
+            String url = "https://api.openweathermap.org/data/2.5/weather?q=Kecskemét&appid=a6de016d16c4c3eea60314cd92f3fcad";
+            RestTemplate restTemplate = new RestTemplate();
+            String jsonString = restTemplate.getForObject(url, String.class);
+            JSONObject jsonObject = null;
+            int temp = 0;
+            try {
+                jsonObject = new JSONObject(jsonString);
+                JSONObject main = new JSONObject(String.valueOf(jsonObject.get("main")));
+                temp = Math.toIntExact(Math.round(Float.parseFloat(String.valueOf(main.get("temp"))) - 273.15));
+                country.setTemp(temp);
+                country.setTempUpdateAt(new Date(System.currentTimeMillis()));
+                //orgCountryService.mergeFlush(country);
+                return temp;
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+        } else {
+            return country.getTemp();
         }
         return 0;
     }

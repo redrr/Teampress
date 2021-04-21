@@ -2,7 +2,9 @@ package com.teampress.database.service.system;
 
 import com.teampress.database.model.system.OrgCountry;
 import com.teampress.database.model.system.Organization;
+import com.teampress.database.repository.system.OrgCountryRepository;
 import com.teampress.database.service.BaseService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,15 +12,18 @@ import java.util.List;
 @Service
 public class OrgCountryService extends BaseService {
 
+    @Autowired
+    private OrgCountryRepository repository;
+
     public OrgCountry find(Integer id){
-        return (OrgCountry) getEntityManager().createNamedQuery("OrgCountry.findById").setParameter("pid", id).getResultList().get(0);
+        return repository.findById(id);
     }
 
     public List<OrgCountry> findAll(){
-        return getEntityManager().createNamedQuery("OrgCountry.findAll").getResultList();
+        return repository.findAll();
     }
 
-    public List<OrgCountry> find(Organization organization) {
-        return getEntityManager().createNamedQuery("OrgCountry.findByOrganization").setParameter("porg", organization).getResultList();
+    public OrgCountry find(Organization organization) {
+        return repository.findByOrganization(organization);
     }
 }

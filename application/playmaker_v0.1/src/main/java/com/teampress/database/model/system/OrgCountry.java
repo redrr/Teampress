@@ -15,11 +15,6 @@ import java.util.Date;
  */
 @Entity
 @Table(name="CLUBDATA", schema="teampress")
-@NamedQueries({
-		@NamedQuery(name="OrgCountry.findAll", query="SELECT o FROM OrgCountry o"),
-		@NamedQuery(name="OrgCountry.findById", query="SELECT o FROM OrgCountry o WHERE o.id = :pid"),
-		@NamedQuery(name="OrgCountry.findByOrganization", query = "SELECT o FROM OrgCountry o WHERE o.organization = :porg"),
-})
 @Cacheable(false)
 @NoArgsConstructor
 @Getter
