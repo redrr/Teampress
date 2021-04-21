@@ -8,8 +8,8 @@ import javax.persistence.*;
 @Table(name="USERNOTIFICATION", schema="teampress")
 @NamedQueries({
         @NamedQuery(name="UserNotification.findAll", query="SELECT u FROM UserNotification u"),
-        @NamedQuery(name="UserNotification.countAll", query="SELECT COUNT(u) FROM UserNotification u"),
         @NamedQuery(name="UserNotification.findById", query="SELECT u FROM UserNotification u WHERE u.id = :pid"),
+        @NamedQuery(name="UserNotification.findByUUID", query="SELECT u FROM UserNotification u WHERE u.uuid = :puuid"),
         @NamedQuery(name="UserNotification.findByUser", query="SELECT u FROM UserNotification u WHERE u.user = :pu AND u.seen=false ORDER BY u.id DESC")
 })
 @Cacheable(false)
@@ -32,6 +32,9 @@ public class UserNotification extends BaseModel {
 
     @Column(name="SEEN", length=255)
     private boolean seen;
+
+    @Column(name="UUID", length=255)
+    private String uuid;
 
     public UserNotification() {
     }
@@ -74,5 +77,13 @@ public class UserNotification extends BaseModel {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 }

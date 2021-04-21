@@ -118,7 +118,7 @@ public class WorkoutController extends BaseController {
         JSONObject jsonObject = new JSONObject();
         if(hasPermission(Permissions.WORKOUT_PLAYER_TABLE) || hasPermission(Permissions.WORKOUT_ALL_TABLE)){
             try {
-                if(workoutService.getStatus(trainingPlanService.find(Integer.parseInt(id)))){
+                if(workoutService.existByTrainingPlan(trainingPlanService.find(Integer.parseInt(id)))){
                     jsonObject.put("css", "success");
                     jsonObject.put("val", "Értékelve");
                 } else {
@@ -184,6 +184,8 @@ public class WorkoutController extends BaseController {
                     if(trainDatas.length > 2 && !trainDatas[0].equals("")) {
                         User currentUser = userService.find(Integer.parseInt(trainDatas[0]));
                         Organization organization = userOrganizationService.getOrgByUser(currentUser).getOrganization();
+                        training.setDeletable(false);
+                        trainingPlanService.mergeFlush(training);
                         Attendance attendance = new Attendance();
                         attendance.setOrganization(organization);
                         attendance.setTeam(training.getTeam());

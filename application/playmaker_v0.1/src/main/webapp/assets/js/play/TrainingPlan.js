@@ -36,7 +36,7 @@ function showTraining(id) {
         }
         $('#modifyTraining_id').val(id);
         updateExerciseList();
-        sortable = new Sortable($('#exerciseHolder')[0], {
+        sortable = new Sortable(holder[0], {
             animation: 250,
             onMove: function (evt, originalEvent) {
                 updateExerciseList();
@@ -47,10 +47,11 @@ function showTraining(id) {
 
 function addExercise(exercise, duration) {
     let array = exercise.val().split(",");
-    $('#exerciseHolder')[0].innerHTML += addExerciseToList("", array, duration.val());
+    let holder = $('#exerciseHolder');
+    holder[0].innerHTML += addExerciseToList("", array, duration.val());
     $('#close').click()
     updateExerciseList();
-    sortable = new Sortable($('#exerciseHolder')[0], {
+    sortable = new Sortable(holder[0], {
         animation: 250,
         onMove: function (evt, originalEvent) {
             updateExerciseList();

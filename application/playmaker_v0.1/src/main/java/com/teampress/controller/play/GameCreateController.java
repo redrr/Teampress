@@ -3,9 +3,11 @@ package com.teampress.controller.play;
 import com.teampress.common.enums.Permissions;
 import com.teampress.controller.BaseController;
 import com.teampress.database.model.gameplan.CustomGame;
+import com.teampress.database.model.index.Calendar;
 import com.teampress.database.model.system.LookupCode;
 import com.teampress.database.model.system.Organization;
 import com.teampress.database.model.system.User;
+import com.teampress.database.model.system.UserNotification;
 import com.teampress.database.service.gameplan.CustomGameService;
 import com.teampress.database.service.gameplan.GamePlanService;
 import com.teampress.database.service.index.CalendarService;
@@ -25,10 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import static java.util.Objects.isNull;
 
@@ -100,7 +99,9 @@ public class GameCreateController extends BaseController {
             } else {
                 User currentUser = userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession());
                 Organization organization = userOrganizationService.getOrgByUser(currentUser).getOrganization();
+                String uuid = UUID.randomUUID().toString();
                 CustomGame customGame = (isNull(form.getId())) ? new CustomGame() : customGameService.find(form.getId());
+                customGame.setUuid(uuid);
                 customGame.setDate(form.getDate());
                 customGame.setOrganization(organization);
                 customGame.setEnemy(form.getEnemy());
@@ -108,7 +109,7 @@ public class GameCreateController extends BaseController {
                 customGame.setDeleted(false);
                 customGame.setTeam(team);
                 customGameService.mergeFlush(customGame);
-                pushNotification(
+                pushNotification(uuid,
                         "calendar",
                         "Új mérkőzés",
                         "Mérkőzés került felvételre!",
@@ -116,7 +117,7 @@ public class GameCreateController extends BaseController {
                         userNotificationService,
                         currentUser
                 );
-                pushEvents(customGame.getDate(), organization.getName()+" - "+customGame.getEnemy(), organization, team, calendarService);
+                pushEvents(uuid, customGame.getDate(), organization.getName()+" - "+customGame.getEnemy(), organization, team, calendarService);
             }
         }
         return show();
@@ -128,7 +129,17 @@ public class GameCreateController extends BaseController {
         if(hasPermission(Permissions.PLANS_CREATE)){
             if(!id.equals("")) {
                 CustomGame customGame = customGameService.find(Integer.parseInt(id));
-                if(!gamePlanService.exist(customGame)){
+                if(!gamePlanService.exist(customGame)) {
+                    //Delete connected event
+                    Calendar event = calendarService.findByUUID(customGame.getUuid());
+                    calendarService.delete(event);
+                    calendarService.flush();
+                    //Delete connected notification
+                    userNotificationService.findAllByUUID(customGame.getUuid()).forEach(notification -> {
+                        userNotificationService.delete(notification);
+                        userNotificationService.flush();
+                    });
+                    //Delete game
                     customGame.setDeleted(true);
                     customGameService.mergeFlush(customGame);
                 }

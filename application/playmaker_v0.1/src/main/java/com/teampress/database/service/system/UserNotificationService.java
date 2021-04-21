@@ -25,4 +25,8 @@ public class UserNotificationService extends BaseService {
     public UserNotification find(Integer id) {
         return (UserNotification)getEntityManager().createNamedQuery("UserNotification.findById").setParameter("pid", id).getResultList().get(0);
     }
+
+    public List<UserNotification> findAllByUUID(String uuid) {
+        return (List<UserNotification>)getEntityManager().createNamedQuery("UserNotification.findByUUID").setParameter("puuid", uuid).getResultList();
+    }
 }

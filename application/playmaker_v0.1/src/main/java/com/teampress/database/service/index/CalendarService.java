@@ -48,4 +48,8 @@ public class CalendarService extends BaseService {
         }
         return  events;
     }
+
+    public Calendar findByUUID(String uuid) {
+        return (Calendar) getEntityManager().createNamedQuery("Calendar.findByUuid").setParameter("puuid", uuid).getSingleResult();
+    }
 }

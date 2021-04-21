@@ -37,6 +37,7 @@
                                 <div class="page-body">
                                     <div class="row animated fadeInUpBig">
                                         <c:if test="${sessionHandler.userHasPermission('WORKOUT_CREATE')}">
+                                            <div id="alert" class="col-12"></div>
                                             <div id="content" class="col-12">
                                                 <div class="card">
                                                     <div class="card-header">

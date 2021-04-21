@@ -140,11 +140,12 @@ public class BaseController {
 
     //region [Region] Notifications
 
-    public void pushNotification(String location, String title, String description, List<UserOrganization> userorgs, UserNotificationService service, User current){
+    public void pushNotification(String uuid, String location, String title, String description, List<UserOrganization> userorgs, UserNotificationService service, User current){
         for (UserOrganization userOrganization : userorgs){
             if(userOrganization.getUser().equals(current))
                 continue;
             UserNotification notification = new UserNotification();
+            notification.setUuid(uuid);
             notification.setTitle(title);
             notification.setDescription(description);
             notification.setUser(userOrganization.getUser());
@@ -167,8 +168,9 @@ public class BaseController {
 
     //region [Region] Events
 
-    public void pushEvents(Date date, String name, Organization organization, LookupCode team, CalendarService service){
+    public void pushEvents(String uuid, Date date, String name, Organization organization, LookupCode team, CalendarService service){
         Calendar calendar = new Calendar();
+        calendar.setUuid(uuid);
         calendar.setEndDateTime(date);
         calendar.setStartDateTime(date);
         calendar.setEventName(name);

@@ -53,7 +53,7 @@ public class WorkoutService extends BaseService {
         return getEntityManager().createNamedQuery("Workout.findByUserAndTraining").setParameter("ptraining", trainingPlan).setParameter("puser", user).getResultList().size() > 0;
     }
 
-    public boolean getStatus(TrainingPlan trainingPlan) {
+    public boolean existByTrainingPlan(TrainingPlan trainingPlan) {
         return getEntityManager().createNamedQuery("Workout.findByTraining").setParameter("ptraining", trainingPlan).getResultList().size() > 0;
     }
 

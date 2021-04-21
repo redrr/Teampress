@@ -34,6 +34,9 @@ public class CustomGame extends BaseModel {
     @JoinColumn(name="TEAM_ID")
     private LookupCode team;
 
+    @Column(name="UUID", length=255)
+    private String uuid;
+
     @Column(name="ELLEN", length=255)
     private String enemy;
 
@@ -106,5 +109,13 @@ public class CustomGame extends BaseModel {
 
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 }

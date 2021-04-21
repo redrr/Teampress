@@ -3,8 +3,10 @@ package com.teampress.controller.play;
 import com.teampress.common.enums.Permissions;
 import com.teampress.common.enums.Roles;
 import com.teampress.controller.BaseController;
+import com.teampress.database.model.index.Calendar;
 import com.teampress.database.model.system.Organization;
 import com.teampress.database.model.system.User;
+import com.teampress.database.model.system.UserNotification;
 import com.teampress.database.model.trainingplan.Exercise;
 import com.teampress.database.model.trainingplan.TrainingPlan;
 import com.teampress.database.model.trainingplan.TrainingPlanConnection;
@@ -16,6 +18,8 @@ import com.teampress.database.service.system.UserService;
 import com.teampress.database.service.trainingplan.ExerciseService;
 import com.teampress.database.service.trainingplan.TrainingPlanConnectionService;
 import com.teampress.database.service.trainingplan.TrainingPlanService;
+import com.teampress.database.service.workout.AttendanceService;
+import com.teampress.database.service.workout.WorkoutService;
 import com.teampress.form.TrainingPlanForm;
 import com.teampress.form.validator.TrainingPlanFormValidator;
 import com.teampress.handler.SessionHandler;
@@ -32,6 +36,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 import static java.util.Objects.isNull;
 
@@ -47,8 +52,10 @@ public class TrainingPlanController extends BaseController {
     private UserNotificationService userNotificationService;
     private CalendarService calendarService;
     private TrainingPlanConnectionService connectionService;
+    private AttendanceService attendanceService;
+    private WorkoutService workoutService;
 
-    public TrainingPlanController(ExerciseService exerciseService, UserOrganizationService userOrganizationService, UserService userService, LookupCodeService lookupCodeService, TrainingPlanService trainingPlanService, UserNotificationService userNotificationService, CalendarService calendarService, TrainingPlanConnectionService connectionService) {
+    public TrainingPlanController(ExerciseService exerciseService, UserOrganizationService userOrganizationService, UserService userService, LookupCodeService lookupCodeService, TrainingPlanService trainingPlanService, UserNotificationService userNotificationService, CalendarService calendarService, TrainingPlanConnectionService connectionService, AttendanceService attendanceService, WorkoutService workoutService) {
         this.exerciseService = exerciseService;
         this.userOrganizationService = userOrganizationService;
         this.userService = userService;
@@ -57,6 +64,8 @@ public class TrainingPlanController extends BaseController {
         this.userNotificationService = userNotificationService;
         this.calendarService = calendarService;
         this.connectionService = connectionService;
+        this.attendanceService = attendanceService;
+        this.workoutService = workoutService;
     }
 
     @RequestMapping("")
@@ -89,12 +98,11 @@ public class TrainingPlanController extends BaseController {
                 errorView.getModel().replace("error", result.getFieldError("date").getDefaultMessage());
                 return errorView;
             }
-
             Organization organization = userOrganizationService.getOrgByUser(userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession())).getOrganization();
-
-
+            String uuid = UUID.randomUUID().toString();
             //Create Training plan
             TrainingPlan trainingPlan = (isNull(form.id)) ? new TrainingPlan() : trainingPlanService.find(form.id);
+            trainingPlan.setUuid(uuid);
             trainingPlan.setOrganization(organization);
             trainingPlan.setTeam(lookupCodeService.find(form.getTeam()));
             trainingPlan.setTrainingDate(form.getDate().replaceAll("\\s", "").replaceAll("-", "").replace('.', '/'));
@@ -132,7 +140,7 @@ public class TrainingPlanController extends BaseController {
             }
 
             User currentUser = userService.findEnabledUserByUsername(SessionHandler.getUsernameFromCurrentSession());
-            pushNotification(
+            pushNotification(uuid,
                     "training/workout",
                     "Új edzés",
                     currentUser.getName()+" edzést vett fel!",
@@ -144,7 +152,7 @@ public class TrainingPlanController extends BaseController {
             Date parsedDate = null;
             try {
                 parsedDate = dateFormat.parse(form.getDate().replaceAll("\\s", "").replaceAll("-", "").replace('.', '/'));
-                pushEvents(parsedDate, lookupCodeService.find(form.getTeam()).getCode()+" edzése", organization, lookupCodeService.find(form.getTeam()), calendarService);
+                pushEvents(uuid, parsedDate, lookupCodeService.find(form.getTeam()).getCode()+" edzése", organization, lookupCodeService.find(form.getTeam()), calendarService);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -154,9 +162,27 @@ public class TrainingPlanController extends BaseController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/del")
     public String del(@RequestParam String id) {
-        if(hasPermission(Permissions.TRAIN_CREATE)){
-            trainingPlanService.delete(trainingPlanService.find(Integer.parseInt(id)));
-            trainingPlanService.flush();
+        if(hasPermission(Permissions.TRAIN_CREATE)) {
+            TrainingPlan trainingPlan = trainingPlanService.find(Integer.parseInt(id));
+            Calendar event = calendarService.findByUUID(trainingPlan.getUuid());
+            if (!attendanceService.existByTrainingPlan(trainingPlan) && !workoutService.existByTrainingPlan(trainingPlan)) {
+                //Delete all connected exercise
+                for (TrainingPlanConnection connection : connectionService.findByTraining(trainingPlan)) {
+                    connectionService.delete(connection);
+                }
+                connectionService.flush();
+                //Delete Training master data
+                trainingPlanService.delete(trainingPlan);
+                trainingPlanService.flush();
+                //Delete Training event from calendar
+                calendarService.delete(event);
+                calendarService.flush();
+                //Delete connected notification
+                userNotificationService.findAllByUUID(trainingPlan.getUuid()).forEach(notification -> {
+                    userNotificationService.delete(notification);
+                    userNotificationService.flush();
+                });
+            }
         }
         return "redirect:/training/plan";
     }
@@ -164,8 +190,11 @@ public class TrainingPlanController extends BaseController {
     @RequestMapping(method = RequestMethod.POST, value = "/connection/del")
     public void connectionDelete(@RequestParam String id) {
         if(hasPermission(Permissions.TRAIN_CREATE)){
-            connectionService.delete(connectionService.find(Integer.parseInt(id)));
-            connectionService.flush();
+            TrainingPlanConnection connection = connectionService.find(Integer.parseInt(id));
+            if (Objects.nonNull(connection) && !attendanceService.existByTrainingPlan(connection.getTrainingPlan()) && !workoutService.existByTrainingPlan(connection.getTrainingPlan())) {
+                connectionService.delete(connection);
+                connectionService.flush();
+            }
         }
     }
 
@@ -174,27 +203,29 @@ public class TrainingPlanController extends BaseController {
     public String get(@RequestParam String id) {
         if(hasPermission(Permissions.TRAIN_CREATE)){
             TrainingPlan trainingPlan = trainingPlanService.find(Integer.parseInt(id));
-            JSONObject json = new JSONObject();
-            JSONArray exercises = new JSONArray();
-            JSONArray times = new JSONArray();
-            try{
-                json.put("date", trainingPlan.getTrainingDate());
-                json.put("team", trainingPlan.getTeam().getId());
-                for (TrainingPlanConnection planConnection : connectionService.findByTraining(trainingPlan)) {
-                    exercises.put(
-                            planConnection.getExercise().getId().toString().concat(",")
-                            .concat(planConnection.getExercise().getName()).concat(",")
-                            .concat(planConnection.getExercise().getType().getCode().concat(",")
-                            .concat(planConnection.getId().toString()))
-                    );
-                    times.put(planConnection.getDuration());
+            if (!attendanceService.existByTrainingPlan(trainingPlan) && !workoutService.existByTrainingPlan(trainingPlan)) {
+                JSONObject json = new JSONObject();
+                JSONArray exercises = new JSONArray();
+                JSONArray times = new JSONArray();
+                try{
+                    json.put("date", trainingPlan.getTrainingDate());
+                    json.put("team", trainingPlan.getTeam().getId());
+                    for (TrainingPlanConnection planConnection : connectionService.findByTraining(trainingPlan)) {
+                        exercises.put(
+                                planConnection.getExercise().getId().toString().concat(",")
+                                        .concat(planConnection.getExercise().getName()).concat(",")
+                                        .concat(planConnection.getExercise().getType().getCode().concat(",")
+                                                .concat(planConnection.getId().toString()))
+                        );
+                        times.put(planConnection.getDuration());
+                    }
+                    json.put("exercises", exercises);
+                    json.put("time", times);
+                } catch (Exception e){
+                    e.printStackTrace();
                 }
-                json.put("exercises", exercises);
-                json.put("time", times);
-            } catch (Exception e){
-                e.printStackTrace();
+                return json.toString();
             }
-            return json.toString();
         }
         return "";
     }

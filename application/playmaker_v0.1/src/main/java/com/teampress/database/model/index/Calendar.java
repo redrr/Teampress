@@ -21,7 +21,7 @@ import java.util.Date;
         @NamedQuery(name="Calendar.countAll", query="SELECT COUNT(c) FROM Calendar c"),
         @NamedQuery(name="Calendar.findByOrgAndTeam", query="SELECT c FROM Calendar c WHERE c.organization = :porg AND c.team = :pteam"),
         @NamedQuery(name="Calendar.findByOrg", query="SELECT c FROM Calendar c WHERE c.organization = :porg AND c.team IS NULL "),
-        @NamedQuery(name="Calendar.findById", query="SELECT exc FROM Calendar exc WHERE exc.id = :pid")
+        @NamedQuery(name="Calendar.findByUuid", query="SELECT c FROM Calendar c WHERE c.uuid = :puuid"),
 })
 @Cacheable(false)
 public class Calendar extends BaseModel {
@@ -38,6 +38,9 @@ public class Calendar extends BaseModel {
     @ManyToOne
     @JoinColumn(name="TEAM_ID")
     private LookupCode team;
+
+    @Column(name="UUID", length=255)
+    private String uuid;
 
     @Expose
     @Column(name="EVENT_NAME", length=255)
@@ -83,6 +86,7 @@ public class Calendar extends BaseModel {
             e.printStackTrace();
         }
     }
+
     //2019-09-05T09:00:00
     public String getEndDateTime() {
         SimpleDateFormat dateFormat0 = new SimpleDateFormat("yyyy-MM-dd");
@@ -132,5 +136,13 @@ public class Calendar extends BaseModel {
 
     public void setTeam(LookupCode team) {
         this.team = team;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 }

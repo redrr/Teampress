@@ -146,6 +146,8 @@ function getTrainingConsole(trainingId, teamId, teamName) {
         setTitle(teamName);
         setJelenleti(training.players.split(';'), training.profile);
         setExercises(training.exercises.split(';'), training.players.split(';'), navBar, bodyObj, training.profile);
+        $('.exercise-link').on("click", function () {validateWorkout()})
+        $('#alert').html('');
         $('#content').show();
         $('.tr-table').hide();
         $('.start-progress-btn').hide();
@@ -203,7 +205,7 @@ function setExercises(exerciseList, playerList, navBar, bodyObj, profile) {
         var type = exercise.split(',')[1];
         var name = exercise.split(',')[2];
         var nav =  "<li class=\"nav-item\">\n" +
-            "   <a class=\"nav-link\" data-toggle=\"tab\" href=\"#exercise"+index+"\" role='tab'>"+ name + "</a>\n" +
+            "   <a class=\"nav-link exercise-link\" data-toggle=\"tab\" href=\"#exercise"+index+"\" role='tab'>"+ name + "</a>\n" +
             "</li>";
         navBar.append(nav);
         var body =
@@ -277,12 +279,12 @@ function setExercises(exerciseList, playerList, navBar, bodyObj, profile) {
                 }
                 if(type === 'Sikeres/darabszám'){
                     body +=
-                        "<div class=\"row p"+i+" exerciseresult"+index+"\">\n" +
+                        "<div wk-num='"+index+"' class=\"row p"+i+" given-success exerciseresult"+index+"\">\n" +
                         "   <div class=\"col-3\">\n" +
                         "       <label class=\"col-form-label\" for=\"success"+i+"\">Sikeres:</label>\n" +
                         "   </div>\n" +
                         "   <div class=\"col-6\">\n" +
-                        "       <input class=\"form-control\" value='0' id=\"success"+i+"\" type=\"number\" min=\"0\" max=\"1000\">\n" +
+                        "       <input class=\"form-control success_number\" value='0' id=\"success"+i+"\" type=\"number\" min=\"0\" max=\"1000\">\n" +
                         "   </div>\n" +
                         "       <input class=\"form-control all_number\" value='0' id=\"all_number"+i+"\" type=\"number\" min=\"0\" max=\"1000\">\n" +
                         "</div>";
@@ -378,31 +380,60 @@ function ignoreTraining() {
 }
 
 function saveTraining() {
-    $.confirm({
-        title: 'Biztosan mented?',
-        content: 'Az elmentett edzésmunkák újból nem értékelhetők!',
-        type: 'red',
-        theme: 'supervan',
-        animation: 'zoom',
-        animationBounce: 1.5,
-        typeAnimated: true,
-        buttons: {
-            delete: {
-                text: 'Mentés',
-                btnClass: 'btn-green',
-                action: function() {
-                    pushResult();
+    if (validateWorkout()) {
+        $.confirm({
+            title: 'Biztosan mented?',
+            content: 'Az elmentett edzésmunkák újból nem értékelhetők!',
+            type: 'red',
+            theme: 'supervan',
+            animation: 'zoom',
+            animationBounce: 1.5,
+            typeAnimated: true,
+            buttons: {
+                delete: {
+                    text: 'Mentés',
+                    btnClass: 'btn-green',
+                    action: function() {
+                        pushResult();
+                    }
+                },
+                cancel: {
+                    text: 'Mégse',
+                    btnClass: 'btn-grey',
                 }
-            },
-            cancel: {
-                text: 'Mégse',
-                btnClass: 'btn-grey',
             }
-        }
-    })
+        })
+    }
 }
 
 function exportData() {
     $('#closeModal').click();
     window.location="/training/workout/export/"+$('#team').val()+"/"+$('#date1').val()+"/"+$('#date2').val();
+}
+
+function validateWorkout() {
+    let isValid = true
+    let notValidExercises = [];
+    let msg = '';
+    $('.given-success').each(function () {
+        let all = $(this).find('.all_number').val();
+        let success = $(this).find('.success_number').val();
+        if (all < success) {
+            let exerciseName = $('a[href="#exercise'+$(this).attr('wk-num')+'"]').text();
+            if (!notValidExercises.includes(exerciseName)) {
+                notValidExercises.push(exerciseName);
+                msg += 'A(z) '+exerciseName+' gyakorlat esetében van olyan sportoló aki többet teljesített mint a maximum!';
+            }
+            isValid = false;
+        }
+    })
+    if ('' !== msg) {
+        $('#alert').html("<div class=\"alert alert-danger\">" +
+            "<button type=\"button\" class=\"close btn btn-icon btn-mini\" data-dismiss=\"alert\" aria-label=\"Close\">" +
+            "<i class=\"icofont icofont-close-line-circled\"></i>" +
+            "</button>" +
+            "<strong>"+msg+"</strong>" +
+            "</div>");
+    }
+    return isValid;
 }
