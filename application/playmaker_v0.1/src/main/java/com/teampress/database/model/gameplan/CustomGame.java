@@ -16,13 +16,6 @@ import static java.util.Objects.isNull;
 
 @Entity
 @Table(name="CUSTOMGAME", schema="teampress")
-@NamedQueries({
-        @NamedQuery(name="CustomGame.findAll", query="SELECT p FROM CustomGame p"),
-        @NamedQuery(name="CustomGame.findById", query="SELECT p FROM CustomGame p WHERE p.id = :pid"),
-        @NamedQuery(name="CustomGame.findByOrg", query="SELECT p FROM CustomGame p WHERE p.organization=:porg"),
-        @NamedQuery(name="CustomGame.findByTeamAndDate", query="SELECT p FROM CustomGame p WHERE p.team=:pteam AND p.date=:pdate"),
-        @NamedQuery(name="CustomGame.findByCreated", query="SELECT p FROM CustomGame p WHERE p.createdBy=:pby AND p.deleted=false")
-})
 @Cacheable(false)
 @NoArgsConstructor
 @Getter

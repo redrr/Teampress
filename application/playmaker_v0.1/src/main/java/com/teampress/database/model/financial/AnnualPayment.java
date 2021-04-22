@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 
 /**
@@ -17,11 +16,6 @@ import java.util.Objects;
  */
 @Entity
 @Table(name="ANNUAL_PAYMENT", schema="teampress")
-@NamedQueries({
-		@NamedQuery(name="AnnualPayment.findById", query="SELECT p FROM AnnualPayment p WHERE p.id = :pid"),
-		@NamedQuery(name="AnnualPayment.findByDay", query="SELECT p FROM AnnualPayment p WHERE p.day = :pd AND p.deleted=false"),
-		@NamedQuery(name="AnnualPayment.findAll", query="SELECT p FROM AnnualPayment p WHERE p.deleted=false"),
-})
 @Cacheable(false)
 @NoArgsConstructor
 @Getter

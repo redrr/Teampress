@@ -129,10 +129,10 @@ public class FinancialStatementController extends BaseController {
                 Date fromDate = new SimpleDateFormat("yyyy-MM-dd").parse(from.toString());
                 Date toDate = new SimpleDateFormat("yyyy-MM-dd").parse(to.toString());
                 data.addLabel(MONTH_NAMES[i]);
-                Object incomeValue = incomeService.getValueBetweenDates(organization, true, fromDate, toDate);
-                Object expanseValue = incomeService.getValueBetweenDates(organization, false, fromDate, toDate);
-                incomes.add(Objects.nonNull(incomeValue) ? Integer.parseInt(incomeValue+"") : 0);
-                expanses.add(Objects.nonNull(expanseValue) ? Integer.parseInt(expanseValue+"") : 0);
+                Integer incomeValue = incomeService.getValueBetweenDates(organization, true, fromDate, toDate);
+                Integer expanseValue = incomeService.getValueBetweenDates(organization, false, fromDate, toDate);
+                incomes.add(Objects.nonNull(incomeValue) ? incomeValue : 0);
+                expanses.add(Objects.nonNull(expanseValue) ? expanseValue : 0);
             }
             incomeDataSet.setData(incomes.toArray());
             expanseDataSet.setData(expanses.toArray());

@@ -2,7 +2,9 @@ package com.teampress.database.service.financial;
 
 import com.teampress.database.model.financial.Income;
 import com.teampress.database.model.system.Organization;
+import com.teampress.database.repository.financial.IncomeRepository;
 import com.teampress.database.service.BaseService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -11,48 +13,38 @@ import java.util.List;
 @Service
 public class IncomeService extends BaseService {
 
+    @Autowired
+    private IncomeRepository repository;
+
     public List<Income> findAll(){
-        return getEntityManager().createNamedQuery("Income.findAll").getResultList();
+        return repository.findAll();
     }
 
-    public boolean exist(int id){
-        return findById(id).size() > 0;
+    public boolean exist(Integer id){
+        return repository.existsById(id);
     }
 
-    public Income find(int id){
-        return findById(id).get(0);
-    }
-
-    private List<Income> findById(int id){
-        return getEntityManager().createNamedQuery("Income.findById").setParameter("pid", id).getResultList();
-    }
-
-    public Income findByUUID(String id){
-        return (Income) getEntityManager().createNamedQuery("Income.findByUUID").setParameter("pid", id).getSingleResult();
+    public Income find(Integer id){
+        return repository.findById(id);
     }
 
     public List<Income> findByOrg(Organization organization){
-        return getEntityManager().createNamedQuery("Income.findByOrg").setParameter("porg", organization).getResultList();
+        return repository.findAllByOrganization(organization);
     }
 
     public List<Income> findByOrgAndAccept(Organization organization, boolean accept){
-        return getEntityManager().createNamedQuery("Income.findByOrgAndAccept").setParameter("porg", organization).setParameter("pa", accept).getResultList();
+        return repository.findAllByOrganizationAndAcceptAndDeleted(organization, accept, false);
     }
 
     public List<Income> findByOrgAcceptedDate(Organization organization, Date d1, Date d2){
-        return getEntityManager().createNamedQuery("Income.findByOrgAcceptedDate").setParameter("porg", organization).setParameter("pd1", d1).setParameter("pd2", d2).getResultList();
+        return repository.findAllByOrganizationAndCreationDateIsBetweenAndAcceptAndDeleted(organization, d1, d2, true, false);
     }
 
     public List<Income> findByOrgAndNotAcceptedYet(Organization organization){
-        return getEntityManager().createNamedQuery("Income.findByOrgAndNotAcceptedYet").setParameter("porg", organization).getResultList();
+        return repository.findAllByOrganizationAndDeletedAndAcceptIsNull(organization, false);
     }
 
-    public Object getValueBetweenDates(Organization organization, boolean isIncome, Date from, Date to){
-        return getEntityManager().createNamedQuery("Income.sumPrizeByDate")
-                .setParameter("porg", organization)
-                .setParameter("pincome", isIncome)
-                .setParameter("pd1", from)
-                .setParameter("pd2", to)
-                .getSingleResult();
+    public Integer getValueBetweenDates(Organization organization, boolean isIncome, Date from, Date to){
+        return repository.sumAmountByOrganizationAndIncomeBetweenDates(organization, isIncome, from, to);
     }
 }

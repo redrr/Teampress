@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 
 /**
@@ -16,12 +15,6 @@ import java.util.Objects;
  */
 @Entity
 @Table(name="INCOMEGROUP", schema="teampress")
-@NamedQueries({
-		@NamedQuery(name="IncomeGroup.findAll", query="SELECT p FROM IncomeGroup p"),
-		@NamedQuery(name="IncomeGroup.findAllByOrg", query="SELECT p FROM IncomeGroup p WHERE p.deleted=false AND p.organization = :porg"),
-		@NamedQuery(name="IncomeGroup.findById", query="SELECT p FROM IncomeGroup p WHERE p.id = :pid AND p.deleted=false"),
-		@NamedQuery(name="IncomeGroup.findAllCreatedBy", query="SELECT p FROM IncomeGroup p WHERE p.createdBy = :pby AND p.deleted=false AND p.organization = :porg")
-})
 @Cacheable(false)
 @NoArgsConstructor
 @Getter

@@ -18,10 +18,7 @@ import java.util.Objects;
 @Entity
 @Table(name="PAYMENT_REQUEST", schema="teampress")
 @NamedQueries({
-		@NamedQuery(name="PaymentRequest.findById", query="SELECT p FROM PaymentRequest p WHERE p.id = :pid"),
 		@NamedQuery(name="PaymentRequest.collectByUUID", query="SELECT p FROM PaymentRequest p WHERE p.deleted = false AND p.completed = false GROUP BY p.uuid"),
-		@NamedQuery(name="PaymentRequest.findByOrgAndUser", query="SELECT p FROM PaymentRequest p WHERE p.organization = :porg AND p.user = :pu AND p.deleted=false"),
-		@NamedQuery(name="PaymentRequest.findByCreator", query="SELECT p FROM PaymentRequest p WHERE p.organization = :porg AND p.createdBy = :pn"),
 })
 @Cacheable(false)
 @NoArgsConstructor

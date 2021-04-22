@@ -10,10 +10,6 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="ANALYTICSACTION", schema="teampress")
-@NamedQueries({
-        @NamedQuery(name="AnalyticsAction.findById", query="SELECT p FROM AnalyticsAction p WHERE p.id = :pid"),
-        @NamedQuery(name="AnalyticsAction.findByVideo", query="SELECT p FROM AnalyticsAction p WHERE p.sourceVideo =:pvideo AND p.organization = :porg"),
-})
 @Cacheable(false)
 @NoArgsConstructor
 @Getter

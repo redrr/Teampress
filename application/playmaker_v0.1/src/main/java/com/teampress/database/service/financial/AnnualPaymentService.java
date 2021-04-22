@@ -1,7 +1,9 @@
 package com.teampress.database.service.financial;
 
 import com.teampress.database.model.financial.AnnualPayment;
+import com.teampress.database.repository.financial.AnnualPaymentRepository;
 import com.teampress.database.service.BaseService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,19 +11,22 @@ import java.util.List;
 @Service
 public class AnnualPaymentService extends BaseService {
 
+    @Autowired
+    private AnnualPaymentRepository repository;
+
     public boolean exist(Integer id) {
-        return getEntityManager().createNamedQuery("AnnualPayment.findById").setParameter("pid", id).getResultList().size() > 0;
+        return repository.existsById(id);
     }
 
     public AnnualPayment find(Integer id) {
-        return (AnnualPayment) getEntityManager().createNamedQuery("AnnualPayment.findById").setParameter("pid", id).getSingleResult();
+        return repository.findById(id);
     }
 
     public List<AnnualPayment> findByDay(Integer day) {
-        return getEntityManager().createNamedQuery("AnnualPayment.findByDay").setParameter("pd", day).getResultList();
+        return repository.findAllByDayAndDeleted(day, false);
     }
 
     public List<AnnualPayment> findAll(){
-        return (List<AnnualPayment>) getEntityManager().createNamedQuery("AnnualPayment.findAll").getResultList();
+        return repository.findAllByDeleted(false);
     }
 }

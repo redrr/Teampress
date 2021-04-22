@@ -4,38 +4,36 @@ import com.teampress.database.model.gameplan.CustomGame;
 import com.teampress.database.model.gameplan.GamePlan;
 import com.teampress.database.model.system.Organization;
 import com.teampress.database.model.system.User;
+import com.teampress.database.repository.gameplan.GamePlanRepository;
 import com.teampress.database.service.BaseService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class GamePlanService extends BaseService {
 
+    @Autowired
+    private GamePlanRepository repository;
+
     public boolean exist(User user, CustomGame customGame){
-        return getEntityManager().createNamedQuery("GamePlan.findByUserAndCG").setParameter("pcg", customGame).setParameter("puser",user).getResultList().size() > 0;
+        return repository.existsByCustomGameAndUser(customGame, user);
     }
 
     public boolean exist(CustomGame customGame){
-        return getEntityManager().createNamedQuery("GamePlan.findByCG").setParameter("pcg", customGame).getResultList().size() > 0;
+        return repository.existsByCustomGame(customGame);
     }
 
     public List<GamePlan> findAll(){
-        return getEntityManager().createNamedQuery("GamePlan.findAll").getResultList();
+        return repository.findAll();
     }
 
     public List<GamePlan> find(User user, CustomGame customGame){
-        return getEntityManager().createNamedQuery("GamePlan.findByUserAndCG").setParameter("pcg", customGame).setParameter("puser",user).getResultList();
+        return repository.findAllByCustomGameAndUser(customGame, user);
     }
 
     public List<CustomGame> findByOrg(Organization organization){
-        List<CustomGame> result = new ArrayList<>();
-        result.addAll(getEntityManager().createNamedQuery("GamePlan.findByOrgGroupedCustom").setParameter("porg", organization).getResultList());
-        return result;
-    }
-
-    public GamePlan find(int id){
-        return (GamePlan) getEntityManager().createNamedQuery("GamePlan.findById").setParameter("pid",id).getResultList().get(0);
+        return repository.findCustomGamesByOrganization(organization);
     }
 }

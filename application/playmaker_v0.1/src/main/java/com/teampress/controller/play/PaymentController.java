@@ -121,10 +121,10 @@ public class PaymentController extends BaseController {
             income.setOrganization(request.getOrganization());
             income.setPrize(request.getAmount());
             income.setUuid(uuid);
-            incomeService.mergeFlush(income);
+            Income finalIncome = incomeService.mergeFlush(income);
             if (Objects.nonNull(request.getGroup())) {
                 IncomeGroupConnection connection = new IncomeGroupConnection();
-                connection.setIncome(incomeService.findByUUID(uuid));
+                connection.setIncome(finalIncome);
                 connection.setGroup(request.getGroup());
                 connection.setOrganization(request.getOrganization());
                 connectionService.mergeFlush(connection);

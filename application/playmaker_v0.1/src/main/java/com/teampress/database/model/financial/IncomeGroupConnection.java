@@ -15,14 +15,6 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="INCOMEGROUPCONNECTION", schema="teampress")
-@NamedQueries({
-		@NamedQuery(name="IncomeGroupConnection.findAll", query="SELECT p FROM IncomeGroupConnection p"),
-		@NamedQuery(name="IncomeGroupConnection.findById", query="SELECT p FROM IncomeGroupConnection p WHERE p.id = :pid"),
-		@NamedQuery(name="IncomeGroupConnection.findByGroup", query="SELECT p FROM IncomeGroupConnection p WHERE p.group = :pgroup"),
-		@NamedQuery(name="IncomeGroupConnection.findByIncome", query="SELECT p FROM IncomeGroupConnection p WHERE p.income = :pincome"),
-		@NamedQuery(name="IncomeGroupConnection.findAllCreatedBy", query="SELECT p FROM IncomeGroupConnection p WHERE p.createdBy = :pby"),
-		@NamedQuery(name="IncomeGroupConnection.findByOrg", query="SELECT p FROM IncomeGroupConnection p WHERE p.organization = :porg AND p.income.creationDate >= :pd1 AND p.income.creationDate < :pd2")
-})
 @Cacheable(false)
 @NoArgsConstructor
 @Getter

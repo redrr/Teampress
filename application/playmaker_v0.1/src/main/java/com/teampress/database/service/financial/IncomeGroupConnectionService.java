@@ -4,7 +4,9 @@ import com.teampress.database.model.financial.Income;
 import com.teampress.database.model.financial.IncomeGroup;
 import com.teampress.database.model.financial.IncomeGroupConnection;
 import com.teampress.database.model.system.Organization;
+import com.teampress.database.repository.financial.IncomeGroupConnectionRepository;
 import com.teampress.database.service.BaseService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -13,49 +15,38 @@ import java.util.List;
 @Service
 public class IncomeGroupConnectionService extends BaseService {
 
+    @Autowired
+    private IncomeGroupConnectionRepository repository;
+
     public List<IncomeGroupConnection> findAll(){
-        return getEntityManager().createNamedQuery("IncomeGroupConnection.findAll").getResultList();
+        return repository.findAll();
     }
 
-    public List<IncomeGroupConnection> findByOrg(Organization organization, Date p1, Date d2){
-        return getEntityManager().createNamedQuery("IncomeGroupConnection.findByOrg").setParameter("porg", organization).setParameter("pd1", p1).setParameter("pd2", d2).getResultList();
+    public boolean exist(Integer id){
+        return repository.existsById(id);
     }
 
-    public boolean exist(int id){
-        return findById(id).size() > 0;
-    }
-
-    public IncomeGroupConnection find(int id){
-        return findById(id).get(0);
-    }
-
-    private List<IncomeGroupConnection> findById(int id){
-        return getEntityManager().createNamedQuery("IncomeGroupConnection.findById").setParameter("pid", id).getResultList();
+    public IncomeGroupConnection find(Integer id){
+        return repository.findById(id);
     }
 
     public boolean exist(IncomeGroup group){
-        return findByGroup(group).size() > 0;
-    }
-
-    private List<IncomeGroupConnection> findByGroup(IncomeGroup group) {
-        return getEntityManager().createNamedQuery("IncomeGroupConnection.findByGroup").setParameter("pgroup", group).getResultList();
-
+        return repository.existsByGroup(group);
     }
 
     public boolean exist(Income income){
-        return findByIncome(income).size() > 0;
+        return repository.existsByIncome(income);
     }
 
     public IncomeGroupConnection find(Income income){
-        return findByIncome(income).get(0);
+        return repository.findByIncome(income);
     }
 
-    private List<IncomeGroupConnection> findByIncome(Income income) {
-        return getEntityManager().createNamedQuery("IncomeGroupConnection.findByIncome").setParameter("pincome", income).getResultList();
-
+    public List<IncomeGroupConnection> findByOrg(Organization organization, Date p1, Date d2){
+        return repository.findAllByOrganizationAndBetweenDates(organization, p1, d2);
     }
 
     public List<IncomeGroupConnection> findAllCreatedBy(String createdBy){
-        return getEntityManager().createNamedQuery("IncomeGroupConnection.findAllCreatedBy").setParameter("pby", createdBy).getResultList();
+        return repository.findAllByCreatedBy(createdBy);
     }
 }
