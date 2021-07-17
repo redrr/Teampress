@@ -1,3 +1,0 @@
-Model:
-	Play models
-	kivételek
