@@ -1,0 +1,23 @@
+button.fc-prevYear-button, button.fc-dayGridMonth-button {
+    border-radius: 8px 0 0 8px;
+}
+
+button.fc-nextYear-button, button.fc-dayGridDay-button {
+    border-radius: 0 8px 8px 0;
+}
+
+button.fc-today-button {
+    border-radius: 8px;
+}
+
+td.fc-day {
+    border: 1px solid #ddd;
+}
+
+td.fc-today {
+    background-color: #dddddd52;
+}
+
+table > thead, table > tbody {
+    border-color: #ddd!important;
+}

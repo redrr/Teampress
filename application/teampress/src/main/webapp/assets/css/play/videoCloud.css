@@ -1,0 +1,19 @@
+.video-card {
+    padding: 1rem;
+    background-color: #f3f3f3;
+    border-radius: 16px;
+}
+
+.video-title {
+    padding: 16px;
+    font-size: 20px;
+}
+
+video {
+    margin-top: 8px;
+}
+
+.video-description {
+    padding: 16px;
+    margin: 8px 0 0;
+}

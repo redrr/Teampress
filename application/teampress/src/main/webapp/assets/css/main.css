@@ -1,0 +1,246 @@
+html {
+    background-color: #fff;
+}
+
+a {
+    text-decoration: none!important;
+}
+
+.bootstrap-select>.dropdown-toggle, .show>.btn-light.dropdown-toggle {
+    width: 100%;
+    min-height: calc(1.5em + .75rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 8px;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.form-control, .bootstrap-select>.dropdown-toggle, .show>.btn-light.dropdown-toggle {
+    padding: 8px;
+    min-height: unset;
+}
+.form-control:focus, .bootstrap-select>.dropdown-toggle:focus, .show>.btn-light.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.25rem rgba(26,188,156,.25);
+}
+
+select.form-control {
+    -webkit-appearance: caret;
+    -moz-appearance: caret;
+    appearance: auto;
+}
+
+.bootstrap-select ul.dropdown-menu.inner {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+div.inner {
+    margin-left: 8px;
+    width: 100%;
+}
+
+.bs-searchbox {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.card .card-block .dropdown-menu {
+    border-radius: 8px;
+}
+
+.bootstrap-select .dropdown-menu li:hover {
+    background-color: #8CDDCD;
+    color: #fff;
+}
+
+.text-value-lg {
+color: black;
+font-weight: 600;
+font-size: larger;
+}
+
+span.select2-container--default .select2-selection--multiple .select2-selection__choice {
+background-color: #1abc9c;
+border: 1px solid #1abc9c;
+border-radius: 8px;
+padding: 2px;
+color: #fff;
+}
+
+.select2-container--default .select2-selection--multiple button.select2-selection__choice__remove {
+border: 0;
+transition: .2s;
+}
+
+.select2-container--default .select2-selection--multiple button.select2-selection__choice__remove:hover, .select2-container--default .select2-selection--multiple .select2-selection__choice__remove:focus {
+background-color: #2C3E50;
+border: 0;
+border-radius: 4px;
+transition: .2s;
+}
+
+.pcoded-main-container {
+background-image: url('/content/bgImages/hatter2.png');
+background-size: 100% auto;
+background-repeat: no-repeat;
+background-color: #fff
+}
+
+.tab-pane.active {
+-webkit-animation: fadeIn 1s ease-in-out;
+animation: fadeIn 1s ease-in-out;
+}
+
+#pcoded > div.pcoded-container.navbar-wrapper > nav, a.card:hover, li.user-profile.header-notification.cr-pointer > ul, #notiList,  .auth-box, .effect-jazz:hover {
+box-shadow: 0 12px 12px rgba(0, 0, 0, 0.5)!important;
+transition: .5s;
+}
+
+.effect-jazz {
+transition: .5s;
+}
+
+.card {
+box-shadow: 0 6px 6px rgba(0, 0, 0, 0.25);
+transition: .5s;
+}
+
+.card, .card-header, .card-footer, .effect-jazz, video, .auth-box {
+border-radius: 16px!important;
+}
+
+.btn-soft, select, input, span.select2.select2-container {
+border-radius: 8px!important;
+}
+
+.player-icon-sm {
+width: 40px;
+height: 40px;
+padding: 0;
+}
+
+.playerColumn {
+height: auto!important;
+width: auto;
+}
+
+.modal {
+z-index: 1000;
+}
+
+.modal-content {
+border-top: 4px solid #8CDDCD;
+border-radius: 16px;
+}
+
+.modal-backdrop {
+z-index: 900;
+}
+
+table td {
+font-size: 14px !important;
+}
+
+table th {
+font-size: 14px !important;
+}
+
+.cr-pointer {
+cursor: pointer;
+}
+
+#notiList {
+max-height: 400px;
+overflow-y: scroll;
+}
+
+#useravatar {
+height: 40px;
+}
+
+.pcoded-content::-webkit-scrollbar {
+display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.pcoded-content {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.btn-primary:focus, .sweet-alert button.confirm:focus, .wizard > .actions a:focus {
+    background-color: #28e1bd;
+    border-color: #28e1bd;
+}
+
+div.pcoded-overlay-box {
+    z-index: 90!important;
+}
+
+.highlight-sidebar {
+    display: block;
+    transition: .2s;
+}
+
+.analytictools {
+    margin-top: -55px;
+    margin-bottom: 15px;
+    display: block;
+    transition: .2s;
+}
+
+.highlight-sidebar-hidden {
+    display: none;
+    transition: .2s;
+}
+
+.fc-day-grid-event:hover {
+    color: #fff !important;
+    opacity: 1;
+}
+
+.draggg {
+    box-shadow: none;
+    transition: .2s;
+}
+
+.draggg:hover {
+    background-color: #eee;
+    transition: .2s;
+    cursor: move;
+}
+
+ul#exerciseHolder {
+    max-height: 200px!important;
+    overflow-y: auto!important;
+}
+
+span.badge {
+    border-radius: 16px;
+    padding: 6px 14px;
+}
+
+.badge-success {
+    background-color: #1abc9c;
+}
+
+.dataTables_filter {
+    display: none!important;
+}
+
+div.dt-buttons {
+    float: right!important;
+}
+
+button.dt-button, div.dt-button, a.dt-button, button.dt-button:focus:not(.disabled), div.dt-button:focus:not(.disabled), a.dt-button:focus:not(.disabled), button.dt-button:active:not(.disabled), button.dt-button.active:not(.disabled), div.dt-button:active:not(.disabled), div.dt-button.active:not(.disabled), a.dt-button:active:not(.disabled), a.dt-button.active:not(.disabled) {
+    border-radius: 8px!important;
+}
