@@ -1,5 +1,5 @@
 # Teampress
-<h4>Sport team management system</h4> 
+Sport team management system
 ## Requirements
 * Java 1.8
 * MySQL
