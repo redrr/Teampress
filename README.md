@@ -45,3 +45,28 @@ Sport team management system
     * Create competition (`Trainer`)
     * Create strategy plan (`Trainer`)
     * Watch competitions and strategies (`Owner`, `Trainer`, `Player`)
+### Finance module
+* Features:
+   * Create Invoices (`Trainer`, `Owner`)
+   * Create subscriptions (`Owner`)
+   * Create Incomes, bills (`Trainer`, `Owner`)
+   * Accept/decline created incomes and bills (`Owner`)
+   * Create income groups (`Owner`)
+   * Grouping accepted bills, incomes and fullfiled invoices (`Owner`)
+   * Online payment (With Stripe API) - Fullfilment of invoices (`Player`)
+   * Finance statistics - monthly balance sheets, yearly balance timeline chart (`Owner`)
+### Video analytics
+* Features:
+   * Upload, edit and publish analized video (`Trainer`)
+   * Create action at a specific momment (`Trainer`)
+      * Color chooser
+      * Player selector tool - selected affected players
+      * Area marker tool - Mark given areas
+      * Action arrow tool - Mark actions as vectors
+      * Add title, comment and suggestions
+      * Select the affected user
+   * Watch analized and published videos (`Owner`, `Trainer`, `Player`)
+
+## Contact
+* Drop a mail, if you have any question.
+* e-mail: redlymatyi@gmail.com
